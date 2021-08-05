@@ -12,6 +12,14 @@
 		B7910DE526AFC9B40097C94E /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910DE426AFC9B40097C94E /* Profile.swift */; };
 		B7910DF026AFCD920097C94E /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7910DEF26AFCD920097C94E /* Core.framework */; };
 		B7910DF126AFCD920097C94E /* Core.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B7910DEF26AFCD920097C94E /* Core.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B7910E6F26BBD36A0097C94E /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7910E6E26BBD36A0097C94E /* Profile.storyboard */; };
+		B7910E7226BBD52F0097C94E /* ProfileNibVars.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910E7126BBD52F0097C94E /* ProfileNibVars.swift */; };
+		B7910E7426BBD5480097C94E /* ProfileOpener.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910E7326BBD5480097C94E /* ProfileOpener.swift */; };
+		B7910E7626BBD68D0097C94E /* WelcomeEditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910E7526BBD68D0097C94E /* WelcomeEditProfileViewController.swift */; };
+		B7910E7926BBD6FD0097C94E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B7910E7826BBD6FD0097C94E /* Assets.xcassets */; };
+		B7910E7B26BBD9CE0097C94E /* Component.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7910E7A26BBD9CE0097C94E /* Component.framework */; };
+		B7910E7C26BBD9CE0097C94E /* Component.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B7910E7A26BBD9CE0097C94E /* Component.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B7910E8126BBE32E0097C94E /* SelectPhotoMethodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910E8026BBE32E0097C94E /* SelectPhotoMethodViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -21,6 +29,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				B7910E7C26BBD9CE0097C94E /* Component.framework in Embed Frameworks */,
 				B7910DF126AFCD920097C94E /* Core.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -42,6 +51,13 @@
 		B7910DDB26AFC60E0097C94E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B7910DE426AFC9B40097C94E /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		B7910DEF26AFCD920097C94E /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B7910E6E26BBD36A0097C94E /* Profile.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
+		B7910E7126BBD52F0097C94E /* ProfileNibVars.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileNibVars.swift; sourceTree = "<group>"; };
+		B7910E7326BBD5480097C94E /* ProfileOpener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileOpener.swift; sourceTree = "<group>"; };
+		B7910E7526BBD68D0097C94E /* WelcomeEditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeEditProfileViewController.swift; sourceTree = "<group>"; };
+		B7910E7826BBD6FD0097C94E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B7910E7A26BBD9CE0097C94E /* Component.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Component.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B7910E8026BBE32E0097C94E /* SelectPhotoMethodViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPhotoMethodViewController.swift; sourceTree = "<group>"; };
 		DD702ADAD4D188AE2A7192EF /* Pods_Profile.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Profile.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -50,6 +66,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B7910E7B26BBD9CE0097C94E /* Component.framework in Frameworks */,
 				03CA6756D414568EB134E431 /* Pods_Profile.framework in Frameworks */,
 				B7910DF026AFCD920097C94E /* Core.framework in Frameworks */,
 			);
@@ -97,6 +114,11 @@
 			children = (
 				B7910DDA26AFC60E0097C94E /* Profile.h */,
 				B7910DDB26AFC60E0097C94E /* Info.plist */,
+				B7910E6E26BBD36A0097C94E /* Profile.storyboard */,
+				B7910E7526BBD68D0097C94E /* WelcomeEditProfileViewController.swift */,
+				B7910E8026BBE32E0097C94E /* SelectPhotoMethodViewController.swift */,
+				B7910E7726BBD6E30097C94E /* Assets */,
+				B7910E7026BBD4760097C94E /* Utilities */,
 				B7910DE226AFC9360097C94E /* Model */,
 			);
 			path = Profile;
@@ -110,9 +132,27 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		B7910E7026BBD4760097C94E /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				B7910E7126BBD52F0097C94E /* ProfileNibVars.swift */,
+				B7910E7326BBD5480097C94E /* ProfileOpener.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		B7910E7726BBD6E30097C94E /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				B7910E7826BBD6FD0097C94E /* Assets.xcassets */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
 		FDB9755588C404F0DCA882AE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B7910E7A26BBD9CE0097C94E /* Component.framework */,
 				B7910DEF26AFCD920097C94E /* Core.framework */,
 				DD702ADAD4D188AE2A7192EF /* Pods_Profile.framework */,
 			);
@@ -190,6 +230,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B7910E7926BBD6FD0097C94E /* Assets.xcassets in Resources */,
+				B7910E6F26BBD36A0097C94E /* Profile.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -226,6 +268,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				B7910DE526AFC9B40097C94E /* Profile.swift in Sources */,
+				B7910E7226BBD52F0097C94E /* ProfileNibVars.swift in Sources */,
+				B7910E8126BBE32E0097C94E /* SelectPhotoMethodViewController.swift in Sources */,
+				B7910E7426BBD5480097C94E /* ProfileOpener.swift in Sources */,
+				B7910E7626BBD68D0097C94E /* WelcomeEditProfileViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

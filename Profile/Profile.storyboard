@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_0" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Welcome Edit Profile View Controller-->
+        <scene sceneID="s0d-6b-0kx">
+            <objects>
+                <viewController storyboardIdentifier="WelcomeEditProfileViewController" id="Y6W-OH-hqX" customClass="WelcomeEditProfileViewController" customModule="Profile" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="welcome-edit-profile" translatesAutoresizingMaskIntoConstraints="NO" id="fL0-Zu-VpH">
+                                <rect key="frame" x="30" y="20" width="260" height="319"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to Profile setting" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eDe-Lj-7k8">
+                                <rect key="frame" x="25" y="389" width="270" height="29"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ejx-hv-4XD">
+                                <rect key="frame" x="20" y="468" width="280" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="rft-gh-87P"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" title="Next"/>
+                                <connections>
+                                    <action selector="nextAction:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="oOU-Cu-Tj5"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="fL0-Zu-VpH" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="30" id="1ek-A8-UCW"/>
+                            <constraint firstItem="eDe-Lj-7k8" firstAttribute="top" secondItem="fL0-Zu-VpH" secondAttribute="bottom" constant="50" id="2Vr-Ao-nRf"/>
+                            <constraint firstItem="fL0-Zu-VpH" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="20" id="3Xu-Fx-jrk"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="ejx-hv-4XD" secondAttribute="trailing" constant="20" id="4X4-6H-Wwh"/>
+                            <constraint firstItem="ejx-hv-4XD" firstAttribute="top" secondItem="eDe-Lj-7k8" secondAttribute="bottom" constant="50" id="Nam-qc-H7s"/>
+                            <constraint firstItem="ejx-hv-4XD" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="O2A-ec-43B"/>
+                            <constraint firstItem="eDe-Lj-7k8" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="25" id="VgH-al-GTA"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="ejx-hv-4XD" secondAttribute="bottom" constant="50" id="hwn-eB-tr1"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="eDe-Lj-7k8" secondAttribute="trailing" constant="25" id="p4H-Jo-k0f"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="fL0-Zu-VpH" secondAttribute="trailing" constant="30" id="qSY-bq-YXq"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="nextButton" destination="ejx-hv-4XD" id="pnz-SX-VgE"/>
+                        <outlet property="welcomeLabel" destination="eDe-Lj-7k8" id="92N-Nr-xmd"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="139" y="117"/>
+        </scene>
+        <!--Select Photo Method View Controller-->
+        <scene sceneID="qRR-cN-196">
+            <objects>
+                <viewController storyboardIdentifier="SelectPhotoMethodViewController" id="S6n-rz-lai" customClass="SelectPhotoMethodViewController" customModule="Profile" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="a4X-Zi-wbg">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="249" verticalHuggingPriority="249" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" image="select-photo-method" translatesAutoresizingMaskIntoConstraints="NO" id="XC8-qr-PBw">
+                                <rect key="frame" x="40" y="20" width="240" height="221"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add your Profile picture" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rbv-jP-5pw">
+                                <rect key="frame" x="25" y="291" width="270" height="29"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XIN-9v-YAF">
+                                <rect key="frame" x="20" y="433" width="280" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="QoC-CR-hrn"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" title="Choose from Camera Roll"/>
+                                <connections>
+                                    <action selector="cameraRollAction:" destination="S6n-rz-lai" eventType="touchUpInside" id="ZZd-Gx-0kK"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ysN-pY-vTD">
+                                <rect key="frame" x="20" y="498" width="280" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="z2G-U8-CRS"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" title="Take Photo"/>
+                                <connections>
+                                    <action selector="takePhotoAction:" destination="S6n-rz-lai" eventType="touchUpInside" id="1c4-rt-tb5"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Profile picture will help your friend can reach you " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ULx-Ia-GK4">
+                                <rect key="frame" x="20" y="340" width="280" height="43"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="GSp-tQ-4fb"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="GSp-tQ-4fb" firstAttribute="trailing" secondItem="ULx-Ia-GK4" secondAttribute="trailing" constant="20" id="1yk-aY-hfc"/>
+                            <constraint firstItem="GSp-tQ-4fb" firstAttribute="trailing" secondItem="XC8-qr-PBw" secondAttribute="trailing" constant="40" id="6vR-Tj-mBl"/>
+                            <constraint firstItem="XC8-qr-PBw" firstAttribute="top" secondItem="GSp-tQ-4fb" secondAttribute="top" constant="20" id="DoL-2F-Zxz"/>
+                            <constraint firstItem="ULx-Ia-GK4" firstAttribute="top" secondItem="Rbv-jP-5pw" secondAttribute="bottom" constant="20" id="EqD-HS-ZnX"/>
+                            <constraint firstItem="ULx-Ia-GK4" firstAttribute="leading" secondItem="GSp-tQ-4fb" secondAttribute="leading" constant="20" id="JIU-ni-FQA"/>
+                            <constraint firstItem="XIN-9v-YAF" firstAttribute="top" secondItem="ULx-Ia-GK4" secondAttribute="bottom" constant="50" id="R8Q-JS-iDx"/>
+                            <constraint firstItem="GSp-tQ-4fb" firstAttribute="trailing" secondItem="XIN-9v-YAF" secondAttribute="trailing" constant="20" id="Smg-MH-CEB"/>
+                            <constraint firstItem="Rbv-jP-5pw" firstAttribute="leading" secondItem="GSp-tQ-4fb" secondAttribute="leading" constant="25" id="WZG-ig-cXu"/>
+                            <constraint firstItem="ysN-pY-vTD" firstAttribute="leading" secondItem="GSp-tQ-4fb" secondAttribute="leading" constant="20" id="X1q-5x-pYn"/>
+                            <constraint firstItem="ysN-pY-vTD" firstAttribute="top" secondItem="XIN-9v-YAF" secondAttribute="bottom" constant="15" id="XxD-EI-PA7"/>
+                            <constraint firstItem="GSp-tQ-4fb" firstAttribute="bottom" secondItem="ysN-pY-vTD" secondAttribute="bottom" constant="20" id="f0S-4F-c1w"/>
+                            <constraint firstItem="GSp-tQ-4fb" firstAttribute="trailing" secondItem="ysN-pY-vTD" secondAttribute="trailing" constant="20" id="iZL-XE-g5U"/>
+                            <constraint firstItem="XC8-qr-PBw" firstAttribute="leading" secondItem="GSp-tQ-4fb" secondAttribute="leading" constant="40" id="pEc-Xp-YPq"/>
+                            <constraint firstItem="GSp-tQ-4fb" firstAttribute="trailing" secondItem="Rbv-jP-5pw" secondAttribute="trailing" constant="25" id="pUI-Gt-JBi"/>
+                            <constraint firstItem="XIN-9v-YAF" firstAttribute="leading" secondItem="GSp-tQ-4fb" secondAttribute="leading" constant="20" id="s9N-Wu-UGC"/>
+                            <constraint firstItem="Rbv-jP-5pw" firstAttribute="top" secondItem="XC8-qr-PBw" secondAttribute="bottom" constant="50" id="yFQ-2t-im9"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="cameraRollButton" destination="XIN-9v-YAF" id="RAp-bb-dEX"/>
+                        <outlet property="headlineLabel" destination="Rbv-jP-5pw" id="3al-aJ-pJo"/>
+                        <outlet property="introImage" destination="XC8-qr-PBw" id="ZZG-DT-PdH"/>
+                        <outlet property="subTitleLabel" destination="ULx-Ia-GK4" id="4UO-L0-YJq"/>
+                        <outlet property="takePhotoButton" destination="ysN-pY-vTD" id="d2d-Gd-9cn"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Xtm-rF-ppJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="827" y="116"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="select-photo-method" width="234.5" height="248.5"/>
+        <image name="welcome-edit-profile" width="265" height="284"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
