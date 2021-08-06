@@ -40,6 +40,12 @@
 		B7910EB226BCFE040097C94E /* ComplateButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910EB026BCFE040097C94E /* ComplateButtonCell.swift */; };
 		B7910EB326BCFE040097C94E /* ComplateButtonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7910EB126BCFE040097C94E /* ComplateButtonCell.xib */; };
 		B7910EB526BCFEAC0097C94E /* ComplateButtonSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910EB426BCFEAC0097C94E /* ComplateButtonSectionController.swift */; };
+		B7910EB926BD2DA20097C94E /* Me.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7910EB826BD2DA20097C94E /* Me.storyboard */; };
+		B7910EBB26BD2DF70097C94E /* MeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910EBA26BD2DF70097C94E /* MeViewController.swift */; };
+		B7910EBD26BD2E2B0097C94E /* MeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910EBC26BD2E2B0097C94E /* MeViewModel.swift */; };
+		B7910EC026BD305F0097C94E /* MeInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910EBE26BD305F0097C94E /* MeInfoCell.swift */; };
+		B7910EC126BD305F0097C94E /* MeInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7910EBF26BD305F0097C94E /* MeInfoCell.xib */; };
+		B7910EC326BD33110097C94E /* MeInfoSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910EC226BD33110097C94E /* MeInfoSectionController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -98,6 +104,12 @@
 		B7910EB026BCFE040097C94E /* ComplateButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplateButtonCell.swift; sourceTree = "<group>"; };
 		B7910EB126BCFE040097C94E /* ComplateButtonCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ComplateButtonCell.xib; sourceTree = "<group>"; };
 		B7910EB426BCFEAC0097C94E /* ComplateButtonSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplateButtonSectionController.swift; sourceTree = "<group>"; };
+		B7910EB826BD2DA20097C94E /* Me.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Me.storyboard; sourceTree = "<group>"; };
+		B7910EBA26BD2DF70097C94E /* MeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeViewController.swift; sourceTree = "<group>"; };
+		B7910EBC26BD2E2B0097C94E /* MeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeViewModel.swift; sourceTree = "<group>"; };
+		B7910EBE26BD305F0097C94E /* MeInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeInfoCell.swift; sourceTree = "<group>"; };
+		B7910EBF26BD305F0097C94E /* MeInfoCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MeInfoCell.xib; sourceTree = "<group>"; };
+		B7910EC226BD33110097C94E /* MeInfoSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeInfoSectionController.swift; sourceTree = "<group>"; };
 		DD702ADAD4D188AE2A7192EF /* Pods_Profile.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Profile.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -155,6 +167,12 @@
 				B7910DDA26AFC60E0097C94E /* Profile.h */,
 				B7910DDB26AFC60E0097C94E /* Info.plist */,
 				B7910E6E26BBD36A0097C94E /* Profile.storyboard */,
+				B7910EB826BD2DA20097C94E /* Me.storyboard */,
+				B7910EBA26BD2DF70097C94E /* MeViewController.swift */,
+				B7910EBC26BD2E2B0097C94E /* MeViewModel.swift */,
+				B7910EBE26BD305F0097C94E /* MeInfoCell.swift */,
+				B7910EBF26BD305F0097C94E /* MeInfoCell.xib */,
+				B7910EC226BD33110097C94E /* MeInfoSectionController.swift */,
 				B7910EB726BD0C1F0097C94E /* ViewController */,
 				B7910E9B26BCDA9E0097C94E /* ViewModel */,
 				B7910E8726BC54390097C94E /* Cell */,
@@ -326,8 +344,10 @@
 				B7910E7926BBD6FD0097C94E /* Assets.xcassets in Resources */,
 				B7910EB326BCFE040097C94E /* ComplateButtonCell.xib in Resources */,
 				B7910E6F26BBD36A0097C94E /* Profile.storyboard in Resources */,
+				B7910EC126BD305F0097C94E /* MeInfoCell.xib in Resources */,
 				B7910E9826BCD6BF0097C94E /* AddLinkCell.xib in Resources */,
 				B7910EAD26BCEFB20097C94E /* SocialCell.xib in Resources */,
+				B7910EB926BD2DA20097C94E /* Me.storyboard in Resources */,
 				B7910EA926BCE8F00097C94E /* AddSocialCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -364,11 +384,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B7910EBD26BD2E2B0097C94E /* MeViewModel.swift in Sources */,
 				B7910E8926BC54670097C94E /* AboutSectionController.swift in Sources */,
 				B7910EB226BCFE040097C94E /* ComplateButtonCell.swift in Sources */,
 				B7910DE526AFC9B40097C94E /* Profile.swift in Sources */,
 				B7910EA826BCE8F00097C94E /* AddSocialCell.swift in Sources */,
 				B7910E9A26BCD75C0097C94E /* SocialLinkSectionController.swift in Sources */,
+				B7910EC026BD305F0097C94E /* MeInfoCell.swift in Sources */,
 				B7910E7226BBD52F0097C94E /* ProfileNibVars.swift in Sources */,
 				B7910E8126BBE32E0097C94E /* SelectPhotoMethodViewController.swift in Sources */,
 				B7910EAF26BCFA880097C94E /* SocialSectionController.swift in Sources */,
@@ -377,8 +399,10 @@
 				B7910EA526BCE83D0097C94E /* AddSocialSectionController.swift in Sources */,
 				B7910E7426BBD5480097C94E /* ProfileOpener.swift in Sources */,
 				B7910E8C26BC54B30097C94E /* AboutCell.swift in Sources */,
+				B7910EC326BD33110097C94E /* MeInfoSectionController.swift in Sources */,
 				B7910E9F26BCDBEF0097C94E /* SocialLinkShelf.swift in Sources */,
 				B7910E9726BCD6BF0097C94E /* AddLinkCell.swift in Sources */,
+				B7910EBB26BD2DF70097C94E /* MeViewController.swift in Sources */,
 				B7910E8526BC52A00097C94E /* AboutInfoViewController.swift in Sources */,
 				B7910E7626BBD68D0097C94E /* WelcomeEditProfileViewController.swift in Sources */,
 				B7910E9D26BCDAC40097C94E /* AboutInfoViewModel.swift in Sources */,

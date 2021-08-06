@@ -33,6 +33,7 @@ final class AboutInfoViewModel  {
    
     //MARK: Private
     var socialLinkShelf: SocialLinkShelf = SocialLinkShelf()
+    var isSkip: Bool = true
 
     //MARK: Input
     func clearData() {
@@ -64,6 +65,12 @@ final class AboutInfoViewModel  {
         
         if !Defaults[.website].isEmpty {
             self.socialLinkShelf.socialLinks.append(SocialLink(socialLinkType: .website, value: Defaults[.website]))
+        }
+        
+        if self.socialLinkShelf.socialLinks.isEmpty {
+            self.isSkip = true
+        } else {
+            self.isSkip = false
         }
 
         self.didMappingFinish?()

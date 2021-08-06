@@ -19,7 +19,7 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  AboutInfoViewController.swift
+//  MeViewController.swift
 //  Profile
 //
 //  Created by Tanakorn Phoochaliaw on 6/8/2564 BE.
@@ -30,7 +30,7 @@ import Core
 import Component
 import IGListKit
 
-class AboutInfoViewController: UIViewController {
+class MeViewController: UIViewController {
 
     let collectionView: UICollectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
@@ -42,16 +42,15 @@ class AboutInfoViewController: UIViewController {
         return ListAdapter(updater: ListAdapterUpdater(), viewController: self, workingRangeSize: 0)
     }()
     
-    enum AboutType: String {
-        case about
-        case social
+    enum MeType: Int {
+        case info = 0
     }
     
-    var viewModel = AboutInfoViewModel()
+    var viewModel = MeViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
         self.hideKeyboardWhenTapped()
         self.setupNavBar()
@@ -63,11 +62,6 @@ class AboutInfoViewController: UIViewController {
         self.view.addSubview(self.collectionView)
         self.adapter.collectionView = self.collectionView
         self.adapter.dataSource = self
-        
-        self.viewModel.clearData()
-        self.viewModel.didMappingFinish = {
-            self.adapter.performUpdates(animated: true)
-        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -75,63 +69,39 @@ class AboutInfoViewController: UIViewController {
         self.collectionView.frame = view.bounds
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.viewModel.mappingData()
+    func setupNavBar() {
+        if self.viewModel.isMe {
+            self.customNavigationBar(.secondary, title: "Tommy Cruise")
+        } else {
+            self.customNavigationBar(.secondary, title: "Adam Douglas Driver")
+        }
+        
+        var rightButton: [UIBarButtonItem] = []
+        
+        let icon = NavBarButtonType.menu.barButton
+        icon.addTarget(self, action: #selector(menuAction), for: .touchUpInside)
+        rightButton.append(UIBarButtonItem(customView: icon))
+
+        self.navigationItem.rightBarButtonItems = rightButton
     }
     
-    func setupNavBar() {
-        self.customNavigationBar(.secondary, title: "", secondaryBackType: .root)
+    @objc private func menuAction() {
+        print("Menu")
     }
 }
 
 // MARK: - ListAdapterDataSource
-extension AboutInfoViewController: ListAdapterDataSource {
+extension MeViewController: ListAdapterDataSource {
     func objects(for listAdapter: ListAdapter) -> [ListDiffable] {
-        var items: [ListDiffable] = [AboutType.about.rawValue] as [ListDiffable]
-        items.append(AboutType.social.rawValue as ListDiffable)
-        
-        self.viewModel.socialLinkShelf.socialLinks.forEach { socialLink in
-            items.append(socialLink as ListDiffable)
-        }
-        
-        items.append(self.viewModel.isSkip as ListDiffable)
+        let items: [ListDiffable] = [MeType.info.rawValue] as [ListDiffable]
         return items
     }
     
     func listAdapter(_ listAdapter: ListAdapter, sectionControllerFor object: Any) -> ListSectionController {
-        if object is SocialLink {
-            return SocialSectionController()
-        } else if object is Bool {
-            return ComplateButtonSectionController()
-        } else {
-            if (object as! String) == AboutType.social.rawValue {
-                return SocialLinkSectionController()
-            } else {
-                let aboutSection = AboutSectionController()
-                aboutSection.delegate = self
-                return aboutSection
-            }
-        }
+        return MeInfoSectionController()
     }
     
     func emptyView(for listAdapter: ListAdapter) -> UIView? {
         return nil
-    }
-}
-
-extension AboutInfoViewController: AboutSectionControllerDelegate {
-    func didUpdateData(isUpdate: Bool) {
-        if isUpdate {
-            if self.viewModel.isSkip == true {
-                self.viewModel.isSkip = false
-                self.adapter.performUpdates(animated: true)
-            }
-        } else {
-            if self.viewModel.isSkip == false {
-                self.viewModel.isSkip = true
-                self.adapter.performUpdates(animated: true)
-            }
-        }
     }
 }

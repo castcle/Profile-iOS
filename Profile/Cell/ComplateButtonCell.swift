@@ -32,12 +32,25 @@ class ComplateButtonCell: UICollectionViewCell {
 
     @IBOutlet var complateButton: UIButton!
     
+    var isSkip: Bool = false {
+        didSet {
+            if isSkip {
+                self.complateButton.setTitle("Skip", for: .normal)
+                self.complateButton.setTitleColor(UIColor.Asset.lightBlue, for: .normal)
+                self.complateButton.setBackgroundImage(UIColor.Asset.darkGraphiteBlue.toImage(), for: .normal)
+                self.complateButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
+            } else {
+                self.complateButton.setTitle("Done", for: .normal)
+                self.complateButton.setTitleColor(UIColor.Asset.white, for: .normal)
+                self.complateButton.setBackgroundImage(UIColor.Asset.lightBlue.toImage(), for: .normal)
+                self.complateButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.clear)
+            }
+        }
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         self.complateButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .h4)
-        self.complateButton.setTitleColor(UIColor.Asset.white, for: .normal)
-        self.complateButton.setBackgroundImage(UIColor.Asset.lightBlue.toImage(), for: .normal)
-        self.complateButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.clear)
     }
 
     static func cellSize(width: CGFloat) -> CGSize {

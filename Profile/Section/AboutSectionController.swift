@@ -28,7 +28,14 @@
 import Core
 import IGListKit
 
+protocol AboutSectionControllerDelegate {
+    func didUpdateData(isUpdate: Bool)
+}
+
 class AboutSectionController: ListSectionController {
+    
+    var delegate: AboutSectionControllerDelegate?
+    
     override init() {
         super.init()
         inset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
@@ -49,8 +56,15 @@ extension AboutSectionController {
     }
     
     override func cellForItem(at index: Int) -> UICollectionViewCell {
-        let cell = collectionContext?.dequeueReusableCell(withNibName: ProfileNibVars.CollectionViewCell.about, bundle: ConfigBundle.profile, for: self, at: index) ?? AboutCell()
-        cell.backgroundColor = UIColor.clear
-        return cell
+        let cell = collectionContext?.dequeueReusableCell(withNibName: ProfileNibVars.CollectionViewCell.about, bundle: ConfigBundle.profile, for: self, at: index) as? AboutCell
+        cell?.backgroundColor = UIColor.clear
+        cell?.delegate = self
+        return cell ?? AboutCell()
+    }
+}
+
+extension AboutSectionController: AboutCellDelegate {
+    func didUpdateData(isUpdate: Bool) {
+        self.delegate?.didUpdateData(isUpdate: isUpdate)
     }
 }

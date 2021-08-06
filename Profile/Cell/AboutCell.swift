@@ -32,6 +32,10 @@ import JVFloatLabeledTextField
 import UITextView_Placeholder
 import PanModal
 
+protocol AboutCellDelegate {
+    func didUpdateData(isUpdate: Bool)
+}
+
 class AboutCell: UICollectionViewCell, UITextViewDelegate {
 
     @IBOutlet var headlineLabel: UILabel!
@@ -53,6 +57,8 @@ class AboutCell: UICollectionViewCell, UITextViewDelegate {
     @IBOutlet var aboutView: UIView!
     @IBOutlet var birthdayView: UIView!
     
+    var delegate: AboutCellDelegate?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -67,6 +73,20 @@ class AboutCell: UICollectionViewCell, UITextViewDelegate {
         
         self.overviewTextView.delegate = self
         self.overviewTextView.placeholder = "What's make you different?"
+        
+        self.birthdayTextField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
+    }
+    
+    @objc private func textFieldDidChange(_ textField: UITextField) {
+        self.checkIsEdit()
+    }
+    
+    private func checkIsEdit() {
+        if !self.birthdayTextField.text!.isEmpty && self.overviewTextView.text!.isEmpty {
+            self.delegate?.didUpdateData(isUpdate: false)
+        } else {
+            self.delegate?.didUpdateData(isUpdate: true)
+        }
     }
 
     static func cellSize(width: CGFloat) -> CGSize {
@@ -77,6 +97,10 @@ class AboutCell: UICollectionViewCell, UITextViewDelegate {
         let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
         let numberOfChars = newText.count
         return numberOfChars < 161
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        self.checkIsEdit()
     }
     
     @IBAction func selectDateAction(_ sender: Any) {

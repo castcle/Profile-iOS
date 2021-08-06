@@ -19,7 +19,7 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  ComplateButtonSectionController.swift
+//  MeInfoSectionController.swift
 //  Profile
 //
 //  Created by Tanakorn Phoochaliaw on 6/8/2564 BE.
@@ -28,9 +28,7 @@
 import Core
 import IGListKit
 
-class ComplateButtonSectionController: ListSectionController {
-    var isSkip: Bool = true
-    
+class MeInfoSectionController: ListSectionController {
     override init() {
         super.init()
         inset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
@@ -38,7 +36,7 @@ class ComplateButtonSectionController: ListSectionController {
 }
 
 // MARK: - Data Provider
-extension ComplateButtonSectionController {
+extension MeInfoSectionController {
     override func numberOfItems() -> Int {
         return 1
     }
@@ -47,17 +45,12 @@ extension ComplateButtonSectionController {
         guard let context = collectionContext else {
             return .zero
         }
-        return ComplateButtonCell.cellSize(width: context.containerSize.width)
+        return MeInfoCell.cellSize(width: context.containerSize.width, bioText: "Bitcoin is an open source censorship-resistant peer-to-peer immutable network.", followText: "198 Following 33.6K Followers")
     }
     
     override func cellForItem(at index: Int) -> UICollectionViewCell {
-        let cell = collectionContext?.dequeueReusableCell(withNibName: ProfileNibVars.CollectionViewCell.complateButton, bundle: ConfigBundle.profile, for: self, at: index) as? ComplateButtonCell
-        cell?.backgroundColor = UIColor.clear
-        cell?.isSkip = self.isSkip
-        return cell ?? ComplateButtonCell()
-    }
-    
-    override func didUpdate(to object: Any) {
-        self.isSkip = (object as? Bool) ?? false
+        let cell = collectionContext?.dequeueReusableCell(withNibName: ProfileNibVars.CollectionViewCell.meInfo, bundle: ConfigBundle.profile, for: self, at: index) ?? MeInfoCell()
+        cell.backgroundColor = UIColor.clear
+        return cell
     }
 }
