@@ -20,6 +20,26 @@
 		B7910E7B26BBD9CE0097C94E /* Component.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7910E7A26BBD9CE0097C94E /* Component.framework */; };
 		B7910E7C26BBD9CE0097C94E /* Component.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B7910E7A26BBD9CE0097C94E /* Component.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B7910E8126BBE32E0097C94E /* SelectPhotoMethodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910E8026BBE32E0097C94E /* SelectPhotoMethodViewController.swift */; };
+		B7910E8526BC52A00097C94E /* AboutInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910E8426BC529F0097C94E /* AboutInfoViewController.swift */; };
+		B7910E8926BC54670097C94E /* AboutSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910E8826BC54670097C94E /* AboutSectionController.swift */; };
+		B7910E8C26BC54B30097C94E /* AboutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910E8A26BC54B30097C94E /* AboutCell.swift */; };
+		B7910E8D26BC54B30097C94E /* AboutCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7910E8B26BC54B30097C94E /* AboutCell.xib */; };
+		B7910E9726BCD6BF0097C94E /* AddLinkCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910E9526BCD6BF0097C94E /* AddLinkCell.swift */; };
+		B7910E9826BCD6BF0097C94E /* AddLinkCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7910E9626BCD6BF0097C94E /* AddLinkCell.xib */; };
+		B7910E9A26BCD75C0097C94E /* SocialLinkSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910E9926BCD75C0097C94E /* SocialLinkSectionController.swift */; };
+		B7910E9D26BCDAC40097C94E /* AboutInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910E9C26BCDAC40097C94E /* AboutInfoViewModel.swift */; };
+		B7910E9F26BCDBEF0097C94E /* SocialLinkShelf.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910E9E26BCDBEF0097C94E /* SocialLinkShelf.swift */; };
+		B7910EA126BCDC410097C94E /* SocialLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910EA026BCDC410097C94E /* SocialLink.swift */; };
+		B7910EA326BCE5420097C94E /* AddSocialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910EA226BCE5420097C94E /* AddSocialViewController.swift */; };
+		B7910EA526BCE83D0097C94E /* AddSocialSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910EA426BCE83D0097C94E /* AddSocialSectionController.swift */; };
+		B7910EA826BCE8F00097C94E /* AddSocialCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910EA626BCE8F00097C94E /* AddSocialCell.swift */; };
+		B7910EA926BCE8F00097C94E /* AddSocialCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7910EA726BCE8F00097C94E /* AddSocialCell.xib */; };
+		B7910EAC26BCEFB20097C94E /* SocialCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910EAA26BCEFB20097C94E /* SocialCell.swift */; };
+		B7910EAD26BCEFB20097C94E /* SocialCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7910EAB26BCEFB20097C94E /* SocialCell.xib */; };
+		B7910EAF26BCFA880097C94E /* SocialSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910EAE26BCFA880097C94E /* SocialSectionController.swift */; };
+		B7910EB226BCFE040097C94E /* ComplateButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910EB026BCFE040097C94E /* ComplateButtonCell.swift */; };
+		B7910EB326BCFE040097C94E /* ComplateButtonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7910EB126BCFE040097C94E /* ComplateButtonCell.xib */; };
+		B7910EB526BCFEAC0097C94E /* ComplateButtonSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910EB426BCFEAC0097C94E /* ComplateButtonSectionController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -58,6 +78,26 @@
 		B7910E7826BBD6FD0097C94E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B7910E7A26BBD9CE0097C94E /* Component.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Component.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7910E8026BBE32E0097C94E /* SelectPhotoMethodViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPhotoMethodViewController.swift; sourceTree = "<group>"; };
+		B7910E8426BC529F0097C94E /* AboutInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutInfoViewController.swift; sourceTree = "<group>"; };
+		B7910E8826BC54670097C94E /* AboutSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutSectionController.swift; sourceTree = "<group>"; };
+		B7910E8A26BC54B30097C94E /* AboutCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutCell.swift; sourceTree = "<group>"; };
+		B7910E8B26BC54B30097C94E /* AboutCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AboutCell.xib; sourceTree = "<group>"; };
+		B7910E9526BCD6BF0097C94E /* AddLinkCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLinkCell.swift; sourceTree = "<group>"; };
+		B7910E9626BCD6BF0097C94E /* AddLinkCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddLinkCell.xib; sourceTree = "<group>"; };
+		B7910E9926BCD75C0097C94E /* SocialLinkSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialLinkSectionController.swift; sourceTree = "<group>"; };
+		B7910E9C26BCDAC40097C94E /* AboutInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutInfoViewModel.swift; sourceTree = "<group>"; };
+		B7910E9E26BCDBEF0097C94E /* SocialLinkShelf.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialLinkShelf.swift; sourceTree = "<group>"; };
+		B7910EA026BCDC410097C94E /* SocialLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialLink.swift; sourceTree = "<group>"; };
+		B7910EA226BCE5420097C94E /* AddSocialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSocialViewController.swift; sourceTree = "<group>"; };
+		B7910EA426BCE83D0097C94E /* AddSocialSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSocialSectionController.swift; sourceTree = "<group>"; };
+		B7910EA626BCE8F00097C94E /* AddSocialCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSocialCell.swift; sourceTree = "<group>"; };
+		B7910EA726BCE8F00097C94E /* AddSocialCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddSocialCell.xib; sourceTree = "<group>"; };
+		B7910EAA26BCEFB20097C94E /* SocialCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialCell.swift; sourceTree = "<group>"; };
+		B7910EAB26BCEFB20097C94E /* SocialCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SocialCell.xib; sourceTree = "<group>"; };
+		B7910EAE26BCFA880097C94E /* SocialSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialSectionController.swift; sourceTree = "<group>"; };
+		B7910EB026BCFE040097C94E /* ComplateButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplateButtonCell.swift; sourceTree = "<group>"; };
+		B7910EB126BCFE040097C94E /* ComplateButtonCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ComplateButtonCell.xib; sourceTree = "<group>"; };
+		B7910EB426BCFEAC0097C94E /* ComplateButtonSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplateButtonSectionController.swift; sourceTree = "<group>"; };
 		DD702ADAD4D188AE2A7192EF /* Pods_Profile.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Profile.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -115,8 +155,10 @@
 				B7910DDA26AFC60E0097C94E /* Profile.h */,
 				B7910DDB26AFC60E0097C94E /* Info.plist */,
 				B7910E6E26BBD36A0097C94E /* Profile.storyboard */,
-				B7910E7526BBD68D0097C94E /* WelcomeEditProfileViewController.swift */,
-				B7910E8026BBE32E0097C94E /* SelectPhotoMethodViewController.swift */,
+				B7910EB726BD0C1F0097C94E /* ViewController */,
+				B7910E9B26BCDA9E0097C94E /* ViewModel */,
+				B7910E8726BC54390097C94E /* Cell */,
+				B7910E8626BC54300097C94E /* Section */,
 				B7910E7726BBD6E30097C94E /* Assets */,
 				B7910E7026BBD4760097C94E /* Utilities */,
 				B7910DE226AFC9360097C94E /* Model */,
@@ -128,6 +170,8 @@
 			isa = PBXGroup;
 			children = (
 				B7910DE426AFC9B40097C94E /* Profile.swift */,
+				B7910E9E26BCDBEF0097C94E /* SocialLinkShelf.swift */,
+				B7910EA026BCDC410097C94E /* SocialLink.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -147,6 +191,54 @@
 				B7910E7826BBD6FD0097C94E /* Assets.xcassets */,
 			);
 			path = Assets;
+			sourceTree = "<group>";
+		};
+		B7910E8626BC54300097C94E /* Section */ = {
+			isa = PBXGroup;
+			children = (
+				B7910E8826BC54670097C94E /* AboutSectionController.swift */,
+				B7910EAE26BCFA880097C94E /* SocialSectionController.swift */,
+				B7910E9926BCD75C0097C94E /* SocialLinkSectionController.swift */,
+				B7910EB426BCFEAC0097C94E /* ComplateButtonSectionController.swift */,
+				B7910EA426BCE83D0097C94E /* AddSocialSectionController.swift */,
+			);
+			path = Section;
+			sourceTree = "<group>";
+		};
+		B7910E8726BC54390097C94E /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				B7910E8A26BC54B30097C94E /* AboutCell.swift */,
+				B7910E8B26BC54B30097C94E /* AboutCell.xib */,
+				B7910E9526BCD6BF0097C94E /* AddLinkCell.swift */,
+				B7910E9626BCD6BF0097C94E /* AddLinkCell.xib */,
+				B7910EA626BCE8F00097C94E /* AddSocialCell.swift */,
+				B7910EA726BCE8F00097C94E /* AddSocialCell.xib */,
+				B7910EAA26BCEFB20097C94E /* SocialCell.swift */,
+				B7910EAB26BCEFB20097C94E /* SocialCell.xib */,
+				B7910EB026BCFE040097C94E /* ComplateButtonCell.swift */,
+				B7910EB126BCFE040097C94E /* ComplateButtonCell.xib */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		B7910E9B26BCDA9E0097C94E /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				B7910E9C26BCDAC40097C94E /* AboutInfoViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		B7910EB726BD0C1F0097C94E /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				B7910E7526BBD68D0097C94E /* WelcomeEditProfileViewController.swift */,
+				B7910E8026BBE32E0097C94E /* SelectPhotoMethodViewController.swift */,
+				B7910E8426BC529F0097C94E /* AboutInfoViewController.swift */,
+				B7910EA226BCE5420097C94E /* AddSocialViewController.swift */,
+			);
+			path = ViewController;
 			sourceTree = "<group>";
 		};
 		FDB9755588C404F0DCA882AE /* Frameworks */ = {
@@ -230,8 +322,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B7910E8D26BC54B30097C94E /* AboutCell.xib in Resources */,
 				B7910E7926BBD6FD0097C94E /* Assets.xcassets in Resources */,
+				B7910EB326BCFE040097C94E /* ComplateButtonCell.xib in Resources */,
 				B7910E6F26BBD36A0097C94E /* Profile.storyboard in Resources */,
+				B7910E9826BCD6BF0097C94E /* AddLinkCell.xib in Resources */,
+				B7910EAD26BCEFB20097C94E /* SocialCell.xib in Resources */,
+				B7910EA926BCE8F00097C94E /* AddSocialCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -267,11 +364,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B7910E8926BC54670097C94E /* AboutSectionController.swift in Sources */,
+				B7910EB226BCFE040097C94E /* ComplateButtonCell.swift in Sources */,
 				B7910DE526AFC9B40097C94E /* Profile.swift in Sources */,
+				B7910EA826BCE8F00097C94E /* AddSocialCell.swift in Sources */,
+				B7910E9A26BCD75C0097C94E /* SocialLinkSectionController.swift in Sources */,
 				B7910E7226BBD52F0097C94E /* ProfileNibVars.swift in Sources */,
 				B7910E8126BBE32E0097C94E /* SelectPhotoMethodViewController.swift in Sources */,
+				B7910EAF26BCFA880097C94E /* SocialSectionController.swift in Sources */,
+				B7910EAC26BCEFB20097C94E /* SocialCell.swift in Sources */,
+				B7910EA126BCDC410097C94E /* SocialLink.swift in Sources */,
+				B7910EA526BCE83D0097C94E /* AddSocialSectionController.swift in Sources */,
 				B7910E7426BBD5480097C94E /* ProfileOpener.swift in Sources */,
+				B7910E8C26BC54B30097C94E /* AboutCell.swift in Sources */,
+				B7910E9F26BCDBEF0097C94E /* SocialLinkShelf.swift in Sources */,
+				B7910E9726BCD6BF0097C94E /* AddLinkCell.swift in Sources */,
+				B7910E8526BC52A00097C94E /* AboutInfoViewController.swift in Sources */,
 				B7910E7626BBD68D0097C94E /* WelcomeEditProfileViewController.swift in Sources */,
+				B7910E9D26BCDAC40097C94E /* AboutInfoViewModel.swift in Sources */,
+				B7910EB526BCFEAC0097C94E /* ComplateButtonSectionController.swift in Sources */,
+				B7910EA326BCE5420097C94E /* AddSocialViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

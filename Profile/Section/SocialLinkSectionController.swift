@@ -19,36 +19,38 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  ProfileNibVars.swift
+//  SocialLinkSectionController.swift
 //  Profile
 //
-//  Created by Tanakorn Phoochaliaw on 5/8/2564 BE.
+//  Created by Tanakorn Phoochaliaw on 6/8/2564 BE.
 //
 
-public struct ProfileNibVars {
-    // MARK: - View Controller
-    public struct ViewController {
-        public static let welcome = "WelcomeEditProfileViewController"
-        public static let photoMethod = "SelectPhotoMethodViewController"
-        public static let about = "AboutInfoViewController"
-        public static let addLink = "AddSocialViewController"
+import Core
+import IGListKit
+
+class SocialLinkSectionController: ListSectionController {
+    override init() {
+        super.init()
+        inset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+    }
+}
+
+// MARK: - Data Provider
+extension SocialLinkSectionController {
+    override func numberOfItems() -> Int {
+        return 1
     }
     
-    // MARK: - View
-    public struct Storyboard {
-        public static let profile = "Profile"
+    override func sizeForItem(at index: Int) -> CGSize {
+        guard let context = collectionContext else {
+            return .zero
+        }
+        return AddLinkCell.cellSize(width: context.containerSize.width)
     }
     
-    // MARK: - TableViewCell
-    public struct TableViewCell {
-    }
-    
-    // MARK: - CollectionViewCell
-    public struct CollectionViewCell {
-        public static let about = "AboutCell"
-        public static let addLink = "AddLinkCell"
-        public static let addSocial = "AddSocialCell"
-        public static let social = "SocialCell"
-        public static let complateButton = "ComplateButtonCell"
+    override func cellForItem(at index: Int) -> UICollectionViewCell {
+        let cell = collectionContext?.dequeueReusableCell(withNibName: ProfileNibVars.CollectionViewCell.addLink, bundle: ConfigBundle.profile, for: self, at: index) ?? AddLinkCell()
+        cell.backgroundColor = UIColor.clear
+        return cell
     }
 }

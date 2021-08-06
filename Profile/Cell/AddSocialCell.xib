@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="AddSocialCell" customModule="Profile" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="490"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="490"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add another channel for someone interesting on you can follow up." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mhQ-89-fnk">
+                        <rect key="frame" x="35" y="30" width="260" height="64.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cx4-HU-6dQ">
+                        <rect key="frame" x="15" y="124.5" width="290" height="60"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jqJ-IG-c5A" customClass="JVFloatLabeledTextField">
+                                <rect key="frame" x="15" y="10" width="260" height="40"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="jqJ-IG-c5A" secondAttribute="trailing" constant="15" id="9St-zI-4CR"/>
+                            <constraint firstItem="jqJ-IG-c5A" firstAttribute="top" secondItem="cx4-HU-6dQ" secondAttribute="top" constant="10" id="VBL-PN-wpj"/>
+                            <constraint firstItem="jqJ-IG-c5A" firstAttribute="leading" secondItem="cx4-HU-6dQ" secondAttribute="leading" constant="15" id="Zvl-Iy-olR"/>
+                            <constraint firstAttribute="bottom" secondItem="jqJ-IG-c5A" secondAttribute="bottom" constant="10" id="kRQ-4P-ezj"/>
+                            <constraint firstAttribute="height" constant="60" id="sQV-sm-Ve3"/>
+                        </constraints>
+                    </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="H6O-Uf-6SZ">
+                        <rect key="frame" x="15" y="194.5" width="290" height="60"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="B38-FS-HY7" customClass="JVFloatLabeledTextField">
+                                <rect key="frame" x="15" y="10" width="260" height="40"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="B38-FS-HY7" secondAttribute="trailing" constant="15" id="OFH-0i-4Ol"/>
+                            <constraint firstItem="B38-FS-HY7" firstAttribute="top" secondItem="H6O-Uf-6SZ" secondAttribute="top" constant="10" id="VxL-Gs-TJW"/>
+                            <constraint firstAttribute="bottom" secondItem="B38-FS-HY7" secondAttribute="bottom" constant="10" id="WH4-cp-3kB"/>
+                            <constraint firstItem="B38-FS-HY7" firstAttribute="leading" secondItem="H6O-Uf-6SZ" secondAttribute="leading" constant="15" id="dOk-hp-CiA"/>
+                            <constraint firstAttribute="height" constant="60" id="unL-yQ-Dn5"/>
+                        </constraints>
+                    </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Sv-yK-esH">
+                        <rect key="frame" x="15" y="264.5" width="290" height="60"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DKC-Rr-HUJ" customClass="JVFloatLabeledTextField">
+                                <rect key="frame" x="15" y="10" width="260" height="40"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="DKC-Rr-HUJ" firstAttribute="leading" secondItem="4Sv-yK-esH" secondAttribute="leading" constant="15" id="3f2-MF-rQb"/>
+                            <constraint firstAttribute="bottom" secondItem="DKC-Rr-HUJ" secondAttribute="bottom" constant="10" id="Bzg-Tz-4eh"/>
+                            <constraint firstAttribute="trailing" secondItem="DKC-Rr-HUJ" secondAttribute="trailing" constant="15" id="LCC-bn-DZ8"/>
+                            <constraint firstItem="DKC-Rr-HUJ" firstAttribute="top" secondItem="4Sv-yK-esH" secondAttribute="top" constant="10" id="SpW-9Y-s4N"/>
+                            <constraint firstAttribute="height" constant="60" id="yki-UJ-AZT"/>
+                        </constraints>
+                    </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I2z-zN-3sC">
+                        <rect key="frame" x="15" y="334.5" width="290" height="60"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ntN-Oh-QNZ" customClass="JVFloatLabeledTextField">
+                                <rect key="frame" x="15" y="10" width="260" height="40"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="ntN-Oh-QNZ" firstAttribute="top" secondItem="I2z-zN-3sC" secondAttribute="top" constant="10" id="Jt4-VU-GTN"/>
+                            <constraint firstAttribute="bottom" secondItem="ntN-Oh-QNZ" secondAttribute="bottom" constant="10" id="QkZ-4y-Zsl"/>
+                            <constraint firstAttribute="height" constant="60" id="U6A-cb-P2E"/>
+                            <constraint firstAttribute="trailing" secondItem="ntN-Oh-QNZ" secondAttribute="trailing" constant="15" id="ktN-n8-G9o"/>
+                            <constraint firstItem="ntN-Oh-QNZ" firstAttribute="leading" secondItem="I2z-zN-3sC" secondAttribute="leading" constant="15" id="oit-21-qm4"/>
+                        </constraints>
+                    </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OkE-Y6-eTr">
+                        <rect key="frame" x="15" y="404.5" width="290" height="60"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="WTV-rA-PkF" customClass="JVFloatLabeledTextField">
+                                <rect key="frame" x="15" y="10" width="260" height="40"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="WTV-rA-PkF" firstAttribute="leading" secondItem="OkE-Y6-eTr" secondAttribute="leading" constant="15" id="8gE-Xr-K0V"/>
+                            <constraint firstItem="WTV-rA-PkF" firstAttribute="top" secondItem="OkE-Y6-eTr" secondAttribute="top" constant="10" id="8wt-N9-D4U"/>
+                            <constraint firstAttribute="bottom" secondItem="WTV-rA-PkF" secondAttribute="bottom" constant="10" id="cYV-gB-4gG"/>
+                            <constraint firstAttribute="height" constant="60" id="o2b-fp-HEg"/>
+                            <constraint firstAttribute="trailing" secondItem="WTV-rA-PkF" secondAttribute="trailing" constant="15" id="rcH-HZ-PsG"/>
+                        </constraints>
+                    </view>
+                </subviews>
+            </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="OkE-Y6-eTr" secondAttribute="trailing" constant="15" id="3wd-Yo-cS0"/>
+                <constraint firstItem="4Sv-yK-esH" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="15" id="Cge-KC-iCY"/>
+                <constraint firstItem="4Sv-yK-esH" firstAttribute="top" secondItem="H6O-Uf-6SZ" secondAttribute="bottom" constant="10" id="FD7-JQ-X2C"/>
+                <constraint firstItem="mhQ-89-fnk" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="30" id="Fbo-Vu-mw5"/>
+                <constraint firstItem="cx4-HU-6dQ" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="15" id="KMF-hc-gWN"/>
+                <constraint firstAttribute="trailing" secondItem="4Sv-yK-esH" secondAttribute="trailing" constant="15" id="NuL-zf-kxq"/>
+                <constraint firstAttribute="trailing" secondItem="H6O-Uf-6SZ" secondAttribute="trailing" constant="15" id="Ocu-De-Jdt"/>
+                <constraint firstItem="H6O-Uf-6SZ" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="15" id="Q7b-j4-qcB"/>
+                <constraint firstItem="cx4-HU-6dQ" firstAttribute="top" secondItem="mhQ-89-fnk" secondAttribute="bottom" constant="30" id="VMS-Rl-i0T"/>
+                <constraint firstAttribute="trailing" secondItem="mhQ-89-fnk" secondAttribute="trailing" constant="25" id="XTa-jI-eN4"/>
+                <constraint firstAttribute="trailing" secondItem="I2z-zN-3sC" secondAttribute="trailing" constant="15" id="c4P-L2-FK3"/>
+                <constraint firstItem="mhQ-89-fnk" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="35" id="gor-is-bJh"/>
+                <constraint firstItem="OkE-Y6-eTr" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="15" id="h98-N0-Vvn"/>
+                <constraint firstItem="I2z-zN-3sC" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="15" id="oKH-dl-REq"/>
+                <constraint firstItem="OkE-Y6-eTr" firstAttribute="top" secondItem="I2z-zN-3sC" secondAttribute="bottom" constant="10" id="ouT-88-vs1"/>
+                <constraint firstItem="I2z-zN-3sC" firstAttribute="top" secondItem="4Sv-yK-esH" secondAttribute="bottom" constant="10" id="pVN-f4-agH"/>
+                <constraint firstItem="H6O-Uf-6SZ" firstAttribute="top" secondItem="cx4-HU-6dQ" secondAttribute="bottom" constant="10" id="tbS-bf-mMB"/>
+                <constraint firstAttribute="trailing" secondItem="cx4-HU-6dQ" secondAttribute="trailing" constant="15" id="xMy-CT-vn7"/>
+            </constraints>
+            <size key="customSize" width="320" height="493"/>
+            <connections>
+                <outlet property="facebookTextField" destination="jqJ-IG-c5A" id="evV-AI-q5j"/>
+                <outlet property="facebookView" destination="cx4-HU-6dQ" id="xTi-MZ-GzR"/>
+                <outlet property="mediumTextField" destination="ntN-Oh-QNZ" id="QFz-8P-53B"/>
+                <outlet property="mediumView" destination="I2z-zN-3sC" id="sV8-6t-axH"/>
+                <outlet property="titleLabel" destination="mhQ-89-fnk" id="8Ba-aY-p4g"/>
+                <outlet property="twitterTextField" destination="B38-FS-HY7" id="U3v-Wh-3b1"/>
+                <outlet property="twitterView" destination="H6O-Uf-6SZ" id="GqB-fz-iOd"/>
+                <outlet property="websiteTextField" destination="WTV-rA-PkF" id="hdW-oO-oza"/>
+                <outlet property="websiteView" destination="OkE-Y6-eTr" id="s4P-2s-ZFv"/>
+                <outlet property="youtubeTextField" destination="DKC-Rr-HUJ" id="zly-QQ-skN"/>
+                <outlet property="youtubeView" destination="4Sv-yK-esH" id="STq-El-eb2"/>
+            </connections>
+            <point key="canvasLocation" x="214.49275362318843" y="234.70982142857142"/>
+        </collectionViewCell>
+    </objects>
+    <designables>
+        <designable name="B38-FS-HY7">
+            <size key="intrinsicContentSize" width="4" height="18.5"/>
+        </designable>
+        <designable name="DKC-Rr-HUJ">
+            <size key="intrinsicContentSize" width="4" height="18.5"/>
+        </designable>
+        <designable name="WTV-rA-PkF">
+            <size key="intrinsicContentSize" width="4" height="18.5"/>
+        </designable>
+        <designable name="jqJ-IG-c5A">
+            <size key="intrinsicContentSize" width="4" height="18.5"/>
+        </designable>
+        <designable name="ntN-Oh-QNZ">
+            <size key="intrinsicContentSize" width="4" height="18.5"/>
+        </designable>
+    </designables>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

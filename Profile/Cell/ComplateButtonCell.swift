@@ -19,36 +19,32 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  ProfileNibVars.swift
+//  ComplateButtonCell.swift
 //  Profile
 //
-//  Created by Tanakorn Phoochaliaw on 5/8/2564 BE.
+//  Created by Tanakorn Phoochaliaw on 6/8/2564 BE.
 //
 
-public struct ProfileNibVars {
-    // MARK: - View Controller
-    public struct ViewController {
-        public static let welcome = "WelcomeEditProfileViewController"
-        public static let photoMethod = "SelectPhotoMethodViewController"
-        public static let about = "AboutInfoViewController"
-        public static let addLink = "AddSocialViewController"
+import UIKit
+import Core
+
+class ComplateButtonCell: UICollectionViewCell {
+
+    @IBOutlet var complateButton: UIButton!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.complateButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .h4)
+        self.complateButton.setTitleColor(UIColor.Asset.white, for: .normal)
+        self.complateButton.setBackgroundImage(UIColor.Asset.lightBlue.toImage(), for: .normal)
+        self.complateButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.clear)
+    }
+
+    static func cellSize(width: CGFloat) -> CGSize {
+        return CGSize(width: width, height: 90)
     }
     
-    // MARK: - View
-    public struct Storyboard {
-        public static let profile = "Profile"
-    }
-    
-    // MARK: - TableViewCell
-    public struct TableViewCell {
-    }
-    
-    // MARK: - CollectionViewCell
-    public struct CollectionViewCell {
-        public static let about = "AboutCell"
-        public static let addLink = "AddLinkCell"
-        public static let addSocial = "AddSocialCell"
-        public static let social = "SocialCell"
-        public static let complateButton = "ComplateButtonCell"
+    @IBAction func complateAction(_ sender: Any) {
+        Utility.currentViewController().navigationController?.popToRootViewController(animated: true)
     }
 }

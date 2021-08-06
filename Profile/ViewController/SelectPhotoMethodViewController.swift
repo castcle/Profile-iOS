@@ -62,7 +62,7 @@ class SelectPhotoMethodViewController: UIViewController {
     }
     
     func setupNavBar() {
-        self.customNavigationBar(.secondary, title: "", textColor: UIColor.Asset.lightBlue)
+        self.customNavigationBar(.secondary, title: "")
     }
     
     @IBAction func cameraRollAction(_ sender: Any) {
@@ -151,7 +151,6 @@ class SelectPhotoMethodViewController: UIViewController {
     
     private func presentCropViewController(image: UIImage) {
         let cropController = TOCropViewController(croppingStyle: .circular, image: image)
-        //cropController.modalPresentationStyle = .fullScreen
         cropController.delegate = self
         self.present(cropController, animated: true, completion: nil)
     }
@@ -182,6 +181,8 @@ extension SelectPhotoMethodViewController: UIImagePickerControllerDelegate, UINa
 
 extension SelectPhotoMethodViewController: TOCropViewControllerDelegate {
     func cropViewController(_ cropViewController: TOCropViewController, didCropToCircularImage image: UIImage, with cropRect: CGRect, angle: Int) {
-        cropViewController.dismiss(animated: true, completion: nil)
+        cropViewController.dismiss(animated: true, completion: {
+            Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.about), animated: true)
+        })
     }
 }

@@ -141,6 +141,36 @@
             </objects>
             <point key="canvasLocation" x="827" y="116"/>
         </scene>
+        <!--About Info View Controller-->
+        <scene sceneID="3Rx-uz-lA6">
+            <objects>
+                <viewController storyboardIdentifier="AboutInfoViewController" id="29q-ZX-EXI" customClass="AboutInfoViewController" customModule="Profile" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="4Oi-sh-6ie">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="Mqy-bg-7u4"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZT9-VW-tYZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1528" y="116"/>
+        </scene>
+        <!--Add Social View Controller-->
+        <scene sceneID="8ge-xa-xTu">
+            <objects>
+                <viewController storyboardIdentifier="AddSocialViewController" id="4Xo-Dl-dhc" customClass="AddSocialViewController" customModule="Profile" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="tM6-d9-LDh">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="XKm-1v-FQY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Cjq-i8-SsB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2248" y="115"/>
+        </scene>
     </scenes>
     <resources>
         <image name="select-photo-method" width="234.5" height="248.5"/>

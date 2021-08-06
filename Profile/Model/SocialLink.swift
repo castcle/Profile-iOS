@@ -19,36 +19,30 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  ProfileNibVars.swift
+//  SocialLink.swift
 //  Profile
 //
-//  Created by Tanakorn Phoochaliaw on 5/8/2564 BE.
+//  Created by Tanakorn Phoochaliaw on 6/8/2564 BE.
 //
 
-public struct ProfileNibVars {
-    // MARK: - View Controller
-    public struct ViewController {
-        public static let welcome = "WelcomeEditProfileViewController"
-        public static let photoMethod = "SelectPhotoMethodViewController"
-        public static let about = "AboutInfoViewController"
-        public static let addLink = "AddSocialViewController"
-    }
+import Foundation
+
+public enum SocialLinkType: String {
+    case facebook = "Facebook"
+    case twitter = "Twitter"
+    case youtube = "Youtube"
+    case medium = "Medium"
+    case website = "Add website"
+}
+
+public class SocialLink: NSObject {
+    var socialLinkType: SocialLinkType = .website
+    var value: String = ""
     
-    // MARK: - View
-    public struct Storyboard {
-        public static let profile = "Profile"
-    }
+    public override init() { }
     
-    // MARK: - TableViewCell
-    public struct TableViewCell {
-    }
-    
-    // MARK: - CollectionViewCell
-    public struct CollectionViewCell {
-        public static let about = "AboutCell"
-        public static let addLink = "AddLinkCell"
-        public static let addSocial = "AddSocialCell"
-        public static let social = "SocialCell"
-        public static let complateButton = "ComplateButtonCell"
+    public init(socialLinkType: SocialLinkType, value: String) {
+        self.socialLinkType = socialLinkType
+        self.value = value
     }
 }

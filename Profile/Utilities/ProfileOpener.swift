@@ -31,6 +31,8 @@ import Core
 public enum ProfileScene {
     case welcome
     case photoMethod
+    case about
+    case addLink
 }
 
 public struct ProfileOpener {
@@ -43,6 +45,14 @@ public struct ProfileOpener {
         case .photoMethod:
             let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.profile, bundle: ConfigBundle.profile)
             let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.photoMethod)
+            return vc
+        case .about:
+            let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.profile, bundle: ConfigBundle.profile)
+            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.about)
+            return vc
+        case .addLink:
+            let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.profile, bundle: ConfigBundle.profile)
+            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.addLink)
             return vc
         }
     }
