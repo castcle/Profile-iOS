@@ -100,6 +100,7 @@ class MeInfoCell: UICollectionViewCell {
             }
         }
     }
+    var isFollow: Bool = false
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -132,9 +133,7 @@ class MeInfoCell: UICollectionViewCell {
         self.viewProfileButton.setTitleColor(UIColor.Asset.lightBlue, for: .normal)
         self.viewProfileButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
         
-        self.followButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .overline)
-        self.followButton.setTitleColor(UIColor.Asset.lightBlue, for: .normal)
-        self.followButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
+        self.followUI()
     }
     
     static func cellSize(width: CGFloat, bioText: String, followText: String) -> CGSize {
@@ -166,6 +165,20 @@ class MeInfoCell: UICollectionViewCell {
         return CGSize(width: width, height: (label.frame.height + labelFollow.frame.height + 180 + CGFloat(imageHeight)))
     }
     
+    private func followUI() {
+        if self.isFollow == true {
+            self.followButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .overline)
+            self.followButton.setBackgroundImage(UIColor.Asset.lightBlue.toImage(), for: .normal)
+            self.followButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
+            self.followButton.setIcon(prefixText: "Following  ", prefixTextColor: UIColor.Asset.white, icon: .castcle(.checkmark), iconColor: UIColor.Asset.white, postfixText: "", postfixTextColor: UIColor.Asset.white, forState: .normal, textSize: 14, iconSize: 14)
+        } else {
+            self.followButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .overline)
+            self.followButton.setBackgroundImage(UIColor.Asset.darkGray.toImage(), for: .normal)
+            self.followButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
+            self.followButton.setIcon(prefixText: "     Follow     ", prefixTextColor: UIColor.Asset.lightBlue, icon: .castcle(.checkmark), iconColor: UIColor.Asset.darkGray, postfixText: "", postfixTextColor: UIColor.Asset.white, forState: .normal, textSize: 14, iconSize: 0)
+        }
+    }
+    
     @IBAction func editCoverAction(_ sender: Any) {
     }
     
@@ -183,5 +196,7 @@ class MeInfoCell: UICollectionViewCell {
     }
     
     @IBAction func followAction(_ sender: Any) {
+        self.isFollow.toggle()
+        self.followUI()
     }
 }

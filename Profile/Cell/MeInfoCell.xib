@@ -114,7 +114,6 @@
                             <constraint firstAttribute="height" constant="40" id="WVx-TQ-JPK"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                        <state key="normal" title="Follow"/>
                         <connections>
                             <action selector="editProfileAction:" destination="gTV-IL-0wX" eventType="touchUpInside" id="f7I-dI-TCg"/>
                             <action selector="followAction:" destination="gTV-IL-0wX" eventType="touchUpInside" id="Hom-GI-wsI"/>
