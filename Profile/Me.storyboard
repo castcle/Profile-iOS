@@ -24,6 +24,36 @@
             </objects>
             <point key="canvasLocation" x="20" y="72"/>
         </scene>
+        <!--User Info View Controller-->
+        <scene sceneID="S8D-f3-hjT">
+            <objects>
+                <viewController storyboardIdentifier="UserInfoViewController" id="oXk-ih-n9m" customClass="UserInfoViewController" customModule="Profile" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="6fE-a5-e7P">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ZiS-9c-VNs">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="OcY-cd-9m1"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="ZiS-9c-VNs" secondAttribute="bottom" id="7UH-AK-Y1B"/>
+                            <constraint firstItem="ZiS-9c-VNs" firstAttribute="leading" secondItem="OcY-cd-9m1" secondAttribute="leading" id="BFi-BF-dze"/>
+                            <constraint firstItem="OcY-cd-9m1" firstAttribute="trailing" secondItem="ZiS-9c-VNs" secondAttribute="trailing" id="BKw-kK-P01"/>
+                            <constraint firstItem="ZiS-9c-VNs" firstAttribute="top" secondItem="OcY-cd-9m1" secondAttribute="top" id="GUP-Rz-HdL"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="ZiS-9c-VNs" id="FKA-a1-b8V"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rCj-3x-BJr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="744" y="72"/>
+        </scene>
     </scenes>
     <resources>
         <systemColor name="systemBackgroundColor">

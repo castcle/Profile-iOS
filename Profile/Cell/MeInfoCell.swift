@@ -163,7 +163,7 @@ class MeInfoCell: UICollectionViewCell {
         labelFollow.sizeToFit()
         
         let imageHeight = UIView.aspectRatioCalculator(ratioWidth: 4, ratioHeight: 3, pixelsWidth: Double(width))
-        return CGSize(width: width, height: (label.frame.height + labelFollow.frame.height + 170 + CGFloat(imageHeight)))
+        return CGSize(width: width, height: (label.frame.height + labelFollow.frame.height + 180 + CGFloat(imageHeight)))
     }
     
     @IBAction func editCoverAction(_ sender: Any) {
@@ -179,6 +179,7 @@ class MeInfoCell: UICollectionViewCell {
     }
     
     @IBAction func viewProfileAction(_ sender: Any) {
+        Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.userInfo), animated: true)
     }
     
     @IBAction func followAction(_ sender: Any) {

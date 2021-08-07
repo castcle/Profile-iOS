@@ -34,6 +34,7 @@ public enum ProfileScene {
     case about
     case addLink
     case me(MeViewModel)
+    case userInfo
 }
 
 public struct ProfileOpener {
@@ -60,6 +61,10 @@ public struct ProfileOpener {
             let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.me) as? MeViewController
             vc?.viewModel = viewModel
             return vc ?? MeViewController()
+        case .userInfo:
+            let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.me, bundle: ConfigBundle.profile)
+            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.userInfo)
+            return vc
         }
     }
 }
