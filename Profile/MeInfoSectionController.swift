@@ -29,6 +29,8 @@ import Core
 import IGListKit
 
 class MeInfoSectionController: ListSectionController {
+    var isMe: Bool = false
+    
     override init() {
         super.init()
         inset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
@@ -49,8 +51,13 @@ extension MeInfoSectionController {
     }
     
     override func cellForItem(at index: Int) -> UICollectionViewCell {
-        let cell = collectionContext?.dequeueReusableCell(withNibName: ProfileNibVars.CollectionViewCell.meInfo, bundle: ConfigBundle.profile, for: self, at: index) ?? MeInfoCell()
-        cell.backgroundColor = UIColor.clear
-        return cell
+        let cell = collectionContext?.dequeueReusableCell(withNibName: ProfileNibVars.CollectionViewCell.meInfo, bundle: ConfigBundle.profile, for: self, at: index) as? MeInfoCell
+        cell?.backgroundColor = UIColor.Asset.darkGray
+        cell?.isMe =  self.isMe
+        return cell ?? MeInfoCell()
+    }
+    
+    override func didUpdate(to object: Any) {
+        self.isMe = (object as? Bool) ?? false
     }
 }

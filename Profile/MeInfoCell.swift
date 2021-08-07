@@ -41,6 +41,9 @@ class MeInfoCell: UICollectionViewCell {
     @IBOutlet var displayNameLabel: UILabel!
     @IBOutlet var userIdLabel: UILabel!
     @IBOutlet var bioLabel: UILabel!
+    @IBOutlet var editProfileButton: UIButton!
+    @IBOutlet var viewProfileButton: UIButton!
+    @IBOutlet var followButton: UIButton!
     @IBOutlet var followLabel: ActiveLabel! {
         didSet {
             self.followLabel.customize { label in
@@ -60,6 +63,44 @@ class MeInfoCell: UICollectionViewCell {
         }
     }
     
+    var isMe: Bool = false {
+        didSet {
+            if self.isMe {
+                let urlCover = URL(string: "https://cdn.pixabay.com/photo/2020/02/11/16/25/manarola-4840080_1280.jpg")
+                self.coverImage.kf.setImage(with: urlCover)
+                
+                let urlProfile = URL(string: "https://images.mubicdn.net/images/cast_member/2184/cache-2992-1547409411/image-w856.jpg")
+                self.profileImage.kf.setImage(with: urlProfile)
+                
+                self.displayNameLabel.text = "Tommy Cruise"
+                self.userIdLabel.text = "@tommy-cruise"
+                
+                self.editCoverButton.isHidden = false
+                self.editProfileButton.isHidden = false
+                self.editProfileImageButton.isHidden = false
+                
+                self.viewProfileButton.isHidden = true
+                self.followButton.isHidden = true
+            } else {
+                let urlCover = URL(string: "https://cdn.pixabay.com/photo/2021/07/13/18/58/coffee-6464307_1280.jpg")
+                self.coverImage.kf.setImage(with: urlCover)
+                
+                let urlProfile = URL(string: "https://static.wikia.nocookie.net/whywomenkill/images/e/e7/Alexandra_Daddario.jpg")
+                self.profileImage.kf.setImage(with: urlProfile)
+                
+                self.displayNameLabel.text = "Alexandra Daddario"
+                self.userIdLabel.text = "@alexandra-daddario"
+                
+                self.editCoverButton.isHidden = true
+                self.editProfileButton.isHidden = true
+                self.editProfileImageButton.isHidden = true
+                
+                self.viewProfileButton.isHidden = false
+                self.followButton.isHidden = false
+            }
+        }
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -70,17 +111,9 @@ class MeInfoCell: UICollectionViewCell {
         self.bioLabel.font = UIFont.asset(.regular, fontSize: .body)
         self.bioLabel.textColor = UIColor.Asset.white
         
-        let urlCover = URL(string: "https://cdn.pixabay.com/photo/2020/02/11/16/25/manarola-4840080_1280.jpg")
-        self.coverImage.kf.setImage(with: urlCover)
-        
-        let urlProfile = URL(string: "https://images.mubicdn.net/images/cast_member/2184/cache-2992-1547409411/image-w856.jpg")
-        self.profileImage.kf.setImage(with: urlProfile)
         self.profileImage.circle(color: UIColor.Asset.white)
         
-        self.displayNameLabel.text = "Tommy Cruise"
-        self.userIdLabel.text = "@tommy-cruise"
-        
-        self.editProfileImageButton.setImage(UIImage.init(icon: .castcle(.camera), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.darkGraphiteBlue).withRenderingMode(.alwaysOriginal), for: .normal)
+        self.editProfileImageButton.setImage(UIImage.init(icon: .castcle(.camera), size: CGSize(width: 15, height: 15), textColor: UIColor.Asset.darkGraphiteBlue).withRenderingMode(.alwaysOriginal), for: .normal)
         self.editProfileImageButton.setBackgroundImage(UIColor.Asset.lightBlue.toImage(), for: .normal)
         self.editProfileImageButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.darkGraphiteBlue)
         
@@ -90,6 +123,18 @@ class MeInfoCell: UICollectionViewCell {
         self.editCoverButton.setImage(UIImage.init(icon: .castcle(.camera), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white).withRenderingMode(.alwaysOriginal), for: .normal)
         self.editCoverButton.setBackgroundImage(UIColor.Asset.gray.toImage(), for: .normal)
         self.editCoverButton.capsule()
+        
+        self.editProfileButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .overline)
+        self.editProfileButton.setTitleColor(UIColor.Asset.lightBlue, for: .normal)
+        self.editProfileButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
+        
+        self.viewProfileButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .overline)
+        self.viewProfileButton.setTitleColor(UIColor.Asset.lightBlue, for: .normal)
+        self.viewProfileButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
+        
+        self.followButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .overline)
+        self.followButton.setTitleColor(UIColor.Asset.lightBlue, for: .normal)
+        self.followButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
     }
     
     static func cellSize(width: CGFloat, bioText: String, followText: String) -> CGSize {
@@ -118,7 +163,7 @@ class MeInfoCell: UICollectionViewCell {
         labelFollow.sizeToFit()
         
         let imageHeight = UIView.aspectRatioCalculator(ratioWidth: 4, ratioHeight: 3, pixelsWidth: Double(width))
-        return CGSize(width: width, height: (label.frame.height + labelFollow.frame.height + 105 + CGFloat(imageHeight)))
+        return CGSize(width: width, height: (label.frame.height + labelFollow.frame.height + 170 + CGFloat(imageHeight)))
     }
     
     @IBAction func editCoverAction(_ sender: Any) {
@@ -128,5 +173,14 @@ class MeInfoCell: UICollectionViewCell {
     }
     
     @IBAction func moreAction(_ sender: Any) {
+    }
+    
+    @IBAction func editProfileAction(_ sender: Any) {
+    }
+    
+    @IBAction func viewProfileAction(_ sender: Any) {
+    }
+    
+    @IBAction func followAction(_ sender: Any) {
     }
 }

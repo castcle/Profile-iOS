@@ -42,10 +42,6 @@ class MeViewController: UIViewController {
         return ListAdapter(updater: ListAdapterUpdater(), viewController: self, workingRangeSize: 0)
     }()
     
-    enum MeType: Int {
-        case info = 0
-    }
-    
     var viewModel = MeViewModel()
     
     override func viewDidLoad() {
@@ -73,7 +69,7 @@ class MeViewController: UIViewController {
         if self.viewModel.isMe {
             self.customNavigationBar(.secondary, title: "Tommy Cruise")
         } else {
-            self.customNavigationBar(.secondary, title: "Adam Douglas Driver")
+            self.customNavigationBar(.secondary, title: "Alexandra Daddario")
         }
         
         var rightButton: [UIBarButtonItem] = []
@@ -93,7 +89,7 @@ class MeViewController: UIViewController {
 // MARK: - ListAdapterDataSource
 extension MeViewController: ListAdapterDataSource {
     func objects(for listAdapter: ListAdapter) -> [ListDiffable] {
-        let items: [ListDiffable] = [MeType.info.rawValue] as [ListDiffable]
+        let items: [ListDiffable] = [self.viewModel.isMe] as [ListDiffable]
         return items
     }
     
