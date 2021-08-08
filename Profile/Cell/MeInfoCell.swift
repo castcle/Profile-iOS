@@ -186,6 +186,10 @@ class MeInfoCell: UICollectionViewCell {
     }
     
     @IBAction func moreAction(_ sender: Any) {
+        if !self.isMe {
+            let vc = ProfileOpener.open(.action) as? ProfileActionViewController
+            Utility.currentViewController().presentPanModal(vc ?? ProfileActionViewController())
+        }
     }
     
     @IBAction func editProfileAction(_ sender: Any) {

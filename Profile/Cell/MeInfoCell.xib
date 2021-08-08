@@ -175,4 +175,9 @@
             <point key="canvasLocation" x="214.49275362318843" y="232.70089285714283"/>
         </collectionViewCell>
     </objects>
+    <designables>
+        <designable name="rTe-wv-WoR">
+            <size key="intrinsicContentSize" width="219.5" height="19.5"/>
+        </designable>
+    </designables>
 </document>
