@@ -104,7 +104,6 @@
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                         <state key="normal" title="View Profile"/>
                         <connections>
-                            <action selector="editProfileAction:" destination="gTV-IL-0wX" eventType="touchUpInside" id="4VS-1t-QEJ"/>
                             <action selector="viewProfileAction:" destination="gTV-IL-0wX" eventType="touchUpInside" id="Paj-Qj-Y1W"/>
                         </connections>
                     </button>
@@ -115,7 +114,6 @@
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                         <connections>
-                            <action selector="editProfileAction:" destination="gTV-IL-0wX" eventType="touchUpInside" id="f7I-dI-TCg"/>
                             <action selector="followAction:" destination="gTV-IL-0wX" eventType="touchUpInside" id="Hom-GI-wsI"/>
                         </connections>
                     </button>
