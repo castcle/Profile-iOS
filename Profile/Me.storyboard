@@ -54,6 +54,36 @@
             </objects>
             <point key="canvasLocation" x="744" y="72"/>
         </scene>
+        <!--Edit Info View Controller-->
+        <scene sceneID="wQF-Qi-ayi">
+            <objects>
+                <viewController storyboardIdentifier="EditInfoViewController" id="k9V-GT-AD9" customClass="EditInfoViewController" customModule="Profile" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="eFd-Km-ckV">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="7Ly-bK-R2p">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="dy8-XT-j2m"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="dy8-XT-j2m" firstAttribute="trailing" secondItem="7Ly-bK-R2p" secondAttribute="trailing" id="6XK-Z5-eb7"/>
+                            <constraint firstAttribute="bottom" secondItem="7Ly-bK-R2p" secondAttribute="bottom" id="F97-Pq-CIr"/>
+                            <constraint firstItem="7Ly-bK-R2p" firstAttribute="top" secondItem="dy8-XT-j2m" secondAttribute="top" id="qHd-Ca-aMV"/>
+                            <constraint firstItem="7Ly-bK-R2p" firstAttribute="leading" secondItem="dy8-XT-j2m" secondAttribute="leading" id="wuR-Of-SED"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="7Ly-bK-R2p" id="Gdi-ZR-vCU"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="S8p-dd-ZY4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1440" y="72"/>
+        </scene>
     </scenes>
     <resources>
         <systemColor name="systemBackgroundColor">

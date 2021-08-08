@@ -52,6 +52,9 @@
 		B7910ECC26BF1E1C0097C94E /* SocialLinkTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910ECA26BF1E1C0097C94E /* SocialLinkTableViewCell.swift */; };
 		B7910ECD26BF1E1C0097C94E /* SocialLinkTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7910ECB26BF1E1C0097C94E /* SocialLinkTableViewCell.xib */; };
 		B7910ECF26BF1FD70097C94E /* UserInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910ECE26BF1FD70097C94E /* UserInfoViewModel.swift */; };
+		B7910ED226C00A550097C94E /* EditInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910ED026C00A550097C94E /* EditInfoTableViewCell.swift */; };
+		B7910ED326C00A550097C94E /* EditInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7910ED126C00A550097C94E /* EditInfoTableViewCell.xib */; };
+		B7910ED526C00A700097C94E /* EditInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910ED426C00A700097C94E /* EditInfoViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -122,6 +125,9 @@
 		B7910ECA26BF1E1C0097C94E /* SocialLinkTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialLinkTableViewCell.swift; sourceTree = "<group>"; };
 		B7910ECB26BF1E1C0097C94E /* SocialLinkTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SocialLinkTableViewCell.xib; sourceTree = "<group>"; };
 		B7910ECE26BF1FD70097C94E /* UserInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoViewModel.swift; sourceTree = "<group>"; };
+		B7910ED026C00A550097C94E /* EditInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditInfoTableViewCell.swift; sourceTree = "<group>"; };
+		B7910ED126C00A550097C94E /* EditInfoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EditInfoTableViewCell.xib; sourceTree = "<group>"; };
+		B7910ED426C00A700097C94E /* EditInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditInfoViewController.swift; sourceTree = "<group>"; };
 		DD702ADAD4D188AE2A7192EF /* Pods_Profile.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Profile.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -250,6 +256,8 @@
 				B7910EC726BF06050097C94E /* UserInfoTableViewCell.xib */,
 				B7910ECA26BF1E1C0097C94E /* SocialLinkTableViewCell.swift */,
 				B7910ECB26BF1E1C0097C94E /* SocialLinkTableViewCell.xib */,
+				B7910ED026C00A550097C94E /* EditInfoTableViewCell.swift */,
+				B7910ED126C00A550097C94E /* EditInfoTableViewCell.xib */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -273,6 +281,7 @@
 				B7910EA226BCE5420097C94E /* AddSocialViewController.swift */,
 				B7910EBA26BD2DF70097C94E /* MeViewController.swift */,
 				B7910EC426BF03630097C94E /* UserInfoViewController.swift */,
+				B7910ED426C00A700097C94E /* EditInfoViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -369,6 +378,7 @@
 				B7910EAD26BCEFB20097C94E /* SocialCell.xib in Resources */,
 				B7910EB926BD2DA20097C94E /* Me.storyboard in Resources */,
 				B7910EA926BCE8F00097C94E /* AddSocialCell.xib in Resources */,
+				B7910ED326C00A550097C94E /* EditInfoTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -427,10 +437,12 @@
 				B7910E9726BCD6BF0097C94E /* AddLinkCell.swift in Sources */,
 				B7910EBB26BD2DF70097C94E /* MeViewController.swift in Sources */,
 				B7910ECC26BF1E1C0097C94E /* SocialLinkTableViewCell.swift in Sources */,
+				B7910ED226C00A550097C94E /* EditInfoTableViewCell.swift in Sources */,
 				B7910E8526BC52A00097C94E /* AboutInfoViewController.swift in Sources */,
 				B7910E7626BBD68D0097C94E /* WelcomeEditProfileViewController.swift in Sources */,
 				B7910E9D26BCDAC40097C94E /* AboutInfoViewModel.swift in Sources */,
 				B7910EB526BCFEAC0097C94E /* ComplateButtonSectionController.swift in Sources */,
+				B7910ED526C00A700097C94E /* EditInfoViewController.swift in Sources */,
 				B7910EA326BCE5420097C94E /* AddSocialViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

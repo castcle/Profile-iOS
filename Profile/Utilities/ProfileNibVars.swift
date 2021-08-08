@@ -34,6 +34,7 @@ public struct ProfileNibVars {
         public static let addLink = "AddSocialViewController"
         public static let me = "MeViewController"
         public static let userInfo = "UserInfoViewController"
+        public static let editInfo = "EditInfoViewController"
     }
     
     // MARK: - View
@@ -46,6 +47,7 @@ public struct ProfileNibVars {
     public struct TableViewCell {
         public static let meInfo = "UserInfoTableViewCell"
         public static let socialLink = "SocialLinkTableViewCell"
+        public static let editInfo = "EditInfoTableViewCell"
     }
     
     // MARK: - CollectionViewCell

@@ -189,6 +189,7 @@ class MeInfoCell: UICollectionViewCell {
     }
     
     @IBAction func editProfileAction(_ sender: Any) {
+        Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.editInfo), animated: true)
     }
     
     @IBAction func viewProfileAction(_ sender: Any) {
