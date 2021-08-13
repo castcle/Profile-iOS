@@ -37,6 +37,13 @@ public enum ProfileScene {
     case userInfo
     case editInfo
     case action
+    
+    case userDetail
+    case meHeader
+    case infoTab
+    case userFeed
+    
+    case list
 }
 
 public struct ProfileOpener {
@@ -74,6 +81,26 @@ public struct ProfileOpener {
         case .action:
             let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.me, bundle: ConfigBundle.profile)
             let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.action)
+            return vc
+        case .userDetail:
+            let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.me, bundle: ConfigBundle.profile)
+            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.userDetail)
+            return vc
+        case .meHeader:
+            let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.me, bundle: ConfigBundle.profile)
+            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.meHeader)
+            return vc
+        case .infoTab:
+            let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.me, bundle: ConfigBundle.profile)
+            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.infoTab)
+            return vc
+        case .userFeed:
+            let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.me, bundle: ConfigBundle.profile)
+            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.userFeed)
+            return vc
+        case .list:
+            let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.me, bundle: ConfigBundle.profile)
+            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.list)
             return vc
         }
     }

@@ -10,6 +10,12 @@
 		03CA6756D414568EB134E431 /* Pods_Profile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD702ADAD4D188AE2A7192EF /* Pods_Profile.framework */; };
 		B74CEF1926C5073F006B1F2C /* Networking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B74CEF1826C5073F006B1F2C /* Networking.framework */; };
 		B74CEF1A26C5073F006B1F2C /* Networking.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B74CEF1826C5073F006B1F2C /* Networking.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B78795BF26C6129500FECC21 /* MeHeaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78795BE26C6129500FECC21 /* MeHeaderViewController.swift */; };
+		B78795D226C61B0D00FECC21 /* UserDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78795D126C61B0D00FECC21 /* UserDetailViewController.swift */; };
+		B78795D426C61FFA00FECC21 /* UserInfoTabStripViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78795D326C61FFA00FECC21 /* UserInfoTabStripViewController.swift */; };
+		B78795D626C6220000FECC21 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78795D526C6220000FECC21 /* ListViewController.swift */; };
+		B78795D826C64C9700FECC21 /* UserFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78795D726C64C9700FECC21 /* UserFeedViewController.swift */; };
+		B78795DA26C64E4F00FECC21 /* UserFeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78795D926C64E4F00FECC21 /* UserFeedViewModel.swift */; };
 		B7910DDC26AFC60E0097C94E /* Profile.h in Headers */ = {isa = PBXBuildFile; fileRef = B7910DDA26AFC60E0097C94E /* Profile.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B7910DE526AFC9B40097C94E /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910DE426AFC9B40097C94E /* Profile.swift */; };
 		B7910DF026AFCD920097C94E /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7910DEF26AFCD920097C94E /* Core.framework */; };
@@ -86,6 +92,13 @@
 		8E9320E7FAAD2479F0EDB81D /* Pods-Profile.debug (development).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Profile.debug (development).xcconfig"; path = "Target Support Files/Pods-Profile/Pods-Profile.debug (development).xcconfig"; sourceTree = "<group>"; };
 		A41DEA465890A2815436B3CE /* Pods-Profile.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Profile.debug.xcconfig"; path = "Target Support Files/Pods-Profile/Pods-Profile.debug.xcconfig"; sourceTree = "<group>"; };
 		B74CEF1826C5073F006B1F2C /* Networking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Networking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B78795BE26C6129500FECC21 /* MeHeaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeHeaderViewController.swift; sourceTree = "<group>"; };
+		B78795D126C61B0D00FECC21 /* UserDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailViewController.swift; sourceTree = "<group>"; };
+		B78795D326C61FFA00FECC21 /* UserInfoTabStripViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoTabStripViewController.swift; sourceTree = "<group>"; };
+		B78795D526C6220000FECC21 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
+		B78795D726C64C9700FECC21 /* UserFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFeedViewController.swift; sourceTree = "<group>"; };
+		B78795D926C64E4F00FECC21 /* UserFeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFeedViewModel.swift; sourceTree = "<group>"; };
+		B78795DB26C6504E00FECC21 /* Feed.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Feed.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7910DD726AFC60E0097C94E /* Profile.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Profile.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7910DDA26AFC60E0097C94E /* Profile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Profile.h; sourceTree = "<group>"; };
 		B7910DDB26AFC60E0097C94E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -193,6 +206,12 @@
 				B7910DDB26AFC60E0097C94E /* Info.plist */,
 				B7910E6E26BBD36A0097C94E /* Profile.storyboard */,
 				B7910EB826BD2DA20097C94E /* Me.storyboard */,
+				B78795BE26C6129500FECC21 /* MeHeaderViewController.swift */,
+				B78795D126C61B0D00FECC21 /* UserDetailViewController.swift */,
+				B78795D326C61FFA00FECC21 /* UserInfoTabStripViewController.swift */,
+				B78795D726C64C9700FECC21 /* UserFeedViewController.swift */,
+				B78795D926C64E4F00FECC21 /* UserFeedViewModel.swift */,
+				B78795D526C6220000FECC21 /* ListViewController.swift */,
 				B7910EB726BD0C1F0097C94E /* ViewController */,
 				B7910E9B26BCDA9E0097C94E /* ViewModel */,
 				B7910E8726BC54390097C94E /* Cell */,
@@ -297,6 +316,7 @@
 		FDB9755588C404F0DCA882AE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B78795DB26C6504E00FECC21 /* Feed.framework */,
 				B74CEF1826C5073F006B1F2C /* Networking.framework */,
 				B7910E7A26BBD9CE0097C94E /* Component.framework */,
 				B7910DEF26AFCD920097C94E /* Core.framework */,
@@ -335,6 +355,8 @@
 			dependencies = (
 			);
 			name = Profile;
+			packageProductDependencies = (
+			);
 			productName = Profile;
 			productReference = B7910DD726AFC60E0097C94E /* Profile.framework */;
 			productType = "com.apple.product-type.framework";
@@ -362,6 +384,8 @@
 				Base,
 			);
 			mainGroup = B7910DCD26AFC60E0097C94E;
+			packageReferences = (
+			);
 			productRefGroup = B7910DD826AFC60E0097C94E /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -424,22 +448,27 @@
 			buildActionMask = 2147483647;
 			files = (
 				B7910EBD26BD2E2B0097C94E /* MeViewModel.swift in Sources */,
+				B78795D826C64C9700FECC21 /* UserFeedViewController.swift in Sources */,
 				B7910E8926BC54670097C94E /* AboutSectionController.swift in Sources */,
 				B7910EB226BCFE040097C94E /* ComplateButtonCell.swift in Sources */,
 				B7910DE526AFC9B40097C94E /* Profile.swift in Sources */,
+				B78795DA26C64E4F00FECC21 /* UserFeedViewModel.swift in Sources */,
 				B7910EA826BCE8F00097C94E /* AddSocialCell.swift in Sources */,
 				B7910E9A26BCD75C0097C94E /* SocialLinkSectionController.swift in Sources */,
+				B78795D426C61FFA00FECC21 /* UserInfoTabStripViewController.swift in Sources */,
 				B7910EC026BD305F0097C94E /* MeInfoCell.swift in Sources */,
 				B7910EC526BF03640097C94E /* UserInfoViewController.swift in Sources */,
 				B7910EC826BF06050097C94E /* UserInfoTableViewCell.swift in Sources */,
 				B7910ECF26BF1FD70097C94E /* UserInfoViewModel.swift in Sources */,
 				B7910E7226BBD52F0097C94E /* ProfileNibVars.swift in Sources */,
 				B7910E8126BBE32E0097C94E /* SelectPhotoMethodViewController.swift in Sources */,
+				B78795D626C6220000FECC21 /* ListViewController.swift in Sources */,
 				B7910EAF26BCFA880097C94E /* SocialSectionController.swift in Sources */,
 				B7910EAC26BCEFB20097C94E /* SocialCell.swift in Sources */,
 				B7910EA126BCDC410097C94E /* SocialLink.swift in Sources */,
 				B7910EA526BCE83D0097C94E /* AddSocialSectionController.swift in Sources */,
 				B7910E7426BBD5480097C94E /* ProfileOpener.swift in Sources */,
+				B78795BF26C6129500FECC21 /* MeHeaderViewController.swift in Sources */,
 				B7910ED726C0340B0097C94E /* ProfileActionViewController.swift in Sources */,
 				B7910E8C26BC54B30097C94E /* AboutCell.swift in Sources */,
 				B7910EC326BD33110097C94E /* MeInfoSectionController.swift in Sources */,
@@ -454,6 +483,7 @@
 				B7910EB526BCFEAC0097C94E /* ComplateButtonSectionController.swift in Sources */,
 				B7910ED526C00A700097C94E /* EditInfoViewController.swift in Sources */,
 				B7910EA326BCE5420097C94E /* AddSocialViewController.swift in Sources */,
+				B78795D226C61B0D00FECC21 /* UserDetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

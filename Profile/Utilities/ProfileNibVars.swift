@@ -36,6 +36,13 @@ public struct ProfileNibVars {
         public static let userInfo = "UserInfoViewController"
         public static let editInfo = "EditInfoViewController"
         public static let action = "ProfileActionViewController"
+        
+        public static let userDetail = "UserDetailViewController"
+        public static let meHeader = "MeHeaderViewController"
+        public static let infoTab = "UserInfoTabStripViewController"
+        public static let userFeed = "UserFeedViewController"
+        
+        public static let list = "ListViewController"
     }
     
     // MARK: - View
