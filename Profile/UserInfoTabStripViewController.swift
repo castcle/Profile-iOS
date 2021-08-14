@@ -1,3 +1,23 @@
+//  Copyright (c) 2021, Castcle and/or its affiliates. All rights reserved.
+//  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+//
+//  This code is free software; you can redistribute it and/or modify it
+//  under the terms of the GNU General Public License version 3 only, as
+//  published by the Free Software Foundation.
+//
+//  This code is distributed in the hope that it will be useful, but WITHOUT
+//  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+//  FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+//  version 3 for more details (a copy is included in the LICENSE file that
+//  accompanied this code).
+//
+//  You should have received a copy of the GNU General Public License version
+//  3 along with this work; if not, write to the Free Software Foundation,
+//  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+//
+//  Please contact Castcle, 22 Phet Kasem 47/2 Alley, Bang Khae, Bangkok,
+//  Thailand 10160, or visit www.castcle.com if you need additional information
+//  or have any questions.
 //
 //  UserInfoTabStripViewController.swift
 //  Profile
@@ -48,25 +68,25 @@ class UserInfoTabStripViewController: ButtonBarPagerTabStripViewController, Page
 
     // MARK: - PagerTabStripDataSource
     override func viewControllers(for pagerTabStripController: PagerTabStripViewController) -> [UIViewController] {
-        let vc = ProfileOpener.open(.list) as? ListViewController
+        let vc = ProfileOpener.open(.userFeed(UserFeedViewModel(userFeedType: .all))) as? UserFeedViewController
         vc?.pageIndex = 0
         vc?.pageTitle = "All"
-        let child_1 = vc ?? ListViewController()
+        let child_1 = vc ?? UserFeedViewController()
         
-        let vc1 = ProfileOpener.open(.list) as? ListViewController
+        let vc1 = ProfileOpener.open(.userFeed(UserFeedViewModel(userFeedType: .post))) as? UserFeedViewController
         vc1?.pageIndex = 1
         vc1?.pageTitle = "Post"
-        let child_2 = vc1 ?? ListViewController()
-        
-        let vc2 = ProfileOpener.open(.list) as? ListViewController
+        let child_2 = vc1 ?? UserFeedViewController()
+
+        let vc2 = ProfileOpener.open(.userFeed(UserFeedViewModel(userFeedType: .blog))) as? UserFeedViewController
         vc2?.pageIndex = 2
         vc2?.pageTitle = "Blog"
-        let child_3 = vc2 ?? ListViewController()
-        
-        let vc3 = ProfileOpener.open(.list) as? ListViewController
+        let child_3 = vc2 ?? UserFeedViewController()
+
+        let vc3 = ProfileOpener.open(.userFeed(UserFeedViewModel(userFeedType: .photo))) as? UserFeedViewController
         vc3?.pageIndex = 3
         vc3?.pageTitle = "Photo"
-        let child_4 = vc3 ?? ListViewController()
+        let child_4 = vc3 ?? UserFeedViewController()
 
         return [child_1, child_2, child_3, child_4]
     }

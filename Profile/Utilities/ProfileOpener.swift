@@ -33,17 +33,13 @@ public enum ProfileScene {
     case photoMethod
     case about
     case addLink
-    case me(MeViewModel)
     case userInfo
     case editInfo
     case action
-    
     case userDetail
     case meHeader
     case infoTab
-    case userFeed
-    
-    case list
+    case userFeed(UserFeedViewModel)
 }
 
 public struct ProfileOpener {
@@ -65,11 +61,6 @@ public struct ProfileOpener {
             let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.profile, bundle: ConfigBundle.profile)
             let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.addLink)
             return vc
-        case .me(let viewModel):
-            let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.me, bundle: ConfigBundle.profile)
-            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.me) as? MeViewController
-            vc?.viewModel = viewModel
-            return vc ?? MeViewController()
         case .userInfo:
             let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.me, bundle: ConfigBundle.profile)
             let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.userInfo)
@@ -94,14 +85,11 @@ public struct ProfileOpener {
             let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.me, bundle: ConfigBundle.profile)
             let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.infoTab)
             return vc
-        case .userFeed:
+        case .userFeed(let viewModel):
             let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.me, bundle: ConfigBundle.profile)
-            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.userFeed)
-            return vc
-        case .list:
-            let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.me, bundle: ConfigBundle.profile)
-            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.list)
-            return vc
+            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.userFeed) as? UserFeedViewController
+            vc?.viewModel = viewModel
+            return vc ?? UserFeedViewController()
         }
     }
 }

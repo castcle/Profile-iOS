@@ -32,17 +32,13 @@ public struct ProfileNibVars {
         public static let photoMethod = "SelectPhotoMethodViewController"
         public static let about = "AboutInfoViewController"
         public static let addLink = "AddSocialViewController"
-        public static let me = "MeViewController"
         public static let userInfo = "UserInfoViewController"
         public static let editInfo = "EditInfoViewController"
         public static let action = "ProfileActionViewController"
-        
         public static let userDetail = "UserDetailViewController"
         public static let meHeader = "MeHeaderViewController"
         public static let infoTab = "UserInfoTabStripViewController"
         public static let userFeed = "UserFeedViewController"
-        
-        public static let list = "ListViewController"
     }
     
     // MARK: - View
