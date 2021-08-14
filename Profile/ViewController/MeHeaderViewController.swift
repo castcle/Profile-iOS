@@ -19,10 +19,10 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  MeInfoCell.swift
+//  MeHeaderViewController.swift
 //  Profile
 //
-//  Created by Tanakorn Phoochaliaw on 6/8/2564 BE.
+//  Created by Tanakorn Phoochaliaw on 13/8/2564 BE.
 //
 
 import UIKit
@@ -31,7 +31,7 @@ import Kingfisher
 import SwiftColor
 import ActiveLabel
 
-class MeInfoCell: UICollectionViewCell {
+class MeHeaderViewController: UIViewController {
 
     @IBOutlet var coverImage: UIImageView!
     @IBOutlet var profileImage: UIImageView!
@@ -63,47 +63,20 @@ class MeInfoCell: UICollectionViewCell {
         }
     }
     
-    var isMe: Bool = false {
-        didSet {
-            if self.isMe {
-                let urlCover = URL(string: "https://cdn.pixabay.com/photo/2020/02/11/16/25/manarola-4840080_1280.jpg")
-                self.coverImage.kf.setImage(with: urlCover)
-                
-                let urlProfile = URL(string: "https://images.mubicdn.net/images/cast_member/2184/cache-2992-1547409411/image-w856.jpg")
-                self.profileImage.kf.setImage(with: urlProfile)
-                
-                self.displayNameLabel.text = "Tommy Cruise"
-                self.userIdLabel.text = "@tommy-cruise"
-                
-                self.editCoverButton.isHidden = false
-                self.editProfileButton.isHidden = false
-                self.editProfileImageButton.isHidden = false
-                
-                self.viewProfileButton.isHidden = true
-                self.followButton.isHidden = true
-            } else {
-                let urlCover = URL(string: "https://cdn.pixabay.com/photo/2021/07/13/18/58/coffee-6464307_1280.jpg")
-                self.coverImage.kf.setImage(with: urlCover)
-                
-                let urlProfile = URL(string: "https://static.wikia.nocookie.net/whywomenkill/images/e/e7/Alexandra_Daddario.jpg")
-                self.profileImage.kf.setImage(with: urlProfile)
-                
-                self.displayNameLabel.text = "Alexandra Daddario"
-                self.userIdLabel.text = "@alexandra-daddario"
-                
-                self.editCoverButton.isHidden = true
-                self.editProfileButton.isHidden = true
-                self.editProfileImageButton.isHidden = true
-                
-                self.viewProfileButton.isHidden = false
-                self.followButton.isHidden = false
-            }
-        }
-    }
+    @IBOutlet var lineView: UIView!
+    @IBOutlet var newPostView: UIView!
+    @IBOutlet var searchView: UIView!
+    @IBOutlet var miniProfileImage: UIImageView!
+    @IBOutlet var placeholderLabel: UILabel!
+    @IBOutlet var postViewConstaint: NSLayoutConstraint!
+    
+    var isMe: Bool = false
     var isFollow: Bool = false
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        self.view.backgroundColor = UIColor.Asset.darkGray
         
         self.displayNameLabel.font = UIFont.asset(.regular, fontSize: .h4)
         self.displayNameLabel.textColor = UIColor.Asset.white
@@ -133,36 +106,57 @@ class MeInfoCell: UICollectionViewCell {
         self.viewProfileButton.setTitleColor(UIColor.Asset.lightBlue, for: .normal)
         self.viewProfileButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
         
+        self.lineView.backgroundColor = UIColor.Asset.darkGraphiteBlue
+        self.newPostView.backgroundColor = UIColor.Asset.darkGray
+        self.searchView.custom(color: UIColor.Asset.darkGray, cornerRadius: 18, borderWidth: 1, borderColor: UIColor.Asset.darkGraphiteBlue)
+        self.miniProfileImage.circle(color: UIColor.Asset.darkGraphiteBlue)
+        self.placeholderLabel.font = UIFont.asset(.light, fontSize: .overline)
+        self.placeholderLabel.textColor = UIColor.Asset.lightGray
+        
+        let url = URL(string: "https://images.mubicdn.net/images/cast_member/2184/cache-2992-1547409411/image-w856.jpg")
+        self.miniProfileImage.kf.setImage(with: url)
+        
         self.followUI()
-    }
-    
-    static func cellSize(width: CGFloat, bioText: String, followText: String) -> CGSize {
-        let label = ActiveLabel(frame: CGRect(x: 0, y: 0, width: width - 30, height: CGFloat.greatestFiniteMagnitude))
-        label.lineBreakMode = NSLineBreakMode.byWordWrapping
-        label.font = UIFont.asset(.regular, fontSize: .body)
-        label.numberOfLines = 0
-        label.text = bioText
-        label.sizeToFit()
         
-        let labelFollow = ActiveLabel(frame: CGRect(x: 0, y: 0, width: width - 30, height: CGFloat.greatestFiniteMagnitude))
-        labelFollow.font = UIFont.asset(.regular, fontSize: .body)
-        labelFollow.numberOfLines = 1
-        labelFollow.textColor = UIColor.Asset.gray
-        
-        let followingType = ActiveType.custom(pattern: "198")
-        let followerType = ActiveType.custom(pattern: "33.6K")
-        
-        labelFollow.enabledTypes = [followingType, followerType]
-        labelFollow.customColor[followingType] = UIColor.Asset.white
-        labelFollow.customSelectedColor[followingType] = UIColor.Asset.white
-        labelFollow.customColor[followerType] = UIColor.Asset.white
-        labelFollow.customSelectedColor[followerType] = UIColor.Asset.white
-        labelFollow.text = followText
-        labelFollow.lineBreakMode = NSLineBreakMode.byWordWrapping
-        labelFollow.sizeToFit()
-        
-        let imageHeight = UIView.aspectRatioCalculator(ratioWidth: 4, ratioHeight: 3, pixelsWidth: Double(width))
-        return CGSize(width: width, height: (label.frame.height + labelFollow.frame.height + 180 + CGFloat(imageHeight)))
+        if self.isMe {
+            let urlCover = URL(string: "https://cdn.pixabay.com/photo/2020/02/11/16/25/manarola-4840080_1280.jpg")
+            self.coverImage.kf.setImage(with: urlCover)
+            
+            let urlProfile = URL(string: "https://images.mubicdn.net/images/cast_member/2184/cache-2992-1547409411/image-w856.jpg")
+            self.profileImage.kf.setImage(with: urlProfile)
+            
+            self.displayNameLabel.text = "Tommy Cruise"
+            self.userIdLabel.text = "@tommy-cruise"
+            
+            self.editCoverButton.isHidden = false
+            self.editProfileButton.isHidden = false
+            self.editProfileImageButton.isHidden = false
+            
+            self.viewProfileButton.isHidden = true
+            self.followButton.isHidden = true
+            
+            self.newPostView.isHidden = false
+            self.postViewConstaint.constant = 65.0
+        } else {
+            let urlCover = URL(string: "https://cdn.pixabay.com/photo/2021/07/13/18/58/coffee-6464307_1280.jpg")
+            self.coverImage.kf.setImage(with: urlCover)
+            
+            let urlProfile = URL(string: "https://static.wikia.nocookie.net/whywomenkill/images/e/e7/Alexandra_Daddario.jpg")
+            self.profileImage.kf.setImage(with: urlProfile)
+            
+            self.displayNameLabel.text = "Alexandra Daddario"
+            self.userIdLabel.text = "@alexandra-daddario"
+            
+            self.editCoverButton.isHidden = true
+            self.editProfileButton.isHidden = true
+            self.editProfileImageButton.isHidden = true
+            
+            self.viewProfileButton.isHidden = false
+            self.followButton.isHidden = false
+            
+            self.newPostView.isHidden = true
+            self.postViewConstaint.constant = 0.0
+        }
     }
     
     private func followUI() {
@@ -177,6 +171,12 @@ class MeInfoCell: UICollectionViewCell {
             self.followButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
             self.followButton.setIcon(prefixText: "     Follow     ", prefixTextColor: UIColor.Asset.lightBlue, icon: .castcle(.checkmark), iconColor: UIColor.Asset.darkGray, postfixText: "", postfixTextColor: UIColor.Asset.white, forState: .normal, textSize: 14, iconSize: 0)
         }
+    }
+    
+    @IBAction func postAction(_ sender: Any) {
+        let alert = UIAlertController(title: nil, message: "Go to post view", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        Utility.currentViewController().present(alert, animated: true, completion: nil)
     }
     
     @IBAction func editCoverAction(_ sender: Any) {
@@ -204,4 +204,5 @@ class MeInfoCell: UICollectionViewCell {
         self.isFollow.toggle()
         self.followUI()
     }
+
 }

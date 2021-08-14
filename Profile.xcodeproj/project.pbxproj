@@ -48,9 +48,6 @@
 		B7910EB326BCFE040097C94E /* ComplateButtonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7910EB126BCFE040097C94E /* ComplateButtonCell.xib */; };
 		B7910EB526BCFEAC0097C94E /* ComplateButtonSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910EB426BCFEAC0097C94E /* ComplateButtonSectionController.swift */; };
 		B7910EB926BD2DA20097C94E /* Me.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7910EB826BD2DA20097C94E /* Me.storyboard */; };
-		B7910EC026BD305F0097C94E /* MeInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910EBE26BD305F0097C94E /* MeInfoCell.swift */; };
-		B7910EC126BD305F0097C94E /* MeInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7910EBF26BD305F0097C94E /* MeInfoCell.xib */; };
-		B7910EC326BD33110097C94E /* MeInfoSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910EC226BD33110097C94E /* MeInfoSectionController.swift */; };
 		B7910EC526BF03640097C94E /* UserInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910EC426BF03630097C94E /* UserInfoViewController.swift */; };
 		B7910EC826BF06050097C94E /* UserInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910EC626BF06050097C94E /* UserInfoTableViewCell.swift */; };
 		B7910EC926BF06050097C94E /* UserInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7910EC726BF06050097C94E /* UserInfoTableViewCell.xib */; };
@@ -61,6 +58,7 @@
 		B7910ED326C00A550097C94E /* EditInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7910ED126C00A550097C94E /* EditInfoTableViewCell.xib */; };
 		B7910ED526C00A700097C94E /* EditInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910ED426C00A700097C94E /* EditInfoViewController.swift */; };
 		B7910ED726C0340B0097C94E /* ProfileActionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910ED626C0340B0097C94E /* ProfileActionViewController.swift */; };
+		B7C2521F26C8095C00ACBB84 /* UserDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C2521E26C8095C00ACBB84 /* UserDetailViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -128,9 +126,6 @@
 		B7910EB126BCFE040097C94E /* ComplateButtonCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ComplateButtonCell.xib; sourceTree = "<group>"; };
 		B7910EB426BCFEAC0097C94E /* ComplateButtonSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplateButtonSectionController.swift; sourceTree = "<group>"; };
 		B7910EB826BD2DA20097C94E /* Me.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Me.storyboard; sourceTree = "<group>"; };
-		B7910EBE26BD305F0097C94E /* MeInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeInfoCell.swift; sourceTree = "<group>"; };
-		B7910EBF26BD305F0097C94E /* MeInfoCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MeInfoCell.xib; sourceTree = "<group>"; };
-		B7910EC226BD33110097C94E /* MeInfoSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeInfoSectionController.swift; sourceTree = "<group>"; };
 		B7910EC426BF03630097C94E /* UserInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoViewController.swift; sourceTree = "<group>"; };
 		B7910EC626BF06050097C94E /* UserInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoTableViewCell.swift; sourceTree = "<group>"; };
 		B7910EC726BF06050097C94E /* UserInfoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserInfoTableViewCell.xib; sourceTree = "<group>"; };
@@ -141,6 +136,7 @@
 		B7910ED126C00A550097C94E /* EditInfoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EditInfoTableViewCell.xib; sourceTree = "<group>"; };
 		B7910ED426C00A700097C94E /* EditInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditInfoViewController.swift; sourceTree = "<group>"; };
 		B7910ED626C0340B0097C94E /* ProfileActionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileActionViewController.swift; sourceTree = "<group>"; };
+		B7C2521E26C8095C00ACBB84 /* UserDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailViewModel.swift; sourceTree = "<group>"; };
 		DD702ADAD4D188AE2A7192EF /* Pods_Profile.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Profile.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -200,11 +196,6 @@
 				B7910DDB26AFC60E0097C94E /* Info.plist */,
 				B7910E6E26BBD36A0097C94E /* Profile.storyboard */,
 				B7910EB826BD2DA20097C94E /* Me.storyboard */,
-				B78795BE26C6129500FECC21 /* MeHeaderViewController.swift */,
-				B78795D126C61B0D00FECC21 /* UserDetailViewController.swift */,
-				B78795D326C61FFA00FECC21 /* UserInfoTabStripViewController.swift */,
-				B78795D726C64C9700FECC21 /* UserFeedViewController.swift */,
-				B78795D926C64E4F00FECC21 /* UserFeedViewModel.swift */,
 				B7910EB726BD0C1F0097C94E /* ViewController */,
 				B7910E9B26BCDA9E0097C94E /* ViewModel */,
 				B7910E8726BC54390097C94E /* Cell */,
@@ -251,7 +242,6 @@
 				B7910E9926BCD75C0097C94E /* SocialLinkSectionController.swift */,
 				B7910EB426BCFEAC0097C94E /* ComplateButtonSectionController.swift */,
 				B7910EA426BCE83D0097C94E /* AddSocialSectionController.swift */,
-				B7910EC226BD33110097C94E /* MeInfoSectionController.swift */,
 			);
 			path = Section;
 			sourceTree = "<group>";
@@ -269,8 +259,6 @@
 				B7910EAB26BCEFB20097C94E /* SocialCell.xib */,
 				B7910EB026BCFE040097C94E /* ComplateButtonCell.swift */,
 				B7910EB126BCFE040097C94E /* ComplateButtonCell.xib */,
-				B7910EBE26BD305F0097C94E /* MeInfoCell.swift */,
-				B7910EBF26BD305F0097C94E /* MeInfoCell.xib */,
 				B7910EC626BF06050097C94E /* UserInfoTableViewCell.swift */,
 				B7910EC726BF06050097C94E /* UserInfoTableViewCell.xib */,
 				B7910ECA26BF1E1C0097C94E /* SocialLinkTableViewCell.swift */,
@@ -286,6 +274,8 @@
 			children = (
 				B7910E9C26BCDAC40097C94E /* AboutInfoViewModel.swift */,
 				B7910ECE26BF1FD70097C94E /* UserInfoViewModel.swift */,
+				B78795D926C64E4F00FECC21 /* UserFeedViewModel.swift */,
+				B7C2521E26C8095C00ACBB84 /* UserDetailViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -300,6 +290,10 @@
 				B7910EC426BF03630097C94E /* UserInfoViewController.swift */,
 				B7910ED426C00A700097C94E /* EditInfoViewController.swift */,
 				B7910ED626C0340B0097C94E /* ProfileActionViewController.swift */,
+				B78795BE26C6129500FECC21 /* MeHeaderViewController.swift */,
+				B78795D126C61B0D00FECC21 /* UserDetailViewController.swift */,
+				B78795D326C61FFA00FECC21 /* UserInfoTabStripViewController.swift */,
+				B78795D726C64C9700FECC21 /* UserFeedViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -397,7 +391,6 @@
 				B7910E7926BBD6FD0097C94E /* Assets.xcassets in Resources */,
 				B7910EB326BCFE040097C94E /* ComplateButtonCell.xib in Resources */,
 				B7910E6F26BBD36A0097C94E /* Profile.storyboard in Resources */,
-				B7910EC126BD305F0097C94E /* MeInfoCell.xib in Resources */,
 				B7910E9826BCD6BF0097C94E /* AddLinkCell.xib in Resources */,
 				B7910EAD26BCEFB20097C94E /* SocialCell.xib in Resources */,
 				B7910EB926BD2DA20097C94E /* Me.storyboard in Resources */,
@@ -446,7 +439,6 @@
 				B7910EA826BCE8F00097C94E /* AddSocialCell.swift in Sources */,
 				B7910E9A26BCD75C0097C94E /* SocialLinkSectionController.swift in Sources */,
 				B78795D426C61FFA00FECC21 /* UserInfoTabStripViewController.swift in Sources */,
-				B7910EC026BD305F0097C94E /* MeInfoCell.swift in Sources */,
 				B7910EC526BF03640097C94E /* UserInfoViewController.swift in Sources */,
 				B7910EC826BF06050097C94E /* UserInfoTableViewCell.swift in Sources */,
 				B7910ECF26BF1FD70097C94E /* UserInfoViewModel.swift in Sources */,
@@ -460,11 +452,11 @@
 				B78795BF26C6129500FECC21 /* MeHeaderViewController.swift in Sources */,
 				B7910ED726C0340B0097C94E /* ProfileActionViewController.swift in Sources */,
 				B7910E8C26BC54B30097C94E /* AboutCell.swift in Sources */,
-				B7910EC326BD33110097C94E /* MeInfoSectionController.swift in Sources */,
 				B7910E9F26BCDBEF0097C94E /* SocialLinkShelf.swift in Sources */,
 				B7910E9726BCD6BF0097C94E /* AddLinkCell.swift in Sources */,
 				B7910ECC26BF1E1C0097C94E /* SocialLinkTableViewCell.swift in Sources */,
 				B7910ED226C00A550097C94E /* EditInfoTableViewCell.swift in Sources */,
+				B7C2521F26C8095C00ACBB84 /* UserDetailViewModel.swift in Sources */,
 				B7910E8526BC52A00097C94E /* AboutInfoViewController.swift in Sources */,
 				B7910E7626BBD68D0097C94E /* WelcomeEditProfileViewController.swift in Sources */,
 				B7910E9D26BCDAC40097C94E /* AboutInfoViewModel.swift in Sources */,

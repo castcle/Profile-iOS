@@ -61,6 +61,5 @@ public struct ProfileNibVars {
         public static let addSocial = "AddSocialCell"
         public static let social = "SocialCell"
         public static let complateButton = "ComplateButtonCell"
-        public static let meInfo = "MeInfoCell"
     }
 }

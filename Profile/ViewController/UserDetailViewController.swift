@@ -34,7 +34,7 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate, TPDataSo
     var headerVC: MeHeaderViewController?
     var bottomVC: UserInfoTabStripViewController!
     
-    var isMe = false
+    var viewModel = UserDetailViewModel(isMe: false)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,7 +45,7 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate, TPDataSo
     }
     
     func setupNavBar() {
-        if self.isMe {
+        if self.viewModel.isMe {
             self.customNavigationBar(.secondary, title: "Tommy Cruise")
         } else {
             self.customNavigationBar(.secondary, title: "Alexandra Daddario")
