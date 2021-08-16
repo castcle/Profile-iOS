@@ -27,7 +27,7 @@
 
 import Foundation
 
-public final class UserDetailViewModel  {
+public final class UserDetailViewModel {
    
     var isMe: Bool = false
     

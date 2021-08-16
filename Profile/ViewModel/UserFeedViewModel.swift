@@ -35,7 +35,7 @@ public enum UserFeedType: String {
     case photo
 }
 
-public final class UserFeedViewModel  {
+public final class UserFeedViewModel {
    
     //MARK: Private
     private var feedRepository: FeedRepository

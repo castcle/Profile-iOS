@@ -73,6 +73,8 @@ class AboutCell: UICollectionViewCell, UITextViewDelegate {
         
         self.overviewTextView.delegate = self
         self.overviewTextView.placeholder = "What's make you different?"
+        self.overviewTextView.font = UIFont.asset(.regular, fontSize: .body)
+        self.overviewTextView.textColor = UIColor.Asset.white
         
         self.birthdayTextField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
     }

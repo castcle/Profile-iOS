@@ -46,7 +46,7 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate, TPDataSo
     
     func setupNavBar() {
         if self.viewModel.isMe {
-            self.customNavigationBar(.secondary, title: "Tommy Cruise")
+            self.customNavigationBar(.secondary, title: UserState.shared.name)
         } else {
             self.customNavigationBar(.secondary, title: "Alexandra Daddario")
         }

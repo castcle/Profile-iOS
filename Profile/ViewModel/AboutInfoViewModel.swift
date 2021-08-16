@@ -29,7 +29,7 @@ import Foundation
 import Core
 import Defaults
 
-final class AboutInfoViewModel  {
+final class AboutInfoViewModel {
    
     //MARK: Private
     var socialLinkShelf: SocialLinkShelf = SocialLinkShelf()

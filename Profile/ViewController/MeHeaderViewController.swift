@@ -27,6 +27,7 @@
 
 import UIKit
 import Core
+import Post
 import Kingfisher
 import SwiftColor
 import ActiveLabel
@@ -113,20 +114,20 @@ class MeHeaderViewController: UIViewController {
         self.placeholderLabel.font = UIFont.asset(.light, fontSize: .overline)
         self.placeholderLabel.textColor = UIColor.Asset.lightGray
         
-        let url = URL(string: "https://images.mubicdn.net/images/cast_member/2184/cache-2992-1547409411/image-w856.jpg")
+        let url = URL(string: UserState.shared.avatar)
         self.miniProfileImage.kf.setImage(with: url)
         
         self.followUI()
         
         if self.isMe {
-            let urlCover = URL(string: "https://cdn.pixabay.com/photo/2020/02/11/16/25/manarola-4840080_1280.jpg")
+            let urlCover = URL(string: UserState.shared.cover)
             self.coverImage.kf.setImage(with: urlCover)
             
-            let urlProfile = URL(string: "https://images.mubicdn.net/images/cast_member/2184/cache-2992-1547409411/image-w856.jpg")
+            let urlProfile = URL(string: UserState.shared.avatar)
             self.profileImage.kf.setImage(with: urlProfile)
             
-            self.displayNameLabel.text = "Tommy Cruise"
-            self.userIdLabel.text = "@tommy-cruise"
+            self.displayNameLabel.text = UserState.shared.name
+            self.userIdLabel.text = UserState.shared.userId
             
             self.editCoverButton.isHidden = false
             self.editProfileButton.isHidden = false
@@ -174,9 +175,9 @@ class MeHeaderViewController: UIViewController {
     }
     
     @IBAction func postAction(_ sender: Any) {
-        let alert = UIAlertController(title: nil, message: "Go to post view", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-        Utility.currentViewController().present(alert, animated: true, completion: nil)
+        let vc = PostOpener.open(.post)
+        vc.modalPresentationStyle = .fullScreen
+        Utility.currentViewController().present(vc, animated: true, completion: nil)
     }
     
     @IBAction func editCoverAction(_ sender: Any) {
