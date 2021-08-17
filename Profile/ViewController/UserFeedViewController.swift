@@ -27,6 +27,8 @@
 
 import UIKit
 import Core
+import Networking
+import Post
 import Component
 import XLPagerTabStrip
 import IGListKit
@@ -105,6 +107,12 @@ extension UserFeedViewController: FeedSectionControllerDelegate {
         let alert = UIAlertController(title: nil, message: "Go to comment view", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
         Utility.currentViewController().present(alert, animated: true, completion: nil)
+    }
+    
+    func didTabQuoteCast(feed: Feed) {
+        let vc = PostOpener.open(.post(PostViewModel(postType: .quoteCast, feed: feed)))
+        vc.modalPresentationStyle = .fullScreen
+        tabBarController?.present(vc, animated: true, completion: nil)
     }
     
     func didAuthen() {
