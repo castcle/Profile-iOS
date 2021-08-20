@@ -71,8 +71,7 @@ class MeHeaderViewController: UIViewController {
     @IBOutlet var placeholderLabel: UILabel!
     @IBOutlet var postViewConstaint: NSLayoutConstraint!
     
-    var isMe: Bool = false
-    var isFollow: Bool = false
+    var viewModel = MeHeaderViewModel(isMe: false)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -119,7 +118,7 @@ class MeHeaderViewController: UIViewController {
         
         self.followUI()
         
-        if self.isMe {
+        if self.viewModel.isMe {
             let urlCover = URL(string: UserState.shared.cover)
             self.coverImage.kf.setImage(with: urlCover)
             
@@ -161,7 +160,7 @@ class MeHeaderViewController: UIViewController {
     }
     
     private func followUI() {
-        if self.isFollow == true {
+        if self.viewModel.isFollow == true {
             self.followButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .overline)
             self.followButton.setBackgroundImage(UIColor.Asset.lightBlue.toImage(), for: .normal)
             self.followButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
@@ -187,7 +186,7 @@ class MeHeaderViewController: UIViewController {
     }
     
     @IBAction func moreAction(_ sender: Any) {
-        if !self.isMe {
+        if !self.viewModel.isMe {
             let vc = ProfileOpener.open(.action) as? ProfileActionViewController
             Utility.currentViewController().presentPanModal(vc ?? ProfileActionViewController())
         }
@@ -202,7 +201,7 @@ class MeHeaderViewController: UIViewController {
     }
     
     @IBAction func followAction(_ sender: Any) {
-        self.isFollow.toggle()
+        self.viewModel.isFollow.toggle()
         self.followUI()
     }
 

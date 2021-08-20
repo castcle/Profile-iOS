@@ -37,7 +37,7 @@ public enum ProfileScene {
     case editInfo
     case action
     case userDetail(UserDetailViewModel)
-    case meHeader
+    case meHeader(MeHeaderViewModel)
     case infoTab
     case userFeed(UserFeedViewModel)
 }
@@ -78,10 +78,11 @@ public struct ProfileOpener {
             let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.userDetail) as? UserDetailViewController
             vc?.viewModel = viewModel
             return vc ?? UserDetailViewController()
-        case .meHeader:
+        case .meHeader(let viewModel):
             let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.me, bundle: ConfigBundle.profile)
-            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.meHeader)
-            return vc
+            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.meHeader) as? MeHeaderViewController
+            vc?.viewModel = viewModel
+            return vc ?? MeHeaderViewController()
         case .infoTab:
             let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.me, bundle: ConfigBundle.profile)
             let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.infoTab)

@@ -50,24 +50,11 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate, TPDataSo
         } else {
             self.customNavigationBar(.secondary, title: "Alexandra Daddario")
         }
-        
-        var rightButton: [UIBarButtonItem] = []
-        
-        let icon = NavBarButtonType.menu.barButton
-        icon.addTarget(self, action: #selector(menuAction), for: .touchUpInside)
-        rightButton.append(UIBarButtonItem(customView: icon))
-
-        self.navigationItem.rightBarButtonItems = rightButton
-    }
-    
-    @objc private func menuAction() {
-        print("Menu")
     }
     
     //MARK: TPDataSource
     func headerViewController() -> UIViewController {
-        self.headerVC = ProfileOpener.open(.meHeader) as? MeHeaderViewController
-        self.headerVC?.isMe = false
+        self.headerVC = ProfileOpener.open(.meHeader(MeHeaderViewModel(isMe: self.viewModel.isMe))) as? MeHeaderViewController
         return self.headerVC ?? MeHeaderViewController()
     }
     
