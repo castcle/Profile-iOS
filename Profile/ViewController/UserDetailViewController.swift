@@ -41,7 +41,7 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate, TPDataSo
         
         self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
         self.setupNavBar()
-        self.tp_configure(with: self, delegate: self)
+        self.configure(with: self, delegate: self)
     }
     
     func setupNavBar() {

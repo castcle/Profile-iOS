@@ -102,7 +102,7 @@ class UserInfoTabStripViewController: ButtonBarPagerTabStripViewController, Page
         guard indexWasChanged == true else { return }
 
         //IMPORTANT!!!: call the following to let the master scroll controller know which view to control in the bottom section
-        self.pageDelegate?.tp_pageViewController(self.currentViewController, didSelectPageAt: toIndex)
+        self.pageDelegate?.pageViewController(self.currentViewController, didSelectPageAt: toIndex)
 
     }
 }
