@@ -57,9 +57,9 @@ class MeHeaderViewController: UIViewController {
                 
                 label.enabledTypes = [followingType, followerType]
                 label.customColor[followingType] = UIColor.Asset.white
-                label.customSelectedColor[followingType] = UIColor.Asset.white
+                label.customSelectedColor[followingType] = UIColor.Asset.gray
                 label.customColor[followerType] = UIColor.Asset.white
-                label.customSelectedColor[followerType] = UIColor.Asset.white
+                label.customSelectedColor[followerType] = UIColor.Asset.gray
             }
         }
     }
