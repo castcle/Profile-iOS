@@ -104,15 +104,15 @@ extension UserFeedViewController: FeedSectionControllerDelegate {
     }
     
     func didTabComment(feed: Feed) {
-        let alert = UIAlertController(title: nil, message: "Go to comment view", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-        Utility.currentViewController().present(alert, animated: true, completion: nil)
+        let vc = PostOpener.open(.comment(CommentViewModel(feed: feed)))
+        vc.shift.enable()
+        Utility.currentViewController().present(vc, animated: true)
     }
     
     func didTabQuoteCast(feed: Feed, page: Page) {
         let vc = PostOpener.open(.post(PostViewModel(postType: .quoteCast, feed: feed, page: page)))
         vc.modalPresentationStyle = .fullScreen
-        tabBarController?.present(vc, animated: true, completion: nil)
+        Utility.currentViewController().present(vc, animated: true, completion: nil)
     }
     
     func didAuthen() {
