@@ -103,7 +103,7 @@ extension UserFeedViewController: FeedSectionControllerDelegate {
         //        Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.me(MeViewModel(isMe: false))), animated: true)
     }
     
-    func didTabComment() {
+    func didTabComment(feed: Feed) {
         let alert = UIAlertController(title: nil, message: "Go to comment view", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
         Utility.currentViewController().present(alert, animated: true, completion: nil)
