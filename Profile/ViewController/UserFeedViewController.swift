@@ -104,7 +104,7 @@ extension UserFeedViewController: FeedSectionControllerDelegate {
     }
     
     func didTabComment(feed: Feed) {
-        let vc = PostOpener.open(.comment(CommentViewModel(feed: feed)))
+        let vc = ComponentOpener.open(.comment(CommentViewModel(feed: feed)))
         vc.shift.enable()
         Utility.currentViewController().present(vc, animated: true)
     }
