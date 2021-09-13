@@ -27,7 +27,9 @@
 
 import UIKit
 import Core
+import Networking
 import Component
+import Defaults
 
 class UserDetailViewController: UIViewController, UIScrollViewDelegate, TPDataSource, TPProgressDelegate {
 
@@ -38,10 +40,14 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate, TPDataSo
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
         self.setupNavBar()
         self.configure(with: self, delegate: self)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        Defaults[.screenId] = ScreenId.profileTimeline.rawValue
     }
     
     func setupNavBar() {

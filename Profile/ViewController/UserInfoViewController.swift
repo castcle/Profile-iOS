@@ -27,6 +27,7 @@
 
 import UIKit
 import Core
+import Defaults
 
 class UserInfoViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
@@ -45,6 +46,11 @@ class UserInfoViewController: UIViewController, UITableViewDelegate, UITableView
         self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
         self.setupNavBar()
         self.configureTableView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        Defaults[.screenId] = ""
     }
     
     func setupNavBar() {

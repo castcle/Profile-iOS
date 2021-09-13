@@ -52,9 +52,7 @@ class UserFeedViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
-        
         self.collectionView.alwaysBounceVertical = true
         self.collectionView.showsHorizontalScrollIndicator = false
         self.collectionView.showsVerticalScrollIndicator = false

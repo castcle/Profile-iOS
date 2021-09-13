@@ -77,7 +77,6 @@ class MeHeaderViewController: UIViewController {
         super.viewDidLoad()
 
         self.view.backgroundColor = UIColor.Asset.darkGray
-        
         self.displayNameLabel.font = UIFont.asset(.regular, fontSize: .h4)
         self.displayNameLabel.textColor = UIColor.Asset.white
         self.userIdLabel.font = UIFont.asset(.regular, fontSize: .overline)

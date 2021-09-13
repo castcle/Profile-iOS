@@ -31,6 +31,7 @@ import MobileCoreServices
 import Core
 import TLPhotoPicker
 import TOCropViewController
+import Defaults
 
 class SelectPhotoMethodViewController: UIViewController {
 
@@ -59,6 +60,11 @@ class SelectPhotoMethodViewController: UIViewController {
         self.takePhotoButton.setTitleColor(UIColor.Asset.white, for: .normal)
         self.takePhotoButton.setBackgroundImage(UIColor.Asset.lightBlue.toImage(), for: .normal)
         self.takePhotoButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.clear)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        Defaults[.screenId] = ""
     }
     
     func setupNavBar() {

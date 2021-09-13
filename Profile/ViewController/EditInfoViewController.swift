@@ -28,6 +28,7 @@
 import UIKit
 import Core
 import Component
+import Defaults
 
 class EditInfoViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
@@ -40,6 +41,11 @@ class EditInfoViewController: UIViewController, UITableViewDelegate, UITableView
         self.hideKeyboardWhenTapped()
         self.setupNavBar()
         self.configureTableView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        Defaults[.screenId] = ""
     }
     
     func setupNavBar() {

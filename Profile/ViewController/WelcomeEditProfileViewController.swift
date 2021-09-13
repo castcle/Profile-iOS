@@ -29,6 +29,7 @@ import UIKit
 import Core
 import Component
 import SwiftColor
+import Defaults
 
 class WelcomeEditProfileViewController: UIViewController {
 
@@ -47,6 +48,11 @@ class WelcomeEditProfileViewController: UIViewController {
         self.nextButton.setTitleColor(UIColor.Asset.white, for: .normal)
         self.nextButton.setBackgroundImage(UIColor.Asset.lightBlue.toImage(), for: .normal)
         self.nextButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.clear)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        Defaults[.screenId] = ""
     }
     
     func setupNavBar() {

@@ -178,6 +178,17 @@
 			path = ../Pods;
 			sourceTree = "<group>";
 		};
+		B7189ADF26EF595D00CB9719 /* Me */ = {
+			isa = PBXGroup;
+			children = (
+				B78795BE26C6129500FECC21 /* MeHeaderViewController.swift */,
+				B78795D126C61B0D00FECC21 /* UserDetailViewController.swift */,
+				B78795D326C61FFA00FECC21 /* UserInfoTabStripViewController.swift */,
+				B78795D726C64C9700FECC21 /* UserFeedViewController.swift */,
+			);
+			path = Me;
+			sourceTree = "<group>";
+		};
 		B7910DCD26AFC60E0097C94E = {
 			isa = PBXGroup;
 			children = (
@@ -291,6 +302,7 @@
 		B7910EB726BD0C1F0097C94E /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				B7189ADF26EF595D00CB9719 /* Me */,
 				B7910E7526BBD68D0097C94E /* WelcomeEditProfileViewController.swift */,
 				B7910E8026BBE32E0097C94E /* SelectPhotoMethodViewController.swift */,
 				B7910E8426BC529F0097C94E /* AboutInfoViewController.swift */,
@@ -298,10 +310,6 @@
 				B7910EC426BF03630097C94E /* UserInfoViewController.swift */,
 				B7910ED426C00A700097C94E /* EditInfoViewController.swift */,
 				B7910ED626C0340B0097C94E /* ProfileActionViewController.swift */,
-				B78795BE26C6129500FECC21 /* MeHeaderViewController.swift */,
-				B78795D126C61B0D00FECC21 /* UserDetailViewController.swift */,
-				B78795D326C61FFA00FECC21 /* UserInfoTabStripViewController.swift */,
-				B78795D726C64C9700FECC21 /* UserFeedViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";

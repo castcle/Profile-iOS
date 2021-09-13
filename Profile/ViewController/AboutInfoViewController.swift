@@ -29,6 +29,7 @@ import UIKit
 import Core
 import Component
 import IGListKit
+import Defaults
 
 class AboutInfoViewController: UIViewController {
 
@@ -78,6 +79,7 @@ class AboutInfoViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.viewModel.mappingData()
+        Defaults[.screenId] = ""
     }
     
     func setupNavBar() {

@@ -28,6 +28,7 @@
 import UIKit
 import Core
 import IGListKit
+import Defaults
 
 class AddSocialViewController: UIViewController {
 
@@ -64,6 +65,11 @@ class AddSocialViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         self.collectionView.frame = view.bounds
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        Defaults[.screenId] = ""
     }
     
     func setupNavBar() {
