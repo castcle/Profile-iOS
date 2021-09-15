@@ -31,6 +31,7 @@ import Component
 import JVFloatLabeledTextField
 import UITextView_Placeholder
 import PanModal
+import Loady
 
 class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
 
@@ -116,7 +117,15 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         }
     }
     
-    @IBOutlet var saveButton: UIButton!
+    @IBOutlet var selectDateButton: UIButton!
+    @IBOutlet var saveButton: LoadyButton! {
+        didSet {
+            self.saveButton.setAnimation(LoadyAnimationType.indicator(with: .init(indicatorViewStyle: .light)))
+            self.saveButton.indicatorViewStyle = .light
+        }
+    }
+    
+    let viewModel = EditProfileViewModel()
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -132,6 +141,7 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         
         self.overviewTextView.delegate = self
         self.overviewTextView.placeholder = "What's make you different?"
+        self.overviewTextView.text = UserState.shared.overview
         
         self.linkTitleLabel.font = UIFont.asset(.regular, fontSize: .body)
         self.linkTitleLabel.textColor = UIColor.Asset.white
@@ -142,14 +152,44 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         self.mediumView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
         self.websiteView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
         
+        self.facebookTextField.text = UserState.shared.facebookLink
+        self.twitterTextField.text = UserState.shared.twitterLink
+        self.youtubeTextField.text = UserState.shared.youtubeLink
+        self.mediumTextField.text = UserState.shared.mediumLink
+        self.websiteTextField.text = UserState.shared.websiteLink
+        
         self.saveButton.setTitle("Save", for: .normal)
+        self.saveButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .h4)
         self.saveButton.setTitleColor(UIColor.Asset.white, for: .normal)
-        self.saveButton.setBackgroundImage(UIColor.Asset.lightBlue.toImage(), for: .normal)
-        self.saveButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.clear)
+        self.saveButton.capsule(color: UIColor.Asset.lightBlue, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
+        
+        self.viewModel.delegate = self
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
+    }
+    
+    private func disableUI(isActive: Bool) {
+        if isActive {
+            self.overviewTextView.isEditable = true
+            self.birthdayTextField.isEnabled = true
+            self.selectDateButton.isEnabled = true
+            self.facebookTextField.isEnabled = true
+            self.twitterTextField.isEnabled = true
+            self.youtubeTextField.isEnabled = true
+            self.mediumTextField.isEnabled = true
+            self.websiteTextField.isEnabled = true
+        } else {
+            self.overviewTextView.isEditable = false
+            self.birthdayTextField.isEnabled = false
+            self.selectDateButton.isEnabled = false
+            self.facebookTextField.isEnabled = false
+            self.twitterTextField.isEnabled = false
+            self.youtubeTextField.isEnabled = false
+            self.mediumTextField.isEnabled = false
+            self.websiteTextField.isEnabled = false
+        }
     }
     
     @IBAction func selectDateAction(_ sender: Any) {
@@ -159,12 +199,36 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
     }
     
     @IBAction func saveAction(_ sender: Any) {
-        Utility.currentViewController().navigationController?.popViewController(animated: true)
+        if self.saveButton.loadingIsShowing() {
+            return
+        }
+        
+        self.disableUI(isActive: false)
+        self.saveButton.startLoading()
+        self.viewModel.userRequest.payload.overview = self.overviewTextView.text ?? ""
+        
+        self.viewModel.userRequest.payload.links.facebook = self.facebookTextField.text ?? ""
+        self.viewModel.userRequest.payload.links.twitter = self.twitterTextField.text ?? ""
+        self.viewModel.userRequest.payload.links.youtube = self.youtubeTextField.text ?? ""
+        self.viewModel.userRequest.payload.links.medium = self.mediumTextField.text ?? ""
+        self.viewModel.userRequest.payload.links.website = self.websiteTextField.text ?? ""
+        self.viewModel.updateProfile()
     }
 }
 
 extension EditInfoTableViewCell: DatePickerViewControllerDelegate {
     func datePickerViewController(_ view: DatePickerViewController, didSelectDate date: Date, displayDate: String) {
         self.birthdayTextField.text = displayDate
+    }
+}
+
+extension EditInfoTableViewCell: EditProfileViewModelDelegate {
+    func didUpdateProfileFinish(success: Bool) {
+        self.saveButton.stopLoading()
+        if success {
+            Utility.currentViewController().navigationController?.popViewController(animated: true)
+        } else {
+            self.disableUI(isActive: true)
+        }
     }
 }

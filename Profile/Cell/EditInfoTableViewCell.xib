@@ -189,7 +189,7 @@
                             <constraint firstAttribute="trailing" secondItem="Jdr-Dg-oRf" secondAttribute="trailing" constant="15" id="zLN-Mt-a17"/>
                         </constraints>
                     </view>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7zz-Y0-LN6">
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7zz-Y0-LN6" customClass="LoadyButton" customModule="Loady">
                         <rect key="frame" x="20" y="811" width="280" height="50"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="50" id="qgH-1g-Sdn"/>
@@ -257,6 +257,7 @@
                 <outlet property="overviewLabel" destination="1OK-UF-anK" id="0Ld-uS-dBH"/>
                 <outlet property="overviewTextView" destination="KmT-xD-EGW" id="Ka4-SR-fx3"/>
                 <outlet property="saveButton" destination="7zz-Y0-LN6" id="54L-HG-s4w"/>
+                <outlet property="selectDateButton" destination="Lw0-kc-dsi" id="K44-iR-MQD"/>
                 <outlet property="twitterTextField" destination="TFZ-3y-NVt" id="wpe-VR-e7C"/>
                 <outlet property="twitterView" destination="fbn-0t-BNe" id="a3O-xl-wcV"/>
                 <outlet property="websiteTextField" destination="Jdr-Dg-oRf" id="4ZZ-ns-bxx"/>

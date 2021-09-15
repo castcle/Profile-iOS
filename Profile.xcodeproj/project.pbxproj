@@ -58,6 +58,7 @@
 		B7910ED326C00A550097C94E /* EditInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7910ED126C00A550097C94E /* EditInfoTableViewCell.xib */; };
 		B7910ED526C00A700097C94E /* EditInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910ED426C00A700097C94E /* EditInfoViewController.swift */; };
 		B7910ED726C0340B0097C94E /* ProfileActionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910ED626C0340B0097C94E /* ProfileActionViewController.swift */; };
+		B7AF660726F07DA400BDE9C4 /* EditProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AF660626F07DA400BDE9C4 /* EditProfileViewModel.swift */; };
 		B7C2521F26C8095C00ACBB84 /* UserDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C2521E26C8095C00ACBB84 /* UserDetailViewModel.swift */; };
 		B7C2525626CA077A00ACBB84 /* Post.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7C2525526CA077A00ACBB84 /* Post.framework */; };
 		B7C2525726CA077A00ACBB84 /* Post.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B7C2525526CA077A00ACBB84 /* Post.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -140,6 +141,7 @@
 		B7910ED126C00A550097C94E /* EditInfoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EditInfoTableViewCell.xib; sourceTree = "<group>"; };
 		B7910ED426C00A700097C94E /* EditInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditInfoViewController.swift; sourceTree = "<group>"; };
 		B7910ED626C0340B0097C94E /* ProfileActionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileActionViewController.swift; sourceTree = "<group>"; };
+		B7AF660626F07DA400BDE9C4 /* EditProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewModel.swift; sourceTree = "<group>"; };
 		B7C2521E26C8095C00ACBB84 /* UserDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailViewModel.swift; sourceTree = "<group>"; };
 		B7C2525526CA077A00ACBB84 /* Post.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Post.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7C252A126CFC45900ACBB84 /* MeHeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeHeaderViewModel.swift; sourceTree = "<group>"; };
@@ -295,6 +297,7 @@
 				B78795D926C64E4F00FECC21 /* UserFeedViewModel.swift */,
 				B7C2521E26C8095C00ACBB84 /* UserDetailViewModel.swift */,
 				B7C252A126CFC45900ACBB84 /* MeHeaderViewModel.swift */,
+				B7AF660626F07DA400BDE9C4 /* EditProfileViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -480,6 +483,7 @@
 				B7910E9D26BCDAC40097C94E /* AboutInfoViewModel.swift in Sources */,
 				B7910EB526BCFEAC0097C94E /* ComplateButtonSectionController.swift in Sources */,
 				B7910ED526C00A700097C94E /* EditInfoViewController.swift in Sources */,
+				B7AF660726F07DA400BDE9C4 /* EditProfileViewModel.swift in Sources */,
 				B7910EA326BCE5420097C94E /* AddSocialViewController.swift in Sources */,
 				B78795D226C61B0D00FECC21 /* UserDetailViewController.swift in Sources */,
 			);
