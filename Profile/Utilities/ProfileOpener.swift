@@ -30,8 +30,8 @@ import Core
 
 public enum ProfileScene {
     case welcome
-    case photoMethod
-    case about
+    case photoMethod(SelectPhotoMethodViewModel)
+    case about(AboutInfoViewModel)
     case addLink
     case userInfo
     case editInfo
@@ -40,6 +40,8 @@ public enum ProfileScene {
     case meHeader(MeHeaderViewModel)
     case infoTab
     case userFeed(UserFeedViewModel)
+    case welcomeCreatePage
+    case createPage
 }
 
 public struct ProfileOpener {
@@ -49,14 +51,16 @@ public struct ProfileOpener {
             let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.profile, bundle: ConfigBundle.profile)
             let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.welcome)
             return vc
-        case .photoMethod:
+        case .photoMethod(let viewModel):
             let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.profile, bundle: ConfigBundle.profile)
-            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.photoMethod)
-            return vc
-        case .about:
+            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.photoMethod) as? SelectPhotoMethodViewController
+            vc?.viewModel = viewModel
+            return vc ?? SelectPhotoMethodViewController()
+        case .about(let viewModel):
             let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.profile, bundle: ConfigBundle.profile)
-            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.about)
-            return vc
+            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.about) as? AboutInfoViewController
+            vc?.viewModel = viewModel
+            return vc ?? AboutInfoViewController()
         case .addLink:
             let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.profile, bundle: ConfigBundle.profile)
             let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.addLink)
@@ -92,6 +96,14 @@ public struct ProfileOpener {
             let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.userFeed) as? UserFeedViewController
             vc?.viewModel = viewModel
             return vc ?? UserFeedViewController()
+        case .welcomeCreatePage:
+            let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.profile, bundle: ConfigBundle.profile)
+            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.welcomeCreatePage)
+            return vc
+        case .createPage:
+            let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.profile, bundle: ConfigBundle.profile)
+            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.createPage)
+            return vc
         }
     }
 }

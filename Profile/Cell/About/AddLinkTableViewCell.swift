@@ -19,33 +19,31 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  AddLinkCell.swift
+//  AddLinkTableViewCell.swift
 //  Profile
 //
-//  Created by Tanakorn Phoochaliaw on 6/8/2564 BE.
+//  Created by Tanakorn Phoochaliaw on 16/9/2564 BE.
 //
 
 import UIKit
 import Core
 
-class AddLinkCell: UICollectionViewCell {
+class AddLinkTableViewCell: UITableViewCell {
 
     @IBOutlet var linkLabel: UILabel!
     @IBOutlet var addSocialButton: UIButton!
-    @IBOutlet var addSocialView: UIView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-        self.addSocialView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
         self.addSocialButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .body)
         self.addSocialButton.setTitleColor(UIColor.Asset.lightBlue, for: .normal)
+        self.addSocialButton.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
         self.linkLabel.font = UIFont.asset(.regular, fontSize: .body)
         self.linkLabel.textColor = UIColor.Asset.white
     }
-    
-    static func cellSize(width: CGFloat) -> CGSize {
-        return CGSize(width: width, height: 100)
+
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
     }
     
     @IBAction func addSocialAction(_ sender: Any) {

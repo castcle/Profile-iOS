@@ -19,76 +19,43 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  AboutCell.swift
+//  AboutTableViewCell.swift
 //  Profile
 //
-//  Created by Tanakorn Phoochaliaw on 6/8/2564 BE.
+//  Created by Tanakorn Phoochaliaw on 16/9/2564 BE.
 //
 
 import UIKit
-import Core
-import Component
-import JVFloatLabeledTextField
-import UITextView_Placeholder
-import PanModal
 
-protocol AboutCellDelegate {
-    func didUpdateData(isUpdate: Bool)
+protocol AboutTableViewCellDelegate {
+    func didUpdateData(_ aboutTableViewCell: AboutTableViewCell, overview: String)
 }
 
-class AboutCell: UICollectionViewCell, UITextViewDelegate {
+class AboutTableViewCell: UITableViewCell, UITextViewDelegate {
 
     @IBOutlet var headlineLabel: UILabel!
     @IBOutlet var overviewLabel: UILabel!
-    @IBOutlet var birthdayLabel: UILabel!
     @IBOutlet var overviewTextView: UITextView!
-    @IBOutlet var birthdayTextField: JVFloatLabeledTextField! {
-        didSet {
-            self.birthdayTextField.font = UIFont.asset(.regular, fontSize: .body)
-            self.birthdayTextField.placeholder = "Date"
-            self.birthdayTextField.placeholderColor = UIColor.Asset.gray
-            self.birthdayTextField.floatingLabelTextColor = UIColor.Asset.gray
-            self.birthdayTextField.floatingLabelActiveTextColor = UIColor.Asset.gray
-            self.birthdayTextField.floatingLabelFont = UIFont.asset(.regular, fontSize: .small)
-            self.birthdayTextField.textColor = UIColor.Asset.white
-        }
-    }
-    @IBOutlet var arrowImage: UIImageView!
     @IBOutlet var aboutView: UIView!
-    @IBOutlet var birthdayView: UIView!
     
-    var delegate: AboutCellDelegate?
+    var delegate: AboutTableViewCellDelegate?
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
         self.aboutView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
-        self.birthdayView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
         self.headlineLabel.font = UIFont.asset(.regular, fontSize: .title)
         self.headlineLabel.textColor = UIColor.Asset.white
         self.overviewLabel.font = UIFont.asset(.regular, fontSize: .body)
         self.overviewLabel.textColor = UIColor.Asset.white
-        self.birthdayLabel.font = UIFont.asset(.regular, fontSize: .body)
-        self.birthdayLabel.textColor = UIColor.Asset.white
         
         self.overviewTextView.delegate = self
         self.overviewTextView.placeholder = "What's make you different?"
         self.overviewTextView.font = UIFont.asset(.regular, fontSize: .body)
         self.overviewTextView.textColor = UIColor.Asset.white
-        
-        self.birthdayTextField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
     }
-    
-    @objc private func textFieldDidChange(_ textField: UITextField) {
-        self.checkIsEdit()
-    }
-    
-    private func checkIsEdit() {
-        if !self.birthdayTextField.text!.isEmpty && self.overviewTextView.text!.isEmpty {
-            self.delegate?.didUpdateData(isUpdate: false)
-        } else {
-            self.delegate?.didUpdateData(isUpdate: true)
-        }
+
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
     }
 
     static func cellSize(width: CGFloat) -> CGSize {
@@ -102,18 +69,6 @@ class AboutCell: UICollectionViewCell, UITextViewDelegate {
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        self.checkIsEdit()
-    }
-    
-    @IBAction func selectDateAction(_ sender: Any) {
-        let vc = ComponentOpener.open(.datePicker) as? DatePickerViewController
-        vc?.delegate = self
-        Utility.currentViewController().presentPanModal(vc ?? DatePickerViewController())
-    }
-}
-
-extension AboutCell: DatePickerViewControllerDelegate {
-    func datePickerViewController(_ view: DatePickerViewController, didSelectDate date: Date, displayDate: String) {
-        self.birthdayTextField.text = displayDate
+        self.delegate?.didUpdateData(self, overview: textView.text)
     }
 }

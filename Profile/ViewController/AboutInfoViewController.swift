@@ -33,22 +33,32 @@ import Defaults
 
 class AboutInfoViewController: UIViewController {
 
-    let collectionView: UICollectionView = {
-        let view = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-        view.backgroundColor = UIColor.Asset.darkGraphiteBlue
-        return view
-    }()
+//    let collectionView: UICollectionView = {
+//        let view = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+//        view.backgroundColor = UIColor.Asset.darkGraphiteBlue
+//        return view
+//    }()
+//    
+//    lazy var adapter: ListAdapter = {
+//        return ListAdapter(updater: ListAdapterUpdater(), viewController: self, workingRangeSize: 0)
+//    }()
+//    
+//    enum AboutType: String {
+//        case about
+//        case social
+//    }
     
-    lazy var adapter: ListAdapter = {
-        return ListAdapter(updater: ListAdapterUpdater(), viewController: self, workingRangeSize: 0)
-    }()
+    @IBOutlet var tableView: UITableView!
     
-    enum AboutType: String {
-        case about
+    enum AboutInfoViewControllerSection: Int, CaseIterable {
+        case overview = 0
+        case dob
+        case addSocial
         case social
+        case submit
     }
     
-    var viewModel = AboutInfoViewModel()
+    var viewModel = AboutInfoViewModel(avatarType: .user)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,24 +66,13 @@ class AboutInfoViewController: UIViewController {
         self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
         self.hideKeyboardWhenTapped()
         self.setupNavBar()
-        
-        self.collectionView.alwaysBounceVertical = true
-        self.collectionView.showsHorizontalScrollIndicator = false
-        self.collectionView.showsVerticalScrollIndicator = false
-        self.collectionView.backgroundColor = UIColor.clear
-        self.view.addSubview(self.collectionView)
-        self.adapter.collectionView = self.collectionView
-        self.adapter.dataSource = self
+        self.configureTableView()
         
         self.viewModel.clearData()
         self.viewModel.didMappingFinish = {
-            self.adapter.performUpdates(animated: true)
+            self.updateIsSkip()
+            self.tableView.reloadData()
         }
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        self.collectionView.frame = view.bounds
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -83,57 +82,114 @@ class AboutInfoViewController: UIViewController {
     }
     
     func setupNavBar() {
-        self.customNavigationBar(.secondary, title: "", secondaryBackType: .root)
-    }
-}
-
-// MARK: - ListAdapterDataSource
-extension AboutInfoViewController: ListAdapterDataSource {
-    func objects(for listAdapter: ListAdapter) -> [ListDiffable] {
-        var items: [ListDiffable] = [AboutType.about.rawValue] as [ListDiffable]
-        items.append(AboutType.social.rawValue as ListDiffable)
-        
-        self.viewModel.socialLinkShelf.socialLinks.forEach { socialLink in
-            items.append(socialLink as ListDiffable)
-        }
-        
-        items.append(self.viewModel.isSkip as ListDiffable)
-        return items
+        self.customNavigationBar(.primary, title: "", textColor: UIColor.Asset.white)
+        let leftIcon = NavBarButtonType.back.barButton
+        leftIcon.addTarget(self, action: #selector(leftButtonAction), for: .touchUpInside)
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: leftIcon)
     }
     
-    func listAdapter(_ listAdapter: ListAdapter, sectionControllerFor object: Any) -> ListSectionController {
-        if object is SocialLink {
-            return SocialSectionController()
-        } else if object is Bool {
-            return ComplateButtonSectionController()
-        } else {
-            if (object as! String) == AboutType.social.rawValue {
-                return SocialLinkSectionController()
-            } else {
-                let aboutSection = AboutSectionController()
-                aboutSection.delegate = self
-                return aboutSection
-            }
-        }
+    func configureTableView() {
+        self.tableView.delegate = self
+        self.tableView.dataSource = self
+        
+        self.tableView.register(UINib(nibName: ProfileNibVars.TableViewCell.about, bundle: ConfigBundle.profile), forCellReuseIdentifier: ProfileNibVars.TableViewCell.about)
+        self.tableView.register(UINib(nibName: ProfileNibVars.TableViewCell.dob, bundle: ConfigBundle.profile), forCellReuseIdentifier: ProfileNibVars.TableViewCell.dob)
+        self.tableView.register(UINib(nibName: ProfileNibVars.TableViewCell.addLink, bundle: ConfigBundle.profile), forCellReuseIdentifier: ProfileNibVars.TableViewCell.addLink)
+        self.tableView.register(UINib(nibName: ProfileNibVars.TableViewCell.social, bundle: ConfigBundle.profile), forCellReuseIdentifier: ProfileNibVars.TableViewCell.social)
+        self.tableView.register(UINib(nibName: ProfileNibVars.TableViewCell.complate, bundle: ConfigBundle.profile), forCellReuseIdentifier: ProfileNibVars.TableViewCell.complate)
+        
+        self.tableView.rowHeight = UITableView.automaticDimension
+        self.tableView.estimatedRowHeight = 100
     }
     
-    func emptyView(for listAdapter: ListAdapter) -> UIView? {
-        return nil
-    }
-}
-
-extension AboutInfoViewController: AboutSectionControllerDelegate {
-    func didUpdateData(isUpdate: Bool) {
-        if isUpdate {
-            if self.viewModel.isSkip == true {
+    private func updateIsSkip() {
+        if self.viewModel.avatarType == .page {
+            if !self.viewModel.socialLinkShelf.socialLinks.isEmpty || !self.viewModel.overView.isEmpty {
                 self.viewModel.isSkip = false
-                self.adapter.performUpdates(animated: true)
+            } else {
+                self.viewModel.isSkip = true
             }
         } else {
-            if self.viewModel.isSkip == false {
+            if !self.viewModel.socialLinkShelf.socialLinks.isEmpty || !self.viewModel.overView.isEmpty || !self.viewModel.dobDisplay.isEmpty {
+                self.viewModel.isSkip = false
+            } else {
                 self.viewModel.isSkip = true
-                self.adapter.performUpdates(animated: true)
             }
         }
+        
+        self.tableView.reloadSections(IndexSet(integer: AboutInfoViewControllerSection.submit.rawValue), with: UITableView.RowAnimation.automatic)
+    }
+    
+    @objc private func leftButtonAction() {
+        if self.viewModel.avatarType == .user {
+            Utility.currentViewController().navigationController?.popToRootViewController(animated: true)
+        } else {
+            let viewControllers: [UIViewController] = Utility.currentViewController().navigationController!.viewControllers as [UIViewController]
+            Utility.currentViewController().navigationController!.popToViewController(viewControllers[viewControllers.count - 5], animated: true)
+        }
+    }
+}
+
+extension AboutInfoViewController: UITableViewDelegate, UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return AboutInfoViewControllerSection.allCases.count
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        switch section {
+        case AboutInfoViewControllerSection.dob.rawValue:
+            return (self.viewModel.avatarType == .page ? 0 : 1)
+        case AboutInfoViewControllerSection.social.rawValue:
+            return self.viewModel.socialLinkShelf.socialLinks.count
+        default:
+            return 1
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        switch indexPath.section {
+        case AboutInfoViewControllerSection.overview.rawValue:
+            let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.about, for: indexPath as IndexPath) as? AboutTableViewCell
+            cell?.backgroundColor = UIColor.clear
+            cell?.delegate = self
+            return cell ?? AboutTableViewCell()
+        case AboutInfoViewControllerSection.dob.rawValue:
+            let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.dob, for: indexPath as IndexPath) as? DobTableViewCell
+            cell?.backgroundColor = UIColor.clear
+            cell?.delegate = self
+            return cell ?? DobTableViewCell()
+        case AboutInfoViewControllerSection.addSocial.rawValue:
+            let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.addLink, for: indexPath as IndexPath) as? AddLinkTableViewCell
+            cell?.backgroundColor = UIColor.clear
+            return cell ?? AddLinkTableViewCell()
+        case AboutInfoViewControllerSection.social.rawValue:
+            let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.social, for: indexPath as IndexPath) as? SocialTableViewCell
+            cell?.backgroundColor = UIColor.clear
+            cell?.socialLink = self.viewModel.socialLinkShelf.socialLinks[indexPath.row]
+            return cell ?? SocialTableViewCell()
+        case AboutInfoViewControllerSection.submit.rawValue:
+            let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.complate, for: indexPath as IndexPath) as? ComplateTableViewCell
+            cell?.backgroundColor = UIColor.clear
+            cell?.avatarType = self.viewModel.avatarType
+            cell?.isSkip = self.viewModel.isSkip
+            return cell ?? ComplateTableViewCell()
+        default:
+            return UITableViewCell()
+        }
+    }
+}
+
+extension AboutInfoViewController: AboutTableViewCellDelegate {
+    func didUpdateData(_ aboutTableViewCell: AboutTableViewCell, overview: String) {
+        self.viewModel.overView = overview
+        self.updateIsSkip()
+    }
+}
+
+extension AboutInfoViewController: DobTableViewCellDelegate {
+    func didUpdateData(_ dobTableViewCell: DobTableViewCell, date: Date, displayDate: String) {
+        self.viewModel.dobDate = date
+        self.viewModel.dobDisplay = displayDate
+        self.updateIsSkip()
     }
 }

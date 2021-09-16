@@ -41,12 +41,12 @@ class SelectPhotoMethodViewController: UIViewController {
     @IBOutlet var cameraRollButton: UIButton!
     @IBOutlet var takePhotoButton: UIButton!
     
+    var viewModel = SelectPhotoMethodViewModel(avatarType: .user)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
         self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
         self.setupNavBar()
-        
         self.headlineLabel.font = UIFont.asset(.regular, fontSize: .title)
         self.headlineLabel.textColor = UIColor.Asset.white
         self.subTitleLabel.font = UIFont.asset(.regular, fontSize: .h4)
@@ -60,6 +60,8 @@ class SelectPhotoMethodViewController: UIViewController {
         self.takePhotoButton.setTitleColor(UIColor.Asset.white, for: .normal)
         self.takePhotoButton.setBackgroundImage(UIColor.Asset.lightBlue.toImage(), for: .normal)
         self.takePhotoButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.clear)
+        
+        self.viewModel.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -188,7 +190,19 @@ extension SelectPhotoMethodViewController: UIImagePickerControllerDelegate, UINa
 extension SelectPhotoMethodViewController: TOCropViewControllerDelegate {
     func cropViewController(_ cropViewController: TOCropViewController, didCropToCircularImage image: UIImage, with cropRect: CGRect, angle: Int) {
         cropViewController.dismiss(animated: true, completion: {
-            Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.about), animated: true)
+            self.viewModel.avatar = image.resizeImage(targetSize: CGSize.init(width: 200, height: 200))
+            if self.viewModel.avatarType == .page {
+                Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.about(AboutInfoViewModel(avatarType: self.viewModel.avatarType))), animated: true)
+//                self.viewModel.createPage()
+            }
         })
+    }
+}
+
+extension SelectPhotoMethodViewController: SelectPhotoMethodViewModelDelegate {
+    func didCreatePageFinish(success: Bool) {
+        if success {
+            Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.about(AboutInfoViewModel(avatarType: self.viewModel.avatarType))), animated: true)
+        }
     }
 }

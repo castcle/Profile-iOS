@@ -19,16 +19,19 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  SocialLinkSectionController.swift
+//  CreatePageDisplayNameSectionController.swift
 //  Profile
 //
-//  Created by Tanakorn Phoochaliaw on 6/8/2564 BE.
+//  Created by Tanakorn Phoochaliaw on 16/9/2564 BE.
 //
 
 import Core
 import IGListKit
 
-class SocialLinkSectionController: ListSectionController {
+class CreatePageDisplayNameSectionController: ListSectionController {
+    
+    var viewModel = CreatePageDisplayNameViewModel()
+    
     override init() {
         super.init()
         inset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
@@ -36,7 +39,7 @@ class SocialLinkSectionController: ListSectionController {
 }
 
 // MARK: - Data Provider
-extension SocialLinkSectionController {
+extension CreatePageDisplayNameSectionController {
     override func numberOfItems() -> Int {
         return 1
     }
@@ -45,12 +48,13 @@ extension SocialLinkSectionController {
         guard let context = collectionContext else {
             return .zero
         }
-        return AddLinkCell.cellSize(width: context.containerSize.width)
+        return CreatePageDisplayNameCell.cellSize(width: context.containerSize.width)
     }
     
     override func cellForItem(at index: Int) -> UICollectionViewCell {
-        let cell = collectionContext?.dequeueReusableCell(withNibName: ProfileNibVars.CollectionViewCell.addLink, bundle: ConfigBundle.profile, for: self, at: index) ?? AddLinkCell()
-        cell.backgroundColor = UIColor.clear
-        return cell
+        let cell = collectionContext?.dequeueReusableCell(withNibName: ProfileNibVars.CollectionViewCell.pageDisplayName, bundle: ConfigBundle.profile, for: self, at: index) as? CreatePageDisplayNameCell
+        cell?.backgroundColor = UIColor.clear
+        cell?.configCell(viewModel: self.viewModel)
+        return cell ?? CreatePageDisplayNameCell()
     }
 }

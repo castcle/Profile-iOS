@@ -19,21 +19,20 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  WelcomeEditProfileViewController.swift
+//  WelcomeCreatePageViewController.swift
 //  Profile
 //
-//  Created by Tanakorn Phoochaliaw on 5/8/2564 BE.
+//  Created by Tanakorn Phoochaliaw on 15/9/2564 BE.
 //
 
 import UIKit
 import Core
-import Component
-import SwiftColor
 import Defaults
 
-class WelcomeEditProfileViewController: UIViewController {
+class WelcomeCreatePageViewController: UIViewController {
 
     @IBOutlet var welcomeLabel: UILabel!
+    @IBOutlet var detailLabel: UILabel!
     @IBOutlet var nextButton: UIButton!
     
     override func viewDidLoad() {
@@ -42,22 +41,23 @@ class WelcomeEditProfileViewController: UIViewController {
         self.setupNavBar()
         self.welcomeLabel.font = UIFont.asset(.regular, fontSize: .title)
         self.welcomeLabel.textColor = UIColor.Asset.white
+        self.detailLabel.font = UIFont.asset(.regular, fontSize: .body)
+        self.detailLabel.textColor = UIColor.Asset.white
         self.nextButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .body)
         self.nextButton.setTitleColor(UIColor.Asset.white, for: .normal)
-        self.nextButton.setBackgroundImage(UIColor.Asset.lightBlue.toImage(), for: .normal)
-        self.nextButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.clear)
+        self.nextButton.capsule(color: UIColor.Asset.lightBlue, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         Defaults[.screenId] = ""
     }
     
     func setupNavBar() {
-        self.customNavigationBar(.secondary, title: "Go to Feed", textColor: UIColor.Asset.lightBlue, secondaryBackType: .root)
+        self.customNavigationBar(.secondary, title: "สร้างเพจ")
     }
     
     @IBAction func nextAction(_ sender: Any) {
-        Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.photoMethod(SelectPhotoMethodViewModel(avatarType: .user))), animated: true)
+        Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.createPage), animated: true)
     }
 }

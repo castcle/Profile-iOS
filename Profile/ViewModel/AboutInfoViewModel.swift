@@ -29,13 +29,21 @@ import Foundation
 import Core
 import Defaults
 
-final class AboutInfoViewModel {
+public class AboutInfoViewModel {
    
     //MARK: Private
     var socialLinkShelf: SocialLinkShelf = SocialLinkShelf()
     var isSkip: Bool = true
+    var avatarType: AvatarType
+    var overView: String = ""
+    var dobDisplay: String = ""
+    var dobDate: Date = Date()
 
     //MARK: Input
+    public init(avatarType: AvatarType) {
+        self.avatarType = avatarType
+    }
+    
     func clearData() {
         Defaults[.facebook] = ""
         Defaults[.twitter] = ""
@@ -65,12 +73,6 @@ final class AboutInfoViewModel {
         
         if !Defaults[.website].isEmpty {
             self.socialLinkShelf.socialLinks.append(SocialLink(socialLinkType: .website, value: Defaults[.website]))
-        }
-        
-        if self.socialLinkShelf.socialLinks.isEmpty {
-            self.isSkip = true
-        } else {
-            self.isSkip = false
         }
 
         self.didMappingFinish?()

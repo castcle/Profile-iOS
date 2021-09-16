@@ -39,6 +39,8 @@ public struct ProfileNibVars {
         public static let meHeader = "MeHeaderViewController"
         public static let infoTab = "UserInfoTabStripViewController"
         public static let userFeed = "UserFeedViewController"
+        public static let welcomeCreatePage = "WelcomeCreatePageViewController"
+        public static let createPage = "PageDisplayNameViewController"
     }
     
     // MARK: - View
@@ -52,14 +54,16 @@ public struct ProfileNibVars {
         public static let meInfo = "UserInfoTableViewCell"
         public static let socialLink = "SocialLinkTableViewCell"
         public static let editInfo = "EditInfoTableViewCell"
+        public static let about = "AboutTableViewCell"
+        public static let dob = "DobTableViewCell"
+        public static let addLink = "AddLinkTableViewCell"
+        public static let social = "SocialTableViewCell"
+        public static let complate = "ComplateTableViewCell"
     }
     
     // MARK: - CollectionViewCell
     public struct CollectionViewCell {
-        public static let about = "AboutCell"
-        public static let addLink = "AddLinkCell"
         public static let addSocial = "AddSocialCell"
-        public static let social = "SocialCell"
-        public static let complateButton = "ComplateButtonCell"
+        public static let pageDisplayName = "CreatePageDisplayNameCell"
     }
 }

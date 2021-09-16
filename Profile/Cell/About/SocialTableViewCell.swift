@@ -19,16 +19,16 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  SocialCell.swift
+//  SocialTableViewCell.swift
 //  Profile
 //
-//  Created by Tanakorn Phoochaliaw on 6/8/2564 BE.
+//  Created by Tanakorn Phoochaliaw on 16/9/2564 BE.
 //
 
 import UIKit
 import JVFloatLabeledTextField
 
-class SocialCell: UICollectionViewCell {
+class SocialTableViewCell: UITableViewCell {
 
     @IBOutlet var valueView: UIView!
     @IBOutlet var valueTextField: JVFloatLabeledTextField! {
@@ -52,11 +52,10 @@ class SocialCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
         self.valueView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
     }
 
-    static func cellSize(width: CGFloat) -> CGSize {
-        return CGSize(width: width, height: 70)
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
     }
 }

@@ -28,12 +28,6 @@
 		B7910E7C26BBD9CE0097C94E /* Component.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B7910E7A26BBD9CE0097C94E /* Component.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B7910E8126BBE32E0097C94E /* SelectPhotoMethodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910E8026BBE32E0097C94E /* SelectPhotoMethodViewController.swift */; };
 		B7910E8526BC52A00097C94E /* AboutInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910E8426BC529F0097C94E /* AboutInfoViewController.swift */; };
-		B7910E8926BC54670097C94E /* AboutSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910E8826BC54670097C94E /* AboutSectionController.swift */; };
-		B7910E8C26BC54B30097C94E /* AboutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910E8A26BC54B30097C94E /* AboutCell.swift */; };
-		B7910E8D26BC54B30097C94E /* AboutCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7910E8B26BC54B30097C94E /* AboutCell.xib */; };
-		B7910E9726BCD6BF0097C94E /* AddLinkCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910E9526BCD6BF0097C94E /* AddLinkCell.swift */; };
-		B7910E9826BCD6BF0097C94E /* AddLinkCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7910E9626BCD6BF0097C94E /* AddLinkCell.xib */; };
-		B7910E9A26BCD75C0097C94E /* SocialLinkSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910E9926BCD75C0097C94E /* SocialLinkSectionController.swift */; };
 		B7910E9D26BCDAC40097C94E /* AboutInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910E9C26BCDAC40097C94E /* AboutInfoViewModel.swift */; };
 		B7910E9F26BCDBEF0097C94E /* SocialLinkShelf.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910E9E26BCDBEF0097C94E /* SocialLinkShelf.swift */; };
 		B7910EA126BCDC410097C94E /* SocialLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910EA026BCDC410097C94E /* SocialLink.swift */; };
@@ -41,12 +35,6 @@
 		B7910EA526BCE83D0097C94E /* AddSocialSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910EA426BCE83D0097C94E /* AddSocialSectionController.swift */; };
 		B7910EA826BCE8F00097C94E /* AddSocialCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910EA626BCE8F00097C94E /* AddSocialCell.swift */; };
 		B7910EA926BCE8F00097C94E /* AddSocialCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7910EA726BCE8F00097C94E /* AddSocialCell.xib */; };
-		B7910EAC26BCEFB20097C94E /* SocialCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910EAA26BCEFB20097C94E /* SocialCell.swift */; };
-		B7910EAD26BCEFB20097C94E /* SocialCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7910EAB26BCEFB20097C94E /* SocialCell.xib */; };
-		B7910EAF26BCFA880097C94E /* SocialSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910EAE26BCFA880097C94E /* SocialSectionController.swift */; };
-		B7910EB226BCFE040097C94E /* ComplateButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910EB026BCFE040097C94E /* ComplateButtonCell.swift */; };
-		B7910EB326BCFE040097C94E /* ComplateButtonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7910EB126BCFE040097C94E /* ComplateButtonCell.xib */; };
-		B7910EB526BCFEAC0097C94E /* ComplateButtonSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910EB426BCFEAC0097C94E /* ComplateButtonSectionController.swift */; };
 		B7910EB926BD2DA20097C94E /* Me.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7910EB826BD2DA20097C94E /* Me.storyboard */; };
 		B7910EC526BF03640097C94E /* UserInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910EC426BF03630097C94E /* UserInfoViewController.swift */; };
 		B7910EC826BF06050097C94E /* UserInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910EC626BF06050097C94E /* UserInfoTableViewCell.swift */; };
@@ -59,6 +47,25 @@
 		B7910ED526C00A700097C94E /* EditInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910ED426C00A700097C94E /* EditInfoViewController.swift */; };
 		B7910ED726C0340B0097C94E /* ProfileActionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910ED626C0340B0097C94E /* ProfileActionViewController.swift */; };
 		B7AF660726F07DA400BDE9C4 /* EditProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AF660626F07DA400BDE9C4 /* EditProfileViewModel.swift */; };
+		B7AF660926F24A2F00BDE9C4 /* WelcomeCreatePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AF660826F24A2F00BDE9C4 /* WelcomeCreatePageViewController.swift */; };
+		B7AF660E26F2E1F600BDE9C4 /* PageDisplayNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AF660D26F2E1F600BDE9C4 /* PageDisplayNameViewController.swift */; };
+		B7AF661126F2E56400BDE9C4 /* CreatePageDisplayNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AF660F26F2E56400BDE9C4 /* CreatePageDisplayNameCell.swift */; };
+		B7AF661226F2E56400BDE9C4 /* CreatePageDisplayNameCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7AF661026F2E56400BDE9C4 /* CreatePageDisplayNameCell.xib */; };
+		B7AF661426F2E88B00BDE9C4 /* CreatePageDisplayNameSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AF661326F2E88B00BDE9C4 /* CreatePageDisplayNameSectionController.swift */; };
+		B7AF661626F2E94C00BDE9C4 /* CreatePageDisplayNameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AF661526F2E94C00BDE9C4 /* CreatePageDisplayNameViewModel.swift */; };
+		B7AF661E26F32E7000BDE9C4 /* Authen.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7AF661D26F32E7000BDE9C4 /* Authen.framework */; };
+		B7AF661F26F32E7000BDE9C4 /* Authen.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B7AF661D26F32E7000BDE9C4 /* Authen.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B7AF662126F3303300BDE9C4 /* SelectPhotoMethodViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AF662026F3303300BDE9C4 /* SelectPhotoMethodViewModel.swift */; };
+		B7AF662526F3447900BDE9C4 /* AboutTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AF662326F3447900BDE9C4 /* AboutTableViewCell.swift */; };
+		B7AF662626F3447900BDE9C4 /* AboutTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7AF662426F3447900BDE9C4 /* AboutTableViewCell.xib */; };
+		B7AF662926F3568C00BDE9C4 /* DobTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AF662726F3568C00BDE9C4 /* DobTableViewCell.swift */; };
+		B7AF662A26F3568C00BDE9C4 /* DobTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7AF662826F3568C00BDE9C4 /* DobTableViewCell.xib */; };
+		B7AF662D26F35B5900BDE9C4 /* AddLinkTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AF662B26F35B5900BDE9C4 /* AddLinkTableViewCell.swift */; };
+		B7AF662E26F35B5900BDE9C4 /* AddLinkTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7AF662C26F35B5900BDE9C4 /* AddLinkTableViewCell.xib */; };
+		B7AF663126F35E0E00BDE9C4 /* SocialTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AF662F26F35E0D00BDE9C4 /* SocialTableViewCell.swift */; };
+		B7AF663226F35E0E00BDE9C4 /* SocialTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7AF663026F35E0E00BDE9C4 /* SocialTableViewCell.xib */; };
+		B7AF663526F360F500BDE9C4 /* ComplateTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AF663326F360F500BDE9C4 /* ComplateTableViewCell.swift */; };
+		B7AF663626F360F500BDE9C4 /* ComplateTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7AF663426F360F500BDE9C4 /* ComplateTableViewCell.xib */; };
 		B7C2521F26C8095C00ACBB84 /* UserDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C2521E26C8095C00ACBB84 /* UserDetailViewModel.swift */; };
 		B7C2525626CA077A00ACBB84 /* Post.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7C2525526CA077A00ACBB84 /* Post.framework */; };
 		B7C2525726CA077A00ACBB84 /* Post.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B7C2525526CA077A00ACBB84 /* Post.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -72,6 +79,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				B7AF661F26F32E7000BDE9C4 /* Authen.framework in Embed Frameworks */,
 				B7C2525726CA077A00ACBB84 /* Post.framework in Embed Frameworks */,
 				B7910E7C26BBD9CE0097C94E /* Component.framework in Embed Frameworks */,
 				B7910DF126AFCD920097C94E /* Core.framework in Embed Frameworks */,
@@ -111,12 +119,6 @@
 		B7910E7A26BBD9CE0097C94E /* Component.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Component.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7910E8026BBE32E0097C94E /* SelectPhotoMethodViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPhotoMethodViewController.swift; sourceTree = "<group>"; };
 		B7910E8426BC529F0097C94E /* AboutInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutInfoViewController.swift; sourceTree = "<group>"; };
-		B7910E8826BC54670097C94E /* AboutSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutSectionController.swift; sourceTree = "<group>"; };
-		B7910E8A26BC54B30097C94E /* AboutCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutCell.swift; sourceTree = "<group>"; };
-		B7910E8B26BC54B30097C94E /* AboutCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AboutCell.xib; sourceTree = "<group>"; };
-		B7910E9526BCD6BF0097C94E /* AddLinkCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLinkCell.swift; sourceTree = "<group>"; };
-		B7910E9626BCD6BF0097C94E /* AddLinkCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddLinkCell.xib; sourceTree = "<group>"; };
-		B7910E9926BCD75C0097C94E /* SocialLinkSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialLinkSectionController.swift; sourceTree = "<group>"; };
 		B7910E9C26BCDAC40097C94E /* AboutInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutInfoViewModel.swift; sourceTree = "<group>"; };
 		B7910E9E26BCDBEF0097C94E /* SocialLinkShelf.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialLinkShelf.swift; sourceTree = "<group>"; };
 		B7910EA026BCDC410097C94E /* SocialLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialLink.swift; sourceTree = "<group>"; };
@@ -124,12 +126,6 @@
 		B7910EA426BCE83D0097C94E /* AddSocialSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSocialSectionController.swift; sourceTree = "<group>"; };
 		B7910EA626BCE8F00097C94E /* AddSocialCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSocialCell.swift; sourceTree = "<group>"; };
 		B7910EA726BCE8F00097C94E /* AddSocialCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddSocialCell.xib; sourceTree = "<group>"; };
-		B7910EAA26BCEFB20097C94E /* SocialCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialCell.swift; sourceTree = "<group>"; };
-		B7910EAB26BCEFB20097C94E /* SocialCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SocialCell.xib; sourceTree = "<group>"; };
-		B7910EAE26BCFA880097C94E /* SocialSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialSectionController.swift; sourceTree = "<group>"; };
-		B7910EB026BCFE040097C94E /* ComplateButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplateButtonCell.swift; sourceTree = "<group>"; };
-		B7910EB126BCFE040097C94E /* ComplateButtonCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ComplateButtonCell.xib; sourceTree = "<group>"; };
-		B7910EB426BCFEAC0097C94E /* ComplateButtonSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplateButtonSectionController.swift; sourceTree = "<group>"; };
 		B7910EB826BD2DA20097C94E /* Me.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Me.storyboard; sourceTree = "<group>"; };
 		B7910EC426BF03630097C94E /* UserInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoViewController.swift; sourceTree = "<group>"; };
 		B7910EC626BF06050097C94E /* UserInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoTableViewCell.swift; sourceTree = "<group>"; };
@@ -142,6 +138,24 @@
 		B7910ED426C00A700097C94E /* EditInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditInfoViewController.swift; sourceTree = "<group>"; };
 		B7910ED626C0340B0097C94E /* ProfileActionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileActionViewController.swift; sourceTree = "<group>"; };
 		B7AF660626F07DA400BDE9C4 /* EditProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewModel.swift; sourceTree = "<group>"; };
+		B7AF660826F24A2F00BDE9C4 /* WelcomeCreatePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeCreatePageViewController.swift; sourceTree = "<group>"; };
+		B7AF660D26F2E1F600BDE9C4 /* PageDisplayNameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageDisplayNameViewController.swift; sourceTree = "<group>"; };
+		B7AF660F26F2E56400BDE9C4 /* CreatePageDisplayNameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePageDisplayNameCell.swift; sourceTree = "<group>"; };
+		B7AF661026F2E56400BDE9C4 /* CreatePageDisplayNameCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreatePageDisplayNameCell.xib; sourceTree = "<group>"; };
+		B7AF661326F2E88B00BDE9C4 /* CreatePageDisplayNameSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePageDisplayNameSectionController.swift; sourceTree = "<group>"; };
+		B7AF661526F2E94C00BDE9C4 /* CreatePageDisplayNameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePageDisplayNameViewModel.swift; sourceTree = "<group>"; };
+		B7AF661D26F32E7000BDE9C4 /* Authen.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Authen.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B7AF662026F3303300BDE9C4 /* SelectPhotoMethodViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPhotoMethodViewModel.swift; sourceTree = "<group>"; };
+		B7AF662326F3447900BDE9C4 /* AboutTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutTableViewCell.swift; sourceTree = "<group>"; };
+		B7AF662426F3447900BDE9C4 /* AboutTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AboutTableViewCell.xib; sourceTree = "<group>"; };
+		B7AF662726F3568C00BDE9C4 /* DobTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DobTableViewCell.swift; sourceTree = "<group>"; };
+		B7AF662826F3568C00BDE9C4 /* DobTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DobTableViewCell.xib; sourceTree = "<group>"; };
+		B7AF662B26F35B5900BDE9C4 /* AddLinkTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLinkTableViewCell.swift; sourceTree = "<group>"; };
+		B7AF662C26F35B5900BDE9C4 /* AddLinkTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddLinkTableViewCell.xib; sourceTree = "<group>"; };
+		B7AF662F26F35E0D00BDE9C4 /* SocialTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialTableViewCell.swift; sourceTree = "<group>"; };
+		B7AF663026F35E0E00BDE9C4 /* SocialTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SocialTableViewCell.xib; sourceTree = "<group>"; };
+		B7AF663326F360F500BDE9C4 /* ComplateTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplateTableViewCell.swift; sourceTree = "<group>"; };
+		B7AF663426F360F500BDE9C4 /* ComplateTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ComplateTableViewCell.xib; sourceTree = "<group>"; };
 		B7C2521E26C8095C00ACBB84 /* UserDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailViewModel.swift; sourceTree = "<group>"; };
 		B7C2525526CA077A00ACBB84 /* Post.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Post.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7C252A126CFC45900ACBB84 /* MeHeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeHeaderViewModel.swift; sourceTree = "<group>"; };
@@ -158,6 +172,7 @@
 				03CA6756D414568EB134E431 /* Pods_Profile.framework in Frameworks */,
 				B7910DF026AFCD920097C94E /* Core.framework in Frameworks */,
 				B7C2525626CA077A00ACBB84 /* Post.framework in Frameworks */,
+				B7AF661E26F32E7000BDE9C4 /* Authen.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -216,6 +231,13 @@
 				B7910DDB26AFC60E0097C94E /* Info.plist */,
 				B7910E6E26BBD36A0097C94E /* Profile.storyboard */,
 				B7910EB826BD2DA20097C94E /* Me.storyboard */,
+				B7AF660826F24A2F00BDE9C4 /* WelcomeCreatePageViewController.swift */,
+				B7AF660D26F2E1F600BDE9C4 /* PageDisplayNameViewController.swift */,
+				B7AF660F26F2E56400BDE9C4 /* CreatePageDisplayNameCell.swift */,
+				B7AF661026F2E56400BDE9C4 /* CreatePageDisplayNameCell.xib */,
+				B7AF661326F2E88B00BDE9C4 /* CreatePageDisplayNameSectionController.swift */,
+				B7AF661526F2E94C00BDE9C4 /* CreatePageDisplayNameViewModel.swift */,
+				B7AF662026F3303300BDE9C4 /* SelectPhotoMethodViewModel.swift */,
 				B7910EB726BD0C1F0097C94E /* ViewController */,
 				B7910E9B26BCDA9E0097C94E /* ViewModel */,
 				B7910E8726BC54390097C94E /* Cell */,
@@ -257,10 +279,6 @@
 		B7910E8626BC54300097C94E /* Section */ = {
 			isa = PBXGroup;
 			children = (
-				B7910E8826BC54670097C94E /* AboutSectionController.swift */,
-				B7910EAE26BCFA880097C94E /* SocialSectionController.swift */,
-				B7910E9926BCD75C0097C94E /* SocialLinkSectionController.swift */,
-				B7910EB426BCFEAC0097C94E /* ComplateButtonSectionController.swift */,
 				B7910EA426BCE83D0097C94E /* AddSocialSectionController.swift */,
 			);
 			path = Section;
@@ -269,16 +287,9 @@
 		B7910E8726BC54390097C94E /* Cell */ = {
 			isa = PBXGroup;
 			children = (
-				B7910E8A26BC54B30097C94E /* AboutCell.swift */,
-				B7910E8B26BC54B30097C94E /* AboutCell.xib */,
-				B7910E9526BCD6BF0097C94E /* AddLinkCell.swift */,
-				B7910E9626BCD6BF0097C94E /* AddLinkCell.xib */,
+				B7AF662226F3444300BDE9C4 /* About */,
 				B7910EA626BCE8F00097C94E /* AddSocialCell.swift */,
 				B7910EA726BCE8F00097C94E /* AddSocialCell.xib */,
-				B7910EAA26BCEFB20097C94E /* SocialCell.swift */,
-				B7910EAB26BCEFB20097C94E /* SocialCell.xib */,
-				B7910EB026BCFE040097C94E /* ComplateButtonCell.swift */,
-				B7910EB126BCFE040097C94E /* ComplateButtonCell.xib */,
 				B7910EC626BF06050097C94E /* UserInfoTableViewCell.swift */,
 				B7910EC726BF06050097C94E /* UserInfoTableViewCell.xib */,
 				B7910ECA26BF1E1C0097C94E /* SocialLinkTableViewCell.swift */,
@@ -317,9 +328,27 @@
 			path = ViewController;
 			sourceTree = "<group>";
 		};
+		B7AF662226F3444300BDE9C4 /* About */ = {
+			isa = PBXGroup;
+			children = (
+				B7AF662326F3447900BDE9C4 /* AboutTableViewCell.swift */,
+				B7AF662426F3447900BDE9C4 /* AboutTableViewCell.xib */,
+				B7AF662726F3568C00BDE9C4 /* DobTableViewCell.swift */,
+				B7AF662826F3568C00BDE9C4 /* DobTableViewCell.xib */,
+				B7AF662B26F35B5900BDE9C4 /* AddLinkTableViewCell.swift */,
+				B7AF662C26F35B5900BDE9C4 /* AddLinkTableViewCell.xib */,
+				B7AF662F26F35E0D00BDE9C4 /* SocialTableViewCell.swift */,
+				B7AF663026F35E0E00BDE9C4 /* SocialTableViewCell.xib */,
+				B7AF663326F360F500BDE9C4 /* ComplateTableViewCell.swift */,
+				B7AF663426F360F500BDE9C4 /* ComplateTableViewCell.xib */,
+			);
+			path = About;
+			sourceTree = "<group>";
+		};
 		FDB9755588C404F0DCA882AE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B7AF661D26F32E7000BDE9C4 /* Authen.framework */,
 				B7C2525526CA077A00ACBB84 /* Post.framework */,
 				B78795DB26C6504E00FECC21 /* Feed.framework */,
 				B74CEF1826C5073F006B1F2C /* Networking.framework */,
@@ -406,13 +435,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				B7910EC926BF06050097C94E /* UserInfoTableViewCell.xib in Resources */,
-				B7910E8D26BC54B30097C94E /* AboutCell.xib in Resources */,
+				B7AF662A26F3568C00BDE9C4 /* DobTableViewCell.xib in Resources */,
+				B7AF663626F360F500BDE9C4 /* ComplateTableViewCell.xib in Resources */,
+				B7AF662E26F35B5900BDE9C4 /* AddLinkTableViewCell.xib in Resources */,
+				B7AF662626F3447900BDE9C4 /* AboutTableViewCell.xib in Resources */,
+				B7AF661226F2E56400BDE9C4 /* CreatePageDisplayNameCell.xib in Resources */,
+				B7AF663226F35E0E00BDE9C4 /* SocialTableViewCell.xib in Resources */,
 				B7910ECD26BF1E1C0097C94E /* SocialLinkTableViewCell.xib in Resources */,
 				B7910E7926BBD6FD0097C94E /* Assets.xcassets in Resources */,
-				B7910EB326BCFE040097C94E /* ComplateButtonCell.xib in Resources */,
 				B7910E6F26BBD36A0097C94E /* Profile.storyboard in Resources */,
-				B7910E9826BCD6BF0097C94E /* AddLinkCell.xib in Resources */,
-				B7910EAD26BCEFB20097C94E /* SocialCell.xib in Resources */,
 				B7910EB926BD2DA20097C94E /* Me.storyboard in Resources */,
 				B7910EA926BCE8F00097C94E /* AddSocialCell.xib in Resources */,
 				B7910ED326C00A550097C94E /* EditInfoTableViewCell.xib in Resources */,
@@ -452,36 +483,39 @@
 			buildActionMask = 2147483647;
 			files = (
 				B78795D826C64C9700FECC21 /* UserFeedViewController.swift in Sources */,
-				B7910E8926BC54670097C94E /* AboutSectionController.swift in Sources */,
-				B7910EB226BCFE040097C94E /* ComplateButtonCell.swift in Sources */,
 				B7910DE526AFC9B40097C94E /* Profile.swift in Sources */,
+				B7AF661126F2E56400BDE9C4 /* CreatePageDisplayNameCell.swift in Sources */,
 				B78795DA26C64E4F00FECC21 /* UserFeedViewModel.swift in Sources */,
 				B7910EA826BCE8F00097C94E /* AddSocialCell.swift in Sources */,
-				B7910E9A26BCD75C0097C94E /* SocialLinkSectionController.swift in Sources */,
+				B7AF663126F35E0E00BDE9C4 /* SocialTableViewCell.swift in Sources */,
+				B7AF660E26F2E1F600BDE9C4 /* PageDisplayNameViewController.swift in Sources */,
+				B7AF662926F3568C00BDE9C4 /* DobTableViewCell.swift in Sources */,
 				B78795D426C61FFA00FECC21 /* UserInfoTabStripViewController.swift in Sources */,
 				B7910EC526BF03640097C94E /* UserInfoViewController.swift in Sources */,
+				B7AF661626F2E94C00BDE9C4 /* CreatePageDisplayNameViewModel.swift in Sources */,
 				B7910EC826BF06050097C94E /* UserInfoTableViewCell.swift in Sources */,
 				B7910ECF26BF1FD70097C94E /* UserInfoViewModel.swift in Sources */,
+				B7AF662D26F35B5900BDE9C4 /* AddLinkTableViewCell.swift in Sources */,
+				B7AF661426F2E88B00BDE9C4 /* CreatePageDisplayNameSectionController.swift in Sources */,
+				B7AF662526F3447900BDE9C4 /* AboutTableViewCell.swift in Sources */,
 				B7910E7226BBD52F0097C94E /* ProfileNibVars.swift in Sources */,
+				B7AF660926F24A2F00BDE9C4 /* WelcomeCreatePageViewController.swift in Sources */,
 				B7910E8126BBE32E0097C94E /* SelectPhotoMethodViewController.swift in Sources */,
-				B7910EAF26BCFA880097C94E /* SocialSectionController.swift in Sources */,
-				B7910EAC26BCEFB20097C94E /* SocialCell.swift in Sources */,
+				B7AF662126F3303300BDE9C4 /* SelectPhotoMethodViewModel.swift in Sources */,
 				B7910EA126BCDC410097C94E /* SocialLink.swift in Sources */,
 				B7910EA526BCE83D0097C94E /* AddSocialSectionController.swift in Sources */,
 				B7C252A226CFC45900ACBB84 /* MeHeaderViewModel.swift in Sources */,
 				B7910E7426BBD5480097C94E /* ProfileOpener.swift in Sources */,
 				B78795BF26C6129500FECC21 /* MeHeaderViewController.swift in Sources */,
 				B7910ED726C0340B0097C94E /* ProfileActionViewController.swift in Sources */,
-				B7910E8C26BC54B30097C94E /* AboutCell.swift in Sources */,
+				B7AF663526F360F500BDE9C4 /* ComplateTableViewCell.swift in Sources */,
 				B7910E9F26BCDBEF0097C94E /* SocialLinkShelf.swift in Sources */,
-				B7910E9726BCD6BF0097C94E /* AddLinkCell.swift in Sources */,
 				B7910ECC26BF1E1C0097C94E /* SocialLinkTableViewCell.swift in Sources */,
 				B7910ED226C00A550097C94E /* EditInfoTableViewCell.swift in Sources */,
 				B7C2521F26C8095C00ACBB84 /* UserDetailViewModel.swift in Sources */,
 				B7910E8526BC52A00097C94E /* AboutInfoViewController.swift in Sources */,
 				B7910E7626BBD68D0097C94E /* WelcomeEditProfileViewController.swift in Sources */,
 				B7910E9D26BCDAC40097C94E /* AboutInfoViewModel.swift in Sources */,
-				B7910EB526BCFEAC0097C94E /* ComplateButtonSectionController.swift in Sources */,
 				B7910ED526C00A700097C94E /* EditInfoViewController.swift in Sources */,
 				B7AF660726F07DA400BDE9C4 /* EditProfileViewModel.swift in Sources */,
 				B7910EA326BCE5420097C94E /* AddSocialViewController.swift in Sources */,
