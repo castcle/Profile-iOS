@@ -109,7 +109,7 @@ class MeHeaderViewController: UIViewController {
         self.placeholderLabel.textColor = UIColor.Asset.lightGray
         
         let url = URL(string: UserState.shared.avatar)
-        self.miniProfileImage.kf.setImage(with: url, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.5))])
+        self.miniProfileImage.kf.setImage(with: url, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.5))])
         
         self.followUI()
         
@@ -118,7 +118,7 @@ class MeHeaderViewController: UIViewController {
             self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.5))])
             
             let urlProfile = URL(string: UserState.shared.avatar)
-            self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.5))])
+            self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.5))])
             
             self.displayNameLabel.text = UserState.shared.name
             self.userIdLabel.text = UserState.shared.userId
@@ -134,10 +134,10 @@ class MeHeaderViewController: UIViewController {
             self.postViewConstaint.constant = 65.0
         } else {
             let urlCover = URL(string: "https://cdn.pixabay.com/photo/2021/07/13/18/58/coffee-6464307_1280.jpg")
-            self.coverImage.kf.setImage(with: urlCover)
+            self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.5))])
             
             let urlProfile = URL(string: "https://static.wikia.nocookie.net/whywomenkill/images/e/e7/Alexandra_Daddario.jpg")
-            self.profileImage.kf.setImage(with: urlProfile)
+            self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.5))])
             
             self.displayNameLabel.text = "Alexandra Daddario"
             self.userIdLabel.text = "@alexandra-daddario"
@@ -411,7 +411,7 @@ extension MeHeaderViewController: EditProfileViewModelDelegate {
                 self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.5))])
                 
                 let urlProfile = URL(string: UserState.shared.avatar)
-                self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.5))])
+                self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.5))])
             }
         }
     }
