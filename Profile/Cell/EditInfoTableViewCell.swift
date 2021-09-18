@@ -31,7 +31,8 @@ import Component
 import JVFloatLabeledTextField
 import UITextView_Placeholder
 import PanModal
-import Loady
+import Defaults
+import JGProgressHUD
 
 class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
 
@@ -118,18 +119,16 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
     }
     
     @IBOutlet var selectDateButton: UIButton!
-    @IBOutlet var saveButton: LoadyButton! {
-        didSet {
-            self.saveButton.setAnimation(LoadyAnimationType.indicator(with: .init(indicatorViewStyle: .light)))
-            self.saveButton.indicatorViewStyle = .light
-        }
-    }
+    @IBOutlet var saveButton: UIButton!
     
     let viewModel = EditProfileViewModel()
+    let hud = JGProgressHUD()
+    private var dobDate: Date? = nil
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
+        self.hud.textLabel.text = "Loading"
         self.aboutView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
         self.birthdayView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
         self.headlineLabel.font = UIFont.asset(.regular, fontSize: .title)
@@ -163,6 +162,12 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         self.saveButton.setTitleColor(UIColor.Asset.white, for: .normal)
         self.saveButton.capsule(color: UIColor.Asset.lightBlue, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
         
+        self.dobDate = (UserState.shared.dob == "" ? nil : (Date.stringToDate(str: UserState.shared.dob)))
+        if let dob = self.dobDate {
+            self.birthdayTextField.text = dob.dateToString()
+        } else {
+            self.birthdayTextField.text = ""
+        }
         self.viewModel.delegate = self
     }
 
@@ -194,17 +199,14 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
     
     @IBAction func selectDateAction(_ sender: Any) {
         let vc = ComponentOpener.open(.datePicker) as? DatePickerViewController
+        vc?.initDate = self.dobDate
         vc?.delegate = self
         Utility.currentViewController().presentPanModal(vc ?? DatePickerViewController())
     }
     
     @IBAction func saveAction(_ sender: Any) {
-        if self.saveButton.loadingIsShowing() {
-            return
-        }
-        
+        self.hud.show(in: Utility.currentViewController().view)
         self.disableUI(isActive: false)
-        self.saveButton.startLoading()
         self.viewModel.userRequest.payload.overview = self.overviewTextView.text ?? ""
         
         self.viewModel.userRequest.payload.links.facebook = self.facebookTextField.text ?? ""
@@ -218,13 +220,14 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
 
 extension EditInfoTableViewCell: DatePickerViewControllerDelegate {
     func datePickerViewController(_ view: DatePickerViewController, didSelectDate date: Date, displayDate: String) {
+        self.viewModel.dobDate = date
         self.birthdayTextField.text = displayDate
     }
 }
 
 extension EditInfoTableViewCell: EditProfileViewModelDelegate {
     func didUpdateProfileFinish(success: Bool) {
-        self.saveButton.stopLoading()
+        self.hud.dismiss()
         if success {
             Utility.currentViewController().navigationController?.popViewController(animated: true)
         } else {

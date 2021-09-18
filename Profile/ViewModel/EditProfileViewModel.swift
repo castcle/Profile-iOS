@@ -43,6 +43,7 @@ class EditProfileViewModel {
     private var stage: Stage = .none
     var avatar: UIImage? = nil
     var cover: UIImage? = nil
+    var dobDate: Date? = nil
     
     enum Stage {
         case updateProfile
@@ -60,6 +61,9 @@ class EditProfileViewModel {
     
     public func updateProfile() {
         self.stage = .updateProfile
+        if let dob = self.dobDate {
+            self.userRequest.payload.dob = dob.dateToStringSever()
+        }
         self.userRepository.updateMe(userRequest: self.userRequest) { (success, response, isRefreshToken) in
             if success {
                 do {
@@ -89,10 +93,8 @@ class EditProfileViewModel {
                 do {
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
-                    
                     let userHelper = UserHelper()
                     let user = User(json: json)
-                    print(json)
                     userHelper.updateLocalProfile(user: user)
                     self.delegate?.didUpdateProfileFinish(success: true)
                 } catch {}
@@ -116,10 +118,8 @@ class EditProfileViewModel {
                 do {
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
-                    
                     let userHelper = UserHelper()
                     let user = User(json: json)
-                    print(json)
                     userHelper.updateLocalProfile(user: user)
                     self.delegate?.didUpdateProfileFinish(success: true)
                 } catch {}

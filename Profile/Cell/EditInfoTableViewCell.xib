@@ -59,7 +59,7 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="i8u-Nv-6DV">
                         <rect key="frame" x="15" y="329.5" width="290" height="60"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="7 July 2021" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oJo-Qa-AFZ" customClass="JVFloatLabeledTextField">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oJo-Qa-AFZ" customClass="JVFloatLabeledTextField">
                                 <rect key="frame" x="15" y="10" width="230" height="40"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no"/>
@@ -189,7 +189,7 @@
                             <constraint firstAttribute="trailing" secondItem="Jdr-Dg-oRf" secondAttribute="trailing" constant="15" id="zLN-Mt-a17"/>
                         </constraints>
                     </view>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7zz-Y0-LN6" customClass="LoadyButton" customModule="Loady">
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7zz-Y0-LN6">
                         <rect key="frame" x="20" y="811" width="280" height="50"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="50" id="qgH-1g-Sdn"/>
@@ -285,7 +285,7 @@
             <size key="intrinsicContentSize" width="4" height="18.5"/>
         </designable>
         <designable name="oJo-Qa-AFZ">
-            <size key="intrinsicContentSize" width="74" height="18.5"/>
+            <size key="intrinsicContentSize" width="4" height="18.5"/>
         </designable>
     </designables>
     <resources>
