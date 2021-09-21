@@ -208,13 +208,6 @@
 				B7910DDB26AFC60E0097C94E /* Info.plist */,
 				B7910E6E26BBD36A0097C94E /* Profile.storyboard */,
 				B7910EB826BD2DA20097C94E /* Me.storyboard */,
-				B7AF660826F24A2F00BDE9C4 /* WelcomeCreatePageViewController.swift */,
-				B7AF660D26F2E1F600BDE9C4 /* PageDisplayNameViewController.swift */,
-				B7AF660F26F2E56400BDE9C4 /* CreatePageDisplayNameCell.swift */,
-				B7AF661026F2E56400BDE9C4 /* CreatePageDisplayNameCell.xib */,
-				B7AF661326F2E88B00BDE9C4 /* CreatePageDisplayNameSectionController.swift */,
-				B7AF661526F2E94C00BDE9C4 /* CreatePageDisplayNameViewModel.swift */,
-				B7AF662026F3303300BDE9C4 /* SelectPhotoMethodViewModel.swift */,
 				B7910EB726BD0C1F0097C94E /* ViewController */,
 				B7910E9B26BCDA9E0097C94E /* ViewModel */,
 				B7910E8726BC54390097C94E /* Cell */,
@@ -257,6 +250,7 @@
 			isa = PBXGroup;
 			children = (
 				B7910EA426BCE83D0097C94E /* AddSocialSectionController.swift */,
+				B7AF661326F2E88B00BDE9C4 /* CreatePageDisplayNameSectionController.swift */,
 			);
 			path = Section;
 			sourceTree = "<group>";
@@ -273,6 +267,8 @@
 				B7910ECB26BF1E1C0097C94E /* SocialLinkTableViewCell.xib */,
 				B7910ED026C00A550097C94E /* EditInfoTableViewCell.swift */,
 				B7910ED126C00A550097C94E /* EditInfoTableViewCell.xib */,
+				B7AF660F26F2E56400BDE9C4 /* CreatePageDisplayNameCell.swift */,
+				B7AF661026F2E56400BDE9C4 /* CreatePageDisplayNameCell.xib */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -286,6 +282,8 @@
 				B7C2521E26C8095C00ACBB84 /* UserDetailViewModel.swift */,
 				B7C252A126CFC45900ACBB84 /* MeHeaderViewModel.swift */,
 				B7AF660626F07DA400BDE9C4 /* EditProfileViewModel.swift */,
+				B7AF661526F2E94C00BDE9C4 /* CreatePageDisplayNameViewModel.swift */,
+				B7AF662026F3303300BDE9C4 /* SelectPhotoMethodViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -301,6 +299,8 @@
 				B7910EC426BF03630097C94E /* UserInfoViewController.swift */,
 				B7910ED426C00A700097C94E /* EditInfoViewController.swift */,
 				B7910ED626C0340B0097C94E /* ProfileActionViewController.swift */,
+				B7AF660826F24A2F00BDE9C4 /* WelcomeCreatePageViewController.swift */,
+				B7AF660D26F2E1F600BDE9C4 /* PageDisplayNameViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";

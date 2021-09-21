@@ -95,7 +95,7 @@
                             <constraint firstItem="X9o-Ng-j0N" firstAttribute="leading" secondItem="LJs-WH-KqT" secondAttribute="trailing" constant="10" id="p7T-Eo-HTr"/>
                         </constraints>
                     </view>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="display-name" translatesAutoresizingMaskIntoConstraints="NO" id="ZCj-QX-tGI">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="page-display-name" translatesAutoresizingMaskIntoConstraints="NO" id="ZCj-QX-tGI">
                         <rect key="frame" x="10" y="30" width="300" height="150"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="300" id="4Yd-h4-lQ3"/>
@@ -141,7 +141,7 @@
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="display-name" width="262" height="110"/>
+        <image name="page-display-name" width="268.5" height="84"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
