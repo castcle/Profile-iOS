@@ -93,5 +93,4 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate, TPDataSo
     
     func tp_scrollViewDidLoad(_ scrollView: UIScrollView) {
     }
-
 }

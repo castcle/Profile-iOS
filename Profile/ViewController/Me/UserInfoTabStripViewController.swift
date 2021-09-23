@@ -56,7 +56,7 @@ class UserInfoTabStripViewController: ButtonBarPagerTabStripViewController, Page
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        delegate = self
+        self.delegate = self
         
         self.changeCurrentIndexProgressive = { (oldCell: ButtonBarViewCell?, newCell: ButtonBarViewCell?, progressPercentage: CGFloat, changeCurrentIndex: Bool, animated: Bool) -> Void in
             oldCell?.label.textColor = UIColor.Asset.white
