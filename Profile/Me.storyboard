@@ -255,9 +255,57 @@
                     <view key="view" contentMode="scaleToFill" id="tzD-LX-uBb">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fRZ-NT-D0i">
+                                <rect key="frame" x="40" y="113" width="240" height="342"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="page-available" translatesAutoresizingMaskIntoConstraints="NO" id="JbM-Kr-vsi">
+                                        <rect key="frame" x="0.0" y="0.0" width="240" height="240"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="240" id="Ie2-SC-73T"/>
+                                            <constraint firstAttribute="width" constant="240" id="SmP-yw-sIR"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sory, this page isn't available" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QIZ-KO-TMk">
+                                        <rect key="frame" x="0.0" y="260" width="240" height="19.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This link you followed may be broken, or the page may have been removed" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DTQ-qh-XYN">
+                                        <rect key="frame" x="0.0" y="284.5" width="240" height="57.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="DTQ-qh-XYN" firstAttribute="leading" secondItem="fRZ-NT-D0i" secondAttribute="leading" id="1Cf-hX-lCx"/>
+                                    <constraint firstItem="QIZ-KO-TMk" firstAttribute="leading" secondItem="fRZ-NT-D0i" secondAttribute="leading" id="7Bb-8m-g8W"/>
+                                    <constraint firstAttribute="bottom" secondItem="DTQ-qh-XYN" secondAttribute="bottom" id="9ib-ZG-Rg7"/>
+                                    <constraint firstItem="JbM-Kr-vsi" firstAttribute="top" secondItem="fRZ-NT-D0i" secondAttribute="top" id="IH4-W1-ijg"/>
+                                    <constraint firstItem="DTQ-qh-XYN" firstAttribute="top" secondItem="QIZ-KO-TMk" secondAttribute="bottom" constant="5" id="J1I-G9-bfz"/>
+                                    <constraint firstItem="QIZ-KO-TMk" firstAttribute="top" secondItem="JbM-Kr-vsi" secondAttribute="bottom" constant="20" id="Jbh-b1-X5I"/>
+                                    <constraint firstAttribute="trailing" secondItem="JbM-Kr-vsi" secondAttribute="trailing" id="RuR-m7-ZW2"/>
+                                    <constraint firstAttribute="trailing" secondItem="QIZ-KO-TMk" secondAttribute="trailing" id="T0C-Mc-NwO"/>
+                                    <constraint firstAttribute="trailing" secondItem="DTQ-qh-XYN" secondAttribute="trailing" id="eNW-P6-waG"/>
+                                    <constraint firstItem="JbM-Kr-vsi" firstAttribute="leading" secondItem="fRZ-NT-D0i" secondAttribute="leading" id="xI0-ij-NK6"/>
+                                </constraints>
+                            </view>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="l0C-uY-1ue"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="fRZ-NT-D0i" firstAttribute="centerX" secondItem="tzD-LX-uBb" secondAttribute="centerX" id="ik7-O5-w8y"/>
+                            <constraint firstItem="fRZ-NT-D0i" firstAttribute="centerY" secondItem="tzD-LX-uBb" secondAttribute="centerY" id="rBe-ax-fnd"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="emptyDetailLabel" destination="DTQ-qh-XYN" id="v9p-ph-7LD"/>
+                        <outlet property="emptyTitleLabel" destination="QIZ-KO-TMk" id="ZnO-Zv-Zgs"/>
+                        <outlet property="emptyView" destination="fRZ-NT-D0i" id="Tvy-2R-YDw"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xAK-mY-JB9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -465,6 +513,7 @@
         </designable>
     </designables>
     <resources>
+        <image name="page-available" width="206.5" height="208"/>
         <namedColor name="DarkGraphiteBlue">
             <color red="0.078431372549019607" green="0.090196078431372548" blue="0.10196078431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

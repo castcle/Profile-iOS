@@ -33,16 +33,29 @@ import Defaults
 
 class UserDetailViewController: UIViewController, UIScrollViewDelegate, TPDataSource, TPProgressDelegate {
 
+    @IBOutlet var emptyView: UIView!
+    @IBOutlet var emptyTitleLabel: UILabel!
+    @IBOutlet var emptyDetailLabel: UILabel!
+    
     var headerVC: MeHeaderViewController?
     var bottomVC: UserInfoTabStripViewController!
-    
     var viewModel = UserDetailViewModel(isMe: false)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
+        self.emptyTitleLabel.font = UIFont.asset(.regular, fontSize: .body)
+        self.emptyTitleLabel.textColor = UIColor.Asset.white
+        self.emptyDetailLabel.font = UIFont.asset(.regular, fontSize: .body)
+        self.emptyDetailLabel.textColor = UIColor.Asset.lightGray
+        
         self.setupNavBar()
-        self.configure(with: self, delegate: self)
+        if self.viewModel.isMe {
+            self.configure(with: self, delegate: self)
+            self.emptyView.isHidden = true
+        } else {
+            self.emptyView.isHidden = false
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -54,7 +67,7 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate, TPDataSo
         if self.viewModel.isMe {
             self.customNavigationBar(.secondary, title: UserState.shared.name)
         } else {
-            self.customNavigationBar(.secondary, title: "Alexandra Daddario")
+            self.customNavigationBar(.secondary, title: "Error")
         }
     }
     
