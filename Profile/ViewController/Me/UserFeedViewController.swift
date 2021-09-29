@@ -30,6 +30,7 @@ import Core
 import Networking
 import Post
 import Component
+import Authen
 import XLPagerTabStrip
 import IGListKit
 
@@ -38,89 +39,147 @@ class UserFeedViewController: UIViewController {
     var pageIndex: Int = 0
     var pageTitle: String?
     
-    let collectionView: UICollectionView = {
-        let view = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-        view.backgroundColor = UIColor.Asset.darkGraphiteBlue
-        return view
-    }()
+    @IBOutlet var tableView: UITableView!
     
-    lazy var adapter: ListAdapter = {
-        return ListAdapter(updater: ListAdapterUpdater(), viewController: self, workingRangeSize: 0)
-    }()
+    var viewModel = UserFeedViewModel(userFeedType: .unknow)
     
-    var viewModel = UserFeedViewModel(userFeedType: .all)
+    enum FeedSection: Int, CaseIterable {
+        case header = 0
+        case content
+        case footer
+    }
+    
+    enum FeedCellType {
+        case header
+        case content
+        case footer
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
-        self.collectionView.alwaysBounceVertical = true
-        self.collectionView.showsHorizontalScrollIndicator = false
-        self.collectionView.showsVerticalScrollIndicator = false
-        self.collectionView.backgroundColor = UIColor.clear
-        self.view.addSubview(self.collectionView)
-        self.adapter.collectionView = self.collectionView
-        self.adapter.dataSource = self
+        self.viewModel.delegate = self
+        self.configureTableView()
         
         self.viewModel.didLoadFeedgsFinish = {
-            self.adapter.performUpdates(animated: true)
+            UIView.transition(with: self.tableView, duration: 0.35, options: .transitionCrossDissolve, animations: {
+                self.tableView.reloadData()
+            })
         }
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        self.collectionView.frame = view.bounds
+    func configureTableView() {
+        self.tableView.delegate = self
+        self.tableView.dataSource = self
+        
+        self.tableView.register(UINib(nibName: ComponentNibVars.TableViewCell.headerFeed, bundle: ConfigBundle.component), forCellReuseIdentifier: ComponentNibVars.TableViewCell.headerFeed)
+        self.tableView.register(UINib(nibName: ComponentNibVars.TableViewCell.footerFeed, bundle: ConfigBundle.component), forCellReuseIdentifier: ComponentNibVars.TableViewCell.footerFeed)
+        self.tableView.register(UINib(nibName: ComponentNibVars.TableViewCell.postText, bundle: ConfigBundle.component), forCellReuseIdentifier: ComponentNibVars.TableViewCell.postText)
+        self.tableView.register(UINib(nibName: ComponentNibVars.TableViewCell.postTextLink, bundle: ConfigBundle.component), forCellReuseIdentifier: ComponentNibVars.TableViewCell.postTextLink)
+        self.tableView.register(UINib(nibName: ComponentNibVars.TableViewCell.imageX1, bundle: ConfigBundle.component), forCellReuseIdentifier: ComponentNibVars.TableViewCell.imageX1)
+        self.tableView.register(UINib(nibName: ComponentNibVars.TableViewCell.imageX2, bundle: ConfigBundle.component), forCellReuseIdentifier: ComponentNibVars.TableViewCell.imageX2)
+        self.tableView.register(UINib(nibName: ComponentNibVars.TableViewCell.imageX3, bundle: ConfigBundle.component), forCellReuseIdentifier: ComponentNibVars.TableViewCell.imageX3)
+        self.tableView.register(UINib(nibName: ComponentNibVars.TableViewCell.imageXMore, bundle: ConfigBundle.component), forCellReuseIdentifier: ComponentNibVars.TableViewCell.imageXMore)
+        self.tableView.register(UINib(nibName: ComponentNibVars.TableViewCell.blog, bundle: ConfigBundle.component), forCellReuseIdentifier: ComponentNibVars.TableViewCell.blog)
+        self.tableView.register(UINib(nibName: ComponentNibVars.TableViewCell.blogNoImage, bundle: ConfigBundle.component), forCellReuseIdentifier: ComponentNibVars.TableViewCell.blogNoImage)
+        
+        self.tableView.rowHeight = UITableView.automaticDimension
+        self.tableView.estimatedRowHeight = 100
     }
 }
 
-// MARK: - ListAdapterDataSource
-extension UserFeedViewController: ListAdapterDataSource {
-    func objects(for listAdapter: ListAdapter) -> [ListDiffable] {
-        var items: [ListDiffable] = [] as [ListDiffable]
-        
-        self.viewModel.feedShelf.feeds.forEach { feed in
-            items.append(feed as ListDiffable)
+extension UserFeedViewController: UITableViewDelegate, UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return self.viewModel.contents.count
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return FeedSection.allCases.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let content = self.viewModel.contents[indexPath.section]
+        switch indexPath.row {
+        case FeedSection.header.rawValue:
+            return self.renderFeedCell(content: content, cellType: .header, tableView: tableView, indexPath: indexPath)
+        case FeedSection.footer.rawValue:
+            return self.renderFeedCell(content: content, cellType: .footer, tableView: tableView, indexPath: indexPath)
+        default:
+            return self.renderFeedCell(content: content, cellType: .content, tableView: tableView, indexPath: indexPath)
         }
-        
-        return items
     }
     
-    func listAdapter(_ listAdapter: ListAdapter, sectionControllerFor object: Any) -> ListSectionController {
-        let section = FeedSectionController()
-        section.delegate = self
-        return section
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 5
     }
     
-    func emptyView(for listAdapter: ListAdapter) -> UIView? {
-        return nil
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let footerView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: tableView.frame.width, height: 5))
+        footerView.backgroundColor = UIColor.clear
+        return footerView
+    }
+    
+    func renderFeedCell(content: Content, cellType: FeedCellType, tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
+        switch cellType {
+        case .header:
+            let cell = tableView.dequeueReusableCell(withIdentifier: ComponentNibVars.TableViewCell.headerFeed, for: indexPath as IndexPath) as? HeaderTableViewCell
+            cell?.backgroundColor = UIColor.Asset.darkGray
+            cell?.delegate = self
+            cell?.content = content
+            return cell ?? HeaderTableViewCell()
+        case .footer:
+            let cell = tableView.dequeueReusableCell(withIdentifier: ComponentNibVars.TableViewCell.footerFeed, for: indexPath as IndexPath) as? FooterTableViewCell
+            cell?.backgroundColor = UIColor.Asset.darkGray
+            cell?.delegate = self
+            cell?.content = content
+            return cell ?? FooterTableViewCell()
+        default:
+            return FeedCellHelper().renderFeedCell(content: content, tableView: self.tableView, indexPath: indexPath)
+        }
     }
 }
 
-extension UserFeedViewController: FeedSectionControllerDelegate {
-    func didTabProfile() {
-//        Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.userDetail), animated: true)
-        //        Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.me(MeViewModel(isMe: false))), animated: true)
+extension UserFeedViewController: HeaderTableViewCellDelegate {
+    func didTabProfile(_ headerTableViewCell: HeaderTableViewCell) {
+        Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.userDetail(UserDetailViewModel(isMe: false))), animated: true)
     }
     
-    func didTabComment(feed: Feed) {
-        let commentNavi: UINavigationController = UINavigationController(rootViewController: ComponentOpener.open(.comment(CommentViewModel(feed: feed))))
+    func didAuthen(_ headerTableViewCell: HeaderTableViewCell) {
+        Utility.currentViewController().presentPanModal(AuthenOpener.open(.signUpMethod) as! SignUpMethodViewController)
+    }
+}
+
+extension UserFeedViewController: FooterTableViewCellDelegate {
+    func didTabComment(_ footerTableViewCell: FooterTableViewCell, content: Content) {
+        let commentNavi: UINavigationController = UINavigationController(rootViewController: ComponentOpener.open(.comment(CommentViewModel(content: content))))
         commentNavi.modalPresentationStyle = .fullScreen
         commentNavi.modalTransitionStyle = .crossDissolve
         Utility.currentViewController().present(commentNavi, animated: true)
     }
     
-    func didTabQuoteCast(feed: Feed, page: Page) {
-        let vc = PostOpener.open(.post(PostViewModel(postType: .quoteCast, feed: feed, page: page)))
+    func didTabQuoteCast(_ footerTableViewCell: FooterTableViewCell, content: Content, page: Page) {
+        let vc = PostOpener.open(.post(PostViewModel(postType: .quoteCast, content: content, page: page)))
         vc.modalPresentationStyle = .fullScreen
         Utility.currentViewController().present(vc, animated: true, completion: nil)
     }
     
-    func didAuthen() {
-//        Utility.currentViewController().presentPanModal(AuthenOpener.open(.signUpMethod) as! SignUpMethodViewController)
+    func didAuthen(_ footerTableViewCell: FooterTableViewCell) {
+        Utility.currentViewController().presentPanModal(AuthenOpener.open(.signUpMethod) as! SignUpMethodViewController)
     }
 }
 
 extension UserFeedViewController: IndicatorInfoProvider {
     func indicatorInfo(for pagerTabStripController: PagerTabStripViewController) -> IndicatorInfo {
         return IndicatorInfo.init(title: pageTitle ?? "Tab \(pageIndex)")
+    }
+}
+
+extension UserFeedViewController: UserFeedViewModelDelegate {
+    func didGetContentFinish(success: Bool) {
+        if success {
+            UIView.transition(with: self.tableView, duration: 0.35, options: .transitionCrossDissolve, animations: {
+                self.tableView.reloadData()
+            })
+        }
     }
 }

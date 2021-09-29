@@ -121,7 +121,7 @@ class MeHeaderViewController: UIViewController {
             self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.5))])
             
             self.displayNameLabel.text = UserState.shared.name
-            self.userIdLabel.text = UserState.shared.userId
+            self.userIdLabel.text = UserState.shared.castcleId
             
             self.editCoverButton.isHidden = false
             self.editProfileButton.isHidden = false

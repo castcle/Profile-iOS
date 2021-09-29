@@ -27,24 +27,59 @@
 
 import Foundation
 import Networking
+import SwiftyJSON
 
 public enum UserFeedType: String {
     case all
     case post
     case blog
     case photo
+    case unknow
+}
+
+public protocol UserFeedViewModelDelegate {
+    func didGetContentFinish(success: Bool)
 }
 
 public final class UserFeedViewModel {
    
-    //MARK: Private
-    private var feedRepository: FeedRepository
+    public var delegate: UserFeedViewModelDelegate?
+    private var feedRepository: FeedRepository = FeedRepositoryImpl()
+    private var contentRepository: ContentRepository = ContentRepositoryImpl()
+    private var contentRequest: ContentRequest = ContentRequest()
     var feedShelf: FeedShelf = FeedShelf()
+    var feeds: [Feed] = []
+    var contents: [Content] = []
+    var pagination: Pagination = Pagination()
     var userFeedType: UserFeedType = .all
+    let tokenHelper: TokenHelper = TokenHelper()
 
     //MARK: Input
+    public func getMyContents() {
+        self.contentRepository.getMeContents(contentRequest: self.contentRequest) { (success, response, isRefreshToken) in
+            if success {
+                do {
+                    let rawJson = try response.mapJSON()
+                    let json = JSON(rawJson)
+                    let shelf = ContentShelf(json: json)
+                    self.contents.append(contentsOf: shelf.contents)
+                    self.pagination = shelf.pagination
+                    self.delegate?.didGetContentFinish(success: true)
+                } catch {
+                    self.delegate?.didGetContentFinish(success: false)
+                }
+            } else {
+                if isRefreshToken {
+                    self.tokenHelper.refreshToken()
+                } else {
+                    self.delegate?.didGetContentFinish(success: false)
+                }
+            }
+        }
+    }
+    
     public func getFeeds() {
-        self.feedRepository.getFeeds(featureSlug: "Test", circleSlug: "Test") { (success, feedShelf) in
+        self.feedRepository.getFeedsMock(featureSlug: "Test", circleSlug: "Test") { (success, feedShelf) in
             if success {
                 switch self.userFeedType {
                 case .post:
@@ -64,9 +99,28 @@ public final class UserFeedViewModel {
     //MARK: Output
     var didLoadFeedgsFinish: (() -> ())?
     
-    public init(feedRepository: FeedRepository = FeedRepositoryImpl(), userFeedType: UserFeedType) {
-        self.feedRepository = feedRepository
+    public init(userFeedType: UserFeedType) {
         self.userFeedType = userFeedType
-        self.getFeeds()
+        self.tokenHelper.delegate = self
+        self.feeds = []
+        if self.userFeedType == .all {
+            self.contentRequest.type = .unknow
+            self.getMyContents()
+        } else if self.userFeedType == .post {
+            self.contentRequest.type = .short
+            self.getMyContents()
+        } else if self.userFeedType == .blog {
+            self.contentRequest.type = .blog
+            self.getMyContents()
+        } else if self.userFeedType == .photo {
+            self.contentRequest.type = .image
+            self.getMyContents()
+        }
+    }
+}
+
+extension UserFeedViewModel: TokenHelperDelegate {
+    public func didRefreshTokenFinish() {
+        self.getMyContents()
     }
 }
