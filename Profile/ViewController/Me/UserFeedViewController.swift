@@ -140,6 +140,13 @@ extension UserFeedViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension UserFeedViewController: HeaderTableViewCellDelegate {
+    func didRemoveSuccess(_ headerTableViewCell: HeaderTableViewCell) {
+        if let indexPath = self.tableView.indexPath(for: headerTableViewCell) {
+            self.viewModel.contents.remove(at: indexPath.row)
+            self.tableView.reloadData()
+        }
+    }
+    
     func didTabProfile(_ headerTableViewCell: HeaderTableViewCell) {
         Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.userDetail(UserDetailViewModel(isMe: false))), animated: true)
     }
