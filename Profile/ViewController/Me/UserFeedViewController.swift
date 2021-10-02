@@ -60,12 +60,10 @@ class UserFeedViewController: UIViewController {
         self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
         self.viewModel.delegate = self
         self.configureTableView()
-        
-        self.viewModel.didLoadFeedgsFinish = {
-            UIView.transition(with: self.tableView, duration: 0.35, options: .transitionCrossDissolve, animations: {
-                self.tableView.reloadData()
-            })
-        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
     }
     
     func configureTableView() {
@@ -165,9 +163,11 @@ extension UserFeedViewController: FooterTableViewCellDelegate {
     }
     
     func didTabQuoteCast(_ footerTableViewCell: FooterTableViewCell, content: Content, page: Page) {
-        let vc = PostOpener.open(.post(PostViewModel(postType: .quoteCast, content: content, page: page)))
-        vc.modalPresentationStyle = .fullScreen
-        Utility.currentViewController().present(vc, animated: true, completion: nil)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1 ) {
+            let vc = PostOpener.open(.post(PostViewModel(postType: .quoteCast, content: content, page: page)))
+            vc.modalPresentationStyle = .fullScreen
+            Utility.currentViewController().present(vc, animated: true, completion: nil)
+        }
     }
     
     func didAuthen(_ footerTableViewCell: FooterTableViewCell) {

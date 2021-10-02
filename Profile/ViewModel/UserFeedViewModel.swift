@@ -47,8 +47,6 @@ public final class UserFeedViewModel {
     private var feedRepository: FeedRepository = FeedRepositoryImpl()
     private var contentRepository: ContentRepository = ContentRepositoryImpl()
     private var contentRequest: ContentRequest = ContentRequest()
-    var feedShelf: FeedShelf = FeedShelf()
-    var feeds: [Feed] = []
     var contents: [Content] = []
     var pagination: Pagination = Pagination()
     var userFeedType: UserFeedType = .all
@@ -78,31 +76,10 @@ public final class UserFeedViewModel {
         }
     }
     
-    public func getFeeds() {
-        self.feedRepository.getFeedsMock(featureSlug: "Test", circleSlug: "Test") { (success, feedShelf) in
-            if success {
-                switch self.userFeedType {
-                case .post:
-                    self.feedShelf.feeds = feedShelf.feeds.filter {$0.feedPayload.type == .short}
-                case .blog:
-                    self.feedShelf.feeds = feedShelf.feeds.filter {$0.feedPayload.type == .blog}
-                case .photo:
-                    self.feedShelf.feeds = feedShelf.feeds.filter {$0.feedPayload.type == .image}
-                default:
-                    self.feedShelf = feedShelf
-                }
-            }
-            self.didLoadFeedgsFinish?()
-        }
-    }
-    
-    //MARK: Output
-    var didLoadFeedgsFinish: (() -> ())?
-    
     public init(userFeedType: UserFeedType) {
         self.userFeedType = userFeedType
         self.tokenHelper.delegate = self
-        self.feeds = []
+        self.contents = []
         if self.userFeedType == .all {
             self.contentRequest.type = .unknow
             self.getMyContents()
