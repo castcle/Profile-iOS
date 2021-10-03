@@ -108,20 +108,20 @@ class MeHeaderViewController: UIViewController {
         self.placeholderLabel.font = UIFont.asset(.light, fontSize: .overline)
         self.placeholderLabel.textColor = UIColor.Asset.lightGray
         
-        let url = URL(string: UserState.shared.avatar)
+        let url = URL(string: UserManager.shared.avatar)
         self.miniProfileImage.kf.setImage(with: url, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.5))])
         
         self.followUI()
         
         if self.viewModel.isMe {
-            let urlCover = URL(string: UserState.shared.cover)
+            let urlCover = URL(string: UserManager.shared.cover)
             self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.5))])
             
-            let urlProfile = URL(string: UserState.shared.avatar)
+            let urlProfile = URL(string: UserManager.shared.avatar)
             self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.5))])
             
-            self.displayNameLabel.text = UserState.shared.name
-            self.userIdLabel.text = UserState.shared.castcleId
+            self.displayNameLabel.text = UserManager.shared.displayName
+            self.userIdLabel.text = UserManager.shared.castcleId
             
             self.editCoverButton.isHidden = false
             self.editProfileButton.isHidden = false
@@ -164,8 +164,8 @@ class MeHeaderViewController: UIViewController {
                 label.numberOfLines = 1
                 label.textColor = UIColor.Asset.gray
                 
-                let followingType = ActiveType.custom(pattern: UserState.shared.following)
-                let followerType = ActiveType.custom(pattern: UserState.shared.followers)
+                let followingType = ActiveType.custom(pattern: UserManager.shared.following)
+                let followerType = ActiveType.custom(pattern: UserManager.shared.followers)
                 
                 label.enabledTypes = [followingType, followerType]
                 label.customColor[followingType] = UIColor.Asset.white
@@ -173,8 +173,8 @@ class MeHeaderViewController: UIViewController {
                 label.customColor[followerType] = UIColor.Asset.white
                 label.customSelectedColor[followerType] = UIColor.Asset.gray
             }
-            self.followLabel.text = "\(UserState.shared.following)Following   \(UserState.shared.followers)Followers"
-            self.bioLabel.text = UserState.shared.overview
+            self.followLabel.text = "\(UserManager.shared.following)Following   \(UserManager.shared.followers)Followers"
+            self.bioLabel.text = UserManager.shared.overview
         }
     }
     
@@ -407,10 +407,10 @@ extension MeHeaderViewController: EditProfileViewModelDelegate {
         self.updateImageType = .none
         if success {
             if self.viewModel.isMe {
-                let urlCover = URL(string: UserState.shared.cover)
+                let urlCover = URL(string: UserManager.shared.cover)
                 self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.5))])
                 
-                let urlProfile = URL(string: UserState.shared.avatar)
+                let urlProfile = URL(string: UserManager.shared.avatar)
                 self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.5))])
             }
         }

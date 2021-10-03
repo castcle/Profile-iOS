@@ -140,7 +140,7 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         
         self.overviewTextView.delegate = self
         self.overviewTextView.placeholder = "What's make you different?"
-        self.overviewTextView.text = UserState.shared.overview
+        self.overviewTextView.text = UserManager.shared.overview
         
         self.linkTitleLabel.font = UIFont.asset(.regular, fontSize: .body)
         self.linkTitleLabel.textColor = UIColor.Asset.white
@@ -151,18 +151,18 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         self.mediumView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
         self.websiteView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
         
-        self.facebookTextField.text = UserState.shared.facebookLink
-        self.twitterTextField.text = UserState.shared.twitterLink
-        self.youtubeTextField.text = UserState.shared.youtubeLink
-        self.mediumTextField.text = UserState.shared.mediumLink
-        self.websiteTextField.text = UserState.shared.websiteLink
+        self.facebookTextField.text = UserManager.shared.facebookLink
+        self.twitterTextField.text = UserManager.shared.twitterLink
+        self.youtubeTextField.text = UserManager.shared.youtubeLink
+        self.mediumTextField.text = UserManager.shared.mediumLink
+        self.websiteTextField.text = UserManager.shared.websiteLink
         
         self.saveButton.setTitle("Save", for: .normal)
         self.saveButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .h4)
         self.saveButton.setTitleColor(UIColor.Asset.white, for: .normal)
         self.saveButton.capsule(color: UIColor.Asset.lightBlue, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
         
-        self.dobDate = (UserState.shared.dob == "" ? nil : (Date.stringToDate(str: UserState.shared.dob)))
+        self.dobDate = (UserManager.shared.dob == "" ? nil : (Date.stringToDate(str: UserManager.shared.dob)))
         if let dob = self.dobDate {
             self.birthdayTextField.text = dob.dateToString()
         } else {
