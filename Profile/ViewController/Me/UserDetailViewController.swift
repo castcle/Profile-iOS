@@ -73,12 +73,14 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate, TPDataSo
     
     //MARK: TPDataSource
     func headerViewController() -> UIViewController {
-        self.headerVC = ProfileOpener.open(.meHeader(MeHeaderViewModel(isMe: self.viewModel.isMe))) as? MeHeaderViewController
+        let vc = ProfileOpener.open(.meHeader(MeHeaderViewModel(isMe: self.viewModel.isMe))) as? MeHeaderViewController
+        vc?.delegate = self
+        self.headerVC = vc
         return self.headerVC ?? MeHeaderViewController()
     }
     
     func bottomViewController() -> UIViewController & PagerAwareProtocol {
-        self.bottomVC =  ProfileOpener.open(.infoTab) as? UserInfoTabStripViewController
+        self.bottomVC = ProfileOpener.open(.infoTab) as? UserInfoTabStripViewController
         return self.bottomVC ?? UserInfoTabStripViewController()
     }
     
@@ -92,5 +94,11 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate, TPDataSo
     }
     
     func tp_scrollViewDidLoad(_ scrollView: UIScrollView) {
+    }
+}
+
+extension UserDetailViewController: MeHeaderViewControllerDelegate {
+    func didUpdateProfileFinish() {
+        NotificationCenter.default.post(name: .reloadMyContent, object: nil)
     }
 }

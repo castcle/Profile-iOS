@@ -36,6 +36,10 @@ import ActiveLabel
 import TLPhotoPicker
 import TOCropViewController
 
+public protocol MeHeaderViewControllerDelegate {
+    func didUpdateProfileFinish()
+}
+
 class MeHeaderViewController: UIViewController {
 
     @IBOutlet var coverImage: UIImageView!
@@ -58,6 +62,7 @@ class MeHeaderViewController: UIViewController {
     @IBOutlet var placeholderLabel: UILabel!
     @IBOutlet var postViewConstaint: NSLayoutConstraint!
     
+    public var delegate: MeHeaderViewControllerDelegate?
     var viewModel = MeHeaderViewModel(isMe: false)
     private let editProfileViewModel = EditProfileViewModel()
     private var isShowActionSheet: Bool = false
@@ -108,16 +113,14 @@ class MeHeaderViewController: UIViewController {
         self.placeholderLabel.font = UIFont.asset(.light, fontSize: .overline)
         self.placeholderLabel.textColor = UIColor.Asset.lightGray
         
-        let url = URL(string: UserManager.shared.avatar)
-        self.miniProfileImage.kf.setImage(with: url, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.5))])
-        
+        let urlProfile = URL(string: UserManager.shared.avatar)
+        self.miniProfileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.5))])
         self.followUI()
         
         if self.viewModel.isMe {
             let urlCover = URL(string: UserManager.shared.cover)
             self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.5))])
             
-            let urlProfile = URL(string: UserManager.shared.avatar)
             self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.5))])
             
             self.displayNameLabel.text = UserManager.shared.displayName
@@ -201,11 +204,11 @@ class MeHeaderViewController: UIViewController {
         
         alert.addAction(UIAlertAction(title: "Take Photo", style: .default , handler: { (UIAlertAction) in
             self.isShowActionSheet = false
+            self.selectTakePhoto()
         }))
         
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (UIAlertAction)in
             self.isShowActionSheet = false
-            self.selectTakePhoto()
         }))
 
         // uncomment for iPad Support
@@ -407,11 +410,13 @@ extension MeHeaderViewController: EditProfileViewModelDelegate {
         self.updateImageType = .none
         if success {
             if self.viewModel.isMe {
+                self.delegate?.didUpdateProfileFinish()
                 let urlCover = URL(string: UserManager.shared.cover)
                 self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.5))])
                 
                 let urlProfile = URL(string: UserManager.shared.avatar)
                 self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.5))])
+                self.miniProfileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.5))])
             }
         }
     }

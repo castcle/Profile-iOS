@@ -91,7 +91,7 @@ class UserInfoTabStripViewController: ButtonBarPagerTabStripViewController, Page
     }
 
     override func reloadPagerTabStripView() {
-        pagerBehaviour = .progressive(skipIntermediateViewControllers: arc4random() % 2 == 0, elasticIndicatorLimit: arc4random() % 2 == 0 )
+        self.pagerBehaviour = .progressive(skipIntermediateViewControllers: arc4random() % 2 == 0, elasticIndicatorLimit: arc4random() % 2 == 0 )
         super.reloadPagerTabStripView()
     }
     

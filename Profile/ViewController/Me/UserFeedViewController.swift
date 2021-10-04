@@ -64,6 +64,16 @@ class UserFeedViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.reloadData(notfication:)), name: .reloadMyContent, object: nil)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+          super.viewWillDisappear(animated)
+          NotificationCenter.default.removeObserver(self, name: .reloadMyContent, object: nil)
+    }
+    
+    @objc func reloadData(notfication: NSNotification) {
+        self.tableView.reloadData()
     }
     
     func configureTableView() {
