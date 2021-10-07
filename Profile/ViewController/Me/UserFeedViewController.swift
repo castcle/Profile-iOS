@@ -150,7 +150,7 @@ extension UserFeedViewController: UITableViewDelegate, UITableViewDataSource {
 extension UserFeedViewController: HeaderTableViewCellDelegate {
     func didRemoveSuccess(_ headerTableViewCell: HeaderTableViewCell) {
         if let indexPath = self.tableView.indexPath(for: headerTableViewCell) {
-            self.viewModel.contents.remove(at: indexPath.row)
+            self.viewModel.contents.remove(at: indexPath.section)
             self.tableView.reloadData()
         }
     }

@@ -33,7 +33,7 @@ import SwiftyJSON
 import Defaults
 
 public protocol SelectPhotoMethodViewModelDelegate {
-    func didCreatePageFinish(success: Bool)
+    func didUpdatePageFinish(success: Bool)
 }
 
 public enum AvatarType {
@@ -44,44 +44,30 @@ public enum AvatarType {
 public class SelectPhotoMethodViewModel {
     
     public var delegate: SelectPhotoMethodViewModelDelegate?
-    var pageRepository: PageRepository
+    var pageRepository: PageRepository = PageRepositoryImpl()
     var pageRequest: PageRequest = PageRequest()
     let tokenHelper: TokenHelper = TokenHelper()
     var avatar: UIImage?
     var avatarType: AvatarType
+    var stage: Stage = .none
     
-    //MARK: Input
-    public init(avatarType: AvatarType, pageRequest: PageRequest = PageRequest(), pageRepository: PageRepository = PageRepositoryImpl()) {
-        self.pageRequest = pageRequest
-        self.pageRepository = pageRepository
-        self.avatarType = avatarType
-        self.tokenHelper.delegate = self
+    enum Stage {
+        case updatePage
+        case none
     }
     
-    public func createPage() {
-        guard let image = self.avatar else { return }
-        
-        if self.avatarType == .page {
-            self.pageRequest.avatar = image.toBase64() ?? ""
-            self.pageRepository.createPage(pageRequest: self.pageRequest) { (success, response, isRefreshToken) in
-                if success {
-                    self.delegate?.didCreatePageFinish(success: true)
-                } else {
-                    if isRefreshToken {
-                        self.tokenHelper.refreshToken()
-                    } else {
-                        self.delegate?.didCreatePageFinish(success: false)
-                    }
-                }
-            }
-        }
-        
-        
+    //MARK: Input
+    public init(avatarType: AvatarType, pageRequest: PageRequest = PageRequest()) {
+        self.pageRequest = pageRequest
+        self.avatarType = avatarType
+        self.tokenHelper.delegate = self
     }
 }
 
 extension SelectPhotoMethodViewModel: TokenHelperDelegate {
     public func didRefreshTokenFinish() {
-        self.createPage()
+        if self.stage == .updatePage {
+//            self.createPage()
+        }
     }
 }

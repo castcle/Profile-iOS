@@ -179,7 +179,7 @@ class CreatePageDisplayNameCell: UICollectionViewCell, UITextFieldDelegate {
         if !self.displayNameTextfield.text!.isEmpty && !self.viewModel.isCastcleIdExist {
             self.viewModel.pageRequest.castcleId = self.viewModel.authenRequest.payload.castcleId
             self.viewModel.pageRequest.displayName = self.viewModel.authenRequest.payload.displayName
-            Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.photoMethod(SelectPhotoMethodViewModel(avatarType: .page, pageRequest: self.viewModel.pageRequest))), animated: true)
+            self.viewModel.createPage()
         }
     }
 }
@@ -194,5 +194,11 @@ extension CreatePageDisplayNameCell: CreatePageDisplayNameViewModelDelegate {
     
     func didCheckCastcleIdExistsFinish() {
         self.updateUI()
+    }
+    
+    func didCreatePageFinish(success: Bool) {
+        if success {
+            Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.photoMethod(SelectPhotoMethodViewModel(avatarType: .page, pageRequest: self.viewModel.pageRequest))), animated: true)
+        }
     }
 }

@@ -34,6 +34,7 @@ import Defaults
 public protocol CreatePageDisplayNameViewModelDelegate {
     func didCheckCastcleIdExistsFinish()
     func didSuggestCastcleIdFinish(suggestCastcleId: String)
+    func didCreatePageFinish(success: Bool)
 }
 
 class CreatePageDisplayNameViewModel {
@@ -41,6 +42,7 @@ class CreatePageDisplayNameViewModel {
     public var delegate: CreatePageDisplayNameViewModelDelegate?
     var authenticationRepository: AuthenticationRepository
     var authenRequest: AuthenRequest = AuthenRequest()
+    var pageRepository: PageRepository = PageRepositoryImpl()
     var pageRequest: PageRequest
     var isCastcleIdExist: Bool = true
     let tokenHelper: TokenHelper = TokenHelper()
@@ -49,6 +51,7 @@ class CreatePageDisplayNameViewModel {
     enum CreateDisplayNameStage {
         case suggest
         case check
+        case createPage
         case none
     }
 
@@ -100,6 +103,23 @@ class CreatePageDisplayNameViewModel {
             }
         }
     }
+    
+    public func createPage() {
+        self.stage = .createPage
+        self.pageRepository.createPage(pageRequest: self.pageRequest) { (success, response, isRefreshToken) in
+            if success {
+                self.stage = .none
+                self.tokenHelper.refreshToken()
+                self.delegate?.didCreatePageFinish(success: true)
+            } else {
+                if isRefreshToken {
+                    self.tokenHelper.refreshToken()
+                } else {
+                    self.delegate?.didCreatePageFinish(success: false)
+                }
+            }
+        }
+    }
 }
 
 extension CreatePageDisplayNameViewModel: TokenHelperDelegate {
@@ -108,6 +128,8 @@ extension CreatePageDisplayNameViewModel: TokenHelperDelegate {
             self.suggestCastcleId()
         } else if self.stage == .check {
             self.checkCastcleIdExists()
+        } else if self.stage == .createPage {
+            self.createPage()
         }
     }
 }

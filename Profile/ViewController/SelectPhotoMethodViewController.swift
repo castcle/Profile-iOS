@@ -70,7 +70,42 @@ class SelectPhotoMethodViewController: UIViewController {
     }
     
     func setupNavBar() {
-        self.customNavigationBar(.secondary, title: "")
+        if self.viewModel.avatarType == .page {
+            self.customNavigationBar(.primary, title: "", textColor: UIColor.Asset.white)
+            
+            let leftIcon = NavBarButtonType.back.barButton
+            leftIcon.addTarget(self, action: #selector(leftButtonAction), for: .touchUpInside)
+            self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: leftIcon)
+            
+            var rightButton: [UIBarButtonItem] = []
+            
+            let icon = UIButton()
+            icon.setTitle("Skip", for: .normal)
+            icon.titleLabel?.font = UIFont.asset(.medium, fontSize: .h4)
+            icon.setTitleColor(UIColor.Asset.lightBlue, for: .normal)
+            icon.addTarget(self, action: #selector(skipAction), for: .touchUpInside)
+            rightButton.append(UIBarButtonItem(customView: icon))
+
+            self.navigationItem.rightBarButtonItems = rightButton
+        } else {
+            self.customNavigationBar(.primary, title: "", textColor: UIColor.Asset.white)
+            let leftIcon = NavBarButtonType.back.barButton
+            leftIcon.addTarget(self, action: #selector(leftButtonAction), for: .touchUpInside)
+            self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: leftIcon)
+        }
+    }
+    
+    @objc private func leftButtonAction() {
+        if self.viewModel.avatarType == .user {
+            Utility.currentViewController().navigationController?.popViewController(animated: true)
+        } else {
+            let viewControllers: [UIViewController] = Utility.currentViewController().navigationController!.viewControllers as [UIViewController]
+            Utility.currentViewController().navigationController!.popToViewController(viewControllers[viewControllers.count - 4], animated: true)
+        }
+    }
+    
+    @objc private func skipAction() {
+        Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.about(AboutInfoViewModel(avatarType: self.viewModel.avatarType))), animated: true)
     }
     
     @IBAction func cameraRollAction(_ sender: Any) {
@@ -192,15 +227,14 @@ extension SelectPhotoMethodViewController: TOCropViewControllerDelegate {
         cropViewController.dismiss(animated: true, completion: {
             self.viewModel.avatar = image.resizeImage(targetSize: CGSize.init(width: 200, height: 200))
             if self.viewModel.avatarType == .page {
-                Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.about(AboutInfoViewModel(avatarType: self.viewModel.avatarType))), animated: true)
-//                self.viewModel.createPage()
+                
             }
         })
     }
 }
 
 extension SelectPhotoMethodViewController: SelectPhotoMethodViewModelDelegate {
-    func didCreatePageFinish(success: Bool) {
+    func didUpdatePageFinish(success: Bool) {
         if success {
             Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.about(AboutInfoViewModel(avatarType: self.viewModel.avatarType))), animated: true)
         }
