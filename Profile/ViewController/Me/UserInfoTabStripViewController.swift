@@ -94,14 +94,12 @@ class UserInfoTabStripViewController: ButtonBarPagerTabStripViewController, Page
         self.pagerBehaviour = .progressive(skipIntermediateViewControllers: arc4random() % 2 == 0, elasticIndicatorLimit: arc4random() % 2 == 0 )
         super.reloadPagerTabStripView()
     }
-    
+
     override func updateIndicator(for viewController: PagerTabStripViewController, fromIndex: Int, toIndex: Int, withProgressPercentage progressPercentage: CGFloat, indexWasChanged: Bool) {
         super.updateIndicator(for: viewController, fromIndex: fromIndex, toIndex: toIndex, withProgressPercentage: progressPercentage, indexWasChanged: indexWasChanged)
-        
         guard indexWasChanged == true else { return }
 
         //IMPORTANT!!!: call the following to let the master scroll controller know which view to control in the bottom section
         self.pageDelegate?.pageViewController(self.currentViewController, didSelectPageAt: toIndex)
-
     }
 }
