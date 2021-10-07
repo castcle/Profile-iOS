@@ -105,7 +105,7 @@ class SelectPhotoMethodViewController: UIViewController {
     }
     
     @objc private func skipAction() {
-        Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.about(AboutInfoViewModel(avatarType: self.viewModel.avatarType))), animated: true)
+        Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.about(AboutInfoViewModel(avatarType: self.viewModel.avatarType, castcleId: self.viewModel.castcleId))), animated: true)
     }
     
     @IBAction func cameraRollAction(_ sender: Any) {
@@ -225,9 +225,9 @@ extension SelectPhotoMethodViewController: UIImagePickerControllerDelegate, UINa
 extension SelectPhotoMethodViewController: TOCropViewControllerDelegate {
     func cropViewController(_ cropViewController: TOCropViewController, didCropToCircularImage image: UIImage, with cropRect: CGRect, angle: Int) {
         cropViewController.dismiss(animated: true, completion: {
-            self.viewModel.avatar = image.resizeImage(targetSize: CGSize.init(width: 200, height: 200))
+            self.viewModel.avatar = image.resizeImage(targetSize: CGSize.init(width: 500, height: 500))
             if self.viewModel.avatarType == .page {
-                
+                self.viewModel.updateAvatar()
             }
         })
     }
@@ -236,7 +236,7 @@ extension SelectPhotoMethodViewController: TOCropViewControllerDelegate {
 extension SelectPhotoMethodViewController: SelectPhotoMethodViewModelDelegate {
     func didUpdatePageFinish(success: Bool) {
         if success {
-            Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.about(AboutInfoViewModel(avatarType: self.viewModel.avatarType))), animated: true)
+            Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.about(AboutInfoViewModel(avatarType: self.viewModel.avatarType, castcleId: self.viewModel.castcleId))), animated: true)
         }
     }
 }

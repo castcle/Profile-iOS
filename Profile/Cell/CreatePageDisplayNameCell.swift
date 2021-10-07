@@ -28,6 +28,7 @@
 import UIKit
 import Core
 import Authen
+import JGProgressHUD
 
 class CreatePageDisplayNameCell: UICollectionViewCell, UITextFieldDelegate {
 
@@ -42,9 +43,11 @@ class CreatePageDisplayNameCell: UICollectionViewCell, UITextFieldDelegate {
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
     
     private var viewModel = CreatePageDisplayNameViewModel()
+    let hud = JGProgressHUD()
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.hud.textLabel.text = "Loading"
         self.displayNameView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
         self.castcleIdPasswordView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
         self.headlineLabel.font = UIFont.asset(.regular, fontSize: .title)
@@ -177,6 +180,7 @@ class CreatePageDisplayNameCell: UICollectionViewCell, UITextFieldDelegate {
     @IBAction func nextAction(_ sender: Any) {
         self.endEditing(true)
         if !self.displayNameTextfield.text!.isEmpty && !self.viewModel.isCastcleIdExist {
+            self.hud.show(in: Utility.currentViewController().view)
             self.viewModel.pageRequest.castcleId = self.viewModel.authenRequest.payload.castcleId
             self.viewModel.pageRequest.displayName = self.viewModel.authenRequest.payload.displayName
             self.viewModel.createPage()
@@ -196,9 +200,10 @@ extension CreatePageDisplayNameCell: CreatePageDisplayNameViewModelDelegate {
         self.updateUI()
     }
     
-    func didCreatePageFinish(success: Bool) {
+    func didCreatePageFinish(success: Bool, castcleId: String) {
+        self.hud.dismiss()
         if success {
-            Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.photoMethod(SelectPhotoMethodViewModel(avatarType: .page, pageRequest: self.viewModel.pageRequest))), animated: true)
+            Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.photoMethod(SelectPhotoMethodViewModel(avatarType: .page, pageRequest: self.viewModel.pageRequest, castcleId: castcleId))), animated: true)
         }
     }
 }

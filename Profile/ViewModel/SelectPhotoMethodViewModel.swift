@@ -50,24 +50,47 @@ public class SelectPhotoMethodViewModel {
     var avatar: UIImage?
     var avatarType: AvatarType
     var stage: Stage = .none
+    var castcleId: String
     
     enum Stage {
-        case updatePage
+        case updateAvatar
         case none
     }
     
     //MARK: Input
-    public init(avatarType: AvatarType, pageRequest: PageRequest = PageRequest()) {
+    public init(avatarType: AvatarType, pageRequest: PageRequest = PageRequest(), castcleId: String = "") {
         self.pageRequest = pageRequest
         self.avatarType = avatarType
+        self.castcleId = castcleId
         self.tokenHelper.delegate = self
+    }
+    
+    func updateAvatar() {
+        if !self.castcleId.isEmpty, let image = self.avatar {
+            self.pageRequest.avatar = image.toBase64() ?? ""
+            self.pageRepository.updatePageAvatar(pageId: self.castcleId, pageRequest: self.pageRequest) { (success, response, isRefreshToken) in
+                if success {
+                    self.stage = .none
+                    self.tokenHelper.refreshToken()
+                    self.delegate?.didUpdatePageFinish(success: true)
+                } else {
+                    if isRefreshToken {
+                        self.tokenHelper.refreshToken()
+                    } else {
+                        self.delegate?.didUpdatePageFinish(success: false)
+                    }
+                }
+            }
+        } else {
+            self.delegate?.didUpdatePageFinish(success: false)
+        }
     }
 }
 
 extension SelectPhotoMethodViewModel: TokenHelperDelegate {
     public func didRefreshTokenFinish() {
-        if self.stage == .updatePage {
-//            self.createPage()
+        if self.stage == .updateAvatar {
+            self.updateAvatar()
         }
     }
 }

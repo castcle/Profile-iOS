@@ -27,21 +27,39 @@
 
 import Foundation
 import Core
+import Networking
 import Defaults
+
+protocol AboutInfoViewModelDelegate {
+    func didUpdatePageInfoFinish(success: Bool)
+}
 
 public class AboutInfoViewModel {
    
     //MARK: Private
+    var delegate: AboutInfoViewModelDelegate?
     var socialLinkShelf: SocialLinkShelf = SocialLinkShelf()
+    var pageRepository: PageRepository = PageRepositoryImpl()
+    var pageRequest: PageRequest = PageRequest()
+    let tokenHelper: TokenHelper = TokenHelper()
     var isSkip: Bool = true
     var avatarType: AvatarType
     var overView: String = ""
     var dobDisplay: String = ""
     var dobDate: Date = Date()
+    var castcleId: String
+    var stage: Stage = .none
+    
+    enum Stage {
+        case updateInfo
+        case none
+    }
 
     //MARK: Input
-    public init(avatarType: AvatarType) {
+    public init(avatarType: AvatarType, castcleId: String = "") {
         self.avatarType = avatarType
+        self.castcleId = castcleId
+        self.tokenHelper.delegate = self
     }
     
     func clearData() {
@@ -78,6 +96,37 @@ public class AboutInfoViewModel {
         self.didMappingFinish?()
     }
     
+    func updatePageInfo() {
+        self.stage = .updateInfo
+        self.pageRequest.overview = self.overView
+        self.pageRequest.links.facebook = Defaults[.facebook]
+        self.pageRequest.links.twitter = Defaults[.twitter]
+        self.pageRequest.links.youtube = Defaults[.youtube]
+        self.pageRequest.links.medium = Defaults[.medium]
+        self.pageRequest.links.website = Defaults[.website]
+        
+        self.pageRepository.updatePageInfo(pageId: self.castcleId, pageRequest: self.pageRequest) { (success, response, isRefreshToken) in
+            if success {
+                self.stage = .none
+                self.delegate?.didUpdatePageInfoFinish(success: true)
+            } else {
+                if isRefreshToken {
+                    self.tokenHelper.refreshToken()
+                } else {
+                    self.delegate?.didUpdatePageInfoFinish(success: false)
+                }
+            }
+        }
+    }
+    
     //MARK: Output
     var didMappingFinish: (() -> ())?
+}
+
+extension AboutInfoViewModel: TokenHelperDelegate {
+    public func didRefreshTokenFinish() {
+        if self.stage == .updateInfo {
+            self.updatePageInfo()
+        }
+    }
 }

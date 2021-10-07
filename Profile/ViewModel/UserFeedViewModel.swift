@@ -46,7 +46,7 @@ public final class UserFeedViewModel {
     public var delegate: UserFeedViewModelDelegate?
     private var feedRepository: FeedRepository = FeedRepositoryImpl()
     private var contentRepository: ContentRepository = ContentRepositoryImpl()
-    private var contentRequest: ContentRequest = ContentRequest()
+    var contentRequest: ContentRequest = ContentRequest()
     var contents: [Content] = []
     var pagination: Pagination = Pagination()
     var userFeedType: UserFeedType = .all

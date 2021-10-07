@@ -28,24 +28,16 @@
 import UIKit
 import Core
 
+protocol ComplateTableViewCellDelegate {
+    func didDone(_ complateTableViewCell: ComplateTableViewCell)
+}
+
 class ComplateTableViewCell: UITableViewCell {
 
     @IBOutlet var complateButton: UIButton!
     
-    var avatarType: AvatarType = .user
-    var isSkip: Bool = false {
-        didSet {
-            if isSkip {
-                self.complateButton.setTitle("Skip", for: .normal)
-                self.complateButton.setTitleColor(UIColor.Asset.lightBlue, for: .normal)
-                self.complateButton.capsule(color: UIColor.Asset.darkGraphiteBlue, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
-            } else {
-                self.complateButton.setTitle("Done", for: .normal)
-                self.complateButton.setTitleColor(UIColor.Asset.white, for: .normal)
-                self.complateButton.capsule(color: UIColor.Asset.lightBlue, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
-            }
-        }
-    }
+    var delegate: ComplateTableViewCellDelegate?
+    var isSkip: Bool = false
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -56,12 +48,19 @@ class ComplateTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
-    @IBAction func complateAction(_ sender: Any) {
-        if self.avatarType == .user {
-            Utility.currentViewController().navigationController?.popToRootViewController(animated: true)
+    func configCell(isSkip: Bool) {
+        if isSkip {
+            self.complateButton.setTitle("Skip", for: .normal)
+            self.complateButton.setTitleColor(UIColor.Asset.lightBlue, for: .normal)
+            self.complateButton.capsule(color: UIColor.Asset.darkGraphiteBlue, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
         } else {
-            let viewControllers: [UIViewController] = Utility.currentViewController().navigationController!.viewControllers as [UIViewController]
-            Utility.currentViewController().navigationController!.popToViewController(viewControllers[viewControllers.count - 5], animated: true)
+            self.complateButton.setTitle("Done", for: .normal)
+            self.complateButton.setTitleColor(UIColor.Asset.white, for: .normal)
+            self.complateButton.capsule(color: UIColor.Asset.lightBlue, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
         }
+    }
+    
+    @IBAction func complateAction(_ sender: Any) {
+        self.delegate?.didDone(self)
     }
 }

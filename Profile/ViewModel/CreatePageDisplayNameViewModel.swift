@@ -34,7 +34,7 @@ import Defaults
 public protocol CreatePageDisplayNameViewModelDelegate {
     func didCheckCastcleIdExistsFinish()
     func didSuggestCastcleIdFinish(suggestCastcleId: String)
-    func didCreatePageFinish(success: Bool)
+    func didCreatePageFinish(success: Bool, castcleId: String)
 }
 
 class CreatePageDisplayNameViewModel {
@@ -110,12 +110,12 @@ class CreatePageDisplayNameViewModel {
             if success {
                 self.stage = .none
                 self.tokenHelper.refreshToken()
-                self.delegate?.didCreatePageFinish(success: true)
+                self.delegate?.didCreatePageFinish(success: true, castcleId: self.pageRequest.castcleId)
             } else {
                 if isRefreshToken {
                     self.tokenHelper.refreshToken()
                 } else {
-                    self.delegate?.didCreatePageFinish(success: false)
+                    self.delegate?.didCreatePageFinish(success: false, castcleId: "")
                 }
             }
         }

@@ -32,21 +32,6 @@ import IGListKit
 import Defaults
 
 class AboutInfoViewController: UIViewController {
-
-//    let collectionView: UICollectionView = {
-//        let view = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-//        view.backgroundColor = UIColor.Asset.darkGraphiteBlue
-//        return view
-//    }()
-//    
-//    lazy var adapter: ListAdapter = {
-//        return ListAdapter(updater: ListAdapterUpdater(), viewController: self, workingRangeSize: 0)
-//    }()
-//    
-//    enum AboutType: String {
-//        case about
-//        case social
-//    }
     
     @IBOutlet var tableView: UITableView!
     
@@ -73,6 +58,8 @@ class AboutInfoViewController: UIViewController {
             self.updateIsSkip()
             self.tableView.reloadData()
         }
+        
+        self.viewModel.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -116,8 +103,10 @@ class AboutInfoViewController: UIViewController {
                 self.viewModel.isSkip = true
             }
         }
-        
-        self.tableView.reloadSections(IndexSet(integer: AboutInfoViewControllerSection.submit.rawValue), with: UITableView.RowAnimation.automatic)
+    }
+    
+    private func reloadButton() {
+        self.tableView.reloadSections(IndexSet(integer: AboutInfoViewControllerSection.submit.rawValue), with: .none)
     }
     
     @objc private func leftButtonAction() {
@@ -170,8 +159,8 @@ extension AboutInfoViewController: UITableViewDelegate, UITableViewDataSource {
         case AboutInfoViewControllerSection.submit.rawValue:
             let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.complate, for: indexPath as IndexPath) as? ComplateTableViewCell
             cell?.backgroundColor = UIColor.clear
-            cell?.avatarType = self.viewModel.avatarType
-            cell?.isSkip = self.viewModel.isSkip
+            cell?.delegate = self
+            cell?.configCell(isSkip: self.viewModel.isSkip)
             return cell ?? ComplateTableViewCell()
         default:
             return UITableViewCell()
@@ -183,6 +172,7 @@ extension AboutInfoViewController: AboutTableViewCellDelegate {
     func didUpdateData(_ aboutTableViewCell: AboutTableViewCell, overview: String) {
         self.viewModel.overView = overview
         self.updateIsSkip()
+        self.reloadButton()
     }
 }
 
@@ -191,5 +181,25 @@ extension AboutInfoViewController: DobTableViewCellDelegate {
         self.viewModel.dobDate = date
         self.viewModel.dobDisplay = displayDate
         self.updateIsSkip()
+        self.reloadButton()
+    }
+}
+
+extension AboutInfoViewController: ComplateTableViewCellDelegate {
+    func didDone(_ complateTableViewCell: ComplateTableViewCell) {
+        if self.viewModel.avatarType == .user {
+            Utility.currentViewController().navigationController?.popToRootViewController(animated: true)
+        } else {
+            self.viewModel.updatePageInfo()
+        }
+    }
+}
+
+extension AboutInfoViewController: AboutInfoViewModelDelegate {
+    func didUpdatePageInfoFinish(success: Bool) {
+        if success {
+            let viewControllers: [UIViewController] = Utility.currentViewController().navigationController!.viewControllers as [UIViewController]
+            Utility.currentViewController().navigationController!.popToViewController(viewControllers[viewControllers.count - 5], animated: true)
+        }
     }
 }

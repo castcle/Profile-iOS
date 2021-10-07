@@ -60,6 +60,16 @@ class UserFeedViewController: UIViewController {
         self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
         self.viewModel.delegate = self
         self.configureTableView()
+        
+        self.tableView.cr.addFootRefresh(animator: NormalFooterAnimator()) { [weak self] in
+            guard let self = self else { return }
+            if self.viewModel.pagination.next != 0 {
+                self.viewModel.contentRequest.page = self.viewModel.pagination.next
+                self.viewModel.getMyContents()
+            } else {
+                self.tableView.cr.noticeNoMoreData()
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -150,8 +160,10 @@ extension UserFeedViewController: UITableViewDelegate, UITableViewDataSource {
 extension UserFeedViewController: HeaderTableViewCellDelegate {
     func didRemoveSuccess(_ headerTableViewCell: HeaderTableViewCell) {
         if let indexPath = self.tableView.indexPath(for: headerTableViewCell) {
-            self.viewModel.contents.remove(at: indexPath.section)
-            self.tableView.reloadData()
+            UIView.transition(with: self.tableView, duration: 0.35, options: .transitionCrossDissolve, animations: {
+                self.viewModel.contents.remove(at: indexPath.section)
+                self.tableView.reloadData()
+            })
         }
     }
     
@@ -195,6 +207,7 @@ extension UserFeedViewController: UserFeedViewModelDelegate {
     func didGetContentFinish(success: Bool) {
         if success {
             UIView.transition(with: self.tableView, duration: 0.35, options: .transitionCrossDissolve, animations: {
+                self.tableView.cr.endLoadingMore()
                 self.tableView.reloadData()
             })
         }
