@@ -186,11 +186,15 @@ extension AboutInfoViewController: DobTableViewCellDelegate {
 }
 
 extension AboutInfoViewController: ComplateTableViewCellDelegate {
-    func didDone(_ complateTableViewCell: ComplateTableViewCell) {
+    func didDone(_ complateTableViewCell: ComplateTableViewCell, skip: Bool) {
         if self.viewModel.avatarType == .user {
             Utility.currentViewController().navigationController?.popToRootViewController(animated: true)
         } else {
-            self.viewModel.updatePageInfo()
+            if skip {
+                Utility.currentViewController().navigationController?.popToRootViewController(animated: true)
+            } else {
+                self.viewModel.updatePageInfo()
+            }
         }
     }
 }

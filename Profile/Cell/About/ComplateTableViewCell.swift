@@ -29,7 +29,7 @@ import UIKit
 import Core
 
 protocol ComplateTableViewCellDelegate {
-    func didDone(_ complateTableViewCell: ComplateTableViewCell)
+    func didDone(_ complateTableViewCell: ComplateTableViewCell, skip: Bool)
 }
 
 class ComplateTableViewCell: UITableViewCell {
@@ -49,6 +49,7 @@ class ComplateTableViewCell: UITableViewCell {
     }
     
     func configCell(isSkip: Bool) {
+        self.isSkip = isSkip
         if isSkip {
             self.complateButton.setTitle("Skip", for: .normal)
             self.complateButton.setTitleColor(UIColor.Asset.lightBlue, for: .normal)
@@ -61,6 +62,10 @@ class ComplateTableViewCell: UITableViewCell {
     }
     
     @IBAction func complateAction(_ sender: Any) {
-        self.delegate?.didDone(self)
+        if self.isSkip {
+            self.delegate?.didDone(self, skip: true)
+        } else {
+            self.delegate?.didDone(self, skip: false)
+        }
     }
 }
