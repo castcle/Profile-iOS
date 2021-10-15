@@ -45,62 +45,87 @@ public protocol UserFeedViewModelDelegate {
 public final class UserFeedViewModel {
    
     public var delegate: UserFeedViewModelDelegate?
-    private var feedRepository: FeedRepository = FeedRepositoryImpl()
     private var contentRepository: ContentRepository = ContentRepositoryImpl()
+    private var pageRepository: PageRepository = PageRepositoryImpl()
     var contentRequest: ContentRequest = ContentRequest()
     var contents: [Content] = []
     var pagination: Pagination = Pagination()
     var userFeedType: UserFeedType = .all
+    var profileType: ProfileType = .unknow
     let tokenHelper: TokenHelper = TokenHelper()
     var page: Page = Page()
 
     //MARK: Input
-    public func getMyContents() {
-        self.contentRepository.getMeContents(contentRequest: self.contentRequest) { (success, response, isRefreshToken) in
-            if success {
-                do {
-                    let rawJson = try response.mapJSON()
-                    let json = JSON(rawJson)
-                    let shelf = ContentShelf(json: json)
-                    self.contents.append(contentsOf: shelf.contents)
-                    self.pagination = shelf.pagination
-                    self.delegate?.didGetContentFinish(success: true)
-                } catch {
-                    self.delegate?.didGetContentFinish(success: false)
-                }
-            } else {
-                if isRefreshToken {
-                    self.tokenHelper.refreshToken()
+    public func getContents() {
+        if self.profileType == .me {
+            self.contentRepository.getMeContents(contentRequest: self.contentRequest) { (success, response, isRefreshToken) in
+                if success {
+                    do {
+                        let rawJson = try response.mapJSON()
+                        let json = JSON(rawJson)
+                        let shelf = ContentShelf(json: json)
+                        self.contents.append(contentsOf: shelf.contents)
+                        self.pagination = shelf.pagination
+                        self.delegate?.didGetContentFinish(success: true)
+                    } catch {
+                        self.delegate?.didGetContentFinish(success: false)
+                    }
                 } else {
-                    self.delegate?.didGetContentFinish(success: false)
+                    if isRefreshToken {
+                        self.tokenHelper.refreshToken()
+                    } else {
+                        self.delegate?.didGetContentFinish(success: false)
+                    }
+                }
+            }
+        } else if self.profileType == .myPage {
+            self.pageRepository.getPageContent(pageId: self.page.castcleId, contentRequest: self.contentRequest) { (success, response, isRefreshToken) in
+                if success {
+                    do {
+                        let rawJson = try response.mapJSON()
+                        let json = JSON(rawJson)
+                        let shelf = ContentShelf(json: json)
+                        self.contents.append(contentsOf: shelf.contents)
+                        self.pagination = shelf.pagination
+                        self.delegate?.didGetContentFinish(success: true)
+                    } catch {
+                        self.delegate?.didGetContentFinish(success: false)
+                    }
+                } else {
+                    if isRefreshToken {
+                        self.tokenHelper.refreshToken()
+                    } else {
+                        self.delegate?.didGetContentFinish(success: false)
+                    }
                 }
             }
         }
     }
     
-    public init(userFeedType: UserFeedType, page: Page = Page()) {
+    public init(userFeedType: UserFeedType, profileType: ProfileType, page: Page = Page()) {
         self.userFeedType = userFeedType
         self.tokenHelper.delegate = self
         self.contents = []
+        self.profileType = profileType
         self.page = page
         if self.userFeedType == .all {
             self.contentRequest.type = .unknow
-            self.getMyContents()
+            self.getContents()
         } else if self.userFeedType == .post {
             self.contentRequest.type = .short
-            self.getMyContents()
+            self.getContents()
         } else if self.userFeedType == .blog {
             self.contentRequest.type = .blog
-            self.getMyContents()
+            self.getContents()
         } else if self.userFeedType == .photo {
             self.contentRequest.type = .image
-            self.getMyContents()
+            self.getContents()
         }
     }
 }
 
 extension UserFeedViewModel: TokenHelperDelegate {
     public func didRefreshTokenFinish() {
-        self.getMyContents()
+        self.getContents()
     }
 }

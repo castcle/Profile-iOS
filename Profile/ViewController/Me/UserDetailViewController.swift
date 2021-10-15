@@ -50,15 +50,17 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate, TPDataSo
         self.emptyDetailLabel.textColor = UIColor.Asset.lightGray
         
         self.setupNavBar()
-        if self.viewModel.profileType != .unknow {
+        if self.viewModel.profileType == .me {
+            self.emptyView.isHidden = true
             self.configure(with: self, delegate: self)
+        } else if self.viewModel.profileType != .unknow {
             self.emptyView.isHidden = true
         } else {
             self.emptyView.isHidden = false
         }
         
         self.viewModel.didGetPageInfoFinish = {
-            
+            self.configure(with: self, delegate: self)
         }
     }
     
@@ -87,6 +89,8 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate, TPDataSo
     
     func bottomViewController() -> UIViewController & PagerAwareProtocol {
         self.bottomVC = ProfileOpener.open(.infoTab) as? UserInfoTabStripViewController
+        self.bottomVC.profileType = self.viewModel.profileType
+        self.bottomVC.page = self.viewModel.page
         return self.bottomVC ?? UserInfoTabStripViewController()
     }
     

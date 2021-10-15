@@ -41,7 +41,7 @@ class UserFeedViewController: UIViewController {
     
     @IBOutlet var tableView: UITableView!
     
-    var viewModel = UserFeedViewModel(userFeedType: .unknow)
+    var viewModel = UserFeedViewModel(userFeedType: .unknow, profileType: .unknow)
     
     enum FeedSection: Int, CaseIterable {
         case header = 0
@@ -65,7 +65,7 @@ class UserFeedViewController: UIViewController {
             guard let self = self else { return }
             if self.viewModel.pagination.next != 0 {
                 self.viewModel.contentRequest.page = self.viewModel.pagination.next
-                self.viewModel.getMyContents()
+                self.viewModel.getContents()
             } else {
                 self.tableView.cr.noticeNoMoreData()
             }

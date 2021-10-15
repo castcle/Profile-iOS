@@ -113,55 +113,28 @@ class MeHeaderViewController: UIViewController {
         self.placeholderLabel.font = UIFont.asset(.light, fontSize: .overline)
         self.placeholderLabel.textColor = UIColor.Asset.lightGray
         
-        let urlProfile = URL(string: UserManager.shared.avatar)
-        self.miniProfileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.5))])
         self.followUI()
-        
-        if self.viewModel.profileType == .me {
-            let urlCover = URL(string: UserManager.shared.cover)
-            self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.5))])
-            
-            self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.5))])
-            
-            self.displayNameLabel.text = UserManager.shared.displayName
-            self.userIdLabel.text = UserManager.shared.castcleId
-            
-            self.editCoverButton.isHidden = false
-            self.editProfileButton.isHidden = false
-            self.editProfileImageButton.isHidden = false
-            
-            self.viewProfileButton.isHidden = true
-            self.followButton.isHidden = true
-            
-            self.newPostView.isHidden = false
-            self.postViewConstaint.constant = 65.0
-        } else {
-            let urlCover = URL(string: "https://cdn.pixabay.com/photo/2021/07/13/18/58/coffee-6464307_1280.jpg")
-            self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.5))])
-            
-            let urlProfile = URL(string: "https://static.wikia.nocookie.net/whywomenkill/images/e/e7/Alexandra_Daddario.jpg")
-            self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.5))])
-            
-            self.displayNameLabel.text = "Alexandra Daddario"
-            self.userIdLabel.text = "@alexandra-daddario"
-            
-            self.editCoverButton.isHidden = true
-            self.editProfileButton.isHidden = true
-            self.editProfileImageButton.isHidden = true
-            
-            self.viewProfileButton.isHidden = false
-            self.followButton.isHidden = false
-            
-            self.newPostView.isHidden = true
-            self.postViewConstaint.constant = 0.0
-        }
-        
         self.editProfileViewModel.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.updateProfileUI()
+    }
+    
+    private func updateProfileUI() {
         if self.viewModel.profileType == .me {
+            let urlProfile = URL(string: UserManager.shared.avatar)
+            let urlCover = URL(string: UserManager.shared.cover)
+            
+            self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.5))])
+            
+            self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.5))])
+            self.miniProfileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.5))])
+            
+            self.displayNameLabel.text = UserManager.shared.displayName
+            self.userIdLabel.text = UserManager.shared.castcleId
+            
             self.followLabel.customize { label in
                 label.font = UIFont.asset(.regular, fontSize: .body)
                 label.numberOfLines = 1
@@ -178,6 +151,65 @@ class MeHeaderViewController: UIViewController {
             }
             self.followLabel.text = "\(UserManager.shared.following)Following   \(UserManager.shared.followers)Followers"
             self.bioLabel.text = UserManager.shared.overview
+        } else if self.viewModel.profileType == .myPage {
+            let urlProfile = URL(string: self.viewModel.pageInfo.image.avatar)
+            let urlCover = URL(string: self.viewModel.pageInfo.image.cover)
+            
+            self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.5))])
+            
+            self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.5))])
+            self.miniProfileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.5))])
+            
+            self.displayNameLabel.text = self.viewModel.pageInfo.displayName
+            self.userIdLabel.text = "@\(self.viewModel.pageInfo.castcleId)"
+            
+            self.followLabel.customize { label in
+                label.font = UIFont.asset(.regular, fontSize: .body)
+                label.numberOfLines = 1
+                label.textColor = UIColor.Asset.gray
+                
+                let followingType = ActiveType.custom(pattern: "\(self.viewModel.pageInfo.following.count) ")
+                let followerType = ActiveType.custom(pattern: "\(self.viewModel.pageInfo.followers.count) ")
+                
+                label.enabledTypes = [followingType, followerType]
+                label.customColor[followingType] = UIColor.Asset.white
+                label.customSelectedColor[followingType] = UIColor.Asset.gray
+                label.customColor[followerType] = UIColor.Asset.white
+                label.customSelectedColor[followerType] = UIColor.Asset.gray
+            }
+            self.followLabel.text = "\(self.viewModel.pageInfo.following.count) Following   \(self.viewModel.pageInfo.followers.count) Followers"
+            self.bioLabel.text = self.viewModel.pageInfo.overview
+        } else {
+            let urlCover = URL(string: "https://cdn.pixabay.com/photo/2021/07/13/18/58/coffee-6464307_1280.jpg")
+            self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.5))])
+            
+            let urlProfile = URL(string: "https://static.wikia.nocookie.net/whywomenkill/images/e/e7/Alexandra_Daddario.jpg")
+            self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.5))])
+            
+            self.displayNameLabel.text = "Alexandra Daddario"
+            self.userIdLabel.text = "@alexandra-daddario"
+        }
+        
+        if self.viewModel.profileType == .me || self.viewModel.profileType == .myPage {
+            self.editCoverButton.isHidden = false
+            self.editProfileButton.isHidden = false
+            self.editProfileImageButton.isHidden = false
+            
+            self.viewProfileButton.isHidden = true
+            self.followButton.isHidden = true
+            
+            self.newPostView.isHidden = false
+            self.postViewConstaint.constant = 65.0
+        } else {
+            self.editCoverButton.isHidden = true
+            self.editProfileButton.isHidden = true
+            self.editProfileImageButton.isHidden = true
+            
+            self.viewProfileButton.isHidden = false
+            self.followButton.isHidden = false
+            
+            self.newPostView.isHidden = true
+            self.postViewConstaint.constant = 0.0
         }
     }
     
@@ -321,15 +353,19 @@ class MeHeaderViewController: UIViewController {
     }
     
     @IBAction func editCoverAction(_ sender: Any) {
-        self.isShowActionSheet = true
-        self.updateImageType = .cover
-        self.selectImageSource()
+        if self.viewModel.profileType == .me {
+            self.isShowActionSheet = true
+            self.updateImageType = .cover
+            self.selectImageSource()
+        }
     }
     
     @IBAction func editProfileImageAction(_ sender: Any) {
-        self.isShowActionSheet = true
-        self.updateImageType = .avatar
-        self.selectImageSource()
+        if self.viewModel.profileType == .me {
+            self.isShowActionSheet = true
+            self.updateImageType = .avatar
+            self.selectImageSource()
+        }
     }
     
     @IBAction func moreAction(_ sender: Any) {

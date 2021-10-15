@@ -70,8 +70,7 @@ public final class UserDetailViewModel {
                 do {
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
-                    let payload = JSON(json[AuthenticationApiKey.payload.rawValue].dictionaryValue)
-                    self.pageInfo = PageInfo(json: payload)
+                    self.pageInfo = PageInfo(json: json)
                     self.didGetPageInfoFinish?()
                 } catch {
                     
