@@ -26,6 +26,7 @@
 //
 
 import Foundation
+import Core
 import Networking
 import SwiftyJSON
 
@@ -51,6 +52,7 @@ public final class UserFeedViewModel {
     var pagination: Pagination = Pagination()
     var userFeedType: UserFeedType = .all
     let tokenHelper: TokenHelper = TokenHelper()
+    var page: Page = Page()
 
     //MARK: Input
     public func getMyContents() {
@@ -76,10 +78,11 @@ public final class UserFeedViewModel {
         }
     }
     
-    public init(userFeedType: UserFeedType) {
+    public init(userFeedType: UserFeedType, page: Page = Page()) {
         self.userFeedType = userFeedType
         self.tokenHelper.delegate = self
         self.contents = []
+        self.page = page
         if self.userFeedType == .all {
             self.contentRequest.type = .unknow
             self.getMyContents()

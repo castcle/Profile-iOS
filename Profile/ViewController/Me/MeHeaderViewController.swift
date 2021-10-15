@@ -63,7 +63,7 @@ class MeHeaderViewController: UIViewController {
     @IBOutlet var postViewConstaint: NSLayoutConstraint!
     
     public var delegate: MeHeaderViewControllerDelegate?
-    var viewModel = MeHeaderViewModel(isMe: false)
+    var viewModel = MeHeaderViewModel(profileType: .unknow)
     private let editProfileViewModel = EditProfileViewModel()
     private var isShowActionSheet: Bool = false
     private var updateImageType: UpdateImageType = .none
@@ -117,7 +117,7 @@ class MeHeaderViewController: UIViewController {
         self.miniProfileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.5))])
         self.followUI()
         
-        if self.viewModel.isMe {
+        if self.viewModel.profileType == .me {
             let urlCover = URL(string: UserManager.shared.cover)
             self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.5))])
             
@@ -161,7 +161,7 @@ class MeHeaderViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if self.viewModel.isMe {
+        if self.viewModel.profileType == .me {
             self.followLabel.customize { label in
                 label.font = UIFont.asset(.regular, fontSize: .body)
                 label.numberOfLines = 1
@@ -333,7 +333,7 @@ class MeHeaderViewController: UIViewController {
     }
     
     @IBAction func moreAction(_ sender: Any) {
-        if !self.viewModel.isMe {
+        if self.viewModel.profileType != .me && self.viewModel.profileType != .myPage {
             let vc = ProfileOpener.open(.action) as? ProfileActionViewController
             Utility.currentViewController().presentPanModal(vc ?? ProfileActionViewController())
         }
@@ -409,7 +409,7 @@ extension MeHeaderViewController: EditProfileViewModelDelegate {
     func didUpdateProfileFinish(success: Bool) {
         self.updateImageType = .none
         if success {
-            if self.viewModel.isMe {
+            if self.viewModel.profileType == .me {
                 self.delegate?.didUpdateProfileFinish()
                 let urlCover = URL(string: UserManager.shared.cover)
                 self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.5))])

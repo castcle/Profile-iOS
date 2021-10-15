@@ -26,13 +26,17 @@
 //
 
 import Foundation
+import Core
+import Networking
 
 public final class MeHeaderViewModel {
    
-    var isMe: Bool = false
+    var profileType: ProfileType = .unknow
     var isFollow: Bool = false
+    var pageInfo: PageInfo = PageInfo()
     
-    public init(isMe: Bool) {
-        self.isMe = isMe
+    public init(profileType: ProfileType, pageInfo: PageInfo = PageInfo()) {
+        self.profileType = profileType
+        self.pageInfo = pageInfo
     }
 }

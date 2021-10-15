@@ -39,7 +39,7 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate, TPDataSo
     
     var headerVC: MeHeaderViewController?
     var bottomVC: UserInfoTabStripViewController!
-    var viewModel = UserDetailViewModel(isMe: false)
+    var viewModel = UserDetailViewModel(profileType: .unknow)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,11 +50,15 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate, TPDataSo
         self.emptyDetailLabel.textColor = UIColor.Asset.lightGray
         
         self.setupNavBar()
-        if self.viewModel.isMe {
+        if self.viewModel.profileType != .unknow {
             self.configure(with: self, delegate: self)
             self.emptyView.isHidden = true
         } else {
             self.emptyView.isHidden = false
+        }
+        
+        self.viewModel.didGetPageInfoFinish = {
+            
         }
     }
     
@@ -64,8 +68,10 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate, TPDataSo
     }
     
     func setupNavBar() {
-        if self.viewModel.isMe {
+        if self.viewModel.profileType == .me {
             self.customNavigationBar(.secondary, title: UserManager.shared.displayName)
+        } else if self.viewModel.profileType == .myPage {
+            self.customNavigationBar(.secondary, title: self.viewModel.page.displayName)
         } else {
             self.customNavigationBar(.secondary, title: "Error")
         }
@@ -73,7 +79,7 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate, TPDataSo
     
     //MARK: TPDataSource
     func headerViewController() -> UIViewController {
-        let vc = ProfileOpener.open(.meHeader(MeHeaderViewModel(isMe: self.viewModel.isMe))) as? MeHeaderViewController
+        let vc = ProfileOpener.open(.meHeader(MeHeaderViewModel(profileType: self.viewModel.profileType, pageInfo: self.viewModel.pageInfo))) as? MeHeaderViewController
         vc?.delegate = self
         self.headerVC = vc
         return self.headerVC ?? MeHeaderViewController()

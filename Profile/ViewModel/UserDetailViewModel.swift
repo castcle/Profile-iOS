@@ -26,12 +26,71 @@
 //
 
 import Foundation
+import Core
+import Networking
+import SwiftyJSON
+
+public enum ProfileType {
+    case me
+    case myPage
+    case people
+    case page
+    case unknow
+}
 
 public final class UserDetailViewModel {
    
-    var isMe: Bool = false
+    var pageRepository: PageRepository = PageRepositoryImpl()
+    var profileType: ProfileType = .unknow
+    var page: Page = Page()
+    var pageInfo: PageInfo = PageInfo()
+    let tokenHelper: TokenHelper = TokenHelper()
     
-    public init(isMe: Bool) {
-        self.isMe = isMe
+    var stage: Stage = .none
+    
+    enum Stage {
+        case getInfo
+        case none
+    }
+    
+    public init(profileType: ProfileType, page: Page = Page()) {
+        self.profileType = profileType
+        self.page = page
+        self.tokenHelper.delegate = self
+        
+        if self.profileType == .myPage {
+            self.getPageInfo()
+        }
+    }
+    
+    func getPageInfo() {
+        self.stage = .getInfo
+        self.pageRepository.getPageInfo(pageId: self.page.castcleId) { (success, response, isRefreshToken) in
+            if success {
+                do {
+                    let rawJson = try response.mapJSON()
+                    let json = JSON(rawJson)
+                    let payload = JSON(json[AuthenticationApiKey.payload.rawValue].dictionaryValue)
+                    self.pageInfo = PageInfo(json: payload)
+                    self.didGetPageInfoFinish?()
+                } catch {
+                    
+                }
+            } else {
+                if isRefreshToken {
+                    self.tokenHelper.refreshToken()
+                }
+            }
+        }
+    }
+    
+    var didGetPageInfoFinish: (() -> ())?
+}
+
+extension UserDetailViewModel: TokenHelperDelegate {
+    public func didRefreshTokenFinish() {
+        if self.stage == .getInfo {
+            self.getPageInfo()
+        }
     }
 }
