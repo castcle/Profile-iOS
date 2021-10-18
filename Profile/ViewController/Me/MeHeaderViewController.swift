@@ -29,6 +29,7 @@ import UIKit
 import Photos
 import MobileCoreServices
 import Core
+import Component
 import Post
 import Kingfisher
 import SwiftColor
@@ -369,6 +370,22 @@ class MeHeaderViewController: UIViewController {
     }
     
     @IBAction func moreAction(_ sender: Any) {
+        if self.viewModel.profileType == .myPage {
+            let actionSheet = CCActionSheet()
+            
+            let syncButton = CCAction(title: "Sync social media", image: UIImage.init(icon: .castcle(.facebook), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
+                actionSheet.dismissActionSheet()
+            }
+            let deleteButton = CCAction(title: "Delete page", image: UIImage.init(icon: .castcle(.deleteOne), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
+                actionSheet.dismissActionSheet()
+            }
+            let shareButton = CCAction(title: "Share", image: UIImage.init(icon: .castcle(.share), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
+                actionSheet.dismissActionSheet()
+            }
+            
+            actionSheet.addActions([syncButton, deleteButton, shareButton])
+            Utility.currentViewController().present(actionSheet, animated: true, completion: nil)
+        }
         if self.viewModel.profileType != .me && self.viewModel.profileType != .myPage {
             let vc = ProfileOpener.open(.action) as? ProfileActionViewController
             Utility.currentViewController().presentPanModal(vc ?? ProfileActionViewController())
