@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -259,6 +259,164 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NLy-SE-rkf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="138.75" y="840.84507042253517"/>
+        </scene>
+        <!--Delete Page View Controller-->
+        <scene sceneID="EUZ-du-S4W">
+            <objects>
+                <viewController storyboardIdentifier="DeletePageViewController" id="qFb-Fm-0R6" customClass="DeletePageViewController" customModule="Profile" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="1Ql-m3-tMr">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="การลบเพจไม่สามารถยกเลิกได้" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CbQ-aF-mEU">
+                                <rect key="frame" x="25" y="50" width="270" height="57.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="เมื่อคุณลบเพจ คุณจะไม่สามารถเรียกกลับคืนมาได้" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qkr-S0-srd">
+                                <rect key="frame" x="25" y="127.5" width="270" height="43"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Lhg-yQ-iJf">
+                                <rect key="frame" x="25" y="221.5" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="0Zf-zA-5XF"/>
+                                    <constraint firstAttribute="width" constant="40" id="Lfk-3X-Zgp"/>
+                                </constraints>
+                            </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7gI-Yj-or0">
+                                <rect key="frame" x="85" y="223.5" width="210" height="36.5"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tommy Cruise" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nTv-WU-zUi">
+                                        <rect key="frame" x="0.0" y="0.0" width="210" height="19.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Page" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ieb-jk-cZg">
+                                        <rect key="frame" x="0.0" y="19.5" width="210" height="17"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="nTv-WU-zUi" secondAttribute="trailing" id="1Z7-vj-lvj"/>
+                                    <constraint firstItem="ieb-jk-cZg" firstAttribute="leading" secondItem="7gI-Yj-or0" secondAttribute="leading" id="7L3-TK-GaD"/>
+                                    <constraint firstItem="ieb-jk-cZg" firstAttribute="top" secondItem="nTv-WU-zUi" secondAttribute="bottom" id="HON-uM-3eJ"/>
+                                    <constraint firstItem="nTv-WU-zUi" firstAttribute="top" secondItem="7gI-Yj-or0" secondAttribute="top" id="Sce-ah-xEn"/>
+                                    <constraint firstAttribute="bottom" secondItem="ieb-jk-cZg" secondAttribute="bottom" id="gTw-ka-fwJ"/>
+                                    <constraint firstItem="nTv-WU-zUi" firstAttribute="leading" secondItem="7gI-Yj-or0" secondAttribute="leading" id="gvN-BK-Wss"/>
+                                    <constraint firstAttribute="trailing" secondItem="ieb-jk-cZg" secondAttribute="trailing" id="huV-Ju-BGK"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MgO-j1-CDF">
+                                <rect key="frame" x="0.0" y="200.5" width="320" height="1"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="Jgm-Cz-F15"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bke-DU-F4R">
+                                <rect key="frame" x="0.0" y="281.5" width="320" height="1"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="Ql2-Ib-4fP"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="แน่ใจหรือไม่ว่าคุณต้องการลบ" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A2o-TX-wT5">
+                                <rect key="frame" x="25" y="312.5" width="270" height="21.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8YO-bK-hZb">
+                                <rect key="frame" x="20" y="468" width="280" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="HfV-BC-IKX"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" title="ลบเพจ"/>
+                                <connections>
+                                    <action selector="deleteAction:" destination="qFb-Fm-0R6" eventType="touchUpInside" id="Owk-Ba-amY"/>
+                                    <action selector="nextAction:" destination="SG0-g5-NG0" eventType="touchUpInside" id="Nme-4P-DhR"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="rGZ-qD-rzA"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Lhg-yQ-iJf" firstAttribute="top" secondItem="MgO-j1-CDF" secondAttribute="bottom" constant="20" id="1yy-0V-4NG"/>
+                            <constraint firstItem="MgO-j1-CDF" firstAttribute="top" secondItem="qkr-S0-srd" secondAttribute="bottom" constant="30" id="7zm-3h-Z2d"/>
+                            <constraint firstItem="rGZ-qD-rzA" firstAttribute="trailing" secondItem="Bke-DU-F4R" secondAttribute="trailing" id="9b9-6S-Aam"/>
+                            <constraint firstItem="rGZ-qD-rzA" firstAttribute="trailing" secondItem="A2o-TX-wT5" secondAttribute="trailing" constant="25" id="9no-eh-Q7K"/>
+                            <constraint firstItem="rGZ-qD-rzA" firstAttribute="trailing" secondItem="MgO-j1-CDF" secondAttribute="trailing" id="A4e-FI-hzS"/>
+                            <constraint firstItem="rGZ-qD-rzA" firstAttribute="trailing" secondItem="CbQ-aF-mEU" secondAttribute="trailing" constant="25" id="Aoe-XR-dXQ"/>
+                            <constraint firstItem="Lhg-yQ-iJf" firstAttribute="leading" secondItem="rGZ-qD-rzA" secondAttribute="leading" constant="25" id="G5h-gX-HqB"/>
+                            <constraint firstAttribute="trailing" secondItem="qkr-S0-srd" secondAttribute="trailing" constant="25" id="GNa-fH-zuS"/>
+                            <constraint firstItem="8YO-bK-hZb" firstAttribute="leading" secondItem="rGZ-qD-rzA" secondAttribute="leading" constant="20" id="KIK-F0-Vzb"/>
+                            <constraint firstItem="qkr-S0-srd" firstAttribute="leading" secondItem="rGZ-qD-rzA" secondAttribute="leading" constant="25" id="STo-iU-biX"/>
+                            <constraint firstItem="CbQ-aF-mEU" firstAttribute="top" secondItem="rGZ-qD-rzA" secondAttribute="top" constant="50" id="XKf-b0-yId"/>
+                            <constraint firstItem="Bke-DU-F4R" firstAttribute="top" secondItem="Lhg-yQ-iJf" secondAttribute="bottom" constant="20" id="Ycf-Uy-RPd"/>
+                            <constraint firstItem="rGZ-qD-rzA" firstAttribute="trailing" secondItem="8YO-bK-hZb" secondAttribute="trailing" constant="20" id="Yg4-lp-5jU"/>
+                            <constraint firstItem="MgO-j1-CDF" firstAttribute="leading" secondItem="rGZ-qD-rzA" secondAttribute="leading" id="dbe-gO-Ofz"/>
+                            <constraint firstItem="rGZ-qD-rzA" firstAttribute="trailing" secondItem="7gI-Yj-or0" secondAttribute="trailing" constant="25" id="e3p-Bq-2ts"/>
+                            <constraint firstItem="CbQ-aF-mEU" firstAttribute="leading" secondItem="rGZ-qD-rzA" secondAttribute="leading" constant="25" id="fb7-nV-98Z"/>
+                            <constraint firstItem="A2o-TX-wT5" firstAttribute="leading" secondItem="rGZ-qD-rzA" secondAttribute="leading" constant="25" id="hIZ-hU-2hS"/>
+                            <constraint firstItem="Bke-DU-F4R" firstAttribute="leading" secondItem="rGZ-qD-rzA" secondAttribute="leading" id="hfj-GT-tfr"/>
+                            <constraint firstItem="7gI-Yj-or0" firstAttribute="centerY" secondItem="Lhg-yQ-iJf" secondAttribute="centerY" id="imN-f5-HjL"/>
+                            <constraint firstItem="rGZ-qD-rzA" firstAttribute="bottom" secondItem="8YO-bK-hZb" secondAttribute="bottom" constant="50" id="kX0-Iz-veJ"/>
+                            <constraint firstItem="qkr-S0-srd" firstAttribute="top" secondItem="CbQ-aF-mEU" secondAttribute="bottom" constant="20" id="mTF-Vt-1La"/>
+                            <constraint firstItem="7gI-Yj-or0" firstAttribute="leading" secondItem="Lhg-yQ-iJf" secondAttribute="trailing" constant="20" id="o4P-MO-msS"/>
+                            <constraint firstItem="A2o-TX-wT5" firstAttribute="top" secondItem="Bke-DU-F4R" secondAttribute="bottom" constant="30" id="oKm-GP-h6b"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="avatarImage" destination="Lhg-yQ-iJf" id="s7q-Qk-BYK"/>
+                        <outlet property="confirmLabel" destination="A2o-TX-wT5" id="ZwW-tv-4pE"/>
+                        <outlet property="deleteButton" destination="8YO-bK-hZb" id="4G8-y8-JQW"/>
+                        <outlet property="displayNameLabel" destination="nTv-WU-zUi" id="eK4-Qm-tzB"/>
+                        <outlet property="headlineLabel" destination="CbQ-aF-mEU" id="19B-xT-M93"/>
+                        <outlet property="line1View" destination="MgO-j1-CDF" id="E1X-Um-7qf"/>
+                        <outlet property="line2View" destination="Bke-DU-F4R" id="mim-gx-hBU"/>
+                        <outlet property="pageLabel" destination="ieb-jk-cZg" id="An3-lP-rtR"/>
+                        <outlet property="subtitleLabel" destination="qkr-S0-srd" id="aiz-Jg-mX6"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iNY-D1-GWL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="139" y="1563"/>
+        </scene>
+        <!--Confirm Delete Page View Controller-->
+        <scene sceneID="MMv-kR-zCC">
+            <objects>
+                <viewController storyboardIdentifier="ConfirmDeletePageViewController" id="Bxg-xA-9xl" customClass="ConfirmDeletePageViewController" customModule="Profile" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="bw2-11-UcR">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="BCh-Jm-t0S">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="tei-1x-4tp"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="BCh-Jm-t0S" secondAttribute="bottom" id="Kmf-8w-fJs"/>
+                            <constraint firstItem="tei-1x-4tp" firstAttribute="trailing" secondItem="BCh-Jm-t0S" secondAttribute="trailing" id="j3j-T7-kRn"/>
+                            <constraint firstItem="BCh-Jm-t0S" firstAttribute="top" secondItem="tei-1x-4tp" secondAttribute="top" id="mAj-8x-Axm"/>
+                            <constraint firstItem="BCh-Jm-t0S" firstAttribute="leading" secondItem="tei-1x-4tp" secondAttribute="leading" id="vDc-qf-HDa"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mMo-OJ-2Gt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="827" y="1562"/>
         </scene>
         <!--Page Display Name View Controller-->
         <scene sceneID="NvK-Hi-3cJ">

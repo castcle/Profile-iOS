@@ -42,6 +42,8 @@ public enum ProfileScene {
     case userFeed(UserFeedViewModel)
     case welcomeCreatePage
     case createPage
+    case deletePage
+    case confirmDeletePage
 }
 
 public struct ProfileOpener {
@@ -103,6 +105,14 @@ public struct ProfileOpener {
         case .createPage:
             let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.profile, bundle: ConfigBundle.profile)
             let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.createPage)
+            return vc
+        case .deletePage:
+            let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.profile, bundle: ConfigBundle.profile)
+            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.deletePage)
+            return vc
+        case .confirmDeletePage:
+            let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.profile, bundle: ConfigBundle.profile)
+            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.confirmDeletePage)
             return vc
         }
     }

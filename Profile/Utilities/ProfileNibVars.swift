@@ -41,6 +41,8 @@ public struct ProfileNibVars {
         public static let userFeed = "UserFeedViewController"
         public static let welcomeCreatePage = "WelcomeCreatePageViewController"
         public static let createPage = "PageDisplayNameViewController"
+        public static let deletePage = "DeletePageViewController"
+        public static let confirmDeletePage = "ConfirmDeletePageViewController"
     }
     
     // MARK: - View
@@ -59,6 +61,7 @@ public struct ProfileNibVars {
         public static let addLink = "AddLinkTableViewCell"
         public static let social = "SocialTableViewCell"
         public static let complate = "ComplateTableViewCell"
+        public static let confirmDeletePage = "ConfirmDeletePageTableViewCell"
     }
     
     // MARK: - CollectionViewCell

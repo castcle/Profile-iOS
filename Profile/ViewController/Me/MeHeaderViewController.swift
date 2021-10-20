@@ -378,6 +378,9 @@ class MeHeaderViewController: UIViewController {
             }
             let deleteButton = CCAction(title: "Delete page", image: UIImage.init(icon: .castcle(.deleteOne), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
                 actionSheet.dismissActionSheet()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.deletePage), animated: true)
+                }
             }
             let shareButton = CCAction(title: "Share", image: UIImage.init(icon: .castcle(.share), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
                 actionSheet.dismissActionSheet()
