@@ -188,10 +188,15 @@ extension AboutInfoViewController: DobTableViewCellDelegate {
 extension AboutInfoViewController: ComplateTableViewCellDelegate {
     func didDone(_ complateTableViewCell: ComplateTableViewCell, skip: Bool) {
         if self.viewModel.avatarType == .user {
-            Utility.currentViewController().navigationController?.popToRootViewController(animated: true)
-        } else {
             if skip {
                 Utility.currentViewController().navigationController?.popToRootViewController(animated: true)
+            } else {
+                self.viewModel.updateUserInfo()
+            }
+        } else {
+            if skip {
+                let viewControllers: [UIViewController] = Utility.currentViewController().navigationController!.viewControllers as [UIViewController]
+                Utility.currentViewController().navigationController!.popToViewController(viewControllers[viewControllers.count - 5], animated: true)
             } else {
                 self.viewModel.updatePageInfo()
             }
@@ -200,6 +205,12 @@ extension AboutInfoViewController: ComplateTableViewCellDelegate {
 }
 
 extension AboutInfoViewController: AboutInfoViewModelDelegate {
+    func didUpdateUserInfoFinish(success: Bool) {
+        if success {
+            Utility.currentViewController().navigationController?.popToRootViewController(animated: true)
+        }
+    }
+    
     func didUpdatePageInfoFinish(success: Bool) {
         if success {
             let viewControllers: [UIViewController] = Utility.currentViewController().navigationController!.viewControllers as [UIViewController]

@@ -33,6 +33,7 @@ import SwiftyJSON
 import Defaults
 
 public protocol SelectPhotoMethodViewModelDelegate {
+    func didUpdateUserFinish(success: Bool)
     func didUpdatePageFinish(success: Bool)
 }
 
@@ -44,7 +45,9 @@ public enum AvatarType {
 public class SelectPhotoMethodViewModel {
     
     public var delegate: SelectPhotoMethodViewModelDelegate?
+    var userRepository: UserRepository = UserRepositoryImpl()
     var pageRepository: PageRepository = PageRepositoryImpl()
+    var userRequest: UserRequest = UserRequest()
     var pageRequest: PageRequest = PageRequest()
     let tokenHelper: TokenHelper = TokenHelper()
     var avatar: UIImage?
@@ -53,7 +56,8 @@ public class SelectPhotoMethodViewModel {
     var castcleId: String
     
     enum Stage {
-        case updateAvatar
+        case updateUserAvatar
+        case updatePageAvatar
         case none
     }
     
@@ -65,8 +69,33 @@ public class SelectPhotoMethodViewModel {
         self.tokenHelper.delegate = self
     }
     
-    func updateAvatar() {
+    public func updateUserAvatar() {
+        guard let image = self.avatar else { return }
+        self.stage = .updateUserAvatar
+        self.userRequest.payload.images.avatar = image.toBase64() ?? ""
+        self.userRepository.updateMeAvatar(userRequest: self.userRequest) { (success, response, isRefreshToken) in
+            if success {
+                do {
+                    let rawJson = try response.mapJSON()
+                    let json = JSON(rawJson)
+                    let userHelper = UserHelper()
+                    let user = User(json: json)
+                    userHelper.updateLocalProfile(user: user)
+                    self.delegate?.didUpdateUserFinish(success: true)
+                } catch {}
+            } else {
+                if isRefreshToken {
+                    self.tokenHelper.refreshToken()
+                } else {
+                    self.delegate?.didUpdateUserFinish(success: false)
+                }
+            }
+        }
+    }
+    
+    func updatePageAvatar() {
         if !self.castcleId.isEmpty, let image = self.avatar {
+            self.stage = .updatePageAvatar
             self.pageRequest.avatar = image.toBase64() ?? ""
             self.pageRepository.updatePageAvatar(pageId: self.castcleId, pageRequest: self.pageRequest) { (success, response, isRefreshToken) in
                 if success {
@@ -89,8 +118,10 @@ public class SelectPhotoMethodViewModel {
 
 extension SelectPhotoMethodViewModel: TokenHelperDelegate {
     public func didRefreshTokenFinish() {
-        if self.stage == .updateAvatar {
-            self.updateAvatar()
+        if self.stage == .updatePageAvatar {
+            self.updatePageAvatar()
+        } else if self.stage == .updateUserAvatar {
+            self.updateUserAvatar()
         }
     }
 }

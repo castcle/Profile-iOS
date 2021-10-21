@@ -37,7 +37,7 @@ class EditProfileViewModel {
     
     public var delegate: EditProfileViewModelDelegate?
     
-    var userRepository: UserRepository
+    var userRepository: UserRepository = UserRepositoryImpl()
     var userRequest: UserRequest = UserRequest()
     let tokenHelper: TokenHelper = TokenHelper()
     private var stage: Stage = .none
@@ -53,9 +53,8 @@ class EditProfileViewModel {
     }
 
     //MARK: Input
-    public init(userRequest: UserRequest = UserRequest(), userRepository: UserRepository = UserRepositoryImpl()) {
+    public init(userRequest: UserRequest = UserRequest()) {
         self.userRequest = userRequest
-        self.userRepository = userRepository
         self.tokenHelper.delegate = self
     }
     
@@ -85,7 +84,6 @@ class EditProfileViewModel {
     
     public func updateAvatar() {
         guard let image = self.avatar else { return }
-        
         self.stage = .updateAvatar
         self.userRequest.payload.images.avatar = image.toBase64() ?? ""
         self.userRepository.updateMeAvatar(userRequest: self.userRequest) { (success, response, isRefreshToken) in

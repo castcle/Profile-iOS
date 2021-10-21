@@ -32,6 +32,7 @@ import Core
 import TLPhotoPicker
 import TOCropViewController
 import Defaults
+import JGProgressHUD
 
 class SelectPhotoMethodViewController: UIViewController {
 
@@ -42,6 +43,7 @@ class SelectPhotoMethodViewController: UIViewController {
     @IBOutlet var takePhotoButton: UIButton!
     
     var viewModel = SelectPhotoMethodViewModel(avatarType: .user)
+    let hud = JGProgressHUD()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,6 +69,7 @@ class SelectPhotoMethodViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         Defaults[.screenId] = ""
+        self.hud.textLabel.text = "Loading"
     }
     
     func setupNavBar() {
@@ -226,15 +229,26 @@ extension SelectPhotoMethodViewController: TOCropViewControllerDelegate {
     func cropViewController(_ cropViewController: TOCropViewController, didCropToCircularImage image: UIImage, with cropRect: CGRect, angle: Int) {
         cropViewController.dismiss(animated: true, completion: {
             self.viewModel.avatar = image.resizeImage(targetSize: CGSize.init(width: 500, height: 500))
+            self.hud.show(in: self.view)
             if self.viewModel.avatarType == .page {
-                self.viewModel.updateAvatar()
+                self.viewModel.updatePageAvatar()
+            } else {
+                self.viewModel.updateUserAvatar()
             }
         })
     }
 }
 
 extension SelectPhotoMethodViewController: SelectPhotoMethodViewModelDelegate {
+    func didUpdateUserFinish(success: Bool) {
+        self.hud.dismiss()
+        if success {
+            Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.about(AboutInfoViewModel(avatarType: self.viewModel.avatarType))), animated: true)
+        }
+    }
+    
     func didUpdatePageFinish(success: Bool) {
+        self.hud.dismiss()
         if success {
             Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.about(AboutInfoViewModel(avatarType: self.viewModel.avatarType, castcleId: self.viewModel.castcleId))), animated: true)
         }

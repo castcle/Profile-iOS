@@ -153,8 +153,8 @@ class MeHeaderViewController: UIViewController {
             self.followLabel.text = "\(UserManager.shared.following)Following   \(UserManager.shared.followers)Followers"
             self.bioLabel.text = UserManager.shared.overview
         } else if self.viewModel.profileType == .myPage {
-            let urlProfile = URL(string: self.viewModel.pageInfo.image.avatar)
-            let urlCover = URL(string: self.viewModel.pageInfo.image.cover)
+            let urlProfile = URL(string: self.viewModel.pageInfo.image.avatar.fullHd)
+            let urlCover = URL(string: self.viewModel.pageInfo.image.cover.fullHd)
             
             self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.5))])
             

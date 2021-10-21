@@ -28,6 +28,7 @@
 import UIKit
 import Core
 import Component
+import Networking
 import XLPagerTabStrip
 
 class UserInfoTabStripViewController: ButtonBarPagerTabStripViewController, PagerAwareProtocol {
@@ -44,7 +45,7 @@ class UserInfoTabStripViewController: ButtonBarPagerTabStripViewController, Page
     }
     
     var profileType: ProfileType = .unknow
-    var page: Page = Page()
+    var page: PageInfo = PageInfo()
     
     override func awakeFromNib() {
         super.awakeFromNib()
