@@ -22,7 +22,7 @@
 //  MeHeaderViewModel.swift
 //  Profile
 //
-//  Created by Tanakorn Phoochaliaw on 20/8/2564 BE.
+//  Created by Castcle Co., Ltd. on 20/8/2564 BE.
 //
 
 import Foundation

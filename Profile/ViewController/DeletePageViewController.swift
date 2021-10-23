@@ -22,7 +22,7 @@
 //  DeletePageViewController.swift
 //  Profile
 //
-//  Created by Tanakorn Phoochaliaw on 18/10/2564 BE.
+//  Created by Castcle Co., Ltd. on 18/10/2564 BE.
 //
 
 import UIKit

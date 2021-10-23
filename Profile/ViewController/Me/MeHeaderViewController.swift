@@ -22,7 +22,7 @@
 //  MeHeaderViewController.swift
 //  Profile
 //
-//  Created by Tanakorn Phoochaliaw on 13/8/2564 BE.
+//  Created by Castcle Co., Ltd. on 13/8/2564 BE.
 //
 
 import UIKit
@@ -66,7 +66,6 @@ class MeHeaderViewController: UIViewController {
     public var delegate: MeHeaderViewControllerDelegate?
     var viewModel = MeHeaderViewModel(profileType: .unknow)
     private let editProfileViewModel = EditProfileViewModel()
-    private var isShowActionSheet: Bool = false
     private var updateImageType: UpdateImageType = .none
     
     enum UpdateImageType {
@@ -229,25 +228,18 @@ class MeHeaderViewController: UIViewController {
     }
     
     private func selectImageSource() {
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        alert.addAction(UIAlertAction(title: "Choose from Camera Roll", style: .default , handler: { (UIAlertAction) in
-            self.isShowActionSheet = false
+        let actionSheet = CCActionSheet()
+        let albumButton = CCAction(title: "Choose from Camera Roll", image: UIImage.init(icon: .castcle(.image), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
+            actionSheet.dismissActionSheet()
             self.selectCameraRoll()
-        }))
-        
-        alert.addAction(UIAlertAction(title: "Take Photo", style: .default , handler: { (UIAlertAction) in
-            self.isShowActionSheet = false
+        }
+        let cameraButton = CCAction(title: "Take Photo", image: UIImage.init(icon: .castcle(.camera), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
+            actionSheet.dismissActionSheet()
             self.selectTakePhoto()
-        }))
+        }
         
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (UIAlertAction)in
-            self.isShowActionSheet = false
-        }))
-
-        // uncomment for iPad Support
-        // alert.popoverPresentationController?.sourceView = self.view
-
-        Utility.currentViewController().present(alert, animated: true)
+        actionSheet.addActions([albumButton, cameraButton])
+        Utility.currentViewController().present(actionSheet, animated: true, completion: nil)
     }
     
     private func selectCameraRoll() {
@@ -328,7 +320,7 @@ class MeHeaderViewController: UIViewController {
     
     private func handleDeniedCameraAuthorization() {
         DispatchQueue.main.async {
-            let alert = UIAlertController(title: "", message: "Denied camera permissions granted", preferredStyle: .alert)
+            let alert = UIAlertController(title: "Error", message: "Denied camera permissions granted", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
             Utility.currentViewController().present(alert, animated: true, completion: nil)
         }
@@ -341,11 +333,14 @@ class MeHeaderViewController: UIViewController {
             self.present(cropController, animated: true, completion: nil)
         } else {
             let cropController = TOCropViewController(croppingStyle: .default, image: image)
+            cropController.aspectRatioPreset = .preset4x3
+            cropController.aspectRatioLockEnabled = true
+            cropController.resetAspectRatioEnabled = false
+            cropController.aspectRatioPickerButtonHidden = true
             cropController.delegate = self
             self.present(cropController, animated: true, completion: nil)
         }
     }
-    
     
     @IBAction func postAction(_ sender: Any) {
         let vc = PostOpener.open(.post(PostViewModel(postType: .newCast)))
@@ -355,7 +350,6 @@ class MeHeaderViewController: UIViewController {
     
     @IBAction func editCoverAction(_ sender: Any) {
         if self.viewModel.profileType == .me {
-            self.isShowActionSheet = true
             self.updateImageType = .cover
             self.selectImageSource()
         }
@@ -363,7 +357,6 @@ class MeHeaderViewController: UIViewController {
     
     @IBAction func editProfileImageAction(_ sender: Any) {
         if self.viewModel.profileType == .me {
-            self.isShowActionSheet = true
             self.updateImageType = .avatar
             self.selectImageSource()
         }
@@ -372,7 +365,6 @@ class MeHeaderViewController: UIViewController {
     @IBAction func moreAction(_ sender: Any) {
         if self.viewModel.profileType == .myPage {
             let actionSheet = CCActionSheet()
-            
             let syncButton = CCAction(title: "Sync social media", image: UIImage.init(icon: .castcle(.facebook), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
                 actionSheet.dismissActionSheet()
             }
@@ -445,7 +437,10 @@ extension MeHeaderViewController: TOCropViewControllerDelegate {
     func cropViewController(_ cropViewController: TOCropViewController, didCropToCircularImage image: UIImage, with cropRect: CGRect, angle: Int) {
         cropViewController.dismiss(animated: true, completion: {
             if self.updateImageType == .avatar {
-                self.editProfileViewModel.avatar = image.resizeImage(targetSize: CGSize.init(width: 200, height: 200))
+                let avatarCropImage = image.resizeImage(targetSize: CGSize.init(width: 200, height: 200))
+                self.profileImage.image = avatarCropImage
+                self.miniProfileImage.image = avatarCropImage
+                self.editProfileViewModel.avatar = avatarCropImage
                 self.editProfileViewModel.updateAvatar()
             }
         })
@@ -454,7 +449,9 @@ extension MeHeaderViewController: TOCropViewControllerDelegate {
     func cropViewController(_ cropViewController: TOCropViewController, didCropTo image: UIImage, with cropRect: CGRect, angle: Int) {
         cropViewController.dismiss(animated: true, completion: {
             if self.updateImageType == .cover {
-                self.editProfileViewModel.cover = image.resizeImage(targetSize: CGSize.init(width: 640, height: 480))
+                let coverCropImage = image.resizeImage(targetSize: CGSize.init(width: 640, height: 480))
+                self.coverImage.image = coverCropImage
+                self.editProfileViewModel.cover = coverCropImage
                 self.editProfileViewModel.updateCover()
             }
         })
@@ -463,17 +460,14 @@ extension MeHeaderViewController: TOCropViewControllerDelegate {
 
 extension MeHeaderViewController: EditProfileViewModelDelegate {
     func didUpdateProfileFinish(success: Bool) {
-        self.updateImageType = .none
         if success {
-            if self.viewModel.profileType == .me {
-                self.delegate?.didUpdateProfileFinish()
-                let urlCover = URL(string: UserManager.shared.cover)
-                self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.5))])
-                
-                let urlProfile = URL(string: UserManager.shared.avatar)
-                self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.5))])
-                self.miniProfileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.5))])
+            if self.updateImageType == .avatar {
+                if self.viewModel.profileType == .me {
+                    self.delegate?.didUpdateProfileFinish()
+                }
+                self.updateImageType = .none
             }
+            
         }
     }
 }
