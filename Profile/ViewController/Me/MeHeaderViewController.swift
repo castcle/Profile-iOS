@@ -253,7 +253,7 @@ class MeHeaderViewController: UIViewController {
         photosPickerViewController.subTitleLabel.font = UIFont.asset(.regular, fontSize: .small)
         
         photosPickerViewController.doneButton.setTitleTextAttributes([
-            NSAttributedString.Key.font : UIFont.asset(.medium, fontSize: .h4),
+            NSAttributedString.Key.font : UIFont.asset(.bold, fontSize: .h4),
             NSAttributedString.Key.foregroundColor : UIColor.Asset.lightBlue
         ], for: .normal)
         photosPickerViewController.cancelButton.setTitleTextAttributes([

@@ -84,7 +84,7 @@ class SelectPhotoMethodViewController: UIViewController {
             
             let icon = UIButton()
             icon.setTitle("Skip", for: .normal)
-            icon.titleLabel?.font = UIFont.asset(.medium, fontSize: .h4)
+            icon.titleLabel?.font = UIFont.asset(.bold, fontSize: .h4)
             icon.setTitleColor(UIColor.Asset.lightBlue, for: .normal)
             icon.addTarget(self, action: #selector(skipAction), for: .touchUpInside)
             rightButton.append(UIBarButtonItem(customView: icon))
@@ -122,7 +122,7 @@ class SelectPhotoMethodViewController: UIViewController {
         photosPickerViewController.subTitleLabel.font = UIFont.asset(.regular, fontSize: .small)
         
         photosPickerViewController.doneButton.setTitleTextAttributes([
-            NSAttributedString.Key.font : UIFont.asset(.medium, fontSize: .h4),
+            NSAttributedString.Key.font : UIFont.asset(.bold, fontSize: .h4),
             NSAttributedString.Key.foregroundColor : UIColor.Asset.lightBlue
         ], for: .normal)
         photosPickerViewController.cancelButton.setTitleTextAttributes([
