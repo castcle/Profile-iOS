@@ -365,7 +365,7 @@ class MeHeaderViewController: UIViewController {
     @IBAction func moreAction(_ sender: Any) {
         if self.viewModel.profileType == .myPage {
             let actionSheet = CCActionSheet()
-            let syncButton = CCAction(title: "Sync social media", image: UIImage.init(icon: .castcle(.facebook), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
+            let syncButton = CCAction(title: "Sync social media", image: UIImage.init(icon: .castcle(.bindLink), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
                 actionSheet.dismissActionSheet()
             }
             let deleteButton = CCAction(title: "Delete page", image: UIImage.init(icon: .castcle(.deleteOne), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
