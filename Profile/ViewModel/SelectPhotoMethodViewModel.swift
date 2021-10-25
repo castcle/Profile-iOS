@@ -100,7 +100,6 @@ public class SelectPhotoMethodViewModel {
             self.pageRepository.updatePageAvatar(pageId: self.castcleId, pageRequest: self.pageRequest) { (success, response, isRefreshToken) in
                 if success {
                     self.stage = .none
-                    self.tokenHelper.refreshToken()
                     self.delegate?.didUpdatePageFinish(success: true)
                 } else {
                     if isRefreshToken {

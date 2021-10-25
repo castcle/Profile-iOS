@@ -31,6 +31,7 @@ import SwiftyJSON
 
 public protocol EditProfileViewModelDelegate {
     func didUpdateProfileFinish(success: Bool)
+    func didUpdatePageFinish(success: Bool)
 }
 
 class EditProfileViewModel {
@@ -38,17 +39,22 @@ class EditProfileViewModel {
     public var delegate: EditProfileViewModelDelegate?
     
     var userRepository: UserRepository = UserRepositoryImpl()
+    var pageRepository: PageRepository = PageRepositoryImpl()
     var userRequest: UserRequest = UserRequest()
+    var pageRequest: PageRequest = PageRequest()
     let tokenHelper: TokenHelper = TokenHelper()
     private var stage: Stage = .none
     var avatar: UIImage? = nil
     var cover: UIImage? = nil
     var dobDate: Date? = nil
+    var castcleId: String = ""
     
     enum Stage {
         case updateProfile
         case updateAvatar
         case updateCover
+        case updatePageAvatar
+        case updatePageCover
         case none
     }
 
@@ -108,7 +114,6 @@ class EditProfileViewModel {
     
     public func updateCover() {
         guard let image = self.cover else { return }
-        
         self.stage = .updateCover
         self.userRequest.payload.images.cover = image.toBase64() ?? ""
         self.userRepository.updateMeCover(userRequest: self.userRequest) { (success, response, isRefreshToken) in
@@ -130,6 +135,50 @@ class EditProfileViewModel {
             }
         }
     }
+    
+    func updatePageAvatar(castcleId: String) {
+        self.castcleId = castcleId
+        if !self.castcleId.isEmpty, let image = self.avatar {
+            self.stage = .updatePageAvatar
+            self.pageRequest.avatar = image.toBase64() ?? ""
+            self.pageRepository.updatePageAvatar(pageId: self.castcleId, pageRequest: self.pageRequest) { (success, response, isRefreshToken) in
+                if success {
+                    self.stage = .none
+                    self.delegate?.didUpdatePageFinish(success: true)
+                } else {
+                    if isRefreshToken {
+                        self.tokenHelper.refreshToken()
+                    } else {
+                        self.delegate?.didUpdatePageFinish(success: false)
+                    }
+                }
+            }
+        } else {
+            self.delegate?.didUpdatePageFinish(success: false)
+        }
+    }
+    
+    func updatePageCover(castcleId: String) {
+        self.castcleId = castcleId
+        if !self.castcleId.isEmpty, let image = self.cover {
+            self.stage = .updatePageCover
+            self.pageRequest.cover = image.toBase64() ?? ""
+            self.pageRepository.updatePageCover(pageId: self.castcleId, pageRequest: self.pageRequest) { (success, response, isRefreshToken) in
+                if success {
+                    self.stage = .none
+                    self.delegate?.didUpdatePageFinish(success: true)
+                } else {
+                    if isRefreshToken {
+                        self.tokenHelper.refreshToken()
+                    } else {
+                        self.delegate?.didUpdatePageFinish(success: false)
+                    }
+                }
+            }
+        } else {
+            self.delegate?.didUpdatePageFinish(success: false)
+        }
+    }
 }
 
 extension EditProfileViewModel: TokenHelperDelegate {
@@ -138,6 +187,12 @@ extension EditProfileViewModel: TokenHelperDelegate {
             self.updateProfile()
         } else if self.stage == .updateAvatar {
             self.updateAvatar()
+        } else if self.stage == .updateCover {
+            self.updateCover()
+        } else if self.stage == .updatePageAvatar {
+            self.updatePageAvatar(castcleId: self.castcleId)
+        } else if self.stage == .updatePageCover {
+            self.updatePageCover(castcleId: self.castcleId)
         }
     }
 }

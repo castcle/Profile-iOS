@@ -234,4 +234,8 @@ extension EditInfoTableViewCell: EditProfileViewModelDelegate {
             self.disableUI(isActive: true)
         }
     }
+    
+    func didUpdatePageFinish(success: Bool) {
+        // Not thing
+    }
 }

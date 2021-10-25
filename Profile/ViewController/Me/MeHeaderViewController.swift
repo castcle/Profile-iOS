@@ -349,14 +349,14 @@ class MeHeaderViewController: UIViewController {
     }
     
     @IBAction func editCoverAction(_ sender: Any) {
-        if self.viewModel.profileType == .me {
+        if self.viewModel.profileType == .me || self.viewModel.profileType == .myPage {
             self.updateImageType = .cover
             self.selectImageSource()
         }
     }
     
     @IBAction func editProfileImageAction(_ sender: Any) {
-        if self.viewModel.profileType == .me {
+        if self.viewModel.profileType == .me || self.viewModel.profileType == .myPage {
             self.updateImageType = .avatar
             self.selectImageSource()
         }
@@ -441,7 +441,11 @@ extension MeHeaderViewController: TOCropViewControllerDelegate {
                 self.profileImage.image = avatarCropImage
                 self.miniProfileImage.image = avatarCropImage
                 self.editProfileViewModel.avatar = avatarCropImage
-                self.editProfileViewModel.updateAvatar()
+                if self.viewModel.profileType == .me {
+                    self.editProfileViewModel.updateAvatar()
+                } else if self.viewModel.profileType == .myPage {
+                    self.editProfileViewModel.updatePageAvatar(castcleId: self.viewModel.pageInfo.castcleId)
+                }
             }
         })
     }
@@ -452,7 +456,11 @@ extension MeHeaderViewController: TOCropViewControllerDelegate {
                 let coverCropImage = image.resizeImage(targetSize: CGSize.init(width: 640, height: 480))
                 self.coverImage.image = coverCropImage
                 self.editProfileViewModel.cover = coverCropImage
-                self.editProfileViewModel.updateCover()
+                if self.viewModel.profileType == .me {
+                    self.editProfileViewModel.updateCover()
+                } else if self.viewModel.profileType == .myPage {
+                    self.editProfileViewModel.updatePageCover(castcleId: self.viewModel.pageInfo.castcleId)
+                }
             }
         })
     }
@@ -468,6 +476,17 @@ extension MeHeaderViewController: EditProfileViewModelDelegate {
                 self.updateImageType = .none
             }
             
+        }
+    }
+    
+    func didUpdatePageFinish(success: Bool) {
+        if success {
+            if self.updateImageType == .avatar {
+                if self.viewModel.profileType == .myPage {
+                    self.delegate?.didUpdateProfileFinish()
+                }
+                self.updateImageType = .none
+            }
         }
     }
 }
