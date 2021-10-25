@@ -42,8 +42,9 @@ public enum ProfileScene {
     case userFeed(UserFeedViewModel)
     case welcomeCreatePage
     case createPage
-    case deletePage
-    case confirmDeletePage
+    case deletePage(DeletePageViewModel)
+    case confirmDeletePage(DeletePageViewModel)
+    case deletePageSuccess
 }
 
 public struct ProfileOpener {
@@ -106,13 +107,19 @@ public struct ProfileOpener {
             let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.profile, bundle: ConfigBundle.profile)
             let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.createPage)
             return vc
-        case .deletePage:
+        case .deletePage(let viewModel):
             let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.profile, bundle: ConfigBundle.profile)
-            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.deletePage)
-            return vc
-        case .confirmDeletePage:
+            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.deletePage) as? DeletePageViewController
+            vc?.viewModel = viewModel
+            return vc ?? DeletePageViewController()
+        case .confirmDeletePage(let viewModel):
             let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.profile, bundle: ConfigBundle.profile)
-            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.confirmDeletePage)
+            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.confirmDeletePage) as? ConfirmDeletePageViewController
+            vc?.viewModel = viewModel
+            return vc ?? ConfirmDeletePageViewController()
+        case .deletePageSuccess:
+            let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.profile, bundle: ConfigBundle.profile)
+            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.deletePageSuccess)
             return vc
         }
     }

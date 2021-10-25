@@ -43,6 +43,7 @@ public struct ProfileNibVars {
         public static let createPage = "PageDisplayNameViewController"
         public static let deletePage = "DeletePageViewController"
         public static let confirmDeletePage = "ConfirmDeletePageViewController"
+        public static let deletePageSuccess = "DeletePageSuccessViewController"
     }
     
     // MARK: - View

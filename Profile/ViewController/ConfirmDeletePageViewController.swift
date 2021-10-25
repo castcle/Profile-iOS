@@ -26,24 +26,55 @@
 //
 
 import UIKit
+import Core
+import Networking
+import Defaults
 
-class ConfirmDeletePageViewController: UIViewController {
+class ConfirmDeletePageViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
+    @IBOutlet var tableView: UITableView!
+    
+    var viewModel = DeletePageViewModel(page: PageInfo())
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
+        self.hideKeyboardWhenTapped()
+        self.setupNavBar()
+        self.configureTableView()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        Defaults[.screenId] = ""
     }
-    */
-
+    
+    func setupNavBar() {
+        self.customNavigationBar(.secondary, title: "Confirm ลบเพจ")
+    }
+    
+    func configureTableView() {
+        self.tableView.delegate = self
+        self.tableView.dataSource = self
+        
+        self.tableView.register(UINib(nibName: ProfileNibVars.TableViewCell.confirmDeletePage, bundle: ConfigBundle.profile), forCellReuseIdentifier: ProfileNibVars.TableViewCell.confirmDeletePage)
+        
+        self.tableView.rowHeight = UITableView.automaticDimension
+        self.tableView.estimatedRowHeight = 100
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.confirmDeletePage, for: indexPath as IndexPath) as? ConfirmDeletePageTableViewCell
+        cell?.backgroundColor = UIColor.clear
+        cell?.configCell(page: self.viewModel.page)
+        return cell ?? ConfirmDeletePageTableViewCell()
+    }
 }

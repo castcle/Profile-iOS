@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		03CA6756D414568EB134E431 /* Pods_Profile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD702ADAD4D188AE2A7192EF /* Pods_Profile.framework */; };
+		B71B668927269EF500191A62 /* DeletePageSuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71B668827269EF500191A62 /* DeletePageSuccessViewController.swift */; };
+		B71B668B2726A57A00191A62 /* DeletePageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71B668A2726A57A00191A62 /* DeletePageViewModel.swift */; };
 		B74CEF1926C5073F006B1F2C /* Networking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B74CEF1826C5073F006B1F2C /* Networking.framework */; };
 		B78795BF26C6129500FECC21 /* MeHeaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78795BE26C6129500FECC21 /* MeHeaderViewController.swift */; };
 		B78795D226C61B0D00FECC21 /* UserDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78795D126C61B0D00FECC21 /* UserDetailViewController.swift */; };
@@ -80,6 +82,8 @@
 		8C78EA16BA992F465C2D2B36 /* Pods-Profile.release (production).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Profile.release (production).xcconfig"; path = "Target Support Files/Pods-Profile/Pods-Profile.release (production).xcconfig"; sourceTree = "<group>"; };
 		8E9320E7FAAD2479F0EDB81D /* Pods-Profile.debug (development).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Profile.debug (development).xcconfig"; path = "Target Support Files/Pods-Profile/Pods-Profile.debug (development).xcconfig"; sourceTree = "<group>"; };
 		A41DEA465890A2815436B3CE /* Pods-Profile.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Profile.debug.xcconfig"; path = "Target Support Files/Pods-Profile/Pods-Profile.debug.xcconfig"; sourceTree = "<group>"; };
+		B71B668827269EF500191A62 /* DeletePageSuccessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletePageSuccessViewController.swift; sourceTree = "<group>"; };
+		B71B668A2726A57A00191A62 /* DeletePageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletePageViewModel.swift; sourceTree = "<group>"; };
 		B74CEF1826C5073F006B1F2C /* Networking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Networking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B78795BE26C6129500FECC21 /* MeHeaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeHeaderViewController.swift; sourceTree = "<group>"; };
 		B78795D126C61B0D00FECC21 /* UserDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailViewController.swift; sourceTree = "<group>"; };
@@ -294,6 +298,7 @@
 				B7AF660626F07DA400BDE9C4 /* EditProfileViewModel.swift */,
 				B7AF661526F2E94C00BDE9C4 /* CreatePageDisplayNameViewModel.swift */,
 				B7AF662026F3303300BDE9C4 /* SelectPhotoMethodViewModel.swift */,
+				B71B668A2726A57A00191A62 /* DeletePageViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -313,6 +318,7 @@
 				B7AF660D26F2E1F600BDE9C4 /* PageDisplayNameViewController.swift */,
 				B7F63C25271D7CE1005856B2 /* DeletePageViewController.swift */,
 				B7F63C27271DC2BF005856B2 /* ConfirmDeletePageViewController.swift */,
+				B71B668827269EF500191A62 /* DeletePageSuccessViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -475,6 +481,7 @@
 				B7910DE526AFC9B40097C94E /* Profile.swift in Sources */,
 				B7AF661126F2E56400BDE9C4 /* CreatePageDisplayNameCell.swift in Sources */,
 				B78795DA26C64E4F00FECC21 /* UserFeedViewModel.swift in Sources */,
+				B71B668927269EF500191A62 /* DeletePageSuccessViewController.swift in Sources */,
 				B7910EA826BCE8F00097C94E /* AddSocialCell.swift in Sources */,
 				B7AF663126F35E0E00BDE9C4 /* SocialTableViewCell.swift in Sources */,
 				B7AF660E26F2E1F600BDE9C4 /* PageDisplayNameViewController.swift in Sources */,
@@ -500,6 +507,7 @@
 				B78795BF26C6129500FECC21 /* MeHeaderViewController.swift in Sources */,
 				B7910ED726C0340B0097C94E /* ProfileActionViewController.swift in Sources */,
 				B7AF663526F360F500BDE9C4 /* ComplateTableViewCell.swift in Sources */,
+				B71B668B2726A57A00191A62 /* DeletePageViewModel.swift in Sources */,
 				B7910E9F26BCDBEF0097C94E /* SocialLinkShelf.swift in Sources */,
 				B7910ECC26BF1E1C0097C94E /* SocialLinkTableViewCell.swift in Sources */,
 				B7910ED226C00A550097C94E /* EditInfoTableViewCell.swift in Sources */,

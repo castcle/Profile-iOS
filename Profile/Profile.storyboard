@@ -399,7 +399,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="BCh-Jm-t0S">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="BCh-Jm-t0S">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
@@ -413,10 +413,82 @@
                             <constraint firstItem="BCh-Jm-t0S" firstAttribute="leading" secondItem="tei-1x-4tp" secondAttribute="leading" id="vDc-qf-HDa"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="tableView" destination="BCh-Jm-t0S" id="Mak-YT-lUJ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mMo-OJ-2Gt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="827" y="1562"/>
+        </scene>
+        <!--Delete Page Success View Controller-->
+        <scene sceneID="ZIU-nf-ACa">
+            <objects>
+                <viewController storyboardIdentifier="DeletePageSuccessViewController" id="z98-ol-yK5" customClass="DeletePageSuccessViewController" customModule="Profile" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="YmX-QR-YmW">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ntJ-jP-NBS">
+                                <rect key="frame" x="0.0" y="114" width="320" height="340.5"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ekt-uA-eKm">
+                                        <rect key="frame" x="110" y="10" width="100" height="100"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="100" id="HMy-HT-DNN"/>
+                                            <constraint firstAttribute="height" constant="100" id="lon-Ak-CFp"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ระบบได้ลบเพจของคุณทิ้งโดยถาวรแล้ว" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vaD-3O-xIx">
+                                        <rect key="frame" x="30" y="170" width="260" height="50.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zbC-eV-eNf">
+                                        <rect key="frame" x="20" y="280.5" width="280" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="dDh-W4-oO0"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <state key="normal" title="กลับสู่เมนู"/>
+                                        <connections>
+                                            <action selector="homeAction:" destination="z98-ol-yK5" eventType="touchUpInside" id="LMz-t5-Dpc"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="ekt-uA-eKm" firstAttribute="top" secondItem="ntJ-jP-NBS" secondAttribute="top" constant="10" id="5Ip-Fl-PUZ"/>
+                                    <constraint firstItem="vaD-3O-xIx" firstAttribute="top" secondItem="ekt-uA-eKm" secondAttribute="bottom" constant="60" id="8iJ-Vp-86x"/>
+                                    <constraint firstAttribute="bottom" secondItem="zbC-eV-eNf" secondAttribute="bottom" constant="10" id="B6U-VQ-vLp"/>
+                                    <constraint firstItem="ekt-uA-eKm" firstAttribute="centerX" secondItem="ntJ-jP-NBS" secondAttribute="centerX" id="GtO-vo-6ub"/>
+                                    <constraint firstAttribute="trailing" secondItem="zbC-eV-eNf" secondAttribute="trailing" constant="20" id="JxE-x6-7hd"/>
+                                    <constraint firstAttribute="trailing" secondItem="vaD-3O-xIx" secondAttribute="trailing" constant="30" id="UBe-QS-7wu"/>
+                                    <constraint firstItem="zbC-eV-eNf" firstAttribute="leading" secondItem="ntJ-jP-NBS" secondAttribute="leading" constant="20" id="btd-kM-y9e"/>
+                                    <constraint firstItem="vaD-3O-xIx" firstAttribute="leading" secondItem="ntJ-jP-NBS" secondAttribute="leading" constant="30" id="kye-pP-h58"/>
+                                    <constraint firstItem="zbC-eV-eNf" firstAttribute="top" secondItem="vaD-3O-xIx" secondAttribute="bottom" constant="60" id="px7-oi-Jvp"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="hm0-Ef-6uS"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="ntJ-jP-NBS" firstAttribute="leading" secondItem="YmX-QR-YmW" secondAttribute="leading" id="CAl-hY-xtX"/>
+                            <constraint firstItem="ntJ-jP-NBS" firstAttribute="centerY" secondItem="YmX-QR-YmW" secondAttribute="centerY" id="TM7-OD-eKE"/>
+                            <constraint firstAttribute="trailing" secondItem="ntJ-jP-NBS" secondAttribute="trailing" id="XWA-eS-Toc"/>
+                            <constraint firstItem="ntJ-jP-NBS" firstAttribute="centerX" secondItem="YmX-QR-YmW" secondAttribute="centerX" id="prU-3f-Wkz"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="headlineLabel" destination="vaD-3O-xIx" id="feM-XR-loW"/>
+                        <outlet property="homeButton" destination="zbC-eV-eNf" id="SRw-2Q-3DN"/>
+                        <outlet property="successImage" destination="ekt-uA-eKm" id="Ah9-sK-y6E"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="UIr-Hf-MsI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1526" y="1561"/>
         </scene>
         <!--Page Display Name View Controller-->
         <scene sceneID="NvK-Hi-3cJ">

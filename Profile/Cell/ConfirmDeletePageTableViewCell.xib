@@ -11,35 +11,38 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="481" id="KGk-i7-Jjw" customClass="ConfirmDeletePageTableViewCell" customModule="Profile" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="481"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="527" id="KGk-i7-Jjw" customClass="ConfirmDeletePageTableViewCell" customModule="Profile" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="527"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="481"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="527"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your Display name" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yeO-iC-RrB">
-                        <rect key="frame" x="15" y="50" width="290" height="36"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Confirm that this is your Page" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yeO-iC-RrB">
+                        <rect key="frame" x="15" y="50" width="290" height="72"/>
                         <fontDescription key="fontDescription" type="system" pointSize="30"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You can change your display name later from your account settings." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="piJ-ac-xft">
-                        <rect key="frame" x="15" y="106" width="290" height="43"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Before you permanently delete your Page, please enter your password." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="piJ-ac-xft">
+                        <rect key="frame" x="15" y="142" width="290" height="43"/>
                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U0W-12-PO1">
-                        <rect key="frame" x="20" y="401" width="280" height="50"/>
+                        <rect key="frame" x="20" y="457" width="280" height="50"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="50" id="wKL-RS-ADS"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                         <state key="normal" title="Continue"/>
+                        <connections>
+                            <action selector="nextAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="qTQ-26-ziH"/>
+                        </connections>
                     </button>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4BH-OQ-tJI">
-                        <rect key="frame" x="15" y="291" width="290" height="60"/>
+                        <rect key="frame" x="15" y="327" width="290" height="60"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bQa-e6-eul" customClass="JVFloatLabeledTextField">
                                 <rect key="frame" x="15" y="10" width="220" height="40"/>
@@ -52,6 +55,9 @@
                                     <constraint firstAttribute="height" constant="30" id="Dfw-ib-FfL"/>
                                     <constraint firstAttribute="width" constant="30" id="uQk-Yf-91G"/>
                                 </constraints>
+                                <connections>
+                                    <action selector="showPasswordAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="7cB-w1-xpk"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -66,21 +72,21 @@
                         </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KHG-qV-VSY">
-                        <rect key="frame" x="0.0" y="260" width="320" height="1"/>
+                        <rect key="frame" x="0.0" y="296" width="320" height="1"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="1" id="2MH-SQ-yWZ"/>
                         </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JZ0-72-Ual">
-                        <rect key="frame" x="0.0" y="179" width="320" height="1"/>
+                        <rect key="frame" x="0.0" y="215" width="320" height="1"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="1" id="PCw-c8-yN6"/>
                         </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8wy-zp-eKy">
-                        <rect key="frame" x="85" y="202" width="210" height="36.5"/>
+                        <rect key="frame" x="85" y="238" width="210" height="36.5"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tommy Cruise" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HMI-XM-LJq">
                                 <rect key="frame" x="0.0" y="0.0" width="210" height="19.5"/>
@@ -107,7 +113,7 @@
                         </constraints>
                     </view>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="xrI-bf-Omx">
-                        <rect key="frame" x="25" y="200" width="40" height="40"/>
+                        <rect key="frame" x="25" y="236" width="40" height="40"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="40" id="13G-MX-cyV"/>
                             <constraint firstAttribute="height" constant="40" id="cKH-Kh-db0"/>
@@ -117,12 +123,12 @@
                 <constraints>
                     <constraint firstItem="xrI-bf-Omx" firstAttribute="top" secondItem="JZ0-72-Ual" secondAttribute="bottom" constant="20" id="5Ir-ih-tT7"/>
                     <constraint firstItem="KHG-qV-VSY" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="5UN-pF-knn"/>
-                    <constraint firstItem="U0W-12-PO1" firstAttribute="top" secondItem="4BH-OQ-tJI" secondAttribute="bottom" constant="50" id="628-QB-HiY"/>
+                    <constraint firstItem="U0W-12-PO1" firstAttribute="top" secondItem="4BH-OQ-tJI" secondAttribute="bottom" constant="70" id="628-QB-HiY"/>
                     <constraint firstAttribute="trailing" secondItem="yeO-iC-RrB" secondAttribute="trailing" constant="15" id="7m3-un-W87"/>
                     <constraint firstAttribute="trailing" secondItem="JZ0-72-Ual" secondAttribute="trailing" id="A2r-fI-i6N"/>
-                    <constraint firstAttribute="bottom" secondItem="U0W-12-PO1" secondAttribute="bottom" constant="30" id="Aco-1D-2Ff"/>
                     <constraint firstAttribute="trailing" secondItem="8wy-zp-eKy" secondAttribute="trailing" constant="25" id="C0l-hz-UKN"/>
                     <constraint firstItem="8wy-zp-eKy" firstAttribute="leading" secondItem="xrI-bf-Omx" secondAttribute="trailing" constant="20" id="Dbd-dS-qYO"/>
+                    <constraint firstAttribute="bottom" secondItem="U0W-12-PO1" secondAttribute="bottom" constant="20" id="Dou-yR-das"/>
                     <constraint firstAttribute="trailing" secondItem="piJ-ac-xft" secondAttribute="trailing" constant="15" id="Gvw-7y-yuC"/>
                     <constraint firstItem="4BH-OQ-tJI" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="GxZ-05-pY3"/>
                     <constraint firstItem="piJ-ac-xft" firstAttribute="top" secondItem="yeO-iC-RrB" secondAttribute="bottom" constant="20" id="IKY-sV-Jwb"/>
@@ -144,7 +150,20 @@
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
-            <point key="canvasLocation" x="137.68115942028987" y="236.71875"/>
+            <connections>
+                <outlet property="avatarImage" destination="xrI-bf-Omx" id="NbD-eG-LP2"/>
+                <outlet property="displayNameLabel" destination="HMI-XM-LJq" id="j4v-nl-g4W"/>
+                <outlet property="headlineLabel" destination="yeO-iC-RrB" id="PKn-I0-rVn"/>
+                <outlet property="line1View" destination="JZ0-72-Ual" id="cXj-2C-0ew"/>
+                <outlet property="line2View" destination="KHG-qV-VSY" id="RWj-Vv-0yz"/>
+                <outlet property="nextButton" destination="U0W-12-PO1" id="o3O-GK-Uoh"/>
+                <outlet property="pageLabel" destination="m6n-jr-HmK" id="Zl6-fJ-wQl"/>
+                <outlet property="passwordTextField" destination="bQa-e6-eul" id="7b6-OY-w55"/>
+                <outlet property="passwordView" destination="4BH-OQ-tJI" id="sRx-1z-92t"/>
+                <outlet property="showPasswordButton" destination="0yy-9X-ica" id="eu6-gf-9eD"/>
+                <outlet property="subtitleLabel" destination="piJ-ac-xft" id="DFd-64-ADu"/>
+            </connections>
+            <point key="canvasLocation" x="137.68115942028987" y="252.12053571428569"/>
         </tableViewCell>
     </objects>
     <designables>
