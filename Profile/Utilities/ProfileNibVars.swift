@@ -57,6 +57,7 @@ public struct ProfileNibVars {
         public static let meInfo = "UserInfoTableViewCell"
         public static let socialLink = "SocialLinkTableViewCell"
         public static let editInfo = "EditInfoTableViewCell"
+        public static let editPageInfo = "EditPageInfoTableViewCell"
         public static let about = "AboutTableViewCell"
         public static let dob = "DobTableViewCell"
         public static let addLink = "AddLinkTableViewCell"

@@ -48,13 +48,16 @@ class EditProfileViewModel {
     var cover: UIImage? = nil
     var dobDate: Date? = nil
     var castcleId: String = ""
+    var pageInfo: PageInfo = PageInfo()
     
     enum Stage {
         case updateProfile
         case updateAvatar
         case updateCover
+        case updatePageInfo
         case updatePageAvatar
         case updatePageCover
+        case getInfo
         case none
     }
 
@@ -136,6 +139,27 @@ class EditProfileViewModel {
         }
     }
     
+    func updatePageInfo(castcleId: String) {
+        self.castcleId = castcleId
+        if !self.castcleId.isEmpty {
+            self.stage = .updatePageInfo
+            self.pageRepository.updatePageInfo(pageId: self.castcleId, pageRequest: self.pageRequest) { (success, response, isRefreshToken) in
+                if success {
+                    self.stage = .none
+                    self.delegate?.didUpdatePageFinish(success: true)
+                } else {
+                    if isRefreshToken {
+                        self.tokenHelper.refreshToken()
+                    } else {
+                        self.delegate?.didUpdatePageFinish(success: false)
+                    }
+                }
+            }
+        } else {
+            self.delegate?.didUpdatePageFinish(success: false)
+        }
+    }
+    
     func updatePageAvatar(castcleId: String) {
         self.castcleId = castcleId
         if !self.castcleId.isEmpty, let image = self.avatar {
@@ -179,6 +203,33 @@ class EditProfileViewModel {
             self.delegate?.didUpdatePageFinish(success: false)
         }
     }
+    
+    func getPageInfo(castcleId: String) {
+        self.castcleId = castcleId
+        if !self.castcleId.isEmpty {
+            self.stage = .getInfo
+            self.pageRepository.getPageInfo(pageId: self.castcleId) { (success, response, isRefreshToken) in
+                if success {
+                    do {
+                        let rawJson = try response.mapJSON()
+                        let json = JSON(rawJson)
+                        self.pageInfo = PageInfo(json: json)
+                        self.didGetPageInfoFinish?()
+                    } catch {
+                        
+                    }
+                } else {
+                    if isRefreshToken {
+                        self.tokenHelper.refreshToken()
+                    }
+                }
+            }
+        } else {
+            self.delegate?.didUpdatePageFinish(success: false)
+        }
+    }
+    
+    var didGetPageInfoFinish: (() -> ())?
 }
 
 extension EditProfileViewModel: TokenHelperDelegate {
@@ -189,10 +240,14 @@ extension EditProfileViewModel: TokenHelperDelegate {
             self.updateAvatar()
         } else if self.stage == .updateCover {
             self.updateCover()
+        } else if self.stage == .updatePageInfo {
+            self.updatePageInfo(castcleId: self.castcleId)
         } else if self.stage == .updatePageAvatar {
             self.updatePageAvatar(castcleId: self.castcleId)
         } else if self.stage == .updatePageCover {
             self.updatePageCover(castcleId: self.castcleId)
+        } else if self.stage == .getInfo {
+            self.getPageInfo(castcleId: self.castcleId)
         }
     }
 }

@@ -388,8 +388,8 @@ class MeHeaderViewController: UIViewController {
     }
     
     @IBAction func editProfileAction(_ sender: Any) {
-        if self.viewModel.profileType == .me {
-            Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.editInfo), animated: true)
+        if self.viewModel.profileType == .me || self.viewModel.profileType == .myPage {
+            Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.editInfo(self.viewModel.profileType, self.viewModel.pageInfo)), animated: true)
         }
     }
     

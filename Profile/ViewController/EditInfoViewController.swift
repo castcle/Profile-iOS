@@ -28,11 +28,15 @@
 import UIKit
 import Core
 import Component
+import Networking
 import Defaults
 
 class EditInfoViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet var tableView: UITableView!
+    
+    var profileType: ProfileType = .unknow
+    var pageInfo: PageInfo = PageInfo()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,6 +61,7 @@ class EditInfoViewController: UIViewController, UITableViewDelegate, UITableView
         self.tableView.dataSource = self
         
         self.tableView.register(UINib(nibName: ProfileNibVars.TableViewCell.editInfo, bundle: ConfigBundle.profile), forCellReuseIdentifier: ProfileNibVars.TableViewCell.editInfo)
+        self.tableView.register(UINib(nibName: ProfileNibVars.TableViewCell.editPageInfo, bundle: ConfigBundle.profile), forCellReuseIdentifier: ProfileNibVars.TableViewCell.editPageInfo)
         
         self.tableView.rowHeight = UITableView.automaticDimension
         self.tableView.estimatedRowHeight = 100
@@ -71,8 +76,15 @@ class EditInfoViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.editInfo, for: indexPath as IndexPath) as? EditInfoTableViewCell
-        cell?.backgroundColor = UIColor.clear
-        return cell ?? EditInfoTableViewCell()
+        if self.profileType == .myPage {
+            let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.editPageInfo, for: indexPath as IndexPath) as? EditPageInfoTableViewCell
+            cell?.backgroundColor = UIColor.clear
+            cell?.configCell(pageInfo: self.pageInfo)
+            return cell ?? EditPageInfoTableViewCell()
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.editInfo, for: indexPath as IndexPath) as? EditInfoTableViewCell
+            cell?.backgroundColor = UIColor.clear
+            return cell ?? EditInfoTableViewCell()
+        }
     }
 }

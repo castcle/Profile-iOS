@@ -64,6 +64,8 @@
 		B7AF663226F35E0E00BDE9C4 /* SocialTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7AF663026F35E0E00BDE9C4 /* SocialTableViewCell.xib */; };
 		B7AF663526F360F500BDE9C4 /* ComplateTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AF663326F360F500BDE9C4 /* ComplateTableViewCell.swift */; };
 		B7AF663626F360F500BDE9C4 /* ComplateTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7AF663426F360F500BDE9C4 /* ComplateTableViewCell.xib */; };
+		B7C098362727CFCD009ACE22 /* EditPageInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7C098342727CFCD009ACE22 /* EditPageInfoTableViewCell.xib */; };
+		B7C098372727CFCD009ACE22 /* EditPageInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C098352727CFCD009ACE22 /* EditPageInfoTableViewCell.swift */; };
 		B7C2521F26C8095C00ACBB84 /* UserDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C2521E26C8095C00ACBB84 /* UserDetailViewModel.swift */; };
 		B7C2525626CA077A00ACBB84 /* Post.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7C2525526CA077A00ACBB84 /* Post.framework */; };
 		B7C252A226CFC45900ACBB84 /* MeHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C252A126CFC45900ACBB84 /* MeHeaderViewModel.swift */; };
@@ -141,6 +143,8 @@
 		B7AF663026F35E0E00BDE9C4 /* SocialTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SocialTableViewCell.xib; sourceTree = "<group>"; };
 		B7AF663326F360F500BDE9C4 /* ComplateTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplateTableViewCell.swift; sourceTree = "<group>"; };
 		B7AF663426F360F500BDE9C4 /* ComplateTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ComplateTableViewCell.xib; sourceTree = "<group>"; };
+		B7C098342727CFCD009ACE22 /* EditPageInfoTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditPageInfoTableViewCell.xib; sourceTree = "<group>"; };
+		B7C098352727CFCD009ACE22 /* EditPageInfoTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditPageInfoTableViewCell.swift; sourceTree = "<group>"; };
 		B7C2521E26C8095C00ACBB84 /* UserDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailViewModel.swift; sourceTree = "<group>"; };
 		B7C2525526CA077A00ACBB84 /* Post.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Post.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7C252A126CFC45900ACBB84 /* MeHeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeHeaderViewModel.swift; sourceTree = "<group>"; };
@@ -279,6 +283,8 @@
 				B7910ECB26BF1E1C0097C94E /* SocialLinkTableViewCell.xib */,
 				B7910ED026C00A550097C94E /* EditInfoTableViewCell.swift */,
 				B7910ED126C00A550097C94E /* EditInfoTableViewCell.xib */,
+				B7C098352727CFCD009ACE22 /* EditPageInfoTableViewCell.swift */,
+				B7C098342727CFCD009ACE22 /* EditPageInfoTableViewCell.xib */,
 				B7AF660F26F2E56400BDE9C4 /* CreatePageDisplayNameCell.swift */,
 				B7AF661026F2E56400BDE9C4 /* CreatePageDisplayNameCell.xib */,
 				B7F63C29271DC3C7005856B2 /* ConfirmDeletePageTableViewCell.swift */,
@@ -431,6 +437,7 @@
 				B7F63C2C271DC3C7005856B2 /* ConfirmDeletePageTableViewCell.xib in Resources */,
 				B7910EC926BF06050097C94E /* UserInfoTableViewCell.xib in Resources */,
 				B7AF662A26F3568C00BDE9C4 /* DobTableViewCell.xib in Resources */,
+				B7C098362727CFCD009ACE22 /* EditPageInfoTableViewCell.xib in Resources */,
 				B7AF663626F360F500BDE9C4 /* ComplateTableViewCell.xib in Resources */,
 				B7AF662E26F35B5900BDE9C4 /* AddLinkTableViewCell.xib in Resources */,
 				B7AF662626F3447900BDE9C4 /* AboutTableViewCell.xib in Resources */,
@@ -493,6 +500,7 @@
 				B7910EC826BF06050097C94E /* UserInfoTableViewCell.swift in Sources */,
 				B7910ECF26BF1FD70097C94E /* UserInfoViewModel.swift in Sources */,
 				B7AF662D26F35B5900BDE9C4 /* AddLinkTableViewCell.swift in Sources */,
+				B7C098372727CFCD009ACE22 /* EditPageInfoTableViewCell.swift in Sources */,
 				B7AF661426F2E88B00BDE9C4 /* CreatePageDisplayNameSectionController.swift in Sources */,
 				B7AF662526F3447900BDE9C4 /* AboutTableViewCell.swift in Sources */,
 				B7910E7226BBD52F0097C94E /* ProfileNibVars.swift in Sources */,

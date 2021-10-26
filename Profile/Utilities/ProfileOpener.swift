@@ -27,6 +27,7 @@
 
 import UIKit
 import Core
+import Networking
 
 public enum ProfileScene {
     case welcome
@@ -34,7 +35,7 @@ public enum ProfileScene {
     case about(AboutInfoViewModel)
     case addLink
     case userInfo
-    case editInfo
+    case editInfo(ProfileType, PageInfo)
     case action
     case userDetail(UserDetailViewModel)
     case meHeader(MeHeaderViewModel)
@@ -72,10 +73,12 @@ public struct ProfileOpener {
             let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.me, bundle: ConfigBundle.profile)
             let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.userInfo)
             return vc
-        case .editInfo:
+        case .editInfo(let profileType, let pageInfo):
             let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.me, bundle: ConfigBundle.profile)
-            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.editInfo)
-            return vc
+            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.editInfo) as? EditInfoViewController
+            vc?.profileType = profileType
+            vc?.pageInfo = pageInfo
+            return vc ?? EditInfoViewController()
         case .action:
             let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.me, bundle: ConfigBundle.profile)
             let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.action)
