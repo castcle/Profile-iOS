@@ -127,11 +127,20 @@ class MeHeaderViewController: UIViewController {
             let urlProfile = URL(string: UserManager.shared.avatar)
             let urlCover = URL(string: UserManager.shared.cover)
             
-            self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.5))])
+            if let avatar = self.editProfileViewModel.avatar {
+                self.profileImage.image = avatar
+                self.miniProfileImage.image = avatar
+            } else {
+                self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.5))])
+                self.miniProfileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.5))])
+            }
             
-            self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.5))])
-            self.miniProfileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.5))])
-            
+            if let cover = self.editProfileViewModel.cover {
+                self.coverImage.image = cover
+            } else {
+                self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.5))])
+            }
+           
             self.displayNameLabel.text = UserManager.shared.displayName
             self.userIdLabel.text = UserManager.shared.castcleId
             
@@ -155,10 +164,19 @@ class MeHeaderViewController: UIViewController {
             let urlProfile = URL(string: self.viewModel.pageInfo.image.avatar.fullHd)
             let urlCover = URL(string: self.viewModel.pageInfo.image.cover.fullHd)
             
-            self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.5))])
+            if let avatar = self.editProfileViewModel.avatar {
+                self.profileImage.image = avatar
+                self.miniProfileImage.image = avatar
+            } else {
+                self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.5))])
+                self.miniProfileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.5))])
+            }
             
-            self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.5))])
-            self.miniProfileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.5))])
+            if let cover = self.editProfileViewModel.cover {
+                self.coverImage.image = cover
+            } else {
+                self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.5))])
+            }
             
             self.displayNameLabel.text = self.viewModel.pageInfo.displayName
             self.userIdLabel.text = "@\(self.viewModel.pageInfo.castcleId)"
