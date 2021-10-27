@@ -39,7 +39,7 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate, TPDataSo
     
     var headerVC: MeHeaderViewController?
     var bottomVC: UserInfoTabStripViewController!
-    var viewModel = UserDetailViewModel(profileType: .unknow)
+    var viewModel = UserDetailViewModel(profileType: .unknow, page: nil)
     
     override func viewDidLoad() {
         super.viewDidLoad()

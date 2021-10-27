@@ -45,7 +45,7 @@ class UserInfoTabStripViewController: ButtonBarPagerTabStripViewController, Page
     }
     
     var profileType: ProfileType = .unknow
-    var page: PageInfo = PageInfo()
+    var page: PageLocal = PageLocal()
     
     override func awakeFromNib() {
         super.awakeFromNib()

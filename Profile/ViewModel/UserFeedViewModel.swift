@@ -53,7 +53,7 @@ public final class UserFeedViewModel {
     var userFeedType: UserFeedType = .all
     var profileType: ProfileType = .unknow
     let tokenHelper: TokenHelper = TokenHelper()
-    var page: PageInfo = PageInfo()
+    var page: PageLocal = PageLocal()
 
     //MARK: Input
     public func getContents() {
@@ -102,7 +102,7 @@ public final class UserFeedViewModel {
         }
     }
     
-    public init(userFeedType: UserFeedType, profileType: ProfileType, page: PageInfo = PageInfo()) {
+    public init(userFeedType: UserFeedType, profileType: ProfileType, page: PageLocal = PageLocal()) {
         self.userFeedType = userFeedType
         self.tokenHelper.delegate = self
         self.contents = []
