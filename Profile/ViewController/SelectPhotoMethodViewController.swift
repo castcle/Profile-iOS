@@ -69,7 +69,7 @@ class SelectPhotoMethodViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         Defaults[.screenId] = ""
-        self.hud.textLabel.text = "Loading"
+        self.hud.textLabel.text = "Saving"
     }
     
     func setupNavBar() {
