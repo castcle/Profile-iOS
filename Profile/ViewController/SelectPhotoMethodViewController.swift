@@ -248,9 +248,15 @@ extension SelectPhotoMethodViewController: SelectPhotoMethodViewModelDelegate {
     }
     
     func didUpdatePageFinish(success: Bool) {
-        self.hud.dismiss()
         if success {
-            Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.about(AboutInfoViewModel(avatarType: self.viewModel.avatarType, castcleId: self.viewModel.castcleId))), animated: true)
+            self.viewModel.getMyPage()
+        } else {
+            self.hud.dismiss()
         }
+    }
+    
+    func didGetPageFinish() {
+        self.hud.dismiss()
+        Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.about(AboutInfoViewModel(avatarType: self.viewModel.avatarType, castcleId: self.viewModel.castcleId))), animated: true)
     }
 }

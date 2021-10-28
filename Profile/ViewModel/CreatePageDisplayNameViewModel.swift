@@ -30,11 +30,13 @@ import Networking
 import Moya
 import SwiftyJSON
 import Defaults
+import RealmSwift
 
 public protocol CreatePageDisplayNameViewModelDelegate {
     func didCheckCastcleIdExistsFinish()
     func didSuggestCastcleIdFinish(suggestCastcleId: String)
     func didCreatePageFinish(success: Bool, castcleId: String)
+    func didGetPageFinish(castcleId: String)
 }
 
 class CreatePageDisplayNameViewModel {
@@ -47,11 +49,13 @@ class CreatePageDisplayNameViewModel {
     var isCastcleIdExist: Bool = true
     let tokenHelper: TokenHelper = TokenHelper()
     private var stage: CreateDisplayNameStage = .none
+    private let realm = try! Realm()
     
     enum CreateDisplayNameStage {
         case suggest
         case check
         case createPage
+        case getMyPage
         case none
     }
 
@@ -120,6 +124,43 @@ class CreatePageDisplayNameViewModel {
             }
         }
     }
+    
+    func getMyPage(castcleId: String) {
+        self.stage = .getMyPage
+        self.pageRepository.getMyPage() { (success, response, isRefreshToken) in
+            if success {
+                do {
+                    let rawJson = try response.mapJSON()
+                    let json = JSON(rawJson)
+                    let pageList = json[AuthenticationApiKey.payload.rawValue].arrayValue
+                    let pageLocal = self.realm.objects(PageLocal.self)
+                    try! self.realm.write {
+                        self.realm.delete(pageLocal)
+                    }
+                    
+                    pageList.forEach { page in
+                        let pageInfo = PageInfo(json: page)
+                        try! self.realm.write {
+                            let pageLocal = PageLocal()
+                            pageLocal.id = pageInfo.id
+                            pageLocal.castcleId = pageInfo.castcleId
+                            pageLocal.displayName = pageInfo.displayName
+                            pageLocal.image = pageInfo.image.avatar.fullHd
+                            self.realm.add(pageLocal, update: .modified)
+                        }
+                        
+                    }
+                    self.delegate?.didGetPageFinish(castcleId: castcleId)
+                } catch {}
+            } else {
+                if isRefreshToken {
+                    self.tokenHelper.refreshToken()
+                } else {
+                    self.delegate?.didGetPageFinish(castcleId: castcleId)
+                }
+            }
+        }
+    }
 }
 
 extension CreatePageDisplayNameViewModel: TokenHelperDelegate {
@@ -130,6 +171,8 @@ extension CreatePageDisplayNameViewModel: TokenHelperDelegate {
             self.checkCastcleIdExists()
         } else if self.stage == .createPage {
             self.createPage()
+        } else if self.stage == .getMyPage {
+            self.getMyPage(castcleId: self.pageRequest.castcleId)
         }
     }
 }

@@ -31,10 +31,12 @@ import Networking
 import Moya
 import SwiftyJSON
 import Defaults
+import RealmSwift
 
 public protocol SelectPhotoMethodViewModelDelegate {
     func didUpdateUserFinish(success: Bool)
     func didUpdatePageFinish(success: Bool)
+    func didGetPageFinish()
 }
 
 public enum AvatarType {
@@ -54,10 +56,12 @@ public class SelectPhotoMethodViewModel {
     var avatarType: AvatarType
     var stage: Stage = .none
     var castcleId: String
+    private let realm = try! Realm()
     
     enum Stage {
         case updateUserAvatar
         case updatePageAvatar
+        case getMyPage
         case none
     }
     
@@ -113,6 +117,43 @@ public class SelectPhotoMethodViewModel {
             self.delegate?.didUpdatePageFinish(success: false)
         }
     }
+    
+    func getMyPage() {
+        self.stage = .getMyPage
+        self.pageRepository.getMyPage() { (success, response, isRefreshToken) in
+            if success {
+                do {
+                    let rawJson = try response.mapJSON()
+                    let json = JSON(rawJson)
+                    let pageList = json[AuthenticationApiKey.payload.rawValue].arrayValue
+                    let pageLocal = self.realm.objects(PageLocal.self)
+                    try! self.realm.write {
+                        self.realm.delete(pageLocal)
+                    }
+                    
+                    pageList.forEach { page in
+                        let pageInfo = PageInfo(json: page)
+                        try! self.realm.write {
+                            let pageLocal = PageLocal()
+                            pageLocal.id = pageInfo.id
+                            pageLocal.castcleId = pageInfo.castcleId
+                            pageLocal.displayName = pageInfo.displayName
+                            pageLocal.image = pageInfo.image.avatar.fullHd
+                            self.realm.add(pageLocal, update: .modified)
+                        }
+                        
+                    }
+                    self.delegate?.didGetPageFinish()
+                } catch {}
+            } else {
+                if isRefreshToken {
+                    self.tokenHelper.refreshToken()
+                } else {
+                    self.delegate?.didGetPageFinish()
+                }
+            }
+        }
+    }
 }
 
 extension SelectPhotoMethodViewModel: TokenHelperDelegate {
@@ -121,6 +162,8 @@ extension SelectPhotoMethodViewModel: TokenHelperDelegate {
             self.updatePageAvatar()
         } else if self.stage == .updateUserAvatar {
             self.updateUserAvatar()
+        } else if self.stage == .getMyPage {
+            self.getMyPage()
         }
     }
 }

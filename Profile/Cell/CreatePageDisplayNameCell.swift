@@ -201,9 +201,15 @@ extension CreatePageDisplayNameCell: CreatePageDisplayNameViewModelDelegate {
     }
     
     func didCreatePageFinish(success: Bool, castcleId: String) {
-        self.hud.dismiss()
         if success {
-            Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.photoMethod(SelectPhotoMethodViewModel(avatarType: .page, pageRequest: self.viewModel.pageRequest, castcleId: castcleId))), animated: true)
+            self.viewModel.getMyPage(castcleId: castcleId)
+        } else {
+            self.hud.dismiss()
         }
+    }
+    
+    func didGetPageFinish(castcleId: String) {
+        self.hud.dismiss()
+        Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.photoMethod(SelectPhotoMethodViewModel(avatarType: .page, pageRequest: self.viewModel.pageRequest, castcleId: castcleId))), animated: true)
     }
 }
