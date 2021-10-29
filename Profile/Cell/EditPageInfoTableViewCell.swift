@@ -106,7 +106,6 @@ class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
     
     let viewModel = EditProfileViewModel()
     let hud = JGProgressHUD()
-//    var pageInfo: PageInfo = PageInfo()
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -150,11 +149,11 @@ class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
     
     private func mappingData() {
         self.overviewTextView.text = self.viewModel.pageInfo.overview
-        self.facebookTextField.text = self.viewModel.pageInfo.links.facebook
-        self.twitterTextField.text = self.viewModel.pageInfo.links.twitter
-        self.youtubeTextField.text = self.viewModel.pageInfo.links.youtube
-        self.mediumTextField.text = self.viewModel.pageInfo.links.medium
-        self.websiteTextField.text = self.viewModel.pageInfo.links.website
+        self.facebookTextField.text = (self.viewModel.pageInfo.links.facebook.isEmpty ? "https://" : self.viewModel.pageInfo.links.facebook)
+        self.twitterTextField.text = (self.viewModel.pageInfo.links.twitter.isEmpty ? "https://" : self.viewModel.pageInfo.links.twitter)
+        self.youtubeTextField.text = (self.viewModel.pageInfo.links.youtube.isEmpty ? "https://" : self.viewModel.pageInfo.links.youtube)
+        self.mediumTextField.text = (self.viewModel.pageInfo.links.medium.isEmpty ? "https://" : self.viewModel.pageInfo.links.medium)
+        self.websiteTextField.text = (self.viewModel.pageInfo.links.website.isEmpty ? "https://" : self.viewModel.pageInfo.links.website)
     }
     
     private func disableUI(isActive: Bool) {
@@ -179,11 +178,11 @@ class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         self.hud.show(in: Utility.currentViewController().view)
         self.disableUI(isActive: false)
         self.viewModel.pageRequest.overview = self.overviewTextView.text ?? ""
-        self.viewModel.pageRequest.links.facebook = self.facebookTextField.text ?? ""
-        self.viewModel.pageRequest.links.twitter = self.twitterTextField.text ?? ""
-        self.viewModel.pageRequest.links.youtube = self.youtubeTextField.text ?? ""
-        self.viewModel.pageRequest.links.medium = self.mediumTextField.text ?? ""
-        self.viewModel.pageRequest.links.website = self.websiteTextField.text ?? ""
+        self.viewModel.pageRequest.links.facebook = (self.facebookTextField.text! == "https://" ? "" : self.facebookTextField.text!)
+        self.viewModel.pageRequest.links.twitter = (self.twitterTextField.text! == "https://" ? "" : self.twitterTextField.text!)
+        self.viewModel.pageRequest.links.youtube = (self.youtubeTextField.text! == "https://" ? "" : self.youtubeTextField.text!)
+        self.viewModel.pageRequest.links.medium = (self.mediumTextField.text! == "https://" ? "" : self.mediumTextField.text!)
+        self.viewModel.pageRequest.links.website = (self.websiteTextField.text! == "https://" ? "" : self.websiteTextField.text!)
         self.viewModel.updatePageInfo(castcleId: self.viewModel.pageInfo.castcleId)
     }
 }

@@ -151,11 +151,11 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         self.mediumView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
         self.websiteView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
         
-        self.facebookTextField.text = UserManager.shared.facebookLink
-        self.twitterTextField.text = UserManager.shared.twitterLink
-        self.youtubeTextField.text = UserManager.shared.youtubeLink
-        self.mediumTextField.text = UserManager.shared.mediumLink
-        self.websiteTextField.text = UserManager.shared.websiteLink
+        self.facebookTextField.text = (UserManager.shared.facebookLink.isEmpty ? "https://" : UserManager.shared.facebookLink)
+        self.twitterTextField.text = (UserManager.shared.twitterLink.isEmpty ? "https://" : UserManager.shared.twitterLink)
+        self.youtubeTextField.text = (UserManager.shared.youtubeLink.isEmpty ? "https://" : UserManager.shared.youtubeLink)
+        self.mediumTextField.text = (UserManager.shared.mediumLink.isEmpty ? "https://" : UserManager.shared.mediumLink)
+        self.websiteTextField.text = (UserManager.shared.websiteLink.isEmpty ? "https://" : UserManager.shared.websiteLink)
         
         self.saveButton.setTitle("Save", for: .normal)
         self.saveButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .h4)
@@ -208,12 +208,11 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         self.hud.show(in: Utility.currentViewController().view)
         self.disableUI(isActive: false)
         self.viewModel.userRequest.payload.overview = self.overviewTextView.text ?? ""
-        
-        self.viewModel.userRequest.payload.links.facebook = self.facebookTextField.text ?? ""
-        self.viewModel.userRequest.payload.links.twitter = self.twitterTextField.text ?? ""
-        self.viewModel.userRequest.payload.links.youtube = self.youtubeTextField.text ?? ""
-        self.viewModel.userRequest.payload.links.medium = self.mediumTextField.text ?? ""
-        self.viewModel.userRequest.payload.links.website = self.websiteTextField.text ?? ""
+        self.viewModel.userRequest.payload.links.facebook = (self.facebookTextField.text! == "https://" ? "" : self.facebookTextField.text!)
+        self.viewModel.userRequest.payload.links.twitter = (self.twitterTextField.text! == "https://" ? "" : self.twitterTextField.text!)
+        self.viewModel.userRequest.payload.links.youtube = (self.youtubeTextField.text! == "https://" ? "" : self.youtubeTextField.text!)
+        self.viewModel.userRequest.payload.links.medium = (self.mediumTextField.text! == "https://" ? "" : self.mediumTextField.text!)
+        self.viewModel.userRequest.payload.links.website = (self.websiteTextField.text! == "https://" ? "" : self.websiteTextField.text!)
         self.viewModel.updateProfile()
     }
 }
