@@ -139,9 +139,15 @@ class ConfirmDeletePageTableViewCell: UITableViewCell {
 
 extension ConfirmDeletePageTableViewCell: DeletePageViewModelDelegate {
     func didDeletePageFinish(success: Bool) {
-        self.hud.dismiss()
         if success {
-            Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.deletePageSuccess), animated: true)
+            self.viewModel.getAllMyPage()
+        } else {
+            self.hud.dismiss()
         }
+    }
+    
+    func didGetAllPageFinish() {
+        self.hud.dismiss()
+        Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.deletePageSuccess), animated: true)
     }
 }

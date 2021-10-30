@@ -202,13 +202,13 @@ extension CreatePageDisplayNameCell: CreatePageDisplayNameViewModelDelegate {
     
     func didCreatePageFinish(success: Bool, castcleId: String) {
         if success {
-            self.viewModel.getMyPage(castcleId: castcleId)
+            self.viewModel.getAllMyPage(castcleId: castcleId)
         } else {
             self.hud.dismiss()
         }
     }
     
-    func didGetPageFinish(castcleId: String) {
+    func didGetAllPageFinish(castcleId: String) {
         self.hud.dismiss()
         Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.photoMethod(SelectPhotoMethodViewModel(avatarType: .page, pageRequest: self.viewModel.pageRequest, castcleId: castcleId))), animated: true)
     }

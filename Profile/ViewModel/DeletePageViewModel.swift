@@ -26,11 +26,14 @@
 //
 
 import Foundation
+import Core
 import Networking
 import SwiftyJSON
+import RealmSwift
 
 public protocol DeletePageViewModelDelegate {
     func didDeletePageFinish(success: Bool)
+    func didGetAllPageFinish()
 }
 
 public class DeletePageViewModel {
@@ -42,9 +45,11 @@ public class DeletePageViewModel {
     let tokenHelper: TokenHelper = TokenHelper()
     private var stage: Stage = .none
     var page: PageInfo = PageInfo()
+    private let realm = try! Realm()
     
     enum Stage {
         case deletePage
+        case getMyPage
         case none
     }
 
@@ -68,12 +73,51 @@ public class DeletePageViewModel {
             }
         }
     }
+    
+    func getAllMyPage() {
+        self.stage = .getMyPage
+        self.pageRepository.getMyPage() { (success, response, isRefreshToken) in
+            if success {
+                self.stage = .none
+                do {
+                    let rawJson = try response.mapJSON()
+                    let json = JSON(rawJson)
+                    let pageList = json[AuthenticationApiKey.payload.rawValue].arrayValue
+                    let pageLocal = self.realm.objects(PageLocal.self)
+                    try! self.realm.write {
+                        self.realm.delete(pageLocal)
+                    }
+                    
+                    pageList.forEach { page in
+                        let pageInfo = PageInfo(json: page)
+                        try! self.realm.write {
+                            let pageLocal = PageLocal()
+                            pageLocal.castcleId = pageInfo.castcleId
+                            pageLocal.displayName = pageInfo.displayName
+                            pageLocal.image = pageInfo.image.avatar.fullHd
+                            self.realm.add(pageLocal, update: .modified)
+                        }
+                        
+                    }
+                    self.delegate?.didGetAllPageFinish()
+                } catch {}
+            } else {
+                if isRefreshToken {
+                    self.tokenHelper.refreshToken()
+                } else {
+                    self.delegate?.didGetAllPageFinish()
+                }
+            }
+        }
+    }
 }
 
 extension DeletePageViewModel: TokenHelperDelegate {
     public func didRefreshTokenFinish() {
         if self.stage == .deletePage {
             self.deletePage()
+        } else if self.stage == .getMyPage {
+            self.getAllMyPage()
         }
     }
 }

@@ -122,6 +122,7 @@ public class SelectPhotoMethodViewModel {
         self.stage = .getMyPage
         self.pageRepository.getMyPage() { (success, response, isRefreshToken) in
             if success {
+                self.stage = .none
                 do {
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
@@ -135,7 +136,6 @@ public class SelectPhotoMethodViewModel {
                         let pageInfo = PageInfo(json: page)
                         try! self.realm.write {
                             let pageLocal = PageLocal()
-                            pageLocal.id = pageInfo.id
                             pageLocal.castcleId = pageInfo.castcleId
                             pageLocal.displayName = pageInfo.displayName
                             pageLocal.image = pageInfo.image.avatar.fullHd

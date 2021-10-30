@@ -36,7 +36,7 @@ public protocol CreatePageDisplayNameViewModelDelegate {
     func didCheckCastcleIdExistsFinish()
     func didSuggestCastcleIdFinish(suggestCastcleId: String)
     func didCreatePageFinish(success: Bool, castcleId: String)
-    func didGetPageFinish(castcleId: String)
+    func didGetAllPageFinish(castcleId: String)
 }
 
 class CreatePageDisplayNameViewModel {
@@ -113,7 +113,6 @@ class CreatePageDisplayNameViewModel {
         self.pageRepository.createPage(pageRequest: self.pageRequest) { (success, response, isRefreshToken) in
             if success {
                 self.stage = .none
-                self.tokenHelper.refreshToken()
                 self.delegate?.didCreatePageFinish(success: true, castcleId: self.pageRequest.castcleId)
             } else {
                 if isRefreshToken {
@@ -125,10 +124,11 @@ class CreatePageDisplayNameViewModel {
         }
     }
     
-    func getMyPage(castcleId: String) {
+    func getAllMyPage(castcleId: String) {
         self.stage = .getMyPage
         self.pageRepository.getMyPage() { (success, response, isRefreshToken) in
             if success {
+                self.stage = .none
                 do {
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
@@ -142,7 +142,6 @@ class CreatePageDisplayNameViewModel {
                         let pageInfo = PageInfo(json: page)
                         try! self.realm.write {
                             let pageLocal = PageLocal()
-                            pageLocal.id = pageInfo.id
                             pageLocal.castcleId = pageInfo.castcleId
                             pageLocal.displayName = pageInfo.displayName
                             pageLocal.image = pageInfo.image.avatar.fullHd
@@ -150,13 +149,13 @@ class CreatePageDisplayNameViewModel {
                         }
                         
                     }
-                    self.delegate?.didGetPageFinish(castcleId: castcleId)
+                    self.delegate?.didGetAllPageFinish(castcleId: castcleId)
                 } catch {}
             } else {
                 if isRefreshToken {
                     self.tokenHelper.refreshToken()
                 } else {
-                    self.delegate?.didGetPageFinish(castcleId: castcleId)
+                    self.delegate?.didGetAllPageFinish(castcleId: castcleId)
                 }
             }
         }
@@ -172,7 +171,7 @@ extension CreatePageDisplayNameViewModel: TokenHelperDelegate {
         } else if self.stage == .createPage {
             self.createPage()
         } else if self.stage == .getMyPage {
-            self.getMyPage(castcleId: self.pageRequest.castcleId)
+            self.getAllMyPage(castcleId: self.pageRequest.castcleId)
         }
     }
 }
