@@ -61,8 +61,10 @@ public final class UserDetailViewModel {
             self.page = pageLocal
         }
         
-        if self.profileType == .myPage {
+        if self.profileType == .myPage || self.profileType == .page {
             self.getPageInfo()
+        } else if self.profileType == .people {
+            
         }
     }
     

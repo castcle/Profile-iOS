@@ -131,14 +131,14 @@ class MeHeaderViewController: UIViewController {
                 self.profileImage.image = avatar
                 self.miniProfileImage.image = avatar
             } else {
-                self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.5))])
-                self.miniProfileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.5))])
+                self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
+                self.miniProfileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
             }
             
             if let cover = self.editProfileViewModel.cover {
                 self.coverImage.image = cover
             } else {
-                self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.5))])
+                self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.35))])
             }
            
             self.displayNameLabel.text = UserManager.shared.displayName
@@ -160,22 +160,22 @@ class MeHeaderViewController: UIViewController {
             }
             self.followLabel.text = "\(UserManager.shared.following)Following   \(UserManager.shared.followers)Followers"
             self.bioLabel.text = UserManager.shared.overview
-        } else if self.viewModel.profileType == .myPage {
-            let urlProfile = URL(string: self.viewModel.pageInfo.image.avatar.fullHd)
-            let urlCover = URL(string: self.viewModel.pageInfo.image.cover.fullHd)
+        } else if self.viewModel.profileType == .myPage || self.viewModel.profileType == .page {
+            let urlProfile = URL(string: self.viewModel.pageInfo.image.avatar.thumbnail)
+            let urlCover = URL(string: self.viewModel.pageInfo.image.cover.large)
             
             if let avatar = self.editProfileViewModel.avatar {
                 self.profileImage.image = avatar
                 self.miniProfileImage.image = avatar
             } else {
-                self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.5))])
-                self.miniProfileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.5))])
+                self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
+                self.miniProfileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
             }
             
             if let cover = self.editProfileViewModel.cover {
                 self.coverImage.image = cover
             } else {
-                self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.5))])
+                self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.35))])
             }
             
             self.displayNameLabel.text = self.viewModel.pageInfo.displayName
@@ -197,12 +197,14 @@ class MeHeaderViewController: UIViewController {
             }
             self.followLabel.text = "\(self.viewModel.pageInfo.following.count) Following   \(self.viewModel.pageInfo.followers.count) Followers"
             self.bioLabel.text = self.viewModel.pageInfo.overview
+//        } else if self.viewModel.profileType == .page {
+            
         } else {
             let urlCover = URL(string: "https://cdn.pixabay.com/photo/2021/07/13/18/58/coffee-6464307_1280.jpg")
-            self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.5))])
+            self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.35))])
             
             let urlProfile = URL(string: "https://static.wikia.nocookie.net/whywomenkill/images/e/e7/Alexandra_Daddario.jpg")
-            self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.5))])
+            self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
             
             self.displayNameLabel.text = "Alexandra Daddario"
             self.userIdLabel.text = "@alexandra-daddario"

@@ -144,7 +144,7 @@ class CreatePageDisplayNameViewModel {
                             let pageLocal = PageLocal()
                             pageLocal.castcleId = pageInfo.castcleId
                             pageLocal.displayName = pageInfo.displayName
-                            pageLocal.image = pageInfo.image.avatar.fullHd
+                            pageLocal.image = pageInfo.image.avatar.thumbnail
                             self.realm.add(pageLocal, update: .modified)
                         }
                         
