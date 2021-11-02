@@ -126,20 +126,20 @@ public class SelectPhotoMethodViewModel {
                 do {
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
-                    let pageList = json[AuthenticationApiKey.payload.rawValue].arrayValue
-                    let pageLocal = self.realm.objects(PageLocal.self)
+                    let pages = json[AuthenticationApiKey.payload.rawValue].arrayValue
+                    let pageRealm = self.realm.objects(Page.self)
                     try! self.realm.write {
-                        self.realm.delete(pageLocal)
+                        self.realm.delete(pageRealm)
                     }
                     
-                    pageList.forEach { page in
+                    pages.forEach { page in
                         let pageInfo = PageInfo(json: page)
                         try! self.realm.write {
-                            let pageLocal = PageLocal()
-                            pageLocal.castcleId = pageInfo.castcleId
-                            pageLocal.displayName = pageInfo.displayName
-                            pageLocal.image = pageInfo.image.avatar.thumbnail
-                            self.realm.add(pageLocal, update: .modified)
+                            let pageTemp = Page()
+                            pageTemp.castcleId = pageInfo.castcleId
+                            pageTemp.displayName = pageInfo.displayName
+                            pageTemp.image = pageInfo.image.avatar.thumbnail
+                            self.realm.add(pageTemp, update: .modified)
                         }
                         
                     }

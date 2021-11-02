@@ -42,7 +42,7 @@ public final class UserDetailViewModel {
    
     var pageRepository: PageRepository = PageRepositoryImpl()
     var profileType: ProfileType = .unknow
-    var page: PageLocal = PageLocal()
+    var page: Page = Page()
     var pageInfo: PageInfo = PageInfo()
     let tokenHelper: TokenHelper = TokenHelper()
     
@@ -53,12 +53,12 @@ public final class UserDetailViewModel {
         case none
     }
     
-    public init(profileType: ProfileType, page: PageLocal?) {
+    public init(profileType: ProfileType, page: Page?) {
         self.profileType = profileType
         self.tokenHelper.delegate = self
         
-        if let pageLocal = page {
-            self.page = pageLocal
+        if let page = page {
+            self.page = page
         }
         
         if self.profileType == .myPage || self.profileType == .page {

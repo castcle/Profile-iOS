@@ -368,7 +368,7 @@ class MeHeaderViewController: UIViewController {
             vc.modalPresentationStyle = .fullScreen
             Utility.currentViewController().present(vc, animated: true, completion: nil)
         } else if self.viewModel.profileType == .myPage {
-            let vc = PostOpener.open(.post(PostViewModel(postType: .newCast, page: PageLocal().initCustom(displayName: self.viewModel.pageInfo.displayName, image:  self.viewModel.pageInfo.image.avatar.thumbnail, castcleId: self.viewModel.pageInfo.castcleId))))
+            let vc = PostOpener.open(.post(PostViewModel(postType: .newCast, page: Page().initCustom(displayName: self.viewModel.pageInfo.displayName, image:  self.viewModel.pageInfo.image.avatar.thumbnail, castcleId: self.viewModel.pageInfo.castcleId))))
             vc.modalPresentationStyle = .fullScreen
             Utility.currentViewController().present(vc, animated: true, completion: nil)
         }

@@ -126,4 +126,12 @@ public struct ProfileOpener {
             return vc
         }
     }
+    
+    public static func openProfileDetail(_ type: AuthorType, castcleId: String?, page: Page?) {
+        if type == .people {
+            guard let id = castcleId else { return }
+        } else {
+            
+        }
+    }
 }
