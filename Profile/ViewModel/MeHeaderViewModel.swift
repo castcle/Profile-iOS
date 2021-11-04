@@ -34,9 +34,19 @@ public final class MeHeaderViewModel {
     var profileType: ProfileType = .unknow
     var isFollow: Bool = false
     var pageInfo: PageInfo = PageInfo()
+    var userInfo: User?
     
-    public init(profileType: ProfileType, pageInfo: PageInfo = PageInfo()) {
+    public init(profileType: ProfileType, pageInfo: PageInfo = PageInfo(), userInfo: User?) {
         self.profileType = profileType
         self.pageInfo = pageInfo
+        self.userInfo = userInfo
+        
+        if self.profileType == .people {
+            self.isFollow = self.userInfo?.followed ?? false
+        } else if self.profileType == .page {
+            self.isFollow = self.pageInfo.followed
+        } else {
+            self.isFollow = false
+        }
     }
 }

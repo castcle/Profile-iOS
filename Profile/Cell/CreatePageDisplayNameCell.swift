@@ -122,7 +122,11 @@ class CreatePageDisplayNameCell: UICollectionViewCell, UITextFieldDelegate {
         if textField.tag == 1 {
             let displayCastcleId = textField.text ?? ""
             let castcleId = self.castcleId(displayCastcleId: displayCastcleId)
-            textField.text = "@\(castcleId)"
+            if !castcleId.isEmpty {
+                textField.text = "@\(castcleId)"
+            } else {
+                textField.text = ""
+            }
         }
     }
     

@@ -46,6 +46,7 @@ class UserInfoTabStripViewController: ButtonBarPagerTabStripViewController, Page
     
     var profileType: ProfileType = .unknow
     var page: Page = Page()
+    var castcleId: String = ""
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -71,22 +72,22 @@ class UserInfoTabStripViewController: ButtonBarPagerTabStripViewController, Page
 
     // MARK: - PagerTabStripDataSource
     override func viewControllers(for pagerTabStripController: PagerTabStripViewController) -> [UIViewController] {
-        let vc = ProfileOpener.open(.userFeed(UserFeedViewModel(userFeedType: .all, profileType: self.profileType, page: self.page))) as? UserFeedViewController
+        let vc = ProfileOpener.open(.userFeed(UserFeedViewModel(userFeedType: .all, profileType: self.profileType, page: self.page, castcleId: self.castcleId))) as? UserFeedViewController
         vc?.pageIndex = 0
         vc?.pageTitle = "All"
         let child_1 = vc ?? UserFeedViewController()
         
-        let vc1 = ProfileOpener.open(.userFeed(UserFeedViewModel(userFeedType: .post, profileType: self.profileType, page: self.page))) as? UserFeedViewController
+        let vc1 = ProfileOpener.open(.userFeed(UserFeedViewModel(userFeedType: .post, profileType: self.profileType, page: self.page, castcleId: self.castcleId))) as? UserFeedViewController
         vc1?.pageIndex = 1
         vc1?.pageTitle = "Post"
         let child_2 = vc1 ?? UserFeedViewController()
 
-        let vc2 = ProfileOpener.open(.userFeed(UserFeedViewModel(userFeedType: .blog, profileType: self.profileType, page: self.page))) as? UserFeedViewController
+        let vc2 = ProfileOpener.open(.userFeed(UserFeedViewModel(userFeedType: .blog, profileType: self.profileType, page: self.page, castcleId: self.castcleId))) as? UserFeedViewController
         vc2?.pageIndex = 2
         vc2?.pageTitle = "Blog"
         let child_3 = vc2 ?? UserFeedViewController()
 
-        let vc3 = ProfileOpener.open(.userFeed(UserFeedViewModel(userFeedType: .photo, profileType: self.profileType, page: self.page))) as? UserFeedViewController
+        let vc3 = ProfileOpener.open(.userFeed(UserFeedViewModel(userFeedType: .photo, profileType: self.profileType, page: self.page, castcleId: self.castcleId))) as? UserFeedViewController
         vc3?.pageIndex = 3
         vc3?.pageTitle = "Photo"
         let child_4 = vc3 ?? UserFeedViewController()

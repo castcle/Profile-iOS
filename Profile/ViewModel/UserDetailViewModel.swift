@@ -40,21 +40,28 @@ public enum ProfileType {
 
 public final class UserDetailViewModel {
    
+    var userRepository: UserRepository = UserRepositoryImpl()
     var pageRepository: PageRepository = PageRepositoryImpl()
     var profileType: ProfileType = .unknow
     var page: Page = Page()
     var pageInfo: PageInfo = PageInfo()
+    var userInfo: User?
+    var castcleId: String = ""
+    var displayName: String = ""
     let tokenHelper: TokenHelper = TokenHelper()
     
     var stage: Stage = .none
     
     enum Stage {
-        case getInfo
+        case getUserInfo
+        case getPageInfo
         case none
     }
     
-    public init(profileType: ProfileType, page: Page?) {
+    public init(profileType: ProfileType, castcleId: String?, displayName: String, page: Page?) {
         self.profileType = profileType
+        self.castcleId = castcleId ?? ""
+        self.displayName = displayName
         self.tokenHelper.delegate = self
         
         if let page = page {
@@ -64,22 +71,20 @@ public final class UserDetailViewModel {
         if self.profileType == .myPage || self.profileType == .page {
             self.getPageInfo()
         } else if self.profileType == .people {
-            
+            self.getUserInfo()
         }
     }
     
-    func getPageInfo() {
-        self.stage = .getInfo
-        self.pageRepository.getPageInfo(pageId: self.page.castcleId) { (success, response, isRefreshToken) in
+    func getUserInfo() {
+        self.stage = .getUserInfo
+        self.userRepository.getUser(userId: self.castcleId) { (success, response, isRefreshToken) in
             if success {
                 do {
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
-                    self.pageInfo = PageInfo(json: json)
-                    self.didGetPageInfoFinish?()
-                } catch {
-                    
-                }
+                    self.userInfo = User(json: json)
+                    self.didGetUserInfoFinish?()
+                } catch {}
             } else {
                 if isRefreshToken {
                     self.tokenHelper.refreshToken()
@@ -88,12 +93,33 @@ public final class UserDetailViewModel {
         }
     }
     
+    func getPageInfo() {
+        self.stage = .getPageInfo
+        self.pageRepository.getPageInfo(pageId: self.page.castcleId) { (success, response, isRefreshToken) in
+            if success {
+                do {
+                    let rawJson = try response.mapJSON()
+                    let json = JSON(rawJson)
+                    self.pageInfo = PageInfo(json: json)
+                    self.didGetPageInfoFinish?()
+                } catch {}
+            } else {
+                if isRefreshToken {
+                    self.tokenHelper.refreshToken()
+                }
+            }
+        }
+    }
+    
+    var didGetUserInfoFinish: (() -> ())?
     var didGetPageInfoFinish: (() -> ())?
 }
 
 extension UserDetailViewModel: TokenHelperDelegate {
     public func didRefreshTokenFinish() {
-        if self.stage == .getInfo {
+        if self.stage == .getUserInfo {
+            self.getUserInfo()
+        } else if self.stage == .getPageInfo {
             self.getPageInfo()
         }
     }

@@ -64,7 +64,7 @@ class MeHeaderViewController: UIViewController {
     @IBOutlet var postViewConstaint: NSLayoutConstraint!
     
     public var delegate: MeHeaderViewControllerDelegate?
-    var viewModel = MeHeaderViewModel(profileType: .unknow)
+    var viewModel = MeHeaderViewModel(profileType: .unknow, userInfo: nil)
     private let editProfileViewModel = EditProfileViewModel()
     private var updateImageType: UpdateImageType = .none
     
@@ -197,17 +197,37 @@ class MeHeaderViewController: UIViewController {
             }
             self.followLabel.text = "\(self.viewModel.pageInfo.following.count) Following   \(self.viewModel.pageInfo.followers.count) Followers"
             self.bioLabel.text = self.viewModel.pageInfo.overview
-//        } else if self.viewModel.profileType == .page {
-            
         } else {
-            let urlCover = URL(string: "https://cdn.pixabay.com/photo/2021/07/13/18/58/coffee-6464307_1280.jpg")
-            self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.35))])
             
-            let urlProfile = URL(string: "https://static.wikia.nocookie.net/whywomenkill/images/e/e7/Alexandra_Daddario.jpg")
+            guard let user = self.viewModel.userInfo else { return }
+            
+            
+            
+            let urlProfile = URL(string: user.images.avatar.thumbnail)
+            let urlCover = URL(string: user.images.cover.thumbnail)
+            
             self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
+            self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.35))])
+           
+            self.displayNameLabel.text = user.displayName
+            self.userIdLabel.text = "@\(user.castcleId)"
             
-            self.displayNameLabel.text = "Alexandra Daddario"
-            self.userIdLabel.text = "@alexandra-daddario"
+            self.followLabel.customize { label in
+                label.font = UIFont.asset(.regular, fontSize: .body)
+                label.numberOfLines = 1
+                label.textColor = UIColor.Asset.gray
+                
+                let followingType = ActiveType.custom(pattern: "\(user.following.count) ")
+                let followerType = ActiveType.custom(pattern: "\(user.followers.count) ")
+                
+                label.enabledTypes = [followingType, followerType]
+                label.customColor[followingType] = UIColor.Asset.white
+                label.customSelectedColor[followingType] = UIColor.Asset.gray
+                label.customColor[followerType] = UIColor.Asset.white
+                label.customSelectedColor[followerType] = UIColor.Asset.gray
+            }
+            self.followLabel.text = "\(user.following.count) Following   \(user.followers.count) Followers"
+            self.bioLabel.text = user.overview
         }
         
         if self.viewModel.profileType == .me || self.viewModel.profileType == .myPage {

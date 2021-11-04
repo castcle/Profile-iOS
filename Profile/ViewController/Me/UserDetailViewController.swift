@@ -39,7 +39,7 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate, TPDataSo
     
     var headerVC: MeHeaderViewController?
     var bottomVC: UserInfoTabStripViewController!
-    var viewModel = UserDetailViewModel(profileType: .unknow, page: nil)
+    var viewModel = UserDetailViewModel(profileType: .unknow, castcleId: nil, displayName: "", page: nil)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,6 +59,10 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate, TPDataSo
             self.emptyView.isHidden = false
         }
         
+        self.viewModel.didGetUserInfoFinish = {
+            self.configure(with: self, delegate: self)
+        }
+        
         self.viewModel.didGetPageInfoFinish = {
             self.configure(with: self, delegate: self)
         }
@@ -72,16 +76,16 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate, TPDataSo
     func setupNavBar() {
         if self.viewModel.profileType == .me {
             self.customNavigationBar(.secondary, title: UserManager.shared.displayName)
-        } else if self.viewModel.profileType == .myPage {
+        } else if self.viewModel.profileType == .myPage || self.viewModel.profileType == .page {
             self.customNavigationBar(.secondary, title: self.viewModel.page.displayName)
         } else {
-            self.customNavigationBar(.secondary, title: "Error")
+            self.customNavigationBar(.secondary, title: self.viewModel.displayName)
         }
     }
     
     //MARK: TPDataSource
     func headerViewController() -> UIViewController {
-        let vc = ProfileOpener.open(.meHeader(MeHeaderViewModel(profileType: self.viewModel.profileType, pageInfo: self.viewModel.pageInfo))) as? MeHeaderViewController
+        let vc = ProfileOpener.open(.meHeader(MeHeaderViewModel(profileType: self.viewModel.profileType, pageInfo: self.viewModel.pageInfo, userInfo: self.viewModel.userInfo))) as? MeHeaderViewController
         vc?.delegate = self
         self.headerVC = vc
         return self.headerVC ?? MeHeaderViewController()
@@ -91,6 +95,7 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate, TPDataSo
         self.bottomVC = ProfileOpener.open(.infoTab) as? UserInfoTabStripViewController
         self.bottomVC.profileType = self.viewModel.profileType
         self.bottomVC.page = self.viewModel.page
+        self.bottomVC.castcleId = self.viewModel.castcleId
         return self.bottomVC ?? UserInfoTabStripViewController()
     }
     

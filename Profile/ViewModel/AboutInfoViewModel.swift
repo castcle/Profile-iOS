@@ -61,9 +61,10 @@ public class AboutInfoViewModel {
     }
 
     //MARK: Input
-    public init(avatarType: AvatarType, castcleId: String = "") {
+    public init(avatarType: AvatarType, castcleId: String = "", pageRequest: PageRequest = PageRequest()) {
         self.avatarType = avatarType
         self.castcleId = castcleId
+        self.pageRequest = pageRequest
         self.tokenHelper.delegate = self
     }
     

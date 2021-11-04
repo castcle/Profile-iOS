@@ -47,6 +47,7 @@ public final class UserFeedViewModel {
     public var delegate: UserFeedViewModelDelegate?
     private var contentRepository: ContentRepository = ContentRepositoryImpl()
     private var pageRepository: PageRepository = PageRepositoryImpl()
+    private var userRepository: UserRepository = UserRepositoryImpl()
     var contentRequest: ContentRequest = ContentRequest()
     var contents: [Content] = []
     var pagination: Pagination = Pagination()
@@ -54,6 +55,7 @@ public final class UserFeedViewModel {
     var profileType: ProfileType = .unknow
     let tokenHelper: TokenHelper = TokenHelper()
     var page: Page = Page()
+    var castcleId: String = ""
 
     //MARK: Input
     public func getContents() {
@@ -78,8 +80,29 @@ public final class UserFeedViewModel {
                     }
                 }
             }
-        } else if self.profileType == .myPage {
+        } else if self.profileType == .myPage || self.profileType == .page {
             self.pageRepository.getPageContent(pageId: self.page.castcleId, contentRequest: self.contentRequest) { (success, response, isRefreshToken) in
+                if success {
+                    do {
+                        let rawJson = try response.mapJSON()
+                        let json = JSON(rawJson)
+                        let shelf = ContentShelf(json: json)
+                        self.contents.append(contentsOf: shelf.contents)
+                        self.pagination = shelf.pagination
+                        self.delegate?.didGetContentFinish(success: true)
+                    } catch {
+                        self.delegate?.didGetContentFinish(success: false)
+                    }
+                } else {
+                    if isRefreshToken {
+                        self.tokenHelper.refreshToken()
+                    } else {
+                        self.delegate?.didGetContentFinish(success: false)
+                    }
+                }
+            }
+        } else {
+            self.userRepository.getUserContents(userId: self.castcleId, contentRequest: self.contentRequest) { (success, response, isRefreshToken) in
                 if success {
                     do {
                         let rawJson = try response.mapJSON()
@@ -102,12 +125,13 @@ public final class UserFeedViewModel {
         }
     }
     
-    public init(userFeedType: UserFeedType, profileType: ProfileType, page: Page = Page()) {
+    public init(userFeedType: UserFeedType, profileType: ProfileType, page: Page = Page(), castcleId: String) {
         self.userFeedType = userFeedType
         self.tokenHelper.delegate = self
         self.contents = []
         self.profileType = profileType
         self.page = page
+        self.castcleId = castcleId
         if self.userFeedType == .all {
             self.contentRequest.type = .unknow
             self.getContents()

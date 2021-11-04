@@ -28,6 +28,8 @@
 import UIKit
 import Core
 import Networking
+import Defaults
+import RealmSwift
 
 public enum ProfileScene {
     case welcome
@@ -127,11 +129,22 @@ public struct ProfileOpener {
         }
     }
     
-    public static func openProfileDetail(_ type: AuthorType, castcleId: String?, page: Page?) {
+    public static func openProfileDetail(_ type: AuthorType, castcleId: String?, displayName: String, page: Page?) {
         if type == .people {
             guard let id = castcleId else { return }
+            if id == UserManager.shared.rawCastcleId {
+                Utility.currentViewController().navigationController?.pushViewController(self.open(.userDetail(UserDetailViewModel(profileType: .me, castcleId: nil, displayName: "", page: nil))), animated: true)
+            } else {
+                Utility.currentViewController().navigationController?.pushViewController(self.open(.userDetail(UserDetailViewModel(profileType: .people, castcleId: castcleId, displayName: displayName, page: nil))), animated: true)
+            }
         } else {
-            
+            guard let page = page else { return }
+            let realm = try! Realm()
+            if realm.objects(Page.self).filter("castcleId = '\(page.castcleId)'").first != nil {
+                Utility.currentViewController().navigationController?.pushViewController(self.open(.userDetail(UserDetailViewModel(profileType: .myPage, castcleId: nil, displayName: "", page: page))), animated: true)
+            } else {
+                Utility.currentViewController().navigationController?.pushViewController(self.open(.userDetail(UserDetailViewModel(profileType: .page, castcleId: nil, displayName: "", page: page))), animated: true)
+            }
         }
     }
 }

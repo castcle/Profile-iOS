@@ -41,7 +41,7 @@ class UserFeedViewController: UIViewController {
     
     @IBOutlet var tableView: UITableView!
     
-    var viewModel = UserFeedViewModel(userFeedType: .unknow, profileType: .unknow)
+    var viewModel = UserFeedViewModel(userFeedType: .unknow, profileType: .unknow, castcleId: "")
     
     enum FeedSection: Int, CaseIterable {
         case header = 0
@@ -168,8 +168,12 @@ extension UserFeedViewController: HeaderTableViewCellDelegate {
         }
     }
     
-    func didTabProfile(_ headerTableViewCell: HeaderTableViewCell) {
-//        Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.userDetail(UserDetailViewModel(profileType: .people))), animated: true)
+    func didTabProfile(_ headerTableViewCell: HeaderTableViewCell, author: Author) {
+        if author.type == .page {
+            ProfileOpener.openProfileDetail(author.type, castcleId: nil, displayName: "", page: Page().initCustom(displayName: author.displayName, image: author.avatar.thumbnail, castcleId: author.castcleId))
+        } else {
+            ProfileOpener.openProfileDetail(author.type, castcleId: author.castcleId, displayName: author.displayName, page: nil)
+        }
     }
     
     func didAuthen(_ headerTableViewCell: HeaderTableViewCell) {

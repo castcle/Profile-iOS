@@ -108,7 +108,7 @@ class SelectPhotoMethodViewController: UIViewController {
     }
     
     @objc private func skipAction() {
-        Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.about(AboutInfoViewModel(avatarType: self.viewModel.avatarType, castcleId: self.viewModel.castcleId))), animated: true)
+        Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.about(AboutInfoViewModel(avatarType: self.viewModel.avatarType, castcleId: self.viewModel.castcleId, pageRequest: self.viewModel.pageRequest))), animated: true)
     }
     
     @IBAction func cameraRollAction(_ sender: Any) {
@@ -257,6 +257,7 @@ extension SelectPhotoMethodViewController: SelectPhotoMethodViewModelDelegate {
     
     func didGetPageFinish() {
         self.hud.dismiss()
-        Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.about(AboutInfoViewModel(avatarType: self.viewModel.avatarType, castcleId: self.viewModel.castcleId))), animated: true)
+        print(self.viewModel.pageRequest)
+        Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.about(AboutInfoViewModel(avatarType: self.viewModel.avatarType, castcleId: self.viewModel.castcleId, pageRequest: self.viewModel.pageRequest))), animated: true)
     }
 }
