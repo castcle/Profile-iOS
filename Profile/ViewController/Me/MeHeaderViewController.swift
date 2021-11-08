@@ -124,21 +124,18 @@ class MeHeaderViewController: UIViewController {
     
     private func updateProfileUI() {
         if self.viewModel.profileType == .me {
-            let urlProfile = URL(string: UserManager.shared.avatar)
-            let urlCover = URL(string: UserManager.shared.cover)
-            
             if let avatar = self.editProfileViewModel.avatar {
                 self.profileImage.image = avatar
                 self.miniProfileImage.image = avatar
             } else {
-                self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
-                self.miniProfileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
+                self.profileImage.image = UserManager.shared.avatar
+                self.miniProfileImage.image = UserManager.shared.avatar
             }
             
             if let cover = self.editProfileViewModel.cover {
                 self.coverImage.image = cover
             } else {
-                self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.35))])
+                self.coverImage.image = UserManager.shared.cover
             }
            
             self.displayNameLabel.text = UserManager.shared.displayName
@@ -388,7 +385,7 @@ class MeHeaderViewController: UIViewController {
             vc.modalPresentationStyle = .fullScreen
             Utility.currentViewController().present(vc, animated: true, completion: nil)
         } else if self.viewModel.profileType == .myPage {
-            let vc = PostOpener.open(.post(PostViewModel(postType: .newCast, page: Page().initCustom(displayName: self.viewModel.pageInfo.displayName, image:  self.viewModel.pageInfo.image.avatar.thumbnail, castcleId: self.viewModel.pageInfo.castcleId))))
+            let vc = PostOpener.open(.post(PostViewModel(postType: .newCast, page: Page().initCustom(displayName: self.viewModel.pageInfo.displayName, pageImage: "", castcleId: self.viewModel.pageInfo.castcleId))))
             vc.modalPresentationStyle = .fullScreen
             Utility.currentViewController().present(vc, animated: true, completion: nil)
         }

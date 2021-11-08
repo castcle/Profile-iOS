@@ -26,6 +26,7 @@
 //
 
 import UIKit
+import Core
 import Networking
 import SwiftyJSON
 
@@ -94,6 +95,8 @@ class EditProfileViewModel {
     public func updateAvatar() {
         guard let image = self.avatar else { return }
         self.stage = .updateAvatar
+        ImageHelper.shared.saveImageToDocumentDirectory(imageData: image.pngData()!, imageName: UserManager.shared.rawCastcleId, type: .avatar)
+        self.delegate?.didUpdateProfileFinish(success: true)
         self.userRequest.payload.images.avatar = image.toBase64() ?? ""
         self.userRepository.updateMeAvatar(userRequest: self.userRequest) { (success, response, isRefreshToken) in
             if success {
@@ -103,7 +106,6 @@ class EditProfileViewModel {
                     let userHelper = UserHelper()
                     let user = User(json: json)
                     userHelper.updateLocalProfile(user: user)
-                    self.delegate?.didUpdateProfileFinish(success: true)
                 } catch {}
             } else {
                 if isRefreshToken {
