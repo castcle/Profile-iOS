@@ -134,17 +134,19 @@ public final class UserFeedViewModel {
         self.castcleId = castcleId
         if self.userFeedType == .all {
             self.contentRequest.type = .unknow
-            self.getContents()
         } else if self.userFeedType == .post {
             self.contentRequest.type = .short
-            self.getContents()
         } else if self.userFeedType == .blog {
             self.contentRequest.type = .blog
-            self.getContents()
         } else if self.userFeedType == .photo {
             self.contentRequest.type = .image
-            self.getContents()
         }
+    }
+    
+    public func resetContent() {
+        self.contents = []
+        self.pagination = Pagination()
+        self.getContents()
     }
 }
 

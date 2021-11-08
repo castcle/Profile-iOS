@@ -60,6 +60,7 @@ class UserFeedViewController: UIViewController {
         self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
         self.viewModel.delegate = self
         self.configureTableView()
+        self.viewModel.getContents()
         
         self.tableView.cr.addFootRefresh(animator: NormalFooterAnimator()) { [weak self] in
             guard let self = self else { return }
@@ -70,6 +71,8 @@ class UserFeedViewController: UIViewController {
                 self.tableView.cr.noticeNoMoreData()
             }
         }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.getContent(notfication:)), name: .getMyContent, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -78,12 +81,16 @@ class UserFeedViewController: UIViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-          super.viewWillDisappear(animated)
-          NotificationCenter.default.removeObserver(self, name: .reloadMyContent, object: nil)
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self, name: .reloadMyContent, object: nil)
     }
     
     @objc func reloadData(notfication: NSNotification) {
         self.tableView.reloadData()
+    }
+    
+    @objc func getContent(notfication: NSNotification) {
+        self.viewModel.resetContent()
     }
     
     func configureTableView() {
@@ -177,7 +184,7 @@ extension UserFeedViewController: HeaderTableViewCellDelegate {
     }
     
     func didAuthen(_ headerTableViewCell: HeaderTableViewCell) {
-//        Utility.currentViewController().presentPanModal(AuthenOpener.open(.signUpMethod) as! SignUpMethodViewController)
+        Utility.currentViewController().presentPanModal(AuthenOpener.open(.signUpMethod) as! SignUpMethodViewController)
     }
 }
 
