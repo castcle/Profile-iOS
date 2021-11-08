@@ -137,27 +137,24 @@ class MeHeaderViewController: UIViewController {
             } else {
                 self.coverImage.image = UserManager.shared.cover
             }
-           
-            self.displayNameLabel.text = UserManager.shared.displayName
-            self.userIdLabel.text = UserManager.shared.castcleId
+        } else if self.viewModel.profileType == .myPage {
+            let localProfile = ImageHelper.shared.loadImageFromDocumentDirectory(nameOfImage: self.viewModel.pageInfo.castcleId, type: .avatar)
+            let localCover = ImageHelper.shared.loadImageFromDocumentDirectory(nameOfImage: self.viewModel.pageInfo.castcleId, type: .cover)
             
-            self.followLabel.customize { label in
-                label.font = UIFont.asset(.regular, fontSize: .body)
-                label.numberOfLines = 1
-                label.textColor = UIColor.Asset.gray
-                
-                let followingType = ActiveType.custom(pattern: UserManager.shared.following)
-                let followerType = ActiveType.custom(pattern: UserManager.shared.followers)
-                
-                label.enabledTypes = [followingType, followerType]
-                label.customColor[followingType] = UIColor.Asset.white
-                label.customSelectedColor[followingType] = UIColor.Asset.gray
-                label.customColor[followerType] = UIColor.Asset.white
-                label.customSelectedColor[followerType] = UIColor.Asset.gray
+            if let avatar = self.editProfileViewModel.avatar {
+                self.profileImage.image = avatar
+                self.miniProfileImage.image = avatar
+            } else {
+                self.profileImage.image = localProfile
+                self.miniProfileImage.image = localProfile
             }
-            self.followLabel.text = "\(UserManager.shared.following)Following   \(UserManager.shared.followers)Followers"
-            self.bioLabel.text = UserManager.shared.overview
-        } else if self.viewModel.profileType == .myPage || self.viewModel.profileType == .page {
+            
+            if let cover = self.editProfileViewModel.cover {
+                self.coverImage.image = cover
+            } else {
+                self.coverImage.image = localCover
+            }
+        } else if self.viewModel.profileType == .page {
             let urlProfile = URL(string: self.viewModel.pageInfo.image.avatar.thumbnail)
             let urlCover = URL(string: self.viewModel.pageInfo.image.cover.large)
             
@@ -174,7 +171,16 @@ class MeHeaderViewController: UIViewController {
             } else {
                 self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.35))])
             }
+        } else {
+            guard let user = self.viewModel.userInfo else { return }
+            let urlProfile = URL(string: user.images.avatar.thumbnail)
+            let urlCover = URL(string: user.images.cover.thumbnail)
             
+            self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
+            self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.35))])
+        }
+        
+        if self.viewModel.profileType == .myPage || self.viewModel.profileType == .page {
             self.displayNameLabel.text = self.viewModel.pageInfo.displayName
             self.userIdLabel.text = "@\(self.viewModel.pageInfo.castcleId)"
             
@@ -194,18 +200,28 @@ class MeHeaderViewController: UIViewController {
             }
             self.followLabel.text = "\(self.viewModel.pageInfo.following.count) Following   \(self.viewModel.pageInfo.followers.count) Followers"
             self.bioLabel.text = self.viewModel.pageInfo.overview
+        } else if self.viewModel.profileType == .me {
+            self.displayNameLabel.text = UserManager.shared.displayName
+            self.userIdLabel.text = UserManager.shared.castcleId
+            
+            self.followLabel.customize { label in
+                label.font = UIFont.asset(.regular, fontSize: .body)
+                label.numberOfLines = 1
+                label.textColor = UIColor.Asset.gray
+                
+                let followingType = ActiveType.custom(pattern: UserManager.shared.following)
+                let followerType = ActiveType.custom(pattern: UserManager.shared.followers)
+                
+                label.enabledTypes = [followingType, followerType]
+                label.customColor[followingType] = UIColor.Asset.white
+                label.customSelectedColor[followingType] = UIColor.Asset.gray
+                label.customColor[followerType] = UIColor.Asset.white
+                label.customSelectedColor[followerType] = UIColor.Asset.gray
+            }
+            self.followLabel.text = "\(UserManager.shared.following)Following   \(UserManager.shared.followers)Followers"
+            self.bioLabel.text = UserManager.shared.overview
         } else {
-            
             guard let user = self.viewModel.userInfo else { return }
-            
-            
-            
-            let urlProfile = URL(string: user.images.avatar.thumbnail)
-            let urlCover = URL(string: user.images.cover.thumbnail)
-            
-            self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
-            self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.35))])
-           
             self.displayNameLabel.text = user.displayName
             self.userIdLabel.text = "@\(user.castcleId)"
             
@@ -385,7 +401,7 @@ class MeHeaderViewController: UIViewController {
             vc.modalPresentationStyle = .fullScreen
             Utility.currentViewController().present(vc, animated: true, completion: nil)
         } else if self.viewModel.profileType == .myPage {
-            let vc = PostOpener.open(.post(PostViewModel(postType: .newCast, page: Page().initCustom(displayName: self.viewModel.pageInfo.displayName, pageImage: "", castcleId: self.viewModel.pageInfo.castcleId))))
+            let vc = PostOpener.open(.post(PostViewModel(postType: .newCast, page: Page().initCustom(displayName: self.viewModel.pageInfo.displayName, castcleId: self.viewModel.pageInfo.castcleId))))
             vc.modalPresentationStyle = .fullScreen
             Utility.currentViewController().present(vc, animated: true, completion: nil)
         }

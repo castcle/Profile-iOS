@@ -94,7 +94,7 @@ public class DeletePageViewModel {
                             let pageTemp = Page()
                             pageTemp.castcleId = pageInfo.castcleId
                             pageTemp.displayName = pageInfo.displayName
-                            pageTemp.image = pageInfo.image.avatar.thumbnail
+                            ImageHelper.shared.downloadImage(from: pageInfo.image.avatar.thumbnail, iamgeName: pageInfo.castcleId, type: .avatar)
                             self.realm.add(pageTemp, update: .modified)
                         }
                         

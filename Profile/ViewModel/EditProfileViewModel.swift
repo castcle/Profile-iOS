@@ -120,6 +120,8 @@ class EditProfileViewModel {
     public func updateCover() {
         guard let image = self.cover else { return }
         self.stage = .updateCover
+        ImageHelper.shared.saveImageToDocumentDirectory(imageData: image.pngData()!, imageName: UserManager.shared.rawCastcleId, type: .cover)
+        self.delegate?.didUpdateProfileFinish(success: true)
         self.userRequest.payload.images.cover = image.toBase64() ?? ""
         self.userRepository.updateMeCover(userRequest: self.userRequest) { (success, response, isRefreshToken) in
             if success {
@@ -129,7 +131,6 @@ class EditProfileViewModel {
                     let userHelper = UserHelper()
                     let user = User(json: json)
                     userHelper.updateLocalProfile(user: user)
-                    self.delegate?.didUpdateProfileFinish(success: true)
                 } catch {}
             } else {
                 if isRefreshToken {
@@ -166,11 +167,13 @@ class EditProfileViewModel {
         self.castcleId = castcleId
         if !self.castcleId.isEmpty, let image = self.avatar {
             self.stage = .updatePageAvatar
+            ImageHelper.shared.saveImageToDocumentDirectory(imageData: image.pngData()!, imageName: self.castcleId, type: .avatar)
+            self.delegate?.didUpdatePageFinish(success: true)
             self.pageRequest.avatar = image.toBase64() ?? ""
             self.pageRepository.updatePageAvatar(pageId: self.castcleId, pageRequest: self.pageRequest) { (success, response, isRefreshToken) in
                 if success {
                     self.stage = .none
-                    self.delegate?.didUpdatePageFinish(success: true)
+                    
                 } else {
                     if isRefreshToken {
                         self.tokenHelper.refreshToken()
@@ -188,11 +191,12 @@ class EditProfileViewModel {
         self.castcleId = castcleId
         if !self.castcleId.isEmpty, let image = self.cover {
             self.stage = .updatePageCover
+            ImageHelper.shared.saveImageToDocumentDirectory(imageData: image.pngData()!, imageName: self.castcleId, type: .cover)
+            self.delegate?.didUpdatePageFinish(success: true)
             self.pageRequest.cover = image.toBase64() ?? ""
             self.pageRepository.updatePageCover(pageId: self.castcleId, pageRequest: self.pageRequest) { (success, response, isRefreshToken) in
                 if success {
                     self.stage = .none
-                    self.delegate?.didUpdatePageFinish(success: true)
                 } else {
                     if isRefreshToken {
                         self.tokenHelper.refreshToken()
