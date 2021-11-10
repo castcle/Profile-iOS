@@ -28,13 +28,24 @@
 import Foundation
 import Core
 import Networking
+import SwiftyJSON
 
 public final class MeHeaderViewModel {
    
+    var userRepository: UserRepository = UserRepositoryImpl()
+    var pageRepository: PageRepository = PageRepositoryImpl()
     var profileType: ProfileType = .unknow
     var isFollow: Bool = false
     var pageInfo: PageInfo = PageInfo()
     var userInfo: User?
+    var stage: Stage = .none
+    let tokenHelper: TokenHelper = TokenHelper()
+    
+    enum Stage {
+        case getUserInfo
+        case getPageInfo
+        case none
+    }
     
     public init(profileType: ProfileType, pageInfo: PageInfo = PageInfo(), userInfo: User?) {
         self.profileType = profileType
@@ -49,4 +60,50 @@ public final class MeHeaderViewModel {
             self.isFollow = false
         }
     }
+    
+    func getUserInfo() {
+        self.stage = .getUserInfo
+        self.userRepository.getUser(userId: self.userInfo?.castcleId ?? "") { (success, response, isRefreshToken) in
+            if success {
+                do {
+                    let rawJson = try response.mapJSON()
+                    let json = JSON(rawJson)
+                    self.userInfo = User(json: json)
+                    self.didGetInfoFinish?()
+                } catch {}
+            } else {
+                if isRefreshToken {
+                    self.tokenHelper.refreshToken()
+                }
+            }
+        }
+    }
+    
+    func getPageInfo() {
+        self.stage = .getPageInfo
+        self.pageRepository.getPageInfo(pageId: self.pageInfo.castcleId) { (success, response, isRefreshToken) in
+            if success {
+                do {
+                    let rawJson = try response.mapJSON()
+                    let json = JSON(rawJson)
+                    self.pageInfo = PageInfo(json: json)
+                    self.didGetInfoFinish?()
+                } catch {}
+            } else {
+                if isRefreshToken {
+                    self.tokenHelper.refreshToken()
+                }
+            }
+        }
+    }
+    
+    func reloadInfo() {
+        if self.profileType == .myPage || self.profileType == .page {
+            self.getPageInfo()
+        } else if self.profileType == .people {
+            self.getUserInfo()
+        }
+    }
+    
+    var didGetInfoFinish: (() -> ())?
 }

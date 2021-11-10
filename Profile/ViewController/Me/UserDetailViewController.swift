@@ -40,6 +40,7 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate, TPDataSo
     var headerVC: MeHeaderViewController?
     var bottomVC: UserInfoTabStripViewController!
     var viewModel = UserDetailViewModel(profileType: .unknow, castcleId: nil, displayName: "", page: nil)
+    let refresh = UIRefreshControl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,6 +67,10 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate, TPDataSo
         self.viewModel.didGetPageInfoFinish = {
             self.configure(with: self, delegate: self)
         }
+    }
+    
+    @objc func handleRefreshControl() {
+        NotificationCenter.default.post(name: .getUserInfo, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -109,11 +114,18 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate, TPDataSo
     }
     
     func tp_scrollViewDidLoad(_ scrollView: UIScrollView) {
+        self.refresh.tintColor = .white
+        self.refresh.addTarget(self, action: #selector(self.handleRefreshControl), for: .valueChanged)
+        
+        let refreshView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+        scrollView.addSubview(refreshView)
+        refreshView.addSubview(refresh)
     }
 }
 
 extension UserDetailViewController: MeHeaderViewControllerDelegate {
     func didUpdateProfileFinish() {
+        self.refresh.endRefreshing()
         NotificationCenter.default.post(name: .reloadMyContent, object: nil)
     }
 }

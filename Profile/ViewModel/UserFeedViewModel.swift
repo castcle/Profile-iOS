@@ -132,6 +132,7 @@ public final class UserFeedViewModel {
         self.profileType = profileType
         self.page = page
         self.castcleId = castcleId
+        self.pagination.limit = 500
         if self.userFeedType == .all {
             self.contentRequest.type = .unknow
         } else if self.userFeedType == .post {

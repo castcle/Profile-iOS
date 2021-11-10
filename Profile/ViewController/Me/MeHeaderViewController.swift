@@ -115,11 +115,26 @@ class MeHeaderViewController: UIViewController {
         
         self.followUI()
         self.editProfileViewModel.delegate = self
+        
+        self.viewModel.didGetInfoFinish = {
+            self.updateProfileUI()
+            self.delegate?.didUpdateProfileFinish()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.updateProfileUI()
+        NotificationCenter.default.addObserver(self, selector: #selector(self.reloadData(notfication:)), name: .getUserInfo, object: nil)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self, name: .getUserInfo, object: nil)
+    }
+    
+    @objc func reloadData(notfication: NSNotification) {
+        self.viewModel.reloadInfo()
     }
     
     private func updateProfileUI() {
@@ -460,7 +475,6 @@ class MeHeaderViewController: UIViewController {
         self.viewModel.isFollow.toggle()
         self.followUI()
     }
-
 }
 
 extension MeHeaderViewController: TLPhotosPickerViewControllerDelegate {
