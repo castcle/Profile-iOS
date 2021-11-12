@@ -170,8 +170,8 @@ class MeHeaderViewController: UIViewController {
                 self.coverImage.image = localCover
             }
         } else if self.viewModel.profileType == .page {
-            let urlProfile = URL(string: self.viewModel.pageInfo.image.avatar.thumbnail)
-            let urlCover = URL(string: self.viewModel.pageInfo.image.cover.large)
+            let urlProfile = URL(string: self.viewModel.pageInfo.images.avatar.thumbnail)
+            let urlCover = URL(string: self.viewModel.pageInfo.images.cover.large)
             
             if let avatar = self.editProfileViewModel.avatar {
                 self.profileImage.image = avatar

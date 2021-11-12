@@ -99,7 +99,7 @@ class ConfirmDeletePageTableViewCell: UITableViewCell {
         self.passwordTextField.textColor = UIColor.Asset.white
         self.passwordTextField.isSecureTextEntry = true
         
-        let url = URL(string: self.viewModel.page.image.avatar.thumbnail)
+        let url = URL(string: self.viewModel.page.images.avatar.thumbnail)
         self.avatarImage.kf.setImage(with: url, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
         self.displayNameLabel.text = self.viewModel.page.displayName
     }

@@ -66,7 +66,7 @@ class DeletePageViewController: UIViewController {
         self.deleteButton.setTitleColor(UIColor.Asset.white, for: .normal)
         self.deleteButton.capsule(color: UIColor.Asset.lightBlue, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
         
-        let url = URL(string: self.viewModel.page.image.avatar.thumbnail)
+        let url = URL(string: self.viewModel.page.images.avatar.thumbnail)
         self.avatarImage.kf.setImage(with: url, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
         self.displayNameLabel.text = self.viewModel.page.displayName
     }
