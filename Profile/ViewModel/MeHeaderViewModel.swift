@@ -40,10 +40,13 @@ public final class MeHeaderViewModel {
     var userInfo: User?
     var stage: Stage = .none
     let tokenHelper: TokenHelper = TokenHelper()
+    private var userRequest: UserRequest = UserRequest()
     
     enum Stage {
         case getUserInfo
         case getPageInfo
+        case followUser
+        case unfollowUser
         case none
     }
     
@@ -97,11 +100,49 @@ public final class MeHeaderViewModel {
         }
     }
     
+    func followUser() {
+        self.stage = .followUser
+        let userId: String = UserManager.shared.rawCastcleId
+        if self.profileType == .people {
+            self.userRequest.targetCastcleId = self.userInfo?.castcleId ?? ""
+        } else {
+            self.userRequest.targetCastcleId = self.pageInfo.castcleId
+        }
+        self.userRepository.follow(userId: userId, userRequest: self.userRequest) { (success, response, isRefreshToken) in
+            if !success {
+                if isRefreshToken {
+                    self.tokenHelper.refreshToken()
+                }
+            }
+        }
+    }
+    
+    func unfollowUser() {
+        self.stage = .unfollowUser
+        let userId: String = UserManager.shared.rawCastcleId
+        if self.profileType == .people {
+            self.userRequest.targetCastcleId = self.userInfo?.castcleId ?? ""
+        } else {
+            self.userRequest.targetCastcleId = self.pageInfo.castcleId
+        }
+        self.userRepository.unfollow(userId: userId, userRequest: self.userRequest) { (success, response, isRefreshToken) in
+            if !success {
+                if isRefreshToken {
+                    self.tokenHelper.refreshToken()
+                }
+            }
+        }
+    }
+    
     func reloadInfo() {
         if self.profileType == .myPage || self.profileType == .page {
             self.getPageInfo()
         } else if self.profileType == .people {
             self.getUserInfo()
+        } else if self.stage == .followUser {
+            self.followUser()
+        } else if self.stage == .unfollowUser {
+            self.unfollowUser()
         }
     }
     

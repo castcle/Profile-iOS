@@ -472,6 +472,11 @@ class MeHeaderViewController: UIViewController {
     }
     
     @IBAction func followAction(_ sender: Any) {
+        if self.viewModel.isFollow {
+            self.viewModel.unfollowUser()
+        } else {
+            self.viewModel.followUser()
+        }
         self.viewModel.isFollow.toggle()
         self.followUI()
     }
