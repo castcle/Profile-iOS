@@ -143,6 +143,10 @@ public final class MeHeaderViewModel {
             self.followUser()
         } else if self.stage == .unfollowUser {
             self.unfollowUser()
+        } else {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                self.didGetInfoFinish?()
+            }
         }
     }
     
