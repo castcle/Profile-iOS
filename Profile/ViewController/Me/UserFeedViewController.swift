@@ -68,12 +68,12 @@ class UserFeedViewController: UIViewController {
             }
         }
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.getContent(notfication:)), name: .getMyContent, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.getContent(notification:)), name: .getMyContent, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.reloadData(notfication:)), name: .reloadMyContent, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.reloadData(notification:)), name: .reloadMyContent, object: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -81,11 +81,11 @@ class UserFeedViewController: UIViewController {
         NotificationCenter.default.removeObserver(self, name: .reloadMyContent, object: nil)
     }
     
-    @objc func reloadData(notfication: NSNotification) {
+    @objc func reloadData(notification: NSNotification) {
         self.tableView.reloadData()
     }
     
-    @objc func getContent(notfication: NSNotification) {
+    @objc func getContent(notification: NSNotification) {
         self.viewModel.resetContent()
     }
 }

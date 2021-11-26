@@ -125,7 +125,7 @@ class MeHeaderViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.updateProfileUI()
-        NotificationCenter.default.addObserver(self, selector: #selector(self.reloadData(notfication:)), name: .getUserInfo, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.reloadData(notification:)), name: .getUserInfo, object: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -133,7 +133,7 @@ class MeHeaderViewController: UIViewController {
         NotificationCenter.default.removeObserver(self, name: .getUserInfo, object: nil)
     }
     
-    @objc func reloadData(notfication: NSNotification) {
+    @objc func reloadData(notification: NSNotification) {
         self.viewModel.reloadInfo()
     }
     
@@ -189,7 +189,7 @@ class MeHeaderViewController: UIViewController {
         } else {
             guard let user = self.viewModel.userInfo else { return }
             let urlProfile = URL(string: user.images.avatar.thumbnail)
-            let urlCover = URL(string: user.images.cover.thumbnail)
+            let urlCover = URL(string: user.images.cover.fullHd)
             
             self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
             self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.35))])
