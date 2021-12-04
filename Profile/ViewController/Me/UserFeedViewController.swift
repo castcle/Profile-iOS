@@ -97,7 +97,7 @@ extension UserFeedViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let content = self.viewModel.contents[section]
-        if content.isRecast || content.isQuote {
+        if content.participate.recasted || content.participate.quoted {
             return 4
         } else {
             return 3
@@ -106,7 +106,7 @@ extension UserFeedViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let content = self.viewModel.contents[indexPath.section]
-        if content.isRecast {
+        if content.participate.recasted {
             if indexPath.row == 0 {
                 return self.renderFeedCell(content: content, cellType: .activity, tableView: tableView, indexPath: indexPath)
             } else if indexPath.row == 1 {
@@ -116,7 +116,7 @@ extension UserFeedViewController: UITableViewDelegate, UITableViewDataSource {
             } else {
                 return self.renderFeedCell(content: content, cellType: .footer, tableView: tableView, indexPath: indexPath)
             }
-        } else if content.isQuote {
+        } else if content.participate.quoted {
             if indexPath.row == 0 {
                 return self.renderFeedCell(content: content, cellType: .header, tableView: tableView, indexPath: indexPath)
             } else if indexPath.row == 1 {
@@ -149,8 +149,9 @@ extension UserFeedViewController: UITableViewDelegate, UITableViewDataSource {
     
     func renderFeedCell(content: Content, cellType: FeedCellType, tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
         var originalContent = Content()
-        if content.isRecast || content.isQuote {
-            originalContent = ContentHelper().originalPostToContent(originalPost: content.originalPost)
+        if content.participate.recasted || content.participate.quoted {
+            // Original Post
+//            originalContent = ContentHelper().originalPostToContent(originalPost: content.originalPost)
         }
         
         switch cellType {
@@ -163,7 +164,7 @@ extension UserFeedViewController: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: ComponentNibVars.TableViewCell.headerFeed, for: indexPath as IndexPath) as? HeaderTableViewCell
             cell?.backgroundColor = UIColor.Asset.darkGray
             cell?.delegate = self
-            if content.isRecast {
+            if content.participate.recasted {
                 cell?.content = originalContent
             } else {
                 cell?.content = content
@@ -173,7 +174,7 @@ extension UserFeedViewController: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: ComponentNibVars.TableViewCell.footerFeed, for: indexPath as IndexPath) as? FooterTableViewCell
             cell?.backgroundColor = UIColor.Asset.darkGray
             cell?.delegate = self
-            if content.isRecast {
+            if content.participate.recasted {
                 cell?.content = originalContent
             } else {
                 cell?.content = content
@@ -182,7 +183,7 @@ extension UserFeedViewController: UITableViewDelegate, UITableViewDataSource {
         case .quote:
             return FeedCellHelper().renderQuoteCastCell(content: originalContent, tableView: self.tableView, indexPath: indexPath, isRenderForFeed: true)
         default:
-            if content.isRecast {
+            if content.participate.recasted {
                 return FeedCellHelper().renderFeedCell(content: originalContent, tableView: self.tableView, indexPath: indexPath)
             } else {
                 return FeedCellHelper().renderFeedCell(content: content, tableView: self.tableView, indexPath: indexPath)
@@ -203,7 +204,7 @@ extension UserFeedViewController: HeaderTableViewCellDelegate {
     
     func didTabProfile(_ headerTableViewCell: HeaderTableViewCell, author: Author) {
         if author.type == .page {
-            ProfileOpener.openProfileDetail(author.type, castcleId: nil, displayName: "", page: Page().initCustom(displayName: author.displayName, castcleId: author.castcleId))
+            ProfileOpener.openProfileDetail(author.type, castcleId: nil, displayName: "", page: Page().initCustom(id: author.id, displayName: author.displayName, castcleId: author.castcleId))
         } else {
             ProfileOpener.openProfileDetail(author.type, castcleId: author.castcleId, displayName: author.displayName, page: nil)
         }
