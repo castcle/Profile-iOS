@@ -27,6 +27,7 @@
 
 import Foundation
 import Core
+import Component
 import Networking
 import SwiftyJSON
 
@@ -34,6 +35,7 @@ public final class MeHeaderViewModel {
    
     var userRepository: UserRepository = UserRepositoryImpl()
     var pageRepository: PageRepository = PageRepositoryImpl()
+    var reportRepository: ReportRepository = ReportRepositoryImpl()
     var profileType: ProfileType = .unknow
     var isFollow: Bool = false
     var pageInfo: PageInfo = PageInfo()
@@ -41,12 +43,16 @@ public final class MeHeaderViewModel {
     var stage: Stage = .none
     let tokenHelper: TokenHelper = TokenHelper()
     private var userRequest: UserRequest = UserRequest()
+    var castcleId: String = ""
+    var userId: String = ""
     
     enum Stage {
         case getUserInfo
         case getPageInfo
         case followUser
         case unfollowUser
+        case reportUser
+        case blockUser
         case none
     }
     
@@ -62,6 +68,8 @@ public final class MeHeaderViewModel {
         } else {
             self.isFollow = false
         }
+        
+        self.tokenHelper.delegate = self
     }
     
     func getUserInfo() {
@@ -134,6 +142,34 @@ public final class MeHeaderViewModel {
         }
     }
     
+    func reportUser(castcleId: String, userId: String) {
+        self.stage = .reportUser
+        self.castcleId = castcleId
+        self.userId = userId
+        self.reportRepository.reportUser(userId: self.userId) { (success, response, isRefreshToken) in
+            if !success {
+                if isRefreshToken {
+                    self.tokenHelper.refreshToken()
+                }
+            } else {
+                Utility.currentViewController().navigationController?.pushViewController(ComponentOpener.open(.reportSuccess(false, self.castcleId)), animated: true)
+            }
+        }
+    }
+    
+    func blockUser(castcleId: String, userId: String) {
+        self.stage = .blockUser
+        self.castcleId = castcleId
+        self.userId = userId
+        self.reportRepository.blockUser(userId: self.userId) { (success, response, isRefreshToken) in
+            if !success {
+                if isRefreshToken {
+                    self.tokenHelper.refreshToken()
+                }
+            }
+        }
+    }
+    
     func reloadInfo() {
         if self.profileType == .myPage || self.profileType == .page {
             self.getPageInfo()
@@ -151,4 +187,22 @@ public final class MeHeaderViewModel {
     }
     
     var didGetInfoFinish: (() -> ())?
+}
+
+extension MeHeaderViewModel: TokenHelperDelegate {
+    public func didRefreshTokenFinish() {
+        if self.stage == .getUserInfo {
+            self.getUserInfo()
+        } else if self.stage == .getPageInfo {
+            self.getPageInfo()
+        } else if self.stage == .followUser {
+            self.followUser()
+        } else if self.stage == .unfollowUser {
+            self.unfollowUser()
+        } else if self.stage == .reportUser {
+            self.reportUser(castcleId: self.castcleId, userId: self.userId)
+        } else if self.stage == .blockUser {
+            self.blockUser(castcleId: self.castcleId, userId: self.userId)
+        }
+    }
 }

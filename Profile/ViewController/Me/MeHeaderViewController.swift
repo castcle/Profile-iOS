@@ -454,10 +454,30 @@ class MeHeaderViewController: UIViewController {
             
             actionSheet.addActions([syncButton, deleteButton, shareButton])
             Utility.currentViewController().present(actionSheet, animated: true, completion: nil)
-        }
-        if self.viewModel.profileType != .me && self.viewModel.profileType != .myPage {
-            let vc = ProfileOpener.open(.action) as? ProfileActionViewController
-            Utility.currentViewController().presentPanModal(vc ?? ProfileActionViewController())
+        } else if self.viewModel.profileType != .me && self.viewModel.profileType != .myPage {
+            let actionSheet = CCActionSheet()
+            
+            var castcleId: String = ""
+            var userId: String = ""
+            if self.viewModel.profileType == .page {
+                castcleId = self.viewModel.pageInfo.castcleId
+                userId = self.viewModel.pageInfo.id
+            } else {
+                castcleId = self.viewModel.userInfo?.castcleId ?? ""
+                userId = self.viewModel.userInfo?.id ?? ""
+            }
+            
+            let reportButton = CCAction(title: "Report @\(castcleId)", image: UIImage.init(icon: .castcle(.email), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
+                actionSheet.dismissActionSheet()
+                self.viewModel.reportUser(castcleId: castcleId, userId: userId)
+            }
+            let blockButton = CCAction(title: "Block @\(castcleId)", image: UIImage.init(icon: .castcle(.blockedUsers), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
+                actionSheet.dismissActionSheet()
+                self.viewModel.blockUser(castcleId: castcleId, userId: userId)
+            }
+            
+            actionSheet.addActions([blockButton, reportButton])
+            Utility.currentViewController().present(actionSheet, animated: true, completion: nil)
         }
     }
     
