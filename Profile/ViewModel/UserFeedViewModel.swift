@@ -50,7 +50,7 @@ public final class UserFeedViewModel {
     private var userRepository: UserRepository = UserRepositoryImpl()
     var contentRequest: ContentRequest = ContentRequest()
     var contents: [Content] = []
-    var pagination: Pagination = Pagination()
+    var meta: Meta = Meta()
     var userFeedType: UserFeedType = .all
     var profileType: ProfileType = .unknow
     let tokenHelper: TokenHelper = TokenHelper()
@@ -67,7 +67,7 @@ public final class UserFeedViewModel {
                         let json = JSON(rawJson)
                         let shelf = ContentShelf(json: json)
                         self.contents.append(contentsOf: shelf.contents)
-                        self.pagination = shelf.pagination
+                        self.meta = shelf.meta
                         self.delegate?.didGetContentFinish(success: true)
                     } catch {
                         self.delegate?.didGetContentFinish(success: false)
@@ -88,7 +88,7 @@ public final class UserFeedViewModel {
                         let json = JSON(rawJson)
                         let shelf = ContentShelf(json: json)
                         self.contents.append(contentsOf: shelf.contents)
-                        self.pagination = shelf.pagination
+                        self.meta = shelf.meta
                         self.delegate?.didGetContentFinish(success: true)
                     } catch {
                         self.delegate?.didGetContentFinish(success: false)
@@ -109,7 +109,7 @@ public final class UserFeedViewModel {
                         let json = JSON(rawJson)
                         let shelf = ContentShelf(json: json)
                         self.contents.append(contentsOf: shelf.contents)
-                        self.pagination = shelf.pagination
+                        self.meta = shelf.meta
                         self.delegate?.didGetContentFinish(success: true)
                     } catch {
                         self.delegate?.didGetContentFinish(success: false)
@@ -132,7 +132,8 @@ public final class UserFeedViewModel {
         self.profileType = profileType
         self.page = page
         self.castcleId = castcleId
-        self.pagination.limit = 500
+        self.meta = Meta()
+        self.contentRequest = ContentRequest()
         if self.userFeedType == .all {
             self.contentRequest.type = .unknow
         } else if self.userFeedType == .post {
@@ -146,7 +147,8 @@ public final class UserFeedViewModel {
     
     public func resetContent() {
         self.contents = []
-        self.pagination = Pagination()
+        self.meta = Meta()
+        self.contentRequest = ContentRequest()
         self.getContents()
     }
 }

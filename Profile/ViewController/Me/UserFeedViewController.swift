@@ -60,8 +60,8 @@ class UserFeedViewController: UIViewController {
         
         self.tableView.cr.addFootRefresh(animator: NormalFooterAnimator()) { [weak self] in
             guard let self = self else { return }
-            if self.viewModel.pagination.next != 0 {
-                self.viewModel.contentRequest.page = self.viewModel.pagination.next
+            if !self.viewModel.meta.oldestId.isEmpty {
+                self.viewModel.contentRequest.untilId = self.viewModel.meta.oldestId
                 self.viewModel.getContents()
             } else {
                 self.tableView.cr.noticeNoMoreData()
