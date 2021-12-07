@@ -216,7 +216,7 @@ extension AboutInfoViewController: AboutInfoViewModelDelegate {
             let viewControllers: [UIViewController] = Utility.currentViewController().navigationController!.viewControllers as [UIViewController]
             Utility.currentViewController().navigationController!.popToViewController(viewControllers[viewControllers.count - 5], animated: false)
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                ProfileOpener.openProfileDetail(.page, castcleId: nil, displayName: "", page: Page().initCustom(displayName: self.viewModel.pageRequest.displayName, castcleId: self.viewModel.pageRequest.castcleId))
+                ProfileOpener.openProfileDetail(.page, castcleId: nil, displayName: "", page: Page().initCustom(id: "", displayName: self.viewModel.pageRequest.displayName, castcleId: self.viewModel.pageRequest.castcleId))
             }
         }
     }

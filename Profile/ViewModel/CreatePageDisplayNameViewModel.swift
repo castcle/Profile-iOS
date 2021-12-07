@@ -142,6 +142,7 @@ class CreatePageDisplayNameViewModel {
                         let pageInfo = PageInfo(json: page)
                         try! self.realm.write {
                             let pageTemp = Page()
+                            pageTemp.id = pageInfo.id
                             pageTemp.castcleId = pageInfo.castcleId
                             pageTemp.displayName = pageInfo.displayName
                             ImageHelper.shared.downloadImage(from: pageInfo.images.avatar.thumbnail, iamgeName: pageInfo.castcleId, type: .avatar)
