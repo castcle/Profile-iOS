@@ -8,8 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		03CA6756D414568EB134E431 /* Pods_Profile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD702ADAD4D188AE2A7192EF /* Pods_Profile.framework */; };
+		B71B668927269EF500191A62 /* DeletePageSuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71B668827269EF500191A62 /* DeletePageSuccessViewController.swift */; };
+		B71B668B2726A57A00191A62 /* DeletePageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71B668A2726A57A00191A62 /* DeletePageViewModel.swift */; };
 		B74CEF1926C5073F006B1F2C /* Networking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B74CEF1826C5073F006B1F2C /* Networking.framework */; };
-		B74CEF1A26C5073F006B1F2C /* Networking.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B74CEF1826C5073F006B1F2C /* Networking.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B78795BF26C6129500FECC21 /* MeHeaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78795BE26C6129500FECC21 /* MeHeaderViewController.swift */; };
 		B78795D226C61B0D00FECC21 /* UserDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78795D126C61B0D00FECC21 /* UserDetailViewController.swift */; };
 		B78795D426C61FFA00FECC21 /* UserInfoTabStripViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78795D326C61FFA00FECC21 /* UserInfoTabStripViewController.swift */; };
@@ -18,14 +19,12 @@
 		B7910DDC26AFC60E0097C94E /* Profile.h in Headers */ = {isa = PBXBuildFile; fileRef = B7910DDA26AFC60E0097C94E /* Profile.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B7910DE526AFC9B40097C94E /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910DE426AFC9B40097C94E /* Profile.swift */; };
 		B7910DF026AFCD920097C94E /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7910DEF26AFCD920097C94E /* Core.framework */; };
-		B7910DF126AFCD920097C94E /* Core.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B7910DEF26AFCD920097C94E /* Core.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B7910E6F26BBD36A0097C94E /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7910E6E26BBD36A0097C94E /* Profile.storyboard */; };
 		B7910E7226BBD52F0097C94E /* ProfileNibVars.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910E7126BBD52F0097C94E /* ProfileNibVars.swift */; };
 		B7910E7426BBD5480097C94E /* ProfileOpener.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910E7326BBD5480097C94E /* ProfileOpener.swift */; };
 		B7910E7626BBD68D0097C94E /* WelcomeEditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910E7526BBD68D0097C94E /* WelcomeEditProfileViewController.swift */; };
 		B7910E7926BBD6FD0097C94E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B7910E7826BBD6FD0097C94E /* Assets.xcassets */; };
 		B7910E7B26BBD9CE0097C94E /* Component.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7910E7A26BBD9CE0097C94E /* Component.framework */; };
-		B7910E7C26BBD9CE0097C94E /* Component.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B7910E7A26BBD9CE0097C94E /* Component.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B7910E8126BBE32E0097C94E /* SelectPhotoMethodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910E8026BBE32E0097C94E /* SelectPhotoMethodViewController.swift */; };
 		B7910E8526BC52A00097C94E /* AboutInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910E8426BC529F0097C94E /* AboutInfoViewController.swift */; };
 		B7910E9D26BCDAC40097C94E /* AboutInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910E9C26BCDAC40097C94E /* AboutInfoViewModel.swift */; };
@@ -54,7 +53,6 @@
 		B7AF661426F2E88B00BDE9C4 /* CreatePageDisplayNameSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AF661326F2E88B00BDE9C4 /* CreatePageDisplayNameSectionController.swift */; };
 		B7AF661626F2E94C00BDE9C4 /* CreatePageDisplayNameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AF661526F2E94C00BDE9C4 /* CreatePageDisplayNameViewModel.swift */; };
 		B7AF661E26F32E7000BDE9C4 /* Authen.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7AF661D26F32E7000BDE9C4 /* Authen.framework */; };
-		B7AF661F26F32E7000BDE9C4 /* Authen.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B7AF661D26F32E7000BDE9C4 /* Authen.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B7AF662126F3303300BDE9C4 /* SelectPhotoMethodViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AF662026F3303300BDE9C4 /* SelectPhotoMethodViewModel.swift */; };
 		B7AF662526F3447900BDE9C4 /* AboutTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AF662326F3447900BDE9C4 /* AboutTableViewCell.swift */; };
 		B7AF662626F3447900BDE9C4 /* AboutTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7AF662426F3447900BDE9C4 /* AboutTableViewCell.xib */; };
@@ -66,29 +64,16 @@
 		B7AF663226F35E0E00BDE9C4 /* SocialTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7AF663026F35E0E00BDE9C4 /* SocialTableViewCell.xib */; };
 		B7AF663526F360F500BDE9C4 /* ComplateTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AF663326F360F500BDE9C4 /* ComplateTableViewCell.swift */; };
 		B7AF663626F360F500BDE9C4 /* ComplateTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7AF663426F360F500BDE9C4 /* ComplateTableViewCell.xib */; };
+		B7C098362727CFCD009ACE22 /* EditPageInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7C098342727CFCD009ACE22 /* EditPageInfoTableViewCell.xib */; };
+		B7C098372727CFCD009ACE22 /* EditPageInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C098352727CFCD009ACE22 /* EditPageInfoTableViewCell.swift */; };
 		B7C2521F26C8095C00ACBB84 /* UserDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C2521E26C8095C00ACBB84 /* UserDetailViewModel.swift */; };
 		B7C2525626CA077A00ACBB84 /* Post.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7C2525526CA077A00ACBB84 /* Post.framework */; };
-		B7C2525726CA077A00ACBB84 /* Post.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B7C2525526CA077A00ACBB84 /* Post.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B7C252A226CFC45900ACBB84 /* MeHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C252A126CFC45900ACBB84 /* MeHeaderViewModel.swift */; };
+		B7F63C26271D7CE1005856B2 /* DeletePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F63C25271D7CE1005856B2 /* DeletePageViewController.swift */; };
+		B7F63C28271DC2BF005856B2 /* ConfirmDeletePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F63C27271DC2BF005856B2 /* ConfirmDeletePageViewController.swift */; };
+		B7F63C2B271DC3C7005856B2 /* ConfirmDeletePageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F63C29271DC3C7005856B2 /* ConfirmDeletePageTableViewCell.swift */; };
+		B7F63C2C271DC3C7005856B2 /* ConfirmDeletePageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7F63C2A271DC3C7005856B2 /* ConfirmDeletePageTableViewCell.xib */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		B7910DF226AFCD920097C94E /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				B7AF661F26F32E7000BDE9C4 /* Authen.framework in Embed Frameworks */,
-				B7C2525726CA077A00ACBB84 /* Post.framework in Embed Frameworks */,
-				B7910E7C26BBD9CE0097C94E /* Component.framework in Embed Frameworks */,
-				B7910DF126AFCD920097C94E /* Core.framework in Embed Frameworks */,
-				B74CEF1A26C5073F006B1F2C /* Networking.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0E6A4E2DA213E1E6CA2E6BE3 /* Pods-Profile.release (staging).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Profile.release (staging).xcconfig"; path = "Target Support Files/Pods-Profile/Pods-Profile.release (staging).xcconfig"; sourceTree = "<group>"; };
@@ -99,6 +84,8 @@
 		8C78EA16BA992F465C2D2B36 /* Pods-Profile.release (production).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Profile.release (production).xcconfig"; path = "Target Support Files/Pods-Profile/Pods-Profile.release (production).xcconfig"; sourceTree = "<group>"; };
 		8E9320E7FAAD2479F0EDB81D /* Pods-Profile.debug (development).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Profile.debug (development).xcconfig"; path = "Target Support Files/Pods-Profile/Pods-Profile.debug (development).xcconfig"; sourceTree = "<group>"; };
 		A41DEA465890A2815436B3CE /* Pods-Profile.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Profile.debug.xcconfig"; path = "Target Support Files/Pods-Profile/Pods-Profile.debug.xcconfig"; sourceTree = "<group>"; };
+		B71B668827269EF500191A62 /* DeletePageSuccessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletePageSuccessViewController.swift; sourceTree = "<group>"; };
+		B71B668A2726A57A00191A62 /* DeletePageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletePageViewModel.swift; sourceTree = "<group>"; };
 		B74CEF1826C5073F006B1F2C /* Networking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Networking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B78795BE26C6129500FECC21 /* MeHeaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeHeaderViewController.swift; sourceTree = "<group>"; };
 		B78795D126C61B0D00FECC21 /* UserDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailViewController.swift; sourceTree = "<group>"; };
@@ -156,9 +143,15 @@
 		B7AF663026F35E0E00BDE9C4 /* SocialTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SocialTableViewCell.xib; sourceTree = "<group>"; };
 		B7AF663326F360F500BDE9C4 /* ComplateTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplateTableViewCell.swift; sourceTree = "<group>"; };
 		B7AF663426F360F500BDE9C4 /* ComplateTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ComplateTableViewCell.xib; sourceTree = "<group>"; };
+		B7C098342727CFCD009ACE22 /* EditPageInfoTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditPageInfoTableViewCell.xib; sourceTree = "<group>"; };
+		B7C098352727CFCD009ACE22 /* EditPageInfoTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditPageInfoTableViewCell.swift; sourceTree = "<group>"; };
 		B7C2521E26C8095C00ACBB84 /* UserDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailViewModel.swift; sourceTree = "<group>"; };
 		B7C2525526CA077A00ACBB84 /* Post.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Post.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7C252A126CFC45900ACBB84 /* MeHeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeHeaderViewModel.swift; sourceTree = "<group>"; };
+		B7F63C25271D7CE1005856B2 /* DeletePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletePageViewController.swift; sourceTree = "<group>"; };
+		B7F63C27271DC2BF005856B2 /* ConfirmDeletePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmDeletePageViewController.swift; sourceTree = "<group>"; };
+		B7F63C29271DC3C7005856B2 /* ConfirmDeletePageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmDeletePageTableViewCell.swift; sourceTree = "<group>"; };
+		B7F63C2A271DC3C7005856B2 /* ConfirmDeletePageTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConfirmDeletePageTableViewCell.xib; sourceTree = "<group>"; };
 		DD702ADAD4D188AE2A7192EF /* Pods_Profile.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Profile.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -231,13 +224,6 @@
 				B7910DDB26AFC60E0097C94E /* Info.plist */,
 				B7910E6E26BBD36A0097C94E /* Profile.storyboard */,
 				B7910EB826BD2DA20097C94E /* Me.storyboard */,
-				B7AF660826F24A2F00BDE9C4 /* WelcomeCreatePageViewController.swift */,
-				B7AF660D26F2E1F600BDE9C4 /* PageDisplayNameViewController.swift */,
-				B7AF660F26F2E56400BDE9C4 /* CreatePageDisplayNameCell.swift */,
-				B7AF661026F2E56400BDE9C4 /* CreatePageDisplayNameCell.xib */,
-				B7AF661326F2E88B00BDE9C4 /* CreatePageDisplayNameSectionController.swift */,
-				B7AF661526F2E94C00BDE9C4 /* CreatePageDisplayNameViewModel.swift */,
-				B7AF662026F3303300BDE9C4 /* SelectPhotoMethodViewModel.swift */,
 				B7910EB726BD0C1F0097C94E /* ViewController */,
 				B7910E9B26BCDA9E0097C94E /* ViewModel */,
 				B7910E8726BC54390097C94E /* Cell */,
@@ -280,6 +266,7 @@
 			isa = PBXGroup;
 			children = (
 				B7910EA426BCE83D0097C94E /* AddSocialSectionController.swift */,
+				B7AF661326F2E88B00BDE9C4 /* CreatePageDisplayNameSectionController.swift */,
 			);
 			path = Section;
 			sourceTree = "<group>";
@@ -296,6 +283,12 @@
 				B7910ECB26BF1E1C0097C94E /* SocialLinkTableViewCell.xib */,
 				B7910ED026C00A550097C94E /* EditInfoTableViewCell.swift */,
 				B7910ED126C00A550097C94E /* EditInfoTableViewCell.xib */,
+				B7C098352727CFCD009ACE22 /* EditPageInfoTableViewCell.swift */,
+				B7C098342727CFCD009ACE22 /* EditPageInfoTableViewCell.xib */,
+				B7AF660F26F2E56400BDE9C4 /* CreatePageDisplayNameCell.swift */,
+				B7AF661026F2E56400BDE9C4 /* CreatePageDisplayNameCell.xib */,
+				B7F63C29271DC3C7005856B2 /* ConfirmDeletePageTableViewCell.swift */,
+				B7F63C2A271DC3C7005856B2 /* ConfirmDeletePageTableViewCell.xib */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -309,6 +302,9 @@
 				B7C2521E26C8095C00ACBB84 /* UserDetailViewModel.swift */,
 				B7C252A126CFC45900ACBB84 /* MeHeaderViewModel.swift */,
 				B7AF660626F07DA400BDE9C4 /* EditProfileViewModel.swift */,
+				B7AF661526F2E94C00BDE9C4 /* CreatePageDisplayNameViewModel.swift */,
+				B7AF662026F3303300BDE9C4 /* SelectPhotoMethodViewModel.swift */,
+				B71B668A2726A57A00191A62 /* DeletePageViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -324,6 +320,11 @@
 				B7910EC426BF03630097C94E /* UserInfoViewController.swift */,
 				B7910ED426C00A700097C94E /* EditInfoViewController.swift */,
 				B7910ED626C0340B0097C94E /* ProfileActionViewController.swift */,
+				B7AF660826F24A2F00BDE9C4 /* WelcomeCreatePageViewController.swift */,
+				B7AF660D26F2E1F600BDE9C4 /* PageDisplayNameViewController.swift */,
+				B7F63C25271D7CE1005856B2 /* DeletePageViewController.swift */,
+				B7F63C27271DC2BF005856B2 /* ConfirmDeletePageViewController.swift */,
+				B71B668827269EF500191A62 /* DeletePageSuccessViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -382,7 +383,6 @@
 				B7910DD326AFC60E0097C94E /* Sources */,
 				B7910DD426AFC60E0097C94E /* Frameworks */,
 				B7910DD526AFC60E0097C94E /* Resources */,
-				B7910DF226AFCD920097C94E /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -434,8 +434,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B7F63C2C271DC3C7005856B2 /* ConfirmDeletePageTableViewCell.xib in Resources */,
 				B7910EC926BF06050097C94E /* UserInfoTableViewCell.xib in Resources */,
 				B7AF662A26F3568C00BDE9C4 /* DobTableViewCell.xib in Resources */,
+				B7C098362727CFCD009ACE22 /* EditPageInfoTableViewCell.xib in Resources */,
 				B7AF663626F360F500BDE9C4 /* ComplateTableViewCell.xib in Resources */,
 				B7AF662E26F35B5900BDE9C4 /* AddLinkTableViewCell.xib in Resources */,
 				B7AF662626F3447900BDE9C4 /* AboutTableViewCell.xib in Resources */,
@@ -486,20 +488,24 @@
 				B7910DE526AFC9B40097C94E /* Profile.swift in Sources */,
 				B7AF661126F2E56400BDE9C4 /* CreatePageDisplayNameCell.swift in Sources */,
 				B78795DA26C64E4F00FECC21 /* UserFeedViewModel.swift in Sources */,
+				B71B668927269EF500191A62 /* DeletePageSuccessViewController.swift in Sources */,
 				B7910EA826BCE8F00097C94E /* AddSocialCell.swift in Sources */,
 				B7AF663126F35E0E00BDE9C4 /* SocialTableViewCell.swift in Sources */,
 				B7AF660E26F2E1F600BDE9C4 /* PageDisplayNameViewController.swift in Sources */,
 				B7AF662926F3568C00BDE9C4 /* DobTableViewCell.swift in Sources */,
 				B78795D426C61FFA00FECC21 /* UserInfoTabStripViewController.swift in Sources */,
+				B7F63C2B271DC3C7005856B2 /* ConfirmDeletePageTableViewCell.swift in Sources */,
 				B7910EC526BF03640097C94E /* UserInfoViewController.swift in Sources */,
 				B7AF661626F2E94C00BDE9C4 /* CreatePageDisplayNameViewModel.swift in Sources */,
 				B7910EC826BF06050097C94E /* UserInfoTableViewCell.swift in Sources */,
 				B7910ECF26BF1FD70097C94E /* UserInfoViewModel.swift in Sources */,
 				B7AF662D26F35B5900BDE9C4 /* AddLinkTableViewCell.swift in Sources */,
+				B7C098372727CFCD009ACE22 /* EditPageInfoTableViewCell.swift in Sources */,
 				B7AF661426F2E88B00BDE9C4 /* CreatePageDisplayNameSectionController.swift in Sources */,
 				B7AF662526F3447900BDE9C4 /* AboutTableViewCell.swift in Sources */,
 				B7910E7226BBD52F0097C94E /* ProfileNibVars.swift in Sources */,
 				B7AF660926F24A2F00BDE9C4 /* WelcomeCreatePageViewController.swift in Sources */,
+				B7F63C26271D7CE1005856B2 /* DeletePageViewController.swift in Sources */,
 				B7910E8126BBE32E0097C94E /* SelectPhotoMethodViewController.swift in Sources */,
 				B7AF662126F3303300BDE9C4 /* SelectPhotoMethodViewModel.swift in Sources */,
 				B7910EA126BCDC410097C94E /* SocialLink.swift in Sources */,
@@ -509,6 +515,7 @@
 				B78795BF26C6129500FECC21 /* MeHeaderViewController.swift in Sources */,
 				B7910ED726C0340B0097C94E /* ProfileActionViewController.swift in Sources */,
 				B7AF663526F360F500BDE9C4 /* ComplateTableViewCell.swift in Sources */,
+				B71B668B2726A57A00191A62 /* DeletePageViewModel.swift in Sources */,
 				B7910E9F26BCDBEF0097C94E /* SocialLinkShelf.swift in Sources */,
 				B7910ECC26BF1E1C0097C94E /* SocialLinkTableViewCell.swift in Sources */,
 				B7910ED226C00A550097C94E /* EditInfoTableViewCell.swift in Sources */,
@@ -518,6 +525,7 @@
 				B7910E9D26BCDAC40097C94E /* AboutInfoViewModel.swift in Sources */,
 				B7910ED526C00A700097C94E /* EditInfoViewController.swift in Sources */,
 				B7AF660726F07DA400BDE9C4 /* EditProfileViewModel.swift in Sources */,
+				B7F63C28271DC2BF005856B2 /* ConfirmDeletePageViewController.swift in Sources */,
 				B7910EA326BCE5420097C94E /* AddSocialViewController.swift in Sources */,
 				B78795D226C61B0D00FECC21 /* UserDetailViewController.swift in Sources */,
 			);

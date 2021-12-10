@@ -22,12 +22,13 @@
 //  UserInfoTabStripViewController.swift
 //  Profile
 //
-//  Created by Tanakorn Phoochaliaw on 13/8/2564 BE.
+//  Created by Castcle Co., Ltd. on 13/8/2564 BE.
 //
 
 import UIKit
 import Core
 import Component
+import Networking
 import XLPagerTabStrip
 
 class UserInfoTabStripViewController: ButtonBarPagerTabStripViewController, PagerAwareProtocol {
@@ -43,6 +44,10 @@ class UserInfoTabStripViewController: ButtonBarPagerTabStripViewController, Page
         return 60
     }
     
+    var profileType: ProfileType = .unknow
+    var page: Page = Page()
+    var castcleId: String = ""
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         settings.style.buttonBarBackgroundColor = UIColor.Asset.darkGraphiteBlue
@@ -50,13 +55,13 @@ class UserInfoTabStripViewController: ButtonBarPagerTabStripViewController, Page
         settings.style.selectedBarBackgroundColor = UIColor.Asset.lightBlue
         settings.style.buttonBarItemTitleColor = UIColor.Asset.lightBlue
         settings.style.selectedBarHeight = 4
-        settings.style.buttonBarItemFont = UIFont.asset(.medium, fontSize: .body)
+        settings.style.buttonBarItemFont = UIFont.asset(.bold, fontSize: .body)
         settings.style.buttonBarHeight = 60.0
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        delegate = self
+        self.delegate = self
         
         self.changeCurrentIndexProgressive = { (oldCell: ButtonBarViewCell?, newCell: ButtonBarViewCell?, progressPercentage: CGFloat, changeCurrentIndex: Bool, animated: Bool) -> Void in
             oldCell?.label.textColor = UIColor.Asset.white
@@ -67,22 +72,22 @@ class UserInfoTabStripViewController: ButtonBarPagerTabStripViewController, Page
 
     // MARK: - PagerTabStripDataSource
     override func viewControllers(for pagerTabStripController: PagerTabStripViewController) -> [UIViewController] {
-        let vc = ProfileOpener.open(.userFeed(UserFeedViewModel(userFeedType: .all))) as? UserFeedViewController
+        let vc = ProfileOpener.open(.userFeed(UserFeedViewModel(userFeedType: .all, profileType: self.profileType, page: self.page, castcleId: self.castcleId))) as? UserFeedViewController
         vc?.pageIndex = 0
         vc?.pageTitle = "All"
         let child_1 = vc ?? UserFeedViewController()
         
-        let vc1 = ProfileOpener.open(.userFeed(UserFeedViewModel(userFeedType: .post))) as? UserFeedViewController
+        let vc1 = ProfileOpener.open(.userFeed(UserFeedViewModel(userFeedType: .post, profileType: self.profileType, page: self.page, castcleId: self.castcleId))) as? UserFeedViewController
         vc1?.pageIndex = 1
         vc1?.pageTitle = "Post"
         let child_2 = vc1 ?? UserFeedViewController()
 
-        let vc2 = ProfileOpener.open(.userFeed(UserFeedViewModel(userFeedType: .blog))) as? UserFeedViewController
+        let vc2 = ProfileOpener.open(.userFeed(UserFeedViewModel(userFeedType: .blog, profileType: self.profileType, page: self.page, castcleId: self.castcleId))) as? UserFeedViewController
         vc2?.pageIndex = 2
         vc2?.pageTitle = "Blog"
         let child_3 = vc2 ?? UserFeedViewController()
 
-        let vc3 = ProfileOpener.open(.userFeed(UserFeedViewModel(userFeedType: .photo))) as? UserFeedViewController
+        let vc3 = ProfileOpener.open(.userFeed(UserFeedViewModel(userFeedType: .photo, profileType: self.profileType, page: self.page, castcleId: self.castcleId))) as? UserFeedViewController
         vc3?.pageIndex = 3
         vc3?.pageTitle = "Photo"
         let child_4 = vc3 ?? UserFeedViewController()
@@ -91,17 +96,15 @@ class UserInfoTabStripViewController: ButtonBarPagerTabStripViewController, Page
     }
 
     override func reloadPagerTabStripView() {
-        pagerBehaviour = .progressive(skipIntermediateViewControllers: arc4random() % 2 == 0, elasticIndicatorLimit: arc4random() % 2 == 0 )
+        self.pagerBehaviour = .progressive(skipIntermediateViewControllers: arc4random() % 2 == 0, elasticIndicatorLimit: arc4random() % 2 == 0 )
         super.reloadPagerTabStripView()
     }
-    
+
     override func updateIndicator(for viewController: PagerTabStripViewController, fromIndex: Int, toIndex: Int, withProgressPercentage progressPercentage: CGFloat, indexWasChanged: Bool) {
         super.updateIndicator(for: viewController, fromIndex: fromIndex, toIndex: toIndex, withProgressPercentage: progressPercentage, indexWasChanged: indexWasChanged)
-        
         guard indexWasChanged == true else { return }
 
         //IMPORTANT!!!: call the following to let the master scroll controller know which view to control in the bottom section
         self.pageDelegate?.pageViewController(self.currentViewController, didSelectPageAt: toIndex)
-
     }
 }

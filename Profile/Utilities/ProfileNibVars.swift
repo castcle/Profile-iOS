@@ -22,7 +22,7 @@
 //  ProfileNibVars.swift
 //  Profile
 //
-//  Created by Tanakorn Phoochaliaw on 5/8/2564 BE.
+//  Created by Castcle Co., Ltd. on 5/8/2564 BE.
 //
 
 public struct ProfileNibVars {
@@ -41,6 +41,9 @@ public struct ProfileNibVars {
         public static let userFeed = "UserFeedViewController"
         public static let welcomeCreatePage = "WelcomeCreatePageViewController"
         public static let createPage = "PageDisplayNameViewController"
+        public static let deletePage = "DeletePageViewController"
+        public static let confirmDeletePage = "ConfirmDeletePageViewController"
+        public static let deletePageSuccess = "DeletePageSuccessViewController"
     }
     
     // MARK: - View
@@ -54,11 +57,13 @@ public struct ProfileNibVars {
         public static let meInfo = "UserInfoTableViewCell"
         public static let socialLink = "SocialLinkTableViewCell"
         public static let editInfo = "EditInfoTableViewCell"
+        public static let editPageInfo = "EditPageInfoTableViewCell"
         public static let about = "AboutTableViewCell"
         public static let dob = "DobTableViewCell"
         public static let addLink = "AddLinkTableViewCell"
         public static let social = "SocialTableViewCell"
         public static let complate = "ComplateTableViewCell"
+        public static let confirmDeletePage = "ConfirmDeletePageTableViewCell"
     }
     
     // MARK: - CollectionViewCell

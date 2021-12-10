@@ -22,7 +22,7 @@
 //  SelectPhotoMethodViewController.swift
 //  Profile
 //
-//  Created by Tanakorn Phoochaliaw on 5/8/2564 BE.
+//  Created by Castcle Co., Ltd. on 5/8/2564 BE.
 //
 
 import UIKit
@@ -32,6 +32,7 @@ import Core
 import TLPhotoPicker
 import TOCropViewController
 import Defaults
+import JGProgressHUD
 
 class SelectPhotoMethodViewController: UIViewController {
 
@@ -42,6 +43,7 @@ class SelectPhotoMethodViewController: UIViewController {
     @IBOutlet var takePhotoButton: UIButton!
     
     var viewModel = SelectPhotoMethodViewModel(avatarType: .user)
+    let hud = JGProgressHUD()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,10 +69,46 @@ class SelectPhotoMethodViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         Defaults[.screenId] = ""
+        self.hud.textLabel.text = "Saving"
     }
     
     func setupNavBar() {
-        self.customNavigationBar(.secondary, title: "")
+        if self.viewModel.avatarType == .page {
+            self.customNavigationBar(.primary, title: "", textColor: UIColor.Asset.white)
+            
+            let leftIcon = NavBarButtonType.back.barButton
+            leftIcon.addTarget(self, action: #selector(leftButtonAction), for: .touchUpInside)
+            self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: leftIcon)
+            
+            var rightButton: [UIBarButtonItem] = []
+            
+            let icon = UIButton()
+            icon.setTitle("Skip", for: .normal)
+            icon.titleLabel?.font = UIFont.asset(.bold, fontSize: .h4)
+            icon.setTitleColor(UIColor.Asset.lightBlue, for: .normal)
+            icon.addTarget(self, action: #selector(skipAction), for: .touchUpInside)
+            rightButton.append(UIBarButtonItem(customView: icon))
+
+            self.navigationItem.rightBarButtonItems = rightButton
+        } else {
+            self.customNavigationBar(.primary, title: "", textColor: UIColor.Asset.white)
+            let leftIcon = NavBarButtonType.back.barButton
+            leftIcon.addTarget(self, action: #selector(leftButtonAction), for: .touchUpInside)
+            self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: leftIcon)
+        }
+    }
+    
+    @objc private func leftButtonAction() {
+        if self.viewModel.avatarType == .user {
+            Utility.currentViewController().navigationController?.popViewController(animated: true)
+        } else {
+            let viewControllers: [UIViewController] = Utility.currentViewController().navigationController!.viewControllers as [UIViewController]
+            Utility.currentViewController().navigationController!.popToViewController(viewControllers[viewControllers.count - 4], animated: true)
+        }
+    }
+    
+    @objc private func skipAction() {
+        Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.about(AboutInfoViewModel(avatarType: self.viewModel.avatarType, castcleId: self.viewModel.castcleId, pageRequest: self.viewModel.pageRequest))), animated: true)
     }
     
     @IBAction func cameraRollAction(_ sender: Any) {
@@ -84,7 +122,7 @@ class SelectPhotoMethodViewController: UIViewController {
         photosPickerViewController.subTitleLabel.font = UIFont.asset(.regular, fontSize: .small)
         
         photosPickerViewController.doneButton.setTitleTextAttributes([
-            NSAttributedString.Key.font : UIFont.asset(.medium, fontSize: .h4),
+            NSAttributedString.Key.font : UIFont.asset(.bold, fontSize: .h4),
             NSAttributedString.Key.foregroundColor : UIColor.Asset.lightBlue
         ], for: .normal)
         photosPickerViewController.cancelButton.setTitleTextAttributes([
@@ -190,19 +228,36 @@ extension SelectPhotoMethodViewController: UIImagePickerControllerDelegate, UINa
 extension SelectPhotoMethodViewController: TOCropViewControllerDelegate {
     func cropViewController(_ cropViewController: TOCropViewController, didCropToCircularImage image: UIImage, with cropRect: CGRect, angle: Int) {
         cropViewController.dismiss(animated: true, completion: {
-            self.viewModel.avatar = image.resizeImage(targetSize: CGSize.init(width: 200, height: 200))
+            self.viewModel.avatar = image.resizeImage(targetSize: CGSize.init(width: 500, height: 500))
+            self.hud.show(in: self.view)
             if self.viewModel.avatarType == .page {
-                Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.about(AboutInfoViewModel(avatarType: self.viewModel.avatarType))), animated: true)
-//                self.viewModel.createPage()
+                self.viewModel.updatePageAvatar()
+            } else {
+                self.viewModel.updateUserAvatar()
             }
         })
     }
 }
 
 extension SelectPhotoMethodViewController: SelectPhotoMethodViewModelDelegate {
-    func didCreatePageFinish(success: Bool) {
+    func didUpdateUserFinish(success: Bool) {
+        self.hud.dismiss()
         if success {
             Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.about(AboutInfoViewModel(avatarType: self.viewModel.avatarType))), animated: true)
         }
+    }
+    
+    func didUpdatePageFinish(success: Bool) {
+        if success {
+            self.viewModel.getMyPage()
+        } else {
+            self.hud.dismiss()
+        }
+    }
+    
+    func didGetPageFinish() {
+        self.hud.dismiss()
+        print(self.viewModel.pageRequest)
+        Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.about(AboutInfoViewModel(avatarType: self.viewModel.avatarType, castcleId: self.viewModel.castcleId, pageRequest: self.viewModel.pageRequest))), animated: true)
     }
 }

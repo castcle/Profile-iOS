@@ -22,7 +22,7 @@
 //  WelcomeEditProfileViewController.swift
 //  Profile
 //
-//  Created by Tanakorn Phoochaliaw on 5/8/2564 BE.
+//  Created by Castcle Co., Ltd. on 5/8/2564 BE.
 //
 
 import UIKit
@@ -58,6 +58,6 @@ class WelcomeEditProfileViewController: UIViewController {
     }
     
     @IBAction func nextAction(_ sender: Any) {
-        Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.photoMethod(SelectPhotoMethodViewModel(avatarType: .user))), animated: true)
+        Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.photoMethod(SelectPhotoMethodViewModel(avatarType: .user, castcleId: ""))), animated: true)
     }
 }

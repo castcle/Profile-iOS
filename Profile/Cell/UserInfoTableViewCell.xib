@@ -23,6 +23,9 @@
                             <constraint firstAttribute="height" constant="200" id="Fyh-uu-E8f"/>
                         </constraints>
                     </imageView>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gradient" translatesAutoresizingMaskIntoConstraints="NO" id="WQv-Ow-9ya">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="200"/>
+                    </imageView>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="li4-6F-t5O">
                         <rect key="frame" x="120" y="36" width="80" height="80"/>
                         <constraints>
@@ -83,6 +86,7 @@
                     <constraint firstItem="IHc-jN-JlL" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="EQe-pD-rXN"/>
                     <constraint firstItem="2AI-RA-qyT" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="Eqd-Cp-kMT"/>
                     <constraint firstItem="q86-Th-SIt" firstAttribute="top" secondItem="2AI-RA-qyT" secondAttribute="bottom" constant="15" id="HRZ-xn-R5S"/>
+                    <constraint firstItem="WQv-Ow-9ya" firstAttribute="trailing" secondItem="e0U-kE-h9Y" secondAttribute="trailing" id="LH0-UB-7jM"/>
                     <constraint firstItem="eep-wA-udg" firstAttribute="top" secondItem="q86-Th-SIt" secondAttribute="bottom" constant="30" id="NFq-nN-4d8"/>
                     <constraint firstItem="q86-Th-SIt" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="Oyw-b4-gKf"/>
                     <constraint firstItem="BGZ-1c-iB7" firstAttribute="top" secondItem="li4-6F-t5O" secondAttribute="bottom" constant="10" id="P1x-2K-9r5"/>
@@ -92,12 +96,15 @@
                     <constraint firstAttribute="trailing" secondItem="eep-wA-udg" secondAttribute="trailing" constant="20" id="Rsw-YR-1wB"/>
                     <constraint firstItem="2AI-RA-qyT" firstAttribute="top" secondItem="e0U-kE-h9Y" secondAttribute="bottom" constant="30" id="Rvw-zm-1ic"/>
                     <constraint firstItem="li4-6F-t5O" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="TVA-g8-Ljv"/>
+                    <constraint firstItem="WQv-Ow-9ya" firstAttribute="bottom" secondItem="e0U-kE-h9Y" secondAttribute="bottom" id="UMb-MK-AIG"/>
                     <constraint firstItem="e0U-kE-h9Y" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="Vlv-hF-h46"/>
                     <constraint firstAttribute="bottom" secondItem="IHc-jN-JlL" secondAttribute="bottom" constant="20" id="X1k-eg-zcK"/>
                     <constraint firstItem="li4-6F-t5O" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="36" id="YDE-Hq-fKk"/>
                     <constraint firstAttribute="trailing" secondItem="e0U-kE-h9Y" secondAttribute="trailing" id="YeI-ay-Ztt"/>
                     <constraint firstItem="IHc-jN-JlL" firstAttribute="top" secondItem="fBK-Sh-ng0" secondAttribute="bottom" constant="30" id="lW0-rg-Otz"/>
+                    <constraint firstItem="WQv-Ow-9ya" firstAttribute="leading" secondItem="e0U-kE-h9Y" secondAttribute="leading" id="msx-zU-zLz"/>
                     <constraint firstItem="1n4-Vl-00C" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="scJ-ms-gh3"/>
+                    <constraint firstItem="WQv-Ow-9ya" firstAttribute="top" secondItem="e0U-kE-h9Y" secondAttribute="top" id="tWq-KN-ZlX"/>
                     <constraint firstItem="eep-wA-udg" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="vB2-ho-ouT"/>
                     <constraint firstItem="1n4-Vl-00C" firstAttribute="top" secondItem="BGZ-1c-iB7" secondAttribute="bottom" id="vS4-6h-6NQ"/>
                     <constraint firstItem="BGZ-1c-iB7" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="zj7-PU-sVf"/>
@@ -118,4 +125,7 @@
             <point key="canvasLocation" x="137.68115942028987" y="272.54464285714283"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="gradient" width="2" height="2"/>
+    </resources>
 </document>

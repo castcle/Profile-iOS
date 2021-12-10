@@ -22,7 +22,7 @@
 //  AddSocialViewController.swift
 //  Profile
 //
-//  Created by Tanakorn Phoochaliaw on 6/8/2564 BE.
+//  Created by Castcle Co., Ltd. on 6/8/2564 BE.
 //
 
 import UIKit
@@ -79,7 +79,7 @@ class AddSocialViewController: UIViewController {
         
         let icon = UIButton()
         icon.setTitle("Apply", for: .normal)
-        icon.titleLabel?.font = UIFont.asset(.medium, fontSize: .h4)
+        icon.titleLabel?.font = UIFont.asset(.bold, fontSize: .h4)
         icon.setTitleColor(UIColor.Asset.lightBlue, for: .normal)
         icon.addTarget(self, action: #selector(applyAction), for: .touchUpInside)
         rightButton.append(UIBarButtonItem(customView: icon))

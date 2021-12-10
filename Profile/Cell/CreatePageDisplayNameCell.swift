@@ -22,12 +22,13 @@
 //  CreatePageDisplayNameCell.swift
 //  Profile
 //
-//  Created by Tanakorn Phoochaliaw on 16/9/2564 BE.
+//  Created by Castcle Co., Ltd. on 16/9/2564 BE.
 //
 
 import UIKit
 import Core
 import Authen
+import JGProgressHUD
 
 class CreatePageDisplayNameCell: UICollectionViewCell, UITextFieldDelegate {
 
@@ -42,9 +43,11 @@ class CreatePageDisplayNameCell: UICollectionViewCell, UITextFieldDelegate {
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
     
     private var viewModel = CreatePageDisplayNameViewModel()
+    let hud = JGProgressHUD()
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.hud.textLabel.text = "Creating"
         self.displayNameView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
         self.castcleIdPasswordView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
         self.headlineLabel.font = UIFont.asset(.regular, fontSize: .title)
@@ -119,7 +122,11 @@ class CreatePageDisplayNameCell: UICollectionViewCell, UITextFieldDelegate {
         if textField.tag == 1 {
             let displayCastcleId = textField.text ?? ""
             let castcleId = self.castcleId(displayCastcleId: displayCastcleId)
-            textField.text = "@\(castcleId)"
+            if !castcleId.isEmpty {
+                textField.text = "@\(castcleId)"
+            } else {
+                textField.text = ""
+            }
         }
     }
     
@@ -177,9 +184,10 @@ class CreatePageDisplayNameCell: UICollectionViewCell, UITextFieldDelegate {
     @IBAction func nextAction(_ sender: Any) {
         self.endEditing(true)
         if !self.displayNameTextfield.text!.isEmpty && !self.viewModel.isCastcleIdExist {
+            self.hud.show(in: Utility.currentViewController().view)
             self.viewModel.pageRequest.castcleId = self.viewModel.authenRequest.payload.castcleId
             self.viewModel.pageRequest.displayName = self.viewModel.authenRequest.payload.displayName
-            Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.photoMethod(SelectPhotoMethodViewModel(avatarType: .page, pageRequest: self.viewModel.pageRequest))), animated: true)
+            self.viewModel.createPage()
         }
     }
 }
@@ -194,5 +202,18 @@ extension CreatePageDisplayNameCell: CreatePageDisplayNameViewModelDelegate {
     
     func didCheckCastcleIdExistsFinish() {
         self.updateUI()
+    }
+    
+    func didCreatePageFinish(success: Bool, castcleId: String) {
+        if success {
+            self.viewModel.getAllMyPage(castcleId: castcleId)
+        } else {
+            self.hud.dismiss()
+        }
+    }
+    
+    func didGetAllPageFinish(castcleId: String) {
+        self.hud.dismiss()
+        Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.photoMethod(SelectPhotoMethodViewModel(avatarType: .page, pageRequest: self.viewModel.pageRequest, castcleId: castcleId))), animated: true)
     }
 }

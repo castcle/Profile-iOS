@@ -22,7 +22,7 @@
 //  EditInfoTableViewCell.swift
 //  Profile
 //
-//  Created by Tanakorn Phoochaliaw on 8/8/2564 BE.
+//  Created by Castcle Co., Ltd. on 8/8/2564 BE.
 //
 
 import UIKit
@@ -128,7 +128,7 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        self.hud.textLabel.text = "Loading"
+        self.hud.textLabel.text = "Saving"
         self.aboutView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
         self.birthdayView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
         self.headlineLabel.font = UIFont.asset(.regular, fontSize: .title)
@@ -140,7 +140,7 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         
         self.overviewTextView.delegate = self
         self.overviewTextView.placeholder = "What's make you different?"
-        self.overviewTextView.text = UserState.shared.overview
+        self.overviewTextView.text = UserManager.shared.overview
         
         self.linkTitleLabel.font = UIFont.asset(.regular, fontSize: .body)
         self.linkTitleLabel.textColor = UIColor.Asset.white
@@ -151,18 +151,18 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         self.mediumView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
         self.websiteView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
         
-        self.facebookTextField.text = UserState.shared.facebookLink
-        self.twitterTextField.text = UserState.shared.twitterLink
-        self.youtubeTextField.text = UserState.shared.youtubeLink
-        self.mediumTextField.text = UserState.shared.mediumLink
-        self.websiteTextField.text = UserState.shared.websiteLink
+        self.facebookTextField.text = (UserManager.shared.facebookLink.isEmpty ? "https://" : UserManager.shared.facebookLink)
+        self.twitterTextField.text = (UserManager.shared.twitterLink.isEmpty ? "https://" : UserManager.shared.twitterLink)
+        self.youtubeTextField.text = (UserManager.shared.youtubeLink.isEmpty ? "https://" : UserManager.shared.youtubeLink)
+        self.mediumTextField.text = (UserManager.shared.mediumLink.isEmpty ? "https://" : UserManager.shared.mediumLink)
+        self.websiteTextField.text = (UserManager.shared.websiteLink.isEmpty ? "https://" : UserManager.shared.websiteLink)
         
         self.saveButton.setTitle("Save", for: .normal)
         self.saveButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .h4)
         self.saveButton.setTitleColor(UIColor.Asset.white, for: .normal)
         self.saveButton.capsule(color: UIColor.Asset.lightBlue, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
         
-        self.dobDate = (UserState.shared.dob == "" ? nil : (Date.stringToDate(str: UserState.shared.dob)))
+        self.dobDate = (UserManager.shared.dob == "" ? nil : (Date.stringToDate(str: UserManager.shared.dob)))
         if let dob = self.dobDate {
             self.birthdayTextField.text = dob.dateToString()
         } else {
@@ -208,12 +208,11 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         self.hud.show(in: Utility.currentViewController().view)
         self.disableUI(isActive: false)
         self.viewModel.userRequest.payload.overview = self.overviewTextView.text ?? ""
-        
-        self.viewModel.userRequest.payload.links.facebook = self.facebookTextField.text ?? ""
-        self.viewModel.userRequest.payload.links.twitter = self.twitterTextField.text ?? ""
-        self.viewModel.userRequest.payload.links.youtube = self.youtubeTextField.text ?? ""
-        self.viewModel.userRequest.payload.links.medium = self.mediumTextField.text ?? ""
-        self.viewModel.userRequest.payload.links.website = self.websiteTextField.text ?? ""
+        self.viewModel.userRequest.payload.links.facebook = (self.facebookTextField.text! == "https://" ? "" : self.facebookTextField.text!)
+        self.viewModel.userRequest.payload.links.twitter = (self.twitterTextField.text! == "https://" ? "" : self.twitterTextField.text!)
+        self.viewModel.userRequest.payload.links.youtube = (self.youtubeTextField.text! == "https://" ? "" : self.youtubeTextField.text!)
+        self.viewModel.userRequest.payload.links.medium = (self.mediumTextField.text! == "https://" ? "" : self.mediumTextField.text!)
+        self.viewModel.userRequest.payload.links.website = (self.websiteTextField.text! == "https://" ? "" : self.websiteTextField.text!)
         self.viewModel.updateProfile()
     }
 }
@@ -233,5 +232,9 @@ extension EditInfoTableViewCell: EditProfileViewModelDelegate {
         } else {
             self.disableUI(isActive: true)
         }
+    }
+    
+    func didUpdatePageFinish(success: Bool) {
+        // Not thing
     }
 }

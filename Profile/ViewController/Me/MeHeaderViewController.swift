@@ -22,19 +22,24 @@
 //  MeHeaderViewController.swift
 //  Profile
 //
-//  Created by Tanakorn Phoochaliaw on 13/8/2564 BE.
+//  Created by Castcle Co., Ltd. on 13/8/2564 BE.
 //
 
 import UIKit
 import Photos
 import MobileCoreServices
 import Core
+import Component
 import Post
 import Kingfisher
 import SwiftColor
 import ActiveLabel
 import TLPhotoPicker
 import TOCropViewController
+
+public protocol MeHeaderViewControllerDelegate {
+    func didUpdateProfileFinish()
+}
 
 class MeHeaderViewController: UIViewController {
 
@@ -58,9 +63,9 @@ class MeHeaderViewController: UIViewController {
     @IBOutlet var placeholderLabel: UILabel!
     @IBOutlet var postViewConstaint: NSLayoutConstraint!
     
-    var viewModel = MeHeaderViewModel(isMe: false)
+    public var delegate: MeHeaderViewControllerDelegate?
+    var viewModel = MeHeaderViewModel(profileType: .unknow, userInfo: nil)
     private let editProfileViewModel = EditProfileViewModel()
-    private var isShowActionSheet: Bool = false
     private var updateImageType: UpdateImageType = .none
     
     enum UpdateImageType {
@@ -108,21 +113,152 @@ class MeHeaderViewController: UIViewController {
         self.placeholderLabel.font = UIFont.asset(.light, fontSize: .overline)
         self.placeholderLabel.textColor = UIColor.Asset.lightGray
         
-        let url = URL(string: UserState.shared.avatar)
-        self.miniProfileImage.kf.setImage(with: url, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.5))])
-        
         self.followUI()
+        self.editProfileViewModel.delegate = self
         
-        if self.viewModel.isMe {
-            let urlCover = URL(string: UserState.shared.cover)
-            self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.5))])
+        self.viewModel.didGetInfoFinish = {
+            self.updateProfileUI()
+            self.delegate?.didUpdateProfileFinish()
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.updateProfileUI()
+        NotificationCenter.default.addObserver(self, selector: #selector(self.reloadData(notification:)), name: .getUserInfo, object: nil)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self, name: .getUserInfo, object: nil)
+    }
+    
+    @objc func reloadData(notification: NSNotification) {
+        self.viewModel.reloadInfo()
+    }
+    
+    private func updateProfileUI() {
+        if self.viewModel.profileType == .me {
+            if let avatar = self.editProfileViewModel.avatar {
+                self.profileImage.image = avatar
+                self.miniProfileImage.image = avatar
+            } else {
+                self.profileImage.image = UserManager.shared.avatar
+                self.miniProfileImage.image = UserManager.shared.avatar
+            }
             
-            let urlProfile = URL(string: UserState.shared.avatar)
-            self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.5))])
+            if let cover = self.editProfileViewModel.cover {
+                self.coverImage.image = cover
+            } else {
+                self.coverImage.image = UserManager.shared.cover
+            }
+        } else if self.viewModel.profileType == .myPage {
+            let localProfile = ImageHelper.shared.loadImageFromDocumentDirectory(nameOfImage: self.viewModel.pageInfo.castcleId, type: .avatar)
+            let localCover = ImageHelper.shared.loadImageFromDocumentDirectory(nameOfImage: self.viewModel.pageInfo.castcleId, type: .cover)
             
-            self.displayNameLabel.text = UserState.shared.name
-            self.userIdLabel.text = UserState.shared.userId
+            if let avatar = self.editProfileViewModel.avatar {
+                self.profileImage.image = avatar
+                self.miniProfileImage.image = avatar
+            } else {
+                self.profileImage.image = localProfile
+                self.miniProfileImage.image = localProfile
+            }
             
+            if let cover = self.editProfileViewModel.cover {
+                self.coverImage.image = cover
+            } else {
+                self.coverImage.image = localCover
+            }
+        } else if self.viewModel.profileType == .page {
+            let urlProfile = URL(string: self.viewModel.pageInfo.images.avatar.thumbnail)
+            let urlCover = URL(string: self.viewModel.pageInfo.images.cover.large)
+            
+            if let avatar = self.editProfileViewModel.avatar {
+                self.profileImage.image = avatar
+                self.miniProfileImage.image = avatar
+            } else {
+                self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
+                self.miniProfileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
+            }
+            
+            if let cover = self.editProfileViewModel.cover {
+                self.coverImage.image = cover
+            } else {
+                self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.35))])
+            }
+        } else {
+            guard let user = self.viewModel.userInfo else { return }
+            let urlProfile = URL(string: user.images.avatar.thumbnail)
+            let urlCover = URL(string: user.images.cover.fullHd)
+            
+            self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
+            self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.35))])
+        }
+        
+        if self.viewModel.profileType == .myPage || self.viewModel.profileType == .page {
+            self.displayNameLabel.text = self.viewModel.pageInfo.displayName
+            self.userIdLabel.text = "@\(self.viewModel.pageInfo.castcleId)"
+            
+            self.followLabel.customize { label in
+                label.font = UIFont.asset(.regular, fontSize: .body)
+                label.numberOfLines = 1
+                label.textColor = UIColor.Asset.gray
+                
+                let followingType = ActiveType.custom(pattern: "\(self.viewModel.pageInfo.following.count) ")
+                let followerType = ActiveType.custom(pattern: "\(self.viewModel.pageInfo.followers.count) ")
+                
+                label.enabledTypes = [followingType, followerType]
+                label.customColor[followingType] = UIColor.Asset.white
+                label.customSelectedColor[followingType] = UIColor.Asset.gray
+                label.customColor[followerType] = UIColor.Asset.white
+                label.customSelectedColor[followerType] = UIColor.Asset.gray
+            }
+            self.followLabel.text = "\(self.viewModel.pageInfo.following.count) Following   \(self.viewModel.pageInfo.followers.count) Followers"
+            self.bioLabel.text = self.viewModel.pageInfo.overview
+        } else if self.viewModel.profileType == .me {
+            self.displayNameLabel.text = UserManager.shared.displayName
+            self.userIdLabel.text = UserManager.shared.castcleId
+            
+            self.followLabel.customize { label in
+                label.font = UIFont.asset(.regular, fontSize: .body)
+                label.numberOfLines = 1
+                label.textColor = UIColor.Asset.gray
+                
+                let followingType = ActiveType.custom(pattern: UserManager.shared.following)
+                let followerType = ActiveType.custom(pattern: UserManager.shared.followers)
+                
+                label.enabledTypes = [followingType, followerType]
+                label.customColor[followingType] = UIColor.Asset.white
+                label.customSelectedColor[followingType] = UIColor.Asset.gray
+                label.customColor[followerType] = UIColor.Asset.white
+                label.customSelectedColor[followerType] = UIColor.Asset.gray
+            }
+            self.followLabel.text = "\(UserManager.shared.following)Following   \(UserManager.shared.followers)Followers"
+            self.bioLabel.text = UserManager.shared.overview
+        } else {
+            guard let user = self.viewModel.userInfo else { return }
+            self.displayNameLabel.text = user.displayName
+            self.userIdLabel.text = "@\(user.castcleId)"
+            
+            self.followLabel.customize { label in
+                label.font = UIFont.asset(.regular, fontSize: .body)
+                label.numberOfLines = 1
+                label.textColor = UIColor.Asset.gray
+                
+                let followingType = ActiveType.custom(pattern: "\(user.following.count) ")
+                let followerType = ActiveType.custom(pattern: "\(user.followers.count) ")
+                
+                label.enabledTypes = [followingType, followerType]
+                label.customColor[followingType] = UIColor.Asset.white
+                label.customSelectedColor[followingType] = UIColor.Asset.gray
+                label.customColor[followerType] = UIColor.Asset.white
+                label.customSelectedColor[followerType] = UIColor.Asset.gray
+            }
+            self.followLabel.text = "\(user.following.count) Following   \(user.followers.count) Followers"
+            self.bioLabel.text = user.overview
+        }
+        
+        if self.viewModel.profileType == .me || self.viewModel.profileType == .myPage {
             self.editCoverButton.isHidden = false
             self.editProfileButton.isHidden = false
             self.editProfileImageButton.isHidden = false
@@ -133,15 +269,6 @@ class MeHeaderViewController: UIViewController {
             self.newPostView.isHidden = false
             self.postViewConstaint.constant = 65.0
         } else {
-            let urlCover = URL(string: "https://cdn.pixabay.com/photo/2021/07/13/18/58/coffee-6464307_1280.jpg")
-            self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.5))])
-            
-            let urlProfile = URL(string: "https://static.wikia.nocookie.net/whywomenkill/images/e/e7/Alexandra_Daddario.jpg")
-            self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.5))])
-            
-            self.displayNameLabel.text = "Alexandra Daddario"
-            self.userIdLabel.text = "@alexandra-daddario"
-            
             self.editCoverButton.isHidden = true
             self.editProfileButton.isHidden = true
             self.editProfileImageButton.isHidden = true
@@ -151,30 +278,6 @@ class MeHeaderViewController: UIViewController {
             
             self.newPostView.isHidden = true
             self.postViewConstaint.constant = 0.0
-        }
-        
-        self.editProfileViewModel.delegate = self
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        if self.viewModel.isMe {
-            self.followLabel.customize { label in
-                label.font = UIFont.asset(.regular, fontSize: .body)
-                label.numberOfLines = 1
-                label.textColor = UIColor.Asset.gray
-                
-                let followingType = ActiveType.custom(pattern: UserState.shared.following)
-                let followerType = ActiveType.custom(pattern: UserState.shared.followers)
-                
-                label.enabledTypes = [followingType, followerType]
-                label.customColor[followingType] = UIColor.Asset.white
-                label.customSelectedColor[followingType] = UIColor.Asset.gray
-                label.customColor[followerType] = UIColor.Asset.white
-                label.customSelectedColor[followerType] = UIColor.Asset.gray
-            }
-            self.followLabel.text = "\(UserState.shared.following)Following   \(UserState.shared.followers)Followers"
-            self.bioLabel.text = UserState.shared.overview
         }
     }
     
@@ -193,25 +296,18 @@ class MeHeaderViewController: UIViewController {
     }
     
     private func selectImageSource() {
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        alert.addAction(UIAlertAction(title: "Choose from Camera Roll", style: .default , handler: { (UIAlertAction) in
-            self.isShowActionSheet = false
+        let actionSheet = CCActionSheet()
+        let albumButton = CCAction(title: "Choose from Camera Roll", image: UIImage.init(icon: .castcle(.image), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
+            actionSheet.dismissActionSheet()
             self.selectCameraRoll()
-        }))
-        
-        alert.addAction(UIAlertAction(title: "Take Photo", style: .default , handler: { (UIAlertAction) in
-            self.isShowActionSheet = false
-        }))
-        
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (UIAlertAction)in
-            self.isShowActionSheet = false
+        }
+        let cameraButton = CCAction(title: "Take Photo", image: UIImage.init(icon: .castcle(.camera), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
+            actionSheet.dismissActionSheet()
             self.selectTakePhoto()
-        }))
-
-        // uncomment for iPad Support
-        // alert.popoverPresentationController?.sourceView = self.view
-
-        Utility.currentViewController().present(alert, animated: true)
+        }
+        
+        actionSheet.addActions([albumButton, cameraButton])
+        Utility.currentViewController().present(actionSheet, animated: true, completion: nil)
     }
     
     private func selectCameraRoll() {
@@ -225,7 +321,7 @@ class MeHeaderViewController: UIViewController {
         photosPickerViewController.subTitleLabel.font = UIFont.asset(.regular, fontSize: .small)
         
         photosPickerViewController.doneButton.setTitleTextAttributes([
-            NSAttributedString.Key.font : UIFont.asset(.medium, fontSize: .h4),
+            NSAttributedString.Key.font : UIFont.asset(.bold, fontSize: .h4),
             NSAttributedString.Key.foregroundColor : UIColor.Asset.lightBlue
         ], for: .normal)
         photosPickerViewController.cancelButton.setTitleTextAttributes([
@@ -292,7 +388,7 @@ class MeHeaderViewController: UIViewController {
     
     private func handleDeniedCameraAuthorization() {
         DispatchQueue.main.async {
-            let alert = UIAlertController(title: "", message: "Denied camera permissions granted", preferredStyle: .alert)
+            let alert = UIAlertController(title: "Error", message: "Denied camera permissions granted", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
             Utility.currentViewController().present(alert, animated: true, completion: nil)
         }
@@ -305,39 +401,90 @@ class MeHeaderViewController: UIViewController {
             self.present(cropController, animated: true, completion: nil)
         } else {
             let cropController = TOCropViewController(croppingStyle: .default, image: image)
+            cropController.aspectRatioPreset = .preset4x3
+            cropController.aspectRatioLockEnabled = true
+            cropController.resetAspectRatioEnabled = false
+            cropController.aspectRatioPickerButtonHidden = true
             cropController.delegate = self
             self.present(cropController, animated: true, completion: nil)
         }
     }
     
-    
     @IBAction func postAction(_ sender: Any) {
-        let vc = PostOpener.open(.post(PostViewModel(postType: .newCast)))
-        vc.modalPresentationStyle = .fullScreen
-        Utility.currentViewController().present(vc, animated: true, completion: nil)
+        if self.viewModel.profileType == .me {
+            let vc = PostOpener.open(.post(PostViewModel(postType: .newCast)))
+            vc.modalPresentationStyle = .fullScreen
+            Utility.currentViewController().present(vc, animated: true, completion: nil)
+        } else if self.viewModel.profileType == .myPage {
+            let vc = PostOpener.open(.post(PostViewModel(postType: .newCast, page: Page().initCustom(id: self.viewModel.pageInfo.id, displayName: self.viewModel.pageInfo.displayName, castcleId: self.viewModel.pageInfo.castcleId))))
+            vc.modalPresentationStyle = .fullScreen
+            Utility.currentViewController().present(vc, animated: true, completion: nil)
+        }
     }
     
     @IBAction func editCoverAction(_ sender: Any) {
-        self.isShowActionSheet = true
-        self.updateImageType = .cover
-        self.selectImageSource()
+        if self.viewModel.profileType == .me || self.viewModel.profileType == .myPage {
+            self.updateImageType = .cover
+            self.selectImageSource()
+        }
     }
     
     @IBAction func editProfileImageAction(_ sender: Any) {
-        self.isShowActionSheet = true
-        self.updateImageType = .avatar
-        self.selectImageSource()
+        if self.viewModel.profileType == .me || self.viewModel.profileType == .myPage {
+            self.updateImageType = .avatar
+            self.selectImageSource()
+        }
     }
     
     @IBAction func moreAction(_ sender: Any) {
-        if !self.viewModel.isMe {
-            let vc = ProfileOpener.open(.action) as? ProfileActionViewController
-            Utility.currentViewController().presentPanModal(vc ?? ProfileActionViewController())
+        if self.viewModel.profileType == .myPage {
+            let actionSheet = CCActionSheet()
+            let syncButton = CCAction(title: "Sync social media", image: UIImage.init(icon: .castcle(.bindLink), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
+                actionSheet.dismissActionSheet()
+            }
+            let deleteButton = CCAction(title: "Delete page", image: UIImage.init(icon: .castcle(.deleteOne), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
+                actionSheet.dismissActionSheet()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.deletePage(DeletePageViewModel(page: self.viewModel.pageInfo))), animated: true)
+                }
+            }
+            let shareButton = CCAction(title: "Share", image: UIImage.init(icon: .castcle(.share), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
+                actionSheet.dismissActionSheet()
+            }
+            
+            actionSheet.addActions([syncButton, deleteButton, shareButton])
+            Utility.currentViewController().present(actionSheet, animated: true, completion: nil)
+        } else if self.viewModel.profileType != .me && self.viewModel.profileType != .myPage {
+            let actionSheet = CCActionSheet()
+            
+            var castcleId: String = ""
+            var userId: String = ""
+            if self.viewModel.profileType == .page {
+                castcleId = self.viewModel.pageInfo.castcleId
+                userId = self.viewModel.pageInfo.id
+            } else {
+                castcleId = self.viewModel.userInfo?.castcleId ?? ""
+                userId = self.viewModel.userInfo?.id ?? ""
+            }
+            
+            let reportButton = CCAction(title: "Report @\(castcleId)", image: UIImage.init(icon: .castcle(.email), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
+                actionSheet.dismissActionSheet()
+                self.viewModel.reportUser(castcleId: castcleId, userId: userId)
+            }
+            let blockButton = CCAction(title: "Block @\(castcleId)", image: UIImage.init(icon: .castcle(.blockedUsers), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
+                actionSheet.dismissActionSheet()
+                self.viewModel.blockUser(castcleId: castcleId, userId: userId)
+            }
+            
+            actionSheet.addActions([blockButton, reportButton])
+            Utility.currentViewController().present(actionSheet, animated: true, completion: nil)
         }
     }
     
     @IBAction func editProfileAction(_ sender: Any) {
-        Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.editInfo), animated: true)
+        if self.viewModel.profileType == .me || self.viewModel.profileType == .myPage {
+            Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.editInfo(self.viewModel.profileType, self.viewModel.pageInfo)), animated: true)
+        }
     }
     
     @IBAction func viewProfileAction(_ sender: Any) {
@@ -345,10 +492,14 @@ class MeHeaderViewController: UIViewController {
     }
     
     @IBAction func followAction(_ sender: Any) {
+        if self.viewModel.isFollow {
+            self.viewModel.unfollowUser()
+        } else {
+            self.viewModel.followUser()
+        }
         self.viewModel.isFollow.toggle()
         self.followUI()
     }
-
 }
 
 extension MeHeaderViewController: TLPhotosPickerViewControllerDelegate {
@@ -386,8 +537,15 @@ extension MeHeaderViewController: TOCropViewControllerDelegate {
     func cropViewController(_ cropViewController: TOCropViewController, didCropToCircularImage image: UIImage, with cropRect: CGRect, angle: Int) {
         cropViewController.dismiss(animated: true, completion: {
             if self.updateImageType == .avatar {
-                self.editProfileViewModel.avatar = image.resizeImage(targetSize: CGSize.init(width: 200, height: 200))
-                self.editProfileViewModel.updateAvatar()
+                let avatarCropImage = image.resizeImage(targetSize: CGSize.init(width: 200, height: 200))
+                self.profileImage.image = avatarCropImage
+                self.miniProfileImage.image = avatarCropImage
+                self.editProfileViewModel.avatar = avatarCropImage
+                if self.viewModel.profileType == .me {
+                    self.editProfileViewModel.updateAvatar()
+                } else if self.viewModel.profileType == .myPage {
+                    self.editProfileViewModel.updatePageAvatar(castcleId: self.viewModel.pageInfo.castcleId)
+                }
             }
         })
     }
@@ -395,8 +553,14 @@ extension MeHeaderViewController: TOCropViewControllerDelegate {
     func cropViewController(_ cropViewController: TOCropViewController, didCropTo image: UIImage, with cropRect: CGRect, angle: Int) {
         cropViewController.dismiss(animated: true, completion: {
             if self.updateImageType == .cover {
-                self.editProfileViewModel.cover = image.resizeImage(targetSize: CGSize.init(width: 640, height: 480))
-                self.editProfileViewModel.updateCover()
+                let coverCropImage = image.resizeImage(targetSize: CGSize.init(width: 640, height: 480))
+                self.coverImage.image = coverCropImage
+                self.editProfileViewModel.cover = coverCropImage
+                if self.viewModel.profileType == .me {
+                    self.editProfileViewModel.updateCover()
+                } else if self.viewModel.profileType == .myPage {
+                    self.editProfileViewModel.updatePageCover(castcleId: self.viewModel.pageInfo.castcleId)
+                }
             }
         })
     }
@@ -404,14 +568,24 @@ extension MeHeaderViewController: TOCropViewControllerDelegate {
 
 extension MeHeaderViewController: EditProfileViewModelDelegate {
     func didUpdateProfileFinish(success: Bool) {
-        self.updateImageType = .none
         if success {
-            if self.viewModel.isMe {
-                let urlCover = URL(string: UserState.shared.cover)
-                self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.5))])
-                
-                let urlProfile = URL(string: UserState.shared.avatar)
-                self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.5))])
+            if self.updateImageType == .avatar {
+                if self.viewModel.profileType == .me {
+                    self.delegate?.didUpdateProfileFinish()
+                }
+                self.updateImageType = .none
+            }
+            
+        }
+    }
+    
+    func didUpdatePageFinish(success: Bool) {
+        if success {
+            if self.updateImageType == .avatar {
+                if self.viewModel.profileType == .myPage {
+                    self.delegate?.didUpdateProfileFinish()
+                }
+                self.updateImageType = .none
             }
         }
     }

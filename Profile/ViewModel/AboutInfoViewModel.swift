@@ -22,26 +22,50 @@
 //  AboutInfoViewModel.swift
 //  Profile
 //
-//  Created by Tanakorn Phoochaliaw on 6/8/2564 BE.
+//  Created by Castcle Co., Ltd. on 6/8/2564 BE.
 //
 
 import Foundation
 import Core
+import Networking
 import Defaults
+import SwiftyJSON
+
+protocol AboutInfoViewModelDelegate {
+    func didUpdateUserInfoFinish(success: Bool)
+    func didUpdatePageInfoFinish(success: Bool)
+}
 
 public class AboutInfoViewModel {
    
     //MARK: Private
+    var delegate: AboutInfoViewModelDelegate?
     var socialLinkShelf: SocialLinkShelf = SocialLinkShelf()
+    var userRepository: UserRepository = UserRepositoryImpl()
+    var pageRepository: PageRepository = PageRepositoryImpl()
+    var userRequest: UserRequest = UserRequest()
+    var pageRequest: PageRequest = PageRequest()
+    let tokenHelper: TokenHelper = TokenHelper()
     var isSkip: Bool = true
     var avatarType: AvatarType
     var overView: String = ""
     var dobDisplay: String = ""
-    var dobDate: Date = Date()
+    var dobDate: Date?
+    var castcleId: String
+    var stage: Stage = .none
+    
+    enum Stage {
+        case updateUserInfo
+        case updatePageInfo
+        case none
+    }
 
     //MARK: Input
-    public init(avatarType: AvatarType) {
+    public init(avatarType: AvatarType, castcleId: String = "", pageRequest: PageRequest = PageRequest()) {
         self.avatarType = avatarType
+        self.castcleId = castcleId
+        self.pageRequest = pageRequest
+        self.tokenHelper.delegate = self
     }
     
     func clearData() {
@@ -78,6 +102,71 @@ public class AboutInfoViewModel {
         self.didMappingFinish?()
     }
     
+    public func updateUserInfo() {
+        self.stage = .updateUserInfo
+        if let dob = self.dobDate {
+            self.userRequest.payload.dob = dob.dateToStringSever()
+        }
+        
+        self.userRequest.payload.overview = self.overView
+        self.userRequest.payload.links.facebook = Defaults[.facebook]
+        self.userRequest.payload.links.twitter = Defaults[.twitter]
+        self.userRequest.payload.links.youtube = Defaults[.youtube]
+        self.userRequest.payload.links.medium = Defaults[.medium]
+        self.userRequest.payload.links.website = Defaults[.website]
+        
+        self.userRepository.updateMe(userRequest: self.userRequest) { (success, response, isRefreshToken) in
+            if success {
+                do {
+                    let rawJson = try response.mapJSON()
+                    let json = JSON(rawJson)
+                    let userHelper = UserHelper()
+                    userHelper.updateLocalProfile(user: User(json: json))
+                    self.delegate?.didUpdateUserInfoFinish(success: true)
+                } catch {}
+            } else {
+                if isRefreshToken {
+                    self.tokenHelper.refreshToken()
+                } else {
+                    self.delegate?.didUpdateUserInfoFinish(success: false)
+                }
+            }
+        }
+    }
+    
+    func updatePageInfo() {
+        self.stage = .updatePageInfo
+        self.pageRequest.overview = self.overView
+        self.pageRequest.links.facebook = Defaults[.facebook]
+        self.pageRequest.links.twitter = Defaults[.twitter]
+        self.pageRequest.links.youtube = Defaults[.youtube]
+        self.pageRequest.links.medium = Defaults[.medium]
+        self.pageRequest.links.website = Defaults[.website]
+        
+        self.pageRepository.updatePageInfo(pageId: self.castcleId, pageRequest: self.pageRequest) { (success, response, isRefreshToken) in
+            if success {
+                self.stage = .none
+                self.delegate?.didUpdatePageInfoFinish(success: true)
+            } else {
+                if isRefreshToken {
+                    self.tokenHelper.refreshToken()
+                } else {
+                    self.delegate?.didUpdatePageInfoFinish(success: false)
+                }
+            }
+        }
+    }
+    
     //MARK: Output
     var didMappingFinish: (() -> ())?
+}
+
+extension AboutInfoViewModel: TokenHelperDelegate {
+    public func didRefreshTokenFinish() {
+        if self.stage == .updatePageInfo {
+            self.updatePageInfo()
+        } else if self.stage == .updateUserInfo {
+            self.updateUserInfo()
+        }
+    }
 }

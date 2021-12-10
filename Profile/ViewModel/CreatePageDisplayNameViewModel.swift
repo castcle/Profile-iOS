@@ -22,7 +22,7 @@
 //  CreatePageDisplayNameViewModel.swift
 //  Profile
 //
-//  Created by Tanakorn Phoochaliaw on 16/9/2564 BE.
+//  Created by Castcle Co., Ltd. on 16/9/2564 BE.
 //
 
 import Core
@@ -30,10 +30,13 @@ import Networking
 import Moya
 import SwiftyJSON
 import Defaults
+import RealmSwift
 
 public protocol CreatePageDisplayNameViewModelDelegate {
     func didCheckCastcleIdExistsFinish()
     func didSuggestCastcleIdFinish(suggestCastcleId: String)
+    func didCreatePageFinish(success: Bool, castcleId: String)
+    func didGetAllPageFinish(castcleId: String)
 }
 
 class CreatePageDisplayNameViewModel {
@@ -41,14 +44,18 @@ class CreatePageDisplayNameViewModel {
     public var delegate: CreatePageDisplayNameViewModelDelegate?
     var authenticationRepository: AuthenticationRepository
     var authenRequest: AuthenRequest = AuthenRequest()
+    var pageRepository: PageRepository = PageRepositoryImpl()
     var pageRequest: PageRequest
     var isCastcleIdExist: Bool = true
     let tokenHelper: TokenHelper = TokenHelper()
     private var stage: CreateDisplayNameStage = .none
+    private let realm = try! Realm()
     
     enum CreateDisplayNameStage {
         case suggest
         case check
+        case createPage
+        case getMyPage
         case none
     }
 
@@ -100,6 +107,60 @@ class CreatePageDisplayNameViewModel {
             }
         }
     }
+    
+    public func createPage() {
+        self.stage = .createPage
+        self.pageRepository.createPage(pageRequest: self.pageRequest) { (success, response, isRefreshToken) in
+            if success {
+                self.stage = .none
+                self.delegate?.didCreatePageFinish(success: true, castcleId: self.pageRequest.castcleId)
+            } else {
+                if isRefreshToken {
+                    self.tokenHelper.refreshToken()
+                } else {
+                    self.delegate?.didCreatePageFinish(success: false, castcleId: "")
+                }
+            }
+        }
+    }
+    
+    func getAllMyPage(castcleId: String) {
+        self.stage = .getMyPage
+        self.pageRepository.getMyPage() { (success, response, isRefreshToken) in
+            if success {
+                self.stage = .none
+                do {
+                    let rawJson = try response.mapJSON()
+                    let json = JSON(rawJson)
+                    let pages = json[AuthenticationApiKey.payload.rawValue].arrayValue
+                    let pageRealm = self.realm.objects(Page.self)
+                    try! self.realm.write {
+                        self.realm.delete(pageRealm)
+                    }
+                    
+                    pages.forEach { page in
+                        let pageInfo = PageInfo(json: page)
+                        try! self.realm.write {
+                            let pageTemp = Page()
+                            pageTemp.id = pageInfo.id
+                            pageTemp.castcleId = pageInfo.castcleId
+                            pageTemp.displayName = pageInfo.displayName
+                            ImageHelper.shared.downloadImage(from: pageInfo.images.avatar.thumbnail, iamgeName: pageInfo.castcleId, type: .avatar)
+                            self.realm.add(pageTemp, update: .modified)
+                        }
+                        
+                    }
+                    self.delegate?.didGetAllPageFinish(castcleId: castcleId)
+                } catch {}
+            } else {
+                if isRefreshToken {
+                    self.tokenHelper.refreshToken()
+                } else {
+                    self.delegate?.didGetAllPageFinish(castcleId: castcleId)
+                }
+            }
+        }
+    }
 }
 
 extension CreatePageDisplayNameViewModel: TokenHelperDelegate {
@@ -108,6 +169,10 @@ extension CreatePageDisplayNameViewModel: TokenHelperDelegate {
             self.suggestCastcleId()
         } else if self.stage == .check {
             self.checkCastcleIdExists()
+        } else if self.stage == .createPage {
+            self.createPage()
+        } else if self.stage == .getMyPage {
+            self.getAllMyPage(castcleId: self.pageRequest.castcleId)
         }
     }
 }

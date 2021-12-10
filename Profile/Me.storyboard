@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -73,13 +73,13 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Bitcoin is an open source censorship-resistant peer-to-peer immutable network." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Usb-Ke-VJY">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bitcoin is an open source censorship-resistant peer-to-peer immutable network." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Usb-Ke-VJY">
                                 <rect key="frame" x="15" y="320" width="290" height="57.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="198 Following 33.6K Followers" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2bu-MK-gWp" customClass="ActiveLabel" customModule="ActiveLabel">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" verticalCompressionResistancePriority="749" text="198 Following 33.6K Followers" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2bu-MK-gWp" customClass="ActiveLabel" customModule="ActiveLabel">
                                 <rect key="frame" x="15" y="397.5" width="290" height="19.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <nil key="textColor"/>
@@ -255,9 +255,57 @@
                     <view key="view" contentMode="scaleToFill" id="tzD-LX-uBb">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fRZ-NT-D0i">
+                                <rect key="frame" x="40" y="113" width="240" height="342"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="page-available" translatesAutoresizingMaskIntoConstraints="NO" id="JbM-Kr-vsi">
+                                        <rect key="frame" x="0.0" y="0.0" width="240" height="240"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="240" id="Ie2-SC-73T"/>
+                                            <constraint firstAttribute="width" constant="240" id="SmP-yw-sIR"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sory, this page isn't available" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QIZ-KO-TMk">
+                                        <rect key="frame" x="0.0" y="260" width="240" height="19.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This link you followed may be broken, or the page may have been removed" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DTQ-qh-XYN">
+                                        <rect key="frame" x="0.0" y="284.5" width="240" height="57.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="DTQ-qh-XYN" firstAttribute="leading" secondItem="fRZ-NT-D0i" secondAttribute="leading" id="1Cf-hX-lCx"/>
+                                    <constraint firstItem="QIZ-KO-TMk" firstAttribute="leading" secondItem="fRZ-NT-D0i" secondAttribute="leading" id="7Bb-8m-g8W"/>
+                                    <constraint firstAttribute="bottom" secondItem="DTQ-qh-XYN" secondAttribute="bottom" id="9ib-ZG-Rg7"/>
+                                    <constraint firstItem="JbM-Kr-vsi" firstAttribute="top" secondItem="fRZ-NT-D0i" secondAttribute="top" id="IH4-W1-ijg"/>
+                                    <constraint firstItem="DTQ-qh-XYN" firstAttribute="top" secondItem="QIZ-KO-TMk" secondAttribute="bottom" constant="5" id="J1I-G9-bfz"/>
+                                    <constraint firstItem="QIZ-KO-TMk" firstAttribute="top" secondItem="JbM-Kr-vsi" secondAttribute="bottom" constant="20" id="Jbh-b1-X5I"/>
+                                    <constraint firstAttribute="trailing" secondItem="JbM-Kr-vsi" secondAttribute="trailing" id="RuR-m7-ZW2"/>
+                                    <constraint firstAttribute="trailing" secondItem="QIZ-KO-TMk" secondAttribute="trailing" id="T0C-Mc-NwO"/>
+                                    <constraint firstAttribute="trailing" secondItem="DTQ-qh-XYN" secondAttribute="trailing" id="eNW-P6-waG"/>
+                                    <constraint firstItem="JbM-Kr-vsi" firstAttribute="leading" secondItem="fRZ-NT-D0i" secondAttribute="leading" id="xI0-ij-NK6"/>
+                                </constraints>
+                            </view>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="l0C-uY-1ue"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="fRZ-NT-D0i" firstAttribute="centerX" secondItem="tzD-LX-uBb" secondAttribute="centerX" id="ik7-O5-w8y"/>
+                            <constraint firstItem="fRZ-NT-D0i" firstAttribute="centerY" secondItem="tzD-LX-uBb" secondAttribute="centerY" id="rBe-ax-fnd"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="emptyDetailLabel" destination="DTQ-qh-XYN" id="v9p-ph-7LD"/>
+                        <outlet property="emptyTitleLabel" destination="QIZ-KO-TMk" id="ZnO-Zv-Zgs"/>
+                        <outlet property="emptyView" destination="fRZ-NT-D0i" id="Tvy-2R-YDw"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xAK-mY-JB9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -285,9 +333,24 @@
                     <view key="view" contentMode="scaleToFill" id="kfx-8g-Pkh">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="hVZ-Ot-jyW">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </tableView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="6hK-KP-xzl"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="hVZ-Ot-jyW" secondAttribute="bottom" id="ORt-mV-qwW"/>
+                            <constraint firstItem="6hK-KP-xzl" firstAttribute="trailing" secondItem="hVZ-Ot-jyW" secondAttribute="trailing" id="cIX-it-ESK"/>
+                            <constraint firstItem="hVZ-Ot-jyW" firstAttribute="leading" secondItem="6hK-KP-xzl" secondAttribute="leading" id="n6a-G5-mzZ"/>
+                            <constraint firstItem="hVZ-Ot-jyW" firstAttribute="top" secondItem="6hK-KP-xzl" secondAttribute="top" id="wLn-tH-kZe"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="tableView" destination="hVZ-Ot-jyW" id="Dxs-9l-T4T"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Z48-O2-hTQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -465,6 +528,7 @@
         </designable>
     </designables>
     <resources>
+        <image name="page-available" width="206.5" height="208"/>
         <namedColor name="DarkGraphiteBlue">
             <color red="0.078431372549019607" green="0.090196078431372548" blue="0.10196078431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

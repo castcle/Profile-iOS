@@ -22,51 +22,139 @@
 //  UserFeedViewModel.swift
 //  Profile
 //
-//  Created by Tanakorn Phoochaliaw on 13/8/2564 BE.
+//  Created by Castcle Co., Ltd. on 13/8/2564 BE.
 //
 
 import Foundation
+import Core
 import Networking
+import SwiftyJSON
 
 public enum UserFeedType: String {
     case all
     case post
     case blog
     case photo
+    case unknow
+}
+
+public protocol UserFeedViewModelDelegate {
+    func didGetContentFinish(success: Bool)
 }
 
 public final class UserFeedViewModel {
    
-    //MARK: Private
-    private var feedRepository: FeedRepository
-    var feedShelf: FeedShelf = FeedShelf()
+    public var delegate: UserFeedViewModelDelegate?
+    private var contentRepository: ContentRepository = ContentRepositoryImpl()
+    private var pageRepository: PageRepository = PageRepositoryImpl()
+    private var userRepository: UserRepository = UserRepositoryImpl()
+    var contentRequest: ContentRequest = ContentRequest()
+    var contents: [Content] = []
+    var meta: Meta = Meta()
     var userFeedType: UserFeedType = .all
+    var profileType: ProfileType = .unknow
+    let tokenHelper: TokenHelper = TokenHelper()
+    var page: Page = Page()
+    var castcleId: String = ""
 
     //MARK: Input
-    public func getFeeds() {
-        self.feedRepository.getFeeds(featureSlug: "Test", circleSlug: "Test") { (success, feedShelf) in
-            if success {
-                switch self.userFeedType {
-                case .post:
-                    self.feedShelf.feeds = feedShelf.feeds.filter {$0.feedPayload.type == .short}
-                case .blog:
-                    self.feedShelf.feeds = feedShelf.feeds.filter {$0.feedPayload.type == .blog}
-                case .photo:
-                    self.feedShelf.feeds = feedShelf.feeds.filter {$0.feedPayload.type == .image}
-                default:
-                    self.feedShelf = feedShelf
+    public func getContents() {
+        if self.profileType == .me {
+            self.contentRepository.getMeContents(contentRequest: self.contentRequest) { (success, response, isRefreshToken) in
+                if success {
+                    do {
+                        let rawJson = try response.mapJSON()
+                        let json = JSON(rawJson)
+                        let shelf = ContentShelf(json: json)
+                        self.contents.append(contentsOf: shelf.contents)
+                        self.meta = shelf.meta
+                        self.delegate?.didGetContentFinish(success: true)
+                    } catch {
+                        self.delegate?.didGetContentFinish(success: false)
+                    }
+                } else {
+                    if isRefreshToken {
+                        self.tokenHelper.refreshToken()
+                    } else {
+                        self.delegate?.didGetContentFinish(success: false)
+                    }
                 }
             }
-            self.didLoadFeedgsFinish?()
+        } else if self.profileType == .myPage || self.profileType == .page {
+            self.pageRepository.getPageContent(pageId: self.page.castcleId, contentRequest: self.contentRequest) { (success, response, isRefreshToken) in
+                if success {
+                    do {
+                        let rawJson = try response.mapJSON()
+                        let json = JSON(rawJson)
+                        let shelf = ContentShelf(json: json)
+                        self.contents.append(contentsOf: shelf.contents)
+                        self.meta = shelf.meta
+                        self.delegate?.didGetContentFinish(success: true)
+                    } catch {
+                        self.delegate?.didGetContentFinish(success: false)
+                    }
+                } else {
+                    if isRefreshToken {
+                        self.tokenHelper.refreshToken()
+                    } else {
+                        self.delegate?.didGetContentFinish(success: false)
+                    }
+                }
+            }
+        } else {
+            self.userRepository.getUserContents(userId: self.castcleId, contentRequest: self.contentRequest) { (success, response, isRefreshToken) in
+                if success {
+                    do {
+                        let rawJson = try response.mapJSON()
+                        let json = JSON(rawJson)
+                        let shelf = ContentShelf(json: json)
+                        self.contents.append(contentsOf: shelf.contents)
+                        self.meta = shelf.meta
+                        self.delegate?.didGetContentFinish(success: true)
+                    } catch {
+                        self.delegate?.didGetContentFinish(success: false)
+                    }
+                } else {
+                    if isRefreshToken {
+                        self.tokenHelper.refreshToken()
+                    } else {
+                        self.delegate?.didGetContentFinish(success: false)
+                    }
+                }
+            }
         }
     }
     
-    //MARK: Output
-    var didLoadFeedgsFinish: (() -> ())?
-    
-    public init(feedRepository: FeedRepository = FeedRepositoryImpl(), userFeedType: UserFeedType) {
-        self.feedRepository = feedRepository
+    public init(userFeedType: UserFeedType, profileType: ProfileType, page: Page = Page(), castcleId: String) {
         self.userFeedType = userFeedType
-        self.getFeeds()
+        self.tokenHelper.delegate = self
+        self.contents = []
+        self.profileType = profileType
+        self.page = page
+        self.castcleId = castcleId
+        self.meta = Meta()
+        self.contentRequest = ContentRequest()
+        if self.userFeedType == .all {
+            self.contentRequest.type = .unknow
+        } else if self.userFeedType == .post {
+            self.contentRequest.type = .short
+        } else if self.userFeedType == .blog {
+            self.contentRequest.type = .blog
+        } else if self.userFeedType == .photo {
+            self.contentRequest.type = .image
+        }
+    }
+    
+    public func resetContent() {
+        self.contents = []
+        self.meta = Meta()
+        self.contentRequest = ContentRequest()
+        self.getContents()
+    }
+}
+
+extension UserFeedViewModel: TokenHelperDelegate {
+    public func didRefreshTokenFinish() {
+        self.getContents()
     }
 }

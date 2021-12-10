@@ -22,7 +22,7 @@
 //  ProfileActionViewController.swift
 //  Profile
 //
-//  Created by Tanakorn Phoochaliaw on 8/8/2564 BE.
+//  Created by Castcle Co., Ltd. on 8/8/2564 BE.
 //
 
 import UIKit
@@ -45,9 +45,9 @@ public class ProfileActionViewController: UIViewController {
         
         self.seeFollowToppicImage.image = UIImage.init(icon: .castcle(.seeFollowingTopics), size: CGSize(width: 25, height: 25), textColor: UIColor.Asset.white)
         self.shareImage.image = UIImage.init(icon: .castcle(.share), size: CGSize(width: 25, height: 25), textColor: UIColor.Asset.white)
-        self.seeFollowToppicLabel.font = UIFont.asset(.medium, fontSize: .body)
+        self.seeFollowToppicLabel.font = UIFont.asset(.bold, fontSize: .body)
         self.seeFollowToppicLabel.textColor = UIColor.Asset.white
-        self.shareLabel.font = UIFont.asset(.medium, fontSize: .body)
+        self.shareLabel.font = UIFont.asset(.bold, fontSize: .body)
         self.shareLabel.textColor = UIColor.Asset.white
     }
     

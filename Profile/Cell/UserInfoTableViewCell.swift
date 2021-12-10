@@ -22,7 +22,7 @@
 //  UserInfoTableViewCell.swift
 //  Profile
 //
-//  Created by Tanakorn Phoochaliaw on 8/8/2564 BE.
+//  Created by Castcle Co., Ltd. on 8/8/2564 BE.
 //
 
 import UIKit
@@ -44,10 +44,10 @@ class UserInfoTableViewCell: UITableViewCell {
         super.awakeFromNib()
         
         let urlCover = URL(string: "https://cdn.pixabay.com/photo/2021/07/13/18/58/coffee-6464307_1280.jpg")
-        self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.5))])
+        self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.35))])
         
         let urlProfile = URL(string: "https://static.wikia.nocookie.net/whywomenkill/images/e/e7/Alexandra_Daddario.jpg")
-        self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.5))])
+        self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
         
         self.displayNameLabel.text = "Alexandra Daddario"
         self.userIdLabel.text = "@alexandra-daddario"

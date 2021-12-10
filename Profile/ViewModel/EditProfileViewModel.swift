@@ -22,40 +22,49 @@
 //  EditProfileViewModel.swift
 //  Profile
 //
-//  Created by Tanakorn Phoochaliaw on 14/9/2564 BE.
+//  Created by Castcle Co., Ltd. on 14/9/2564 BE.
 //
 
 import UIKit
+import Core
 import Networking
 import SwiftyJSON
 
 public protocol EditProfileViewModelDelegate {
     func didUpdateProfileFinish(success: Bool)
+    func didUpdatePageFinish(success: Bool)
 }
 
 class EditProfileViewModel {
     
     public var delegate: EditProfileViewModelDelegate?
     
-    var userRepository: UserRepository
+    var userRepository: UserRepository = UserRepositoryImpl()
+    var pageRepository: PageRepository = PageRepositoryImpl()
     var userRequest: UserRequest = UserRequest()
+    var pageRequest: PageRequest = PageRequest()
     let tokenHelper: TokenHelper = TokenHelper()
     private var stage: Stage = .none
     var avatar: UIImage? = nil
     var cover: UIImage? = nil
     var dobDate: Date? = nil
+    var castcleId: String = ""
+    var pageInfo: PageInfo = PageInfo()
     
     enum Stage {
         case updateProfile
         case updateAvatar
         case updateCover
+        case updatePageInfo
+        case updatePageAvatar
+        case updatePageCover
+        case getInfo
         case none
     }
 
     //MARK: Input
-    public init(userRequest: UserRequest = UserRequest(), userRepository: UserRepository = UserRepositoryImpl()) {
+    public init(userRequest: UserRequest = UserRequest()) {
         self.userRequest = userRequest
-        self.userRepository = userRepository
         self.tokenHelper.delegate = self
     }
     
@@ -85,8 +94,9 @@ class EditProfileViewModel {
     
     public func updateAvatar() {
         guard let image = self.avatar else { return }
-        
         self.stage = .updateAvatar
+        ImageHelper.shared.saveImageToDocumentDirectory(imageData: image.pngData()!, imageName: UserManager.shared.rawCastcleId, type: .avatar)
+        self.delegate?.didUpdateProfileFinish(success: true)
         self.userRequest.payload.images.avatar = image.toBase64() ?? ""
         self.userRepository.updateMeAvatar(userRequest: self.userRequest) { (success, response, isRefreshToken) in
             if success {
@@ -96,7 +106,6 @@ class EditProfileViewModel {
                     let userHelper = UserHelper()
                     let user = User(json: json)
                     userHelper.updateLocalProfile(user: user)
-                    self.delegate?.didUpdateProfileFinish(success: true)
                 } catch {}
             } else {
                 if isRefreshToken {
@@ -110,8 +119,9 @@ class EditProfileViewModel {
     
     public func updateCover() {
         guard let image = self.cover else { return }
-        
         self.stage = .updateCover
+        ImageHelper.shared.saveImageToDocumentDirectory(imageData: image.pngData()!, imageName: UserManager.shared.rawCastcleId, type: .cover)
+        self.delegate?.didUpdateProfileFinish(success: true)
         self.userRequest.payload.images.cover = image.toBase64() ?? ""
         self.userRepository.updateMeCover(userRequest: self.userRequest) { (success, response, isRefreshToken) in
             if success {
@@ -121,7 +131,6 @@ class EditProfileViewModel {
                     let userHelper = UserHelper()
                     let user = User(json: json)
                     userHelper.updateLocalProfile(user: user)
-                    self.delegate?.didUpdateProfileFinish(success: true)
                 } catch {}
             } else {
                 if isRefreshToken {
@@ -132,6 +141,101 @@ class EditProfileViewModel {
             }
         }
     }
+    
+    func updatePageInfo(castcleId: String) {
+        self.castcleId = castcleId
+        if !self.castcleId.isEmpty {
+            self.stage = .updatePageInfo
+            self.pageRepository.updatePageInfo(pageId: self.castcleId, pageRequest: self.pageRequest) { (success, response, isRefreshToken) in
+                if success {
+                    self.stage = .none
+                    self.delegate?.didUpdatePageFinish(success: true)
+                } else {
+                    if isRefreshToken {
+                        self.tokenHelper.refreshToken()
+                    } else {
+                        self.delegate?.didUpdatePageFinish(success: false)
+                    }
+                }
+            }
+        } else {
+            self.delegate?.didUpdatePageFinish(success: false)
+        }
+    }
+    
+    func updatePageAvatar(castcleId: String) {
+        self.castcleId = castcleId
+        if !self.castcleId.isEmpty, let image = self.avatar {
+            self.stage = .updatePageAvatar
+            ImageHelper.shared.saveImageToDocumentDirectory(imageData: image.pngData()!, imageName: self.castcleId, type: .avatar)
+            self.delegate?.didUpdatePageFinish(success: true)
+            self.pageRequest.avatar = image.toBase64() ?? ""
+            self.pageRepository.updatePageAvatar(pageId: self.castcleId, pageRequest: self.pageRequest) { (success, response, isRefreshToken) in
+                if success {
+                    self.stage = .none
+                    
+                } else {
+                    if isRefreshToken {
+                        self.tokenHelper.refreshToken()
+                    } else {
+                        self.delegate?.didUpdatePageFinish(success: false)
+                    }
+                }
+            }
+        } else {
+            self.delegate?.didUpdatePageFinish(success: false)
+        }
+    }
+    
+    func updatePageCover(castcleId: String) {
+        self.castcleId = castcleId
+        if !self.castcleId.isEmpty, let image = self.cover {
+            self.stage = .updatePageCover
+            ImageHelper.shared.saveImageToDocumentDirectory(imageData: image.pngData()!, imageName: self.castcleId, type: .cover)
+            self.delegate?.didUpdatePageFinish(success: true)
+            self.pageRequest.cover = image.toBase64() ?? ""
+            self.pageRepository.updatePageCover(pageId: self.castcleId, pageRequest: self.pageRequest) { (success, response, isRefreshToken) in
+                if success {
+                    self.stage = .none
+                } else {
+                    if isRefreshToken {
+                        self.tokenHelper.refreshToken()
+                    } else {
+                        self.delegate?.didUpdatePageFinish(success: false)
+                    }
+                }
+            }
+        } else {
+            self.delegate?.didUpdatePageFinish(success: false)
+        }
+    }
+    
+    func getPageInfo(castcleId: String) {
+        self.castcleId = castcleId
+        if !self.castcleId.isEmpty {
+            self.stage = .getInfo
+            self.pageRepository.getPageInfo(pageId: self.castcleId) { (success, response, isRefreshToken) in
+                if success {
+                    do {
+                        let rawJson = try response.mapJSON()
+                        let json = JSON(rawJson)
+                        self.pageInfo = PageInfo(json: json)
+                        self.didGetPageInfoFinish?()
+                    } catch {
+                        
+                    }
+                } else {
+                    if isRefreshToken {
+                        self.tokenHelper.refreshToken()
+                    }
+                }
+            }
+        } else {
+            self.delegate?.didUpdatePageFinish(success: false)
+        }
+    }
+    
+    var didGetPageInfoFinish: (() -> ())?
 }
 
 extension EditProfileViewModel: TokenHelperDelegate {
@@ -140,6 +244,16 @@ extension EditProfileViewModel: TokenHelperDelegate {
             self.updateProfile()
         } else if self.stage == .updateAvatar {
             self.updateAvatar()
+        } else if self.stage == .updateCover {
+            self.updateCover()
+        } else if self.stage == .updatePageInfo {
+            self.updatePageInfo(castcleId: self.castcleId)
+        } else if self.stage == .updatePageAvatar {
+            self.updatePageAvatar(castcleId: self.castcleId)
+        } else if self.stage == .updatePageCover {
+            self.updatePageCover(castcleId: self.castcleId)
+        } else if self.stage == .getInfo {
+            self.getPageInfo(castcleId: self.castcleId)
         }
     }
 }
