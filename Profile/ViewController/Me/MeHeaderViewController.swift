@@ -467,11 +467,11 @@ class MeHeaderViewController: UIViewController {
                 userId = self.viewModel.userInfo?.id ?? ""
             }
             
-            let reportButton = CCAction(title: "Report @\(castcleId)", image: UIImage.init(icon: .castcle(.email), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
+            let reportButton = CCAction(title: "Report @\(castcleId)", image: UIImage.init(icon: .castcle(.report), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
                 actionSheet.dismissActionSheet()
                 self.viewModel.reportUser(castcleId: castcleId, userId: userId)
             }
-            let blockButton = CCAction(title: "Block @\(castcleId)", image: UIImage.init(icon: .castcle(.blockedUsers), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
+            let blockButton = CCAction(title: "Block @\(castcleId)", image: UIImage.init(icon: .castcle(.block), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
                 actionSheet.dismissActionSheet()
                 self.viewModel.blockUser(castcleId: castcleId, userId: userId)
             }
