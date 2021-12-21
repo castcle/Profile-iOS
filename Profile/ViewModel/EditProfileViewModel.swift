@@ -95,8 +95,6 @@ class EditProfileViewModel {
     public func updateAvatar() {
         guard let image = self.avatar else { return }
         self.stage = .updateAvatar
-        ImageHelper.shared.saveImageToDocumentDirectory(imageData: image.pngData()!, imageName: UserManager.shared.rawCastcleId, type: .avatar)
-        self.delegate?.didUpdateProfileFinish(success: true)
         self.userRequest.payload.images.avatar = image.toBase64() ?? ""
         self.userRepository.updateMeAvatar(userRequest: self.userRequest) { (success, response, isRefreshToken) in
             if success {
@@ -106,6 +104,7 @@ class EditProfileViewModel {
                     let userHelper = UserHelper()
                     let user = User(json: json)
                     userHelper.updateLocalProfile(user: user)
+                    self.delegate?.didUpdateProfileFinish(success: true)
                 } catch {}
             } else {
                 if isRefreshToken {
@@ -120,8 +119,6 @@ class EditProfileViewModel {
     public func updateCover() {
         guard let image = self.cover else { return }
         self.stage = .updateCover
-        ImageHelper.shared.saveImageToDocumentDirectory(imageData: image.pngData()!, imageName: UserManager.shared.rawCastcleId, type: .cover)
-        self.delegate?.didUpdateProfileFinish(success: true)
         self.userRequest.payload.images.cover = image.toBase64() ?? ""
         self.userRepository.updateMeCover(userRequest: self.userRequest) { (success, response, isRefreshToken) in
             if success {
@@ -131,6 +128,7 @@ class EditProfileViewModel {
                     let userHelper = UserHelper()
                     let user = User(json: json)
                     userHelper.updateLocalProfile(user: user)
+                    self.delegate?.didUpdateProfileFinish(success: true)
                 } catch {}
             } else {
                 if isRefreshToken {

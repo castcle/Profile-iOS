@@ -36,6 +36,7 @@ import SwiftColor
 import ActiveLabel
 import TLPhotoPicker
 import TOCropViewController
+import NVActivityIndicatorView
 
 public protocol MeHeaderViewControllerDelegate {
     func didUpdateProfileFinish()
@@ -63,6 +64,14 @@ class MeHeaderViewController: UIViewController {
     @IBOutlet var placeholderLabel: UILabel!
     @IBOutlet var postViewConstaint: NSLayoutConstraint!
     
+    @IBOutlet var coverLoadView: UIView!
+    @IBOutlet var coverBackgroundView: UIView!
+    @IBOutlet var coverIndicator: NVActivityIndicatorView!
+    @IBOutlet var uploadCoverLabel: UILabel!
+    @IBOutlet var avatarLoadView: UIView!
+    @IBOutlet var avatarBackgroundView: UIView!
+    @IBOutlet var avatarIndicator: NVActivityIndicatorView!
+    
     public var delegate: MeHeaderViewControllerDelegate?
     var viewModel = MeHeaderViewModel(profileType: .unknow, userInfo: nil)
     private let editProfileViewModel = EditProfileViewModel()
@@ -84,8 +93,11 @@ class MeHeaderViewController: UIViewController {
         self.userIdLabel.textColor = UIColor.Asset.gray
         self.bioLabel.font = UIFont.asset(.regular, fontSize: .body)
         self.bioLabel.textColor = UIColor.Asset.white
+        self.uploadCoverLabel.font = UIFont.asset(.regular, fontSize: .overline)
+        self.uploadCoverLabel.textColor = UIColor.Asset.white
         
         self.profileImage.circle(color: UIColor.Asset.white)
+        self.avatarLoadView.capsule(borderWidth: 2.0, borderColor: UIColor.Asset.white)
         
         self.editProfileImageButton.setImage(UIImage.init(icon: .castcle(.camera), size: CGSize(width: 15, height: 15), textColor: UIColor.Asset.darkGraphiteBlue).withRenderingMode(.alwaysOriginal), for: .normal)
         self.editProfileImageButton.setBackgroundImage(UIColor.Asset.lightBlue.toImage(), for: .normal)
@@ -116,6 +128,13 @@ class MeHeaderViewController: UIViewController {
         self.followUI()
         self.editProfileViewModel.delegate = self
         
+        self.coverBackgroundView.backgroundColor = UIColor.Asset.darkGray
+        self.avatarBackgroundView.backgroundColor = UIColor.Asset.darkGray
+        self.coverLoadView.isHidden = true
+        self.avatarLoadView.isHidden = true
+        self.coverIndicator.type = .ballBeat
+        self.avatarIndicator.type = .ballBeat
+        
         self.viewModel.didGetInfoFinish = {
             self.updateProfileUI()
             self.delegate?.didUpdateProfileFinish()
@@ -143,14 +162,16 @@ class MeHeaderViewController: UIViewController {
                 self.profileImage.image = avatar
                 self.miniProfileImage.image = avatar
             } else {
-                self.profileImage.image = UserManager.shared.avatar
-                self.miniProfileImage.image = UserManager.shared.avatar
+                let url = URL(string: UserManager.shared.avatar)
+                self.profileImage.kf.setImage(with: url, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
+                self.miniProfileImage.kf.setImage(with: url, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
             }
             
             if let cover = self.editProfileViewModel.cover {
                 self.coverImage.image = cover
             } else {
-                self.coverImage.image = UserManager.shared.cover
+                let url = URL(string: UserManager.shared.cover)
+                self.coverImage.kf.setImage(with: url, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.35))])
             }
         } else if self.viewModel.profileType == .myPage {
             let localProfile = ImageHelper.shared.loadImageFromDocumentDirectory(nameOfImage: self.viewModel.pageInfo.castcleId, type: .avatar)
@@ -542,6 +563,8 @@ extension MeHeaderViewController: TOCropViewControllerDelegate {
                 self.miniProfileImage.image = avatarCropImage
                 self.editProfileViewModel.avatar = avatarCropImage
                 if self.viewModel.profileType == .me {
+                    self.avatarLoadView.isHidden = false
+                    self.avatarIndicator.startAnimating()
                     self.editProfileViewModel.updateAvatar()
                 } else if self.viewModel.profileType == .myPage {
                     self.editProfileViewModel.updatePageAvatar(castcleId: self.viewModel.pageInfo.castcleId)
@@ -557,6 +580,8 @@ extension MeHeaderViewController: TOCropViewControllerDelegate {
                 self.coverImage.image = coverCropImage
                 self.editProfileViewModel.cover = coverCropImage
                 if self.viewModel.profileType == .me {
+                    self.coverLoadView.isHidden = false
+                    self.coverIndicator.startAnimating()
                     self.editProfileViewModel.updateCover()
                 } else if self.viewModel.profileType == .myPage {
                     self.editProfileViewModel.updatePageCover(castcleId: self.viewModel.pageInfo.castcleId)
@@ -569,13 +594,16 @@ extension MeHeaderViewController: TOCropViewControllerDelegate {
 extension MeHeaderViewController: EditProfileViewModelDelegate {
     func didUpdateProfileFinish(success: Bool) {
         if success {
+            self.avatarLoadView.isHidden = true
+            self.coverLoadView.isHidden = true
+            self.avatarIndicator.stopAnimating()
+            self.coverIndicator.stopAnimating()
             if self.updateImageType == .avatar {
                 if self.viewModel.profileType == .me {
                     self.delegate?.didUpdateProfileFinish()
                 }
                 self.updateImageType = .none
             }
-            
         }
     }
     
