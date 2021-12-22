@@ -173,24 +173,7 @@ class MeHeaderViewController: UIViewController {
                 let url = URL(string: UserManager.shared.cover)
                 self.coverImage.kf.setImage(with: url, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.35))])
             }
-        } else if self.viewModel.profileType == .myPage {
-            let localProfile = ImageHelper.shared.loadImageFromDocumentDirectory(nameOfImage: self.viewModel.pageInfo.castcleId, type: .avatar)
-            let localCover = ImageHelper.shared.loadImageFromDocumentDirectory(nameOfImage: self.viewModel.pageInfo.castcleId, type: .cover)
-            
-            if let avatar = self.editProfileViewModel.avatar {
-                self.profileImage.image = avatar
-                self.miniProfileImage.image = avatar
-            } else {
-                self.profileImage.image = localProfile
-                self.miniProfileImage.image = localProfile
-            }
-            
-            if let cover = self.editProfileViewModel.cover {
-                self.coverImage.image = cover
-            } else {
-                self.coverImage.image = localCover
-            }
-        } else if self.viewModel.profileType == .page {
+        } else if self.viewModel.profileType == .myPage || self.viewModel.profileType == .page {
             let urlProfile = URL(string: self.viewModel.pageInfo.images.avatar.thumbnail)
             let urlCover = URL(string: self.viewModel.pageInfo.images.cover.large)
             
@@ -437,7 +420,7 @@ class MeHeaderViewController: UIViewController {
             vc.modalPresentationStyle = .fullScreen
             Utility.currentViewController().present(vc, animated: true, completion: nil)
         } else if self.viewModel.profileType == .myPage {
-            let vc = PostOpener.open(.post(PostViewModel(postType: .newCast, page: Page().initCustom(id: self.viewModel.pageInfo.id, displayName: self.viewModel.pageInfo.displayName, castcleId: self.viewModel.pageInfo.castcleId))))
+            let vc = PostOpener.open(.post(PostViewModel(postType: .newCast, page: Page().initCustom(id: self.viewModel.pageInfo.id, displayName: self.viewModel.pageInfo.displayName, castcleId: self.viewModel.pageInfo.castcleId, avatar: self.viewModel.pageInfo.images.avatar.thumbnail, cover: self.viewModel.pageInfo.images.cover.fullHd))))
             vc.modalPresentationStyle = .fullScreen
             Utility.currentViewController().present(vc, animated: true, completion: nil)
         }
@@ -567,6 +550,8 @@ extension MeHeaderViewController: TOCropViewControllerDelegate {
                     self.avatarIndicator.startAnimating()
                     self.editProfileViewModel.updateAvatar()
                 } else if self.viewModel.profileType == .myPage {
+                    self.avatarLoadView.isHidden = false
+                    self.avatarIndicator.startAnimating()
                     self.editProfileViewModel.updatePageAvatar(castcleId: self.viewModel.pageInfo.castcleId)
                 }
             }
@@ -584,6 +569,8 @@ extension MeHeaderViewController: TOCropViewControllerDelegate {
                     self.coverIndicator.startAnimating()
                     self.editProfileViewModel.updateCover()
                 } else if self.viewModel.profileType == .myPage {
+                    self.coverLoadView.isHidden = false
+                    self.coverIndicator.startAnimating()
                     self.editProfileViewModel.updatePageCover(castcleId: self.viewModel.pageInfo.castcleId)
                 }
             }
@@ -609,6 +596,10 @@ extension MeHeaderViewController: EditProfileViewModelDelegate {
     
     func didUpdatePageFinish(success: Bool) {
         if success {
+            self.avatarLoadView.isHidden = true
+            self.coverLoadView.isHidden = true
+            self.avatarIndicator.stopAnimating()
+            self.coverIndicator.stopAnimating()
             if self.updateImageType == .avatar {
                 if self.viewModel.profileType == .myPage {
                     self.delegate?.didUpdateProfileFinish()

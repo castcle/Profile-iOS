@@ -145,7 +145,8 @@ class CreatePageDisplayNameViewModel {
                             pageTemp.id = pageInfo.id
                             pageTemp.castcleId = pageInfo.castcleId
                             pageTemp.displayName = pageInfo.displayName
-                            ImageHelper.shared.downloadImage(from: pageInfo.images.avatar.thumbnail, iamgeName: pageInfo.castcleId, type: .avatar)
+                            pageTemp.avatar = pageInfo.images.avatar.thumbnail
+                            pageTemp.cover = pageInfo.images.cover.fullHd
                             self.realm.add(pageTemp, update: .modified)
                         }
                         
