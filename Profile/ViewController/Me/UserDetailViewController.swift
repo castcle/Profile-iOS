@@ -90,6 +90,7 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate, TPDataSo
     
     //MARK: TPDataSource
     func headerViewController() -> UIViewController {
+        print(self.viewModel.profileType)
         let vc = ProfileOpener.open(.meHeader(MeHeaderViewModel(profileType: self.viewModel.profileType, pageInfo: self.viewModel.pageInfo, userInfo: self.viewModel.userInfo))) as? MeHeaderViewController
         vc?.delegate = self
         self.headerVC = vc
@@ -97,6 +98,7 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate, TPDataSo
     }
     
     func bottomViewController() -> UIViewController & PagerAwareProtocol {
+        print(self.viewModel.profileType)
         self.bottomVC = ProfileOpener.open(.infoTab) as? UserInfoTabStripViewController
         self.bottomVC.profileType = self.viewModel.profileType
         self.bottomVC.page = self.viewModel.page

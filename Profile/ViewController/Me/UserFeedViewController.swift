@@ -238,10 +238,7 @@ extension UserFeedViewController: HeaderTableViewCellDelegate {
 
 extension UserFeedViewController: FooterTableViewCellDelegate {
     func didTabComment(_ footerTableViewCell: FooterTableViewCell, content: Content) {
-        let commentNavi: UINavigationController = UINavigationController(rootViewController: ComponentOpener.open(.comment(CommentViewModel(content: content))))
-        commentNavi.modalPresentationStyle = .fullScreen
-        commentNavi.modalTransitionStyle = .crossDissolve
-        Utility.currentViewController().present(commentNavi, animated: true)
+        Utility.currentViewController().navigationController?.pushViewController(ComponentOpener.open(.comment(CommentViewModel(content: content))), animated: true)
     }
     
     func didTabQuoteCast(_ footerTableViewCell: FooterTableViewCell, content: Content, page: Page) {
