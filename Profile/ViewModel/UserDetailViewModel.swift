@@ -68,7 +68,8 @@ public final class UserDetailViewModel {
         if let page = page {
             self.page = page
         }
-        
+        print("=====")
+        print(Date())
         if self.profileType == .me {
             self.getMeInfo()
         } else if self.profileType == .myPage || self.profileType == .page {
@@ -88,21 +89,6 @@ public final class UserDetailViewModel {
                     let userHelper = UserHelper()
                     userHelper.updateLocalProfile(user: User(json: json))
                     self.didGetMeInfoFinish?()
-                } catch {}
-            } else {
-                if isRefreshToken {
-                    self.tokenHelper.refreshToken()
-                }
-            }
-        }
-        
-        self.userRepository.getUser(userId: self.castcleId) { (success, response, isRefreshToken) in
-            if success {
-                do {
-                    let rawJson = try response.mapJSON()
-                    let json = JSON(rawJson)
-                    self.userInfo = User(json: json)
-                    self.didGetUserInfoFinish?()
                 } catch {}
             } else {
                 if isRefreshToken {
