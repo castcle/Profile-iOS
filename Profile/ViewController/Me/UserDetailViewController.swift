@@ -51,13 +51,14 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate, TPDataSo
         self.emptyDetailLabel.textColor = UIColor.Asset.lightGray
         
         self.setupNavBar()
-        if self.viewModel.profileType == .me {
-            self.emptyView.isHidden = true
-            self.configure(with: self, delegate: self)
-        } else if self.viewModel.profileType != .unknow {
+        if self.viewModel.profileType != .unknow {
             self.emptyView.isHidden = true
         } else {
             self.emptyView.isHidden = false
+        }
+        
+        self.viewModel.didGetMeInfoFinish = {
+            self.configure(with: self, delegate: self)
         }
         
         self.viewModel.didGetUserInfoFinish = {
