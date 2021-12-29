@@ -30,12 +30,15 @@ import Core
 import Networking
 import Component
 import Defaults
+import SkeletonView
 
 class UserDetailViewController: UIViewController, UIScrollViewDelegate, TPDataSource, TPProgressDelegate {
 
     @IBOutlet var emptyView: UIView!
     @IBOutlet var emptyTitleLabel: UILabel!
     @IBOutlet var emptyDetailLabel: UILabel!
+    @IBOutlet var headerSkeletonView: UIView!
+    @IBOutlet var feedSkeletonView: UIView!
     
     var headerVC: MeHeaderViewController?
     var bottomVC: UserInfoTabStripViewController!
@@ -51,6 +54,12 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate, TPDataSo
         self.emptyDetailLabel.textColor = UIColor.Asset.lightGray
         
         self.setupNavBar()
+        
+        DispatchQueue.main.async {
+            self.headerSkeletonView.showAnimatedGradientSkeleton(usingGradient: SkeletonGradient(baseColor: UIColor.Asset.gray))
+            self.feedSkeletonView.showAnimatedGradientSkeleton(usingGradient: SkeletonGradient(baseColor: UIColor.Asset.gray))
+        }
+        
         if self.viewModel.profileType != .unknow {
             self.emptyView.isHidden = true
         } else {
@@ -58,14 +67,17 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate, TPDataSo
         }
         
         self.viewModel.didGetMeInfoFinish = {
+            self.setupSkeletonView(isHidden: false)
             self.configure(with: self, delegate: self)
         }
-        
+
         self.viewModel.didGetUserInfoFinish = {
+            self.setupSkeletonView(isHidden: false)
             self.configure(with: self, delegate: self)
         }
-        
+
         self.viewModel.didGetPageInfoFinish = {
+            self.setupSkeletonView(isHidden: false)
             self.configure(with: self, delegate: self)
         }
     }
@@ -89,9 +101,15 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate, TPDataSo
         }
     }
     
+    private func setupSkeletonView(isHidden: Bool) {
+        UIView.transition(with: self.view, duration: 0.35, options: .transitionCrossDissolve, animations: {
+            self.headerSkeletonView.isHidden = isHidden
+            self.feedSkeletonView.isHidden = isHidden
+        })
+    }
+    
     //MARK: TPDataSource
     func headerViewController() -> UIViewController {
-        print(self.viewModel.profileType)
         let vc = ProfileOpener.open(.meHeader(MeHeaderViewModel(profileType: self.viewModel.profileType, pageInfo: self.viewModel.pageInfo, userInfo: self.viewModel.userInfo))) as? MeHeaderViewController
         vc?.delegate = self
         self.headerVC = vc
@@ -99,7 +117,6 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate, TPDataSo
     }
     
     func bottomViewController() -> UIViewController & PagerAwareProtocol {
-        print(self.viewModel.profileType)
         self.bottomVC = ProfileOpener.open(.infoTab) as? UserInfoTabStripViewController
         self.bottomVC.profileType = self.viewModel.profileType
         self.bottomVC.page = self.viewModel.page
