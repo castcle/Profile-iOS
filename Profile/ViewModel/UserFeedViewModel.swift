@@ -134,6 +134,7 @@ public final class UserFeedViewModel {
         self.castcleId = castcleId
         self.meta = Meta()
         self.contentRequest = ContentRequest()
+        self.contentRequest.maxResults = 5
         if self.userFeedType == .all {
             self.contentRequest.type = .unknow
         } else if self.userFeedType == .post {

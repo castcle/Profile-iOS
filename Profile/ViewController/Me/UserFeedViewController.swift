@@ -62,6 +62,7 @@ class UserFeedViewController: UIViewController {
             guard let self = self else { return }
             if !self.viewModel.meta.oldestId.isEmpty {
                 self.viewModel.contentRequest.untilId = self.viewModel.meta.oldestId
+                self.viewModel.contentRequest.maxResults = 25
                 self.viewModel.getContents()
             } else {
                 self.tableView.cr.noticeNoMoreData()
