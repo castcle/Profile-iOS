@@ -67,17 +67,17 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate, TPDataSo
         }
         
         self.viewModel.didGetMeInfoFinish = {
-            self.setupSkeletonView(isHidden: false)
+            self.setupSkeletonView(isHidden: true)
             self.configure(with: self, delegate: self)
         }
 
         self.viewModel.didGetUserInfoFinish = {
-            self.setupSkeletonView(isHidden: false)
+            self.setupSkeletonView(isHidden: true)
             self.configure(with: self, delegate: self)
         }
 
         self.viewModel.didGetPageInfoFinish = {
-            self.setupSkeletonView(isHidden: false)
+            self.setupSkeletonView(isHidden: true)
             self.configure(with: self, delegate: self)
         }
     }

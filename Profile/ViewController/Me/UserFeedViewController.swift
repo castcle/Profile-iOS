@@ -83,7 +83,7 @@ class UserFeedViewController: UIViewController {
     }
     
     @objc func reloadData(notification: NSNotification) {
-        self.tableView.reloadData()
+        self.viewModel.resetContent()
     }
     
     @objc func getContent(notification: NSNotification) {
