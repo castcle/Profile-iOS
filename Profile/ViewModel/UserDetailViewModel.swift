@@ -53,6 +53,7 @@ public final class UserDetailViewModel {
     var stage: Stage = .none
     
     enum Stage {
+        case getMeInfo
         case getUserInfo
         case getPageInfo
         case none
@@ -67,11 +68,33 @@ public final class UserDetailViewModel {
         if let page = page {
             self.page = page
         }
-        
-        if self.profileType == .myPage || self.profileType == .page {
+        print("=====")
+        print(Date())
+        if self.profileType == .me {
+            self.getMeInfo()
+        } else if self.profileType == .myPage || self.profileType == .page {
             self.getPageInfo()
         } else if self.profileType == .people {
             self.getUserInfo()
+        }
+    }
+    
+    func getMeInfo() {
+        self.stage = .getMeInfo
+        self.userRepository.getMe() { (success, response, isRefreshToken) in
+            if success {
+                do {
+                    let rawJson = try response.mapJSON()
+                    let json = JSON(rawJson)
+                    let userHelper = UserHelper()
+                    userHelper.updateLocalProfile(user: User(json: json))
+                    self.didGetMeInfoFinish?()
+                } catch {}
+            } else {
+                if isRefreshToken {
+                    self.tokenHelper.refreshToken()
+                }
+            }
         }
     }
     
@@ -111,13 +134,16 @@ public final class UserDetailViewModel {
         }
     }
     
+    var didGetMeInfoFinish: (() -> ())?
     var didGetUserInfoFinish: (() -> ())?
     var didGetPageInfoFinish: (() -> ())?
 }
 
 extension UserDetailViewModel: TokenHelperDelegate {
     public func didRefreshTokenFinish() {
-        if self.stage == .getUserInfo {
+        if self.stage == .getMeInfo {
+            self.getMeInfo()
+        } else if self.stage == .getUserInfo {
             self.getUserInfo()
         } else if self.stage == .getPageInfo {
             self.getPageInfo()

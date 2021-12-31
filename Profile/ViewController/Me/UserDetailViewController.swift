@@ -30,12 +30,15 @@ import Core
 import Networking
 import Component
 import Defaults
+import SkeletonView
 
 class UserDetailViewController: UIViewController, UIScrollViewDelegate, TPDataSource, TPProgressDelegate {
 
     @IBOutlet var emptyView: UIView!
     @IBOutlet var emptyTitleLabel: UILabel!
     @IBOutlet var emptyDetailLabel: UILabel!
+    @IBOutlet var headerSkeletonView: UIView!
+    @IBOutlet var feedSkeletonView: UIView!
     
     var headerVC: MeHeaderViewController?
     var bottomVC: UserInfoTabStripViewController!
@@ -51,20 +54,30 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate, TPDataSo
         self.emptyDetailLabel.textColor = UIColor.Asset.lightGray
         
         self.setupNavBar()
-        if self.viewModel.profileType == .me {
-            self.emptyView.isHidden = true
-            self.configure(with: self, delegate: self)
-        } else if self.viewModel.profileType != .unknow {
+        
+        DispatchQueue.main.async {
+            self.headerSkeletonView.showAnimatedGradientSkeleton(usingGradient: SkeletonGradient(baseColor: UIColor.Asset.gray))
+            self.feedSkeletonView.showAnimatedGradientSkeleton(usingGradient: SkeletonGradient(baseColor: UIColor.Asset.gray))
+        }
+        
+        if self.viewModel.profileType != .unknow {
             self.emptyView.isHidden = true
         } else {
             self.emptyView.isHidden = false
         }
         
-        self.viewModel.didGetUserInfoFinish = {
+        self.viewModel.didGetMeInfoFinish = {
+            self.setupSkeletonView(isHidden: true)
             self.configure(with: self, delegate: self)
         }
-        
+
+        self.viewModel.didGetUserInfoFinish = {
+            self.setupSkeletonView(isHidden: true)
+            self.configure(with: self, delegate: self)
+        }
+
         self.viewModel.didGetPageInfoFinish = {
+            self.setupSkeletonView(isHidden: true)
             self.configure(with: self, delegate: self)
         }
     }
@@ -86,6 +99,13 @@ class UserDetailViewController: UIViewController, UIScrollViewDelegate, TPDataSo
         } else {
             self.customNavigationBar(.secondary, title: self.viewModel.displayName)
         }
+    }
+    
+    private func setupSkeletonView(isHidden: Bool) {
+        UIView.transition(with: self.view, duration: 0.35, options: .transitionCrossDissolve, animations: {
+            self.headerSkeletonView.isHidden = isHidden
+            self.feedSkeletonView.isHidden = isHidden
+        })
     }
     
     //MARK: TPDataSource

@@ -29,6 +29,7 @@ import UIKit
 import Core
 import Networking
 import SwiftyJSON
+import RealmSwift
 
 public protocol EditProfileViewModelDelegate {
     func didUpdateProfileFinish(success: Bool)
@@ -50,6 +51,7 @@ class EditProfileViewModel {
     var dobDate: Date? = nil
     var castcleId: String = ""
     var pageInfo: PageInfo = PageInfo()
+    private let realm = try! Realm()
     
     enum Stage {
         case updateProfile
@@ -95,8 +97,6 @@ class EditProfileViewModel {
     public func updateAvatar() {
         guard let image = self.avatar else { return }
         self.stage = .updateAvatar
-        ImageHelper.shared.saveImageToDocumentDirectory(imageData: image.pngData()!, imageName: UserManager.shared.rawCastcleId, type: .avatar)
-        self.delegate?.didUpdateProfileFinish(success: true)
         self.userRequest.payload.images.avatar = image.toBase64() ?? ""
         self.userRepository.updateMeAvatar(userRequest: self.userRequest) { (success, response, isRefreshToken) in
             if success {
@@ -106,6 +106,7 @@ class EditProfileViewModel {
                     let userHelper = UserHelper()
                     let user = User(json: json)
                     userHelper.updateLocalProfile(user: user)
+                    self.delegate?.didUpdateProfileFinish(success: true)
                 } catch {}
             } else {
                 if isRefreshToken {
@@ -120,8 +121,6 @@ class EditProfileViewModel {
     public func updateCover() {
         guard let image = self.cover else { return }
         self.stage = .updateCover
-        ImageHelper.shared.saveImageToDocumentDirectory(imageData: image.pngData()!, imageName: UserManager.shared.rawCastcleId, type: .cover)
-        self.delegate?.didUpdateProfileFinish(success: true)
         self.userRequest.payload.images.cover = image.toBase64() ?? ""
         self.userRepository.updateMeCover(userRequest: self.userRequest) { (success, response, isRefreshToken) in
             if success {
@@ -131,6 +130,7 @@ class EditProfileViewModel {
                     let userHelper = UserHelper()
                     let user = User(json: json)
                     userHelper.updateLocalProfile(user: user)
+                    self.delegate?.didUpdateProfileFinish(success: true)
                 } catch {}
             } else {
                 if isRefreshToken {
@@ -167,13 +167,23 @@ class EditProfileViewModel {
         self.castcleId = castcleId
         if !self.castcleId.isEmpty, let image = self.avatar {
             self.stage = .updatePageAvatar
-            ImageHelper.shared.saveImageToDocumentDirectory(imageData: image.pngData()!, imageName: self.castcleId, type: .avatar)
-            self.delegate?.didUpdatePageFinish(success: true)
             self.pageRequest.avatar = image.toBase64() ?? ""
             self.pageRepository.updatePageAvatar(pageId: self.castcleId, pageRequest: self.pageRequest) { (success, response, isRefreshToken) in
                 if success {
                     self.stage = .none
-                    
+                    do {
+                        let rawJson = try response.mapJSON()
+                        let json = JSON(rawJson)
+                        let pageInfo = PageInfo(json: json)
+                        let pageRealm = self.realm.objects(Page.self).filter("castcleId == '\(pageInfo.castcleId)'").first
+                        if let page = pageRealm {
+                            try! self.realm.write {
+                                page.avatar = pageInfo.images.avatar.thumbnail
+                                self.realm.add(page, update: .modified)
+                            }
+                        }
+                        self.delegate?.didUpdatePageFinish(success: true)
+                    } catch {}
                 } else {
                     if isRefreshToken {
                         self.tokenHelper.refreshToken()
@@ -191,12 +201,23 @@ class EditProfileViewModel {
         self.castcleId = castcleId
         if !self.castcleId.isEmpty, let image = self.cover {
             self.stage = .updatePageCover
-            ImageHelper.shared.saveImageToDocumentDirectory(imageData: image.pngData()!, imageName: self.castcleId, type: .cover)
-            self.delegate?.didUpdatePageFinish(success: true)
             self.pageRequest.cover = image.toBase64() ?? ""
             self.pageRepository.updatePageCover(pageId: self.castcleId, pageRequest: self.pageRequest) { (success, response, isRefreshToken) in
                 if success {
                     self.stage = .none
+                    do {
+                        let rawJson = try response.mapJSON()
+                        let json = JSON(rawJson)
+                        let pageInfo = PageInfo(json: json)
+                        let pageRealm = self.realm.objects(Page.self).filter("castcleId == '\(pageInfo.castcleId)'").first
+                        if let page = pageRealm {
+                            try! self.realm.write {
+                                page.cover = pageInfo.images.cover.fullHd
+                                self.realm.add(page, update: .modified)
+                            }
+                        }
+                        self.delegate?.didUpdatePageFinish(success: true)
+                    } catch {}
                 } else {
                     if isRefreshToken {
                         self.tokenHelper.refreshToken()

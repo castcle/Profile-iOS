@@ -50,6 +50,7 @@ public final class UserFeedViewModel {
     private var userRepository: UserRepository = UserRepositoryImpl()
     var contentRequest: ContentRequest = ContentRequest()
     var contents: [Content] = []
+    var tempContents: [Content] = []
     var meta: Meta = Meta()
     var userFeedType: UserFeedType = .all
     var profileType: ProfileType = .unknow
@@ -66,7 +67,8 @@ public final class UserFeedViewModel {
                         let rawJson = try response.mapJSON()
                         let json = JSON(rawJson)
                         let shelf = ContentShelf(json: json)
-                        self.contents.append(contentsOf: shelf.contents)
+                        self.tempContents.append(contentsOf: shelf.contents)
+                        self.contents = self.tempContents
                         self.meta = shelf.meta
                         self.delegate?.didGetContentFinish(success: true)
                     } catch {
@@ -87,7 +89,8 @@ public final class UserFeedViewModel {
                         let rawJson = try response.mapJSON()
                         let json = JSON(rawJson)
                         let shelf = ContentShelf(json: json)
-                        self.contents.append(contentsOf: shelf.contents)
+                        self.tempContents.append(contentsOf: shelf.contents)
+                        self.contents = self.tempContents
                         self.meta = shelf.meta
                         self.delegate?.didGetContentFinish(success: true)
                     } catch {
@@ -108,7 +111,8 @@ public final class UserFeedViewModel {
                         let rawJson = try response.mapJSON()
                         let json = JSON(rawJson)
                         let shelf = ContentShelf(json: json)
-                        self.contents.append(contentsOf: shelf.contents)
+                        self.tempContents.append(contentsOf: shelf.contents)
+                        self.contents = self.tempContents
                         self.meta = shelf.meta
                         self.delegate?.didGetContentFinish(success: true)
                     } catch {
@@ -129,11 +133,13 @@ public final class UserFeedViewModel {
         self.userFeedType = userFeedType
         self.tokenHelper.delegate = self
         self.contents = []
+        self.tempContents = []
         self.profileType = profileType
         self.page = page
         self.castcleId = castcleId
         self.meta = Meta()
         self.contentRequest = ContentRequest()
+        self.contentRequest.maxResults = 5
         if self.userFeedType == .all {
             self.contentRequest.type = .unknow
         } else if self.userFeedType == .post {
@@ -146,7 +152,7 @@ public final class UserFeedViewModel {
     }
     
     public func resetContent() {
-        self.contents = []
+        self.tempContents = []
         self.meta = Meta()
         self.contentRequest = ContentRequest()
         self.getContents()
