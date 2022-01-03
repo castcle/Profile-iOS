@@ -832,6 +832,36 @@
             </objects>
             <point key="canvasLocation" x="2117" y="72"/>
         </scene>
+        <!--Profile View Controller-->
+        <scene sceneID="yTp-hl-Jv9">
+            <objects>
+                <viewController storyboardIdentifier="ProfileViewController" hidesBottomBarWhenPushed="YES" id="JmS-KX-uWu" customClass="ProfileViewController" customModule="Profile" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="mvx-fT-SCQ">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="WVT-Gm-Xz6">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="FNQ-hi-LwB"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="WVT-Gm-Xz6" secondAttribute="bottom" id="8Ix-p3-6ty"/>
+                            <constraint firstItem="FNQ-hi-LwB" firstAttribute="trailing" secondItem="WVT-Gm-Xz6" secondAttribute="trailing" id="FNA-ab-edC"/>
+                            <constraint firstItem="WVT-Gm-Xz6" firstAttribute="top" secondItem="FNQ-hi-LwB" secondAttribute="top" id="tpT-uw-de8"/>
+                            <constraint firstItem="WVT-Gm-Xz6" firstAttribute="leading" secondItem="FNQ-hi-LwB" secondAttribute="leading" id="yTc-Ma-kz4"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="WVT-Gm-Xz6" id="GS5-MJ-gV0"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="j8M-zc-xxE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="19" y="72"/>
+        </scene>
     </scenes>
     <designables>
         <designable name="2bu-MK-gWp">

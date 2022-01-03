@@ -44,6 +44,7 @@ public struct ProfileNibVars {
         public static let deletePage = "DeletePageViewController"
         public static let confirmDeletePage = "ConfirmDeletePageViewController"
         public static let deletePageSuccess = "DeletePageSuccessViewController"
+        public static let profile = "ProfileViewController"
     }
     
     // MARK: - View
@@ -64,6 +65,8 @@ public struct ProfileNibVars {
         public static let social = "SocialTableViewCell"
         public static let complate = "ComplateTableViewCell"
         public static let confirmDeletePage = "ConfirmDeletePageTableViewCell"
+        public static let profileHeader = "ProfileHeaderTableViewCell"
+        public static let feedHeader = "FeedHeaderTableViewCell"
     }
     
     // MARK: - CollectionViewCell
