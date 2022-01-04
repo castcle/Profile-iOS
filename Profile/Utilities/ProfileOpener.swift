@@ -48,7 +48,7 @@ public enum ProfileScene {
     case deletePage(DeletePageViewModel)
     case confirmDeletePage(DeletePageViewModel)
     case deletePageSuccess
-    case profile(ProfileViewModel)
+    case profile(ProfileViewModel, ProfileFeedViewModel)
 }
 
 public struct ProfileOpener {
@@ -127,10 +127,11 @@ public struct ProfileOpener {
             let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.profile, bundle: ConfigBundle.profile)
             let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.deletePageSuccess)
             return vc
-        case .profile(let viewModel):
+        case .profile(let profileViewModel, let profileFeedViewModel):
             let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.me, bundle: ConfigBundle.profile)
             let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.profile) as? ProfileViewController
-            vc?.viewModel = viewModel
+            vc?.profileViewModel = profileViewModel
+            vc?.profileFeedViewModel = profileFeedViewModel
             return vc ?? ProfileViewController()
         }
     }
@@ -139,17 +140,17 @@ public struct ProfileOpener {
         if type == .people {
             guard let id = castcleId else { return }
             if id == UserManager.shared.rawCastcleId {
-                Utility.currentViewController().navigationController?.pushViewController(self.open(.profile(ProfileViewModel(profileType: .me, castcleId: nil, displayName: "", page: nil))), animated: true)
+                Utility.currentViewController().navigationController?.pushViewController(self.open(.profile(ProfileViewModel(profileType: .me, castcleId: nil, displayName: "", page: nil), ProfileFeedViewModel(profileContentType: .all, profileType: .me, castcleId: ""))), animated: true)
             } else {
-                Utility.currentViewController().navigationController?.pushViewController(self.open(.profile(ProfileViewModel(profileType: .people, castcleId: castcleId, displayName: displayName, page: nil))), animated: true)
+                Utility.currentViewController().navigationController?.pushViewController(self.open(.profile(ProfileViewModel(profileType: .people, castcleId: castcleId, displayName: displayName, page: nil), ProfileFeedViewModel(profileContentType: .all, profileType: .people, castcleId: id))), animated: true)
             }
         } else {
             guard let page = page else { return }
             let realm = try! Realm()
             if realm.objects(Page.self).filter("castcleId = '\(page.castcleId)'").first != nil {
-                Utility.currentViewController().navigationController?.pushViewController(self.open(.profile(ProfileViewModel(profileType: .myPage, castcleId: nil, displayName: "", page: page))), animated: true)
+                Utility.currentViewController().navigationController?.pushViewController(self.open(.profile(ProfileViewModel(profileType: .myPage, castcleId: nil, displayName: "", page: page), ProfileFeedViewModel(profileContentType: .all, profileType: .myPage, page: page, castcleId: ""))), animated: true)
             } else {
-                Utility.currentViewController().navigationController?.pushViewController(self.open(.profile(ProfileViewModel(profileType: .page, castcleId: nil, displayName: "", page: page))), animated: true)
+                Utility.currentViewController().navigationController?.pushViewController(self.open(.profile(ProfileViewModel(profileType: .page, castcleId: nil, displayName: "", page: page), ProfileFeedViewModel(profileContentType: .all, profileType: .page, page: page, castcleId: ""))), animated: true)
             }
         }
     }

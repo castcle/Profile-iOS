@@ -22,7 +22,7 @@
 //  ProfileViewModel.swift
 //  Profile
 //
-//  Created by Tanakorn Phoochaliaw on 3/1/2565 BE.
+//  Created by Castcle Co., Ltd. on 3/1/2565 BE.
 //
 
 import Core
@@ -48,6 +48,7 @@ public final class ProfileViewModel {
     var castcleId: String = ""
     var displayName: String = ""
     let tokenHelper: TokenHelper = TokenHelper()
+    var profileLoaded: Bool = false
     
     var stage: Stage = .none
     

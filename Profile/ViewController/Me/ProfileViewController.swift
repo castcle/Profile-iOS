@@ -22,7 +22,7 @@
 //  ProfileViewController.swift
 //  Profile
 //
-//  Created by Tanakorn Phoochaliaw on 31/12/2564 BE.
+//  Created by Castcle Co., Ltd. on 31/12/2564 BE.
 //
 
 import UIKit
@@ -34,7 +34,8 @@ class ProfileViewController: UIViewController {
 
     @IBOutlet var tableView: UITableView!
     
-    var viewModel = ProfileViewModel(profileType: .unknow, castcleId: nil, displayName: "", page: nil)
+    var profileViewModel = ProfileViewModel(profileType: .unknow, castcleId: nil, displayName: "", page: nil)
+    var profileFeedViewModel = ProfileFeedViewModel(profileContentType: .unknow, profileType: .unknow, castcleId: "")
     
     enum FeedCellType {
         case activity
@@ -50,15 +51,18 @@ class ProfileViewController: UIViewController {
         self.configureTableView()
         self.setupNavBar()
         
-        self.viewModel.didGetMeInfoFinish = {
+        self.profileFeedViewModel.delegate = self
+        self.profileFeedViewModel.getContents()
+        
+        self.profileViewModel.didGetMeInfoFinish = {
             self.tableView.reloadData()
         }
 
-        self.viewModel.didGetUserInfoFinish = {
+        self.profileViewModel.didGetUserInfoFinish = {
             self.tableView.reloadData()
         }
 
-        self.viewModel.didGetPageInfoFinish = {
+        self.profileViewModel.didGetPageInfoFinish = {
             self.tableView.reloadData()
         }
     }
@@ -67,25 +71,26 @@ class ProfileViewController: UIViewController {
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.register(UINib(nibName: ProfileNibVars.TableViewCell.profileHeader, bundle: ConfigBundle.profile), forCellReuseIdentifier: ProfileNibVars.TableViewCell.profileHeader)
+        self.tableView.register(UINib(nibName: ProfileNibVars.TableViewCell.feedHeader, bundle: ConfigBundle.profile), forCellReuseIdentifier: ProfileNibVars.TableViewCell.feedHeader)
         self.tableView.registerFeedCell()
         self.tableView.rowHeight = UITableView.automaticDimension
         self.tableView.estimatedRowHeight = 100
     }
     
     func setupNavBar() {
-        if self.viewModel.profileType == .me {
+        if self.profileViewModel.profileType == .me {
             self.customNavigationBar(.secondary, title: UserManager.shared.displayName)
-        } else if self.viewModel.profileType == .myPage || self.viewModel.profileType == .page {
-            self.customNavigationBar(.secondary, title: self.viewModel.page.displayName)
+        } else if self.profileViewModel.profileType == .myPage || self.profileViewModel.profileType == .page {
+            self.customNavigationBar(.secondary, title: self.profileViewModel.page.displayName)
         } else {
-            self.customNavigationBar(.secondary, title: self.viewModel.displayName)
+            self.customNavigationBar(.secondary, title: self.profileViewModel.displayName)
         }
     }
 }
 
 extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return 2
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -120,8 +125,14 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.profileHeader, for: indexPath as IndexPath) as? ProfileHeaderTableViewCell
             cell?.delegate = self
             cell?.backgroundColor = UIColor.Asset.darkGray
-            cell?.configCell(viewModel: ProfileHeaderViewModel(profileType: self.viewModel.profileType, pageInfo: self.viewModel.pageInfo, userInfo: self.viewModel.userInfo))
-            return cell ?? SkeletonFeedTableViewCell()
+            cell?.configCell(viewModel: ProfileHeaderViewModel(profileType: self.profileViewModel.profileType, pageInfo: self.profileViewModel.pageInfo, userInfo: self.profileViewModel.userInfo))
+            return cell ?? ProfileHeaderTableViewCell()
+        } else if indexPath.section == 1 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.feedHeader, for: indexPath as IndexPath) as? FeedHeaderTableViewCell
+            cell?.delegate = self
+            cell?.backgroundColor = UIColor.Asset.darkGraphiteBlue
+            cell?.configCell(profileContentType: self.profileFeedViewModel.profileContentType)
+            return cell ?? FeedHeaderTableViewCell()
         } else {
             return UITableViewCell()
         }
@@ -204,15 +215,15 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
 //        }
     }
     
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 5
-    }
-    
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let footerView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: tableView.frame.width, height: 5))
-        footerView.backgroundColor = UIColor.clear
-        return footerView
-    }
+//    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+//        return 5
+//    }
+//
+//    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+//        let footerView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: tableView.frame.width, height: 5))
+//        footerView.backgroundColor = UIColor.clear
+//        return footerView
+//    }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 //        if UserManager.shared.isLogin {
@@ -354,5 +365,26 @@ extension ProfileViewController: FooterTableViewCellDelegate {
     
     func didAuthen(_ footerTableViewCell: FooterTableViewCell) {
 //        Utility.currentViewController().presentPanModal(AuthenOpener.open(.signUpMethod) as! SignUpMethodViewController)
+    }
+}
+
+extension ProfileViewController: FeedHeaderTableViewCellDelegate {
+    func didSelectTab(_ feedHeaderTableViewCell: FeedHeaderTableViewCell, profileContentType: ProfileContentType) {
+    }
+}
+
+extension ProfileViewController: ProfileFeedViewModelDelegate {
+    func didGetContentFinish(success: Bool) {
+        if success {
+            if self.profileFeedViewModel.profileContentType == .all {
+                self.profileFeedViewModel.displayContents = self.profileFeedViewModel.allContents
+            } else if self.profileFeedViewModel.profileContentType == .post {
+                self.profileFeedViewModel.displayContents = self.profileFeedViewModel.postContents
+            } else if self.profileFeedViewModel.profileContentType == .blog {
+                self.profileFeedViewModel.displayContents = self.profileFeedViewModel.blogContents
+            } else if self.profileFeedViewModel.profileContentType == .photo {
+                self.profileFeedViewModel.displayContents = self.profileFeedViewModel.photoContents
+            }
+        }
     }
 }

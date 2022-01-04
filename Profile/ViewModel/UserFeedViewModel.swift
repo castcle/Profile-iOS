@@ -30,14 +30,6 @@ import Core
 import Networking
 import SwiftyJSON
 
-public enum UserFeedType: String {
-    case all
-    case post
-    case blog
-    case photo
-    case unknow
-}
-
 public protocol UserFeedViewModelDelegate {
     func didGetContentFinish(success: Bool)
 }
@@ -52,7 +44,7 @@ public final class UserFeedViewModel {
     var contents: [Content] = []
     var tempContents: [Content] = []
     var meta: Meta = Meta()
-    var userFeedType: UserFeedType = .all
+    var userFeedType: ProfileContentType = .all
     var profileType: ProfileType = .unknow
     let tokenHelper: TokenHelper = TokenHelper()
     var page: Page = Page()
@@ -129,7 +121,7 @@ public final class UserFeedViewModel {
         }
     }
     
-    public init(userFeedType: UserFeedType, profileType: ProfileType, page: Page = Page(), castcleId: String) {
+    public init(userFeedType: ProfileContentType, profileType: ProfileType, page: Page = Page(), castcleId: String) {
         self.userFeedType = userFeedType
         self.tokenHelper.delegate = self
         self.contents = []

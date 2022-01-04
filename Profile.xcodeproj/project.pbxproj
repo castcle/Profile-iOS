@@ -10,6 +10,7 @@
 		03CA6756D414568EB134E431 /* Pods_Profile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD702ADAD4D188AE2A7192EF /* Pods_Profile.framework */; };
 		B71B668927269EF500191A62 /* DeletePageSuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71B668827269EF500191A62 /* DeletePageSuccessViewController.swift */; };
 		B71B668B2726A57A00191A62 /* DeletePageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71B668A2726A57A00191A62 /* DeletePageViewModel.swift */; };
+		B7203DD027845237005401FB /* ProfileFeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7203DCF27845237005401FB /* ProfileFeedViewModel.swift */; };
 		B74CEF1926C5073F006B1F2C /* Networking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B74CEF1826C5073F006B1F2C /* Networking.framework */; };
 		B753F5722782A50000D1AC92 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B753F5712782A50000D1AC92 /* ProfileViewModel.swift */; };
 		B753F5762782AB8D00D1AC92 /* ProfileHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B753F5742782AB8D00D1AC92 /* ProfileHeaderTableViewCell.swift */; };
@@ -93,6 +94,7 @@
 		A41DEA465890A2815436B3CE /* Pods-Profile.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Profile.debug.xcconfig"; path = "Target Support Files/Pods-Profile/Pods-Profile.debug.xcconfig"; sourceTree = "<group>"; };
 		B71B668827269EF500191A62 /* DeletePageSuccessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletePageSuccessViewController.swift; sourceTree = "<group>"; };
 		B71B668A2726A57A00191A62 /* DeletePageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletePageViewModel.swift; sourceTree = "<group>"; };
+		B7203DCF27845237005401FB /* ProfileFeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileFeedViewModel.swift; sourceTree = "<group>"; };
 		B74CEF1826C5073F006B1F2C /* Networking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Networking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B753F5712782A50000D1AC92 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		B753F5742782AB8D00D1AC92 /* ProfileHeaderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderTableViewCell.swift; sourceTree = "<group>"; };
@@ -334,6 +336,7 @@
 				B71B668A2726A57A00191A62 /* DeletePageViewModel.swift */,
 				B753F5712782A50000D1AC92 /* ProfileViewModel.swift */,
 				B753F5782782BE8C00D1AC92 /* ProfileHeaderViewModel.swift */,
+				B7203DCF27845237005401FB /* ProfileFeedViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -553,6 +556,7 @@
 				B7910E9F26BCDBEF0097C94E /* SocialLinkShelf.swift in Sources */,
 				B7910ECC26BF1E1C0097C94E /* SocialLinkTableViewCell.swift in Sources */,
 				B7910ED226C00A550097C94E /* EditInfoTableViewCell.swift in Sources */,
+				B7203DD027845237005401FB /* ProfileFeedViewModel.swift in Sources */,
 				B7C2521F26C8095C00ACBB84 /* UserDetailViewModel.swift in Sources */,
 				B7910E8526BC52A00097C94E /* AboutInfoViewController.swift in Sources */,
 				B7910E7626BBD68D0097C94E /* WelcomeEditProfileViewController.swift in Sources */,
