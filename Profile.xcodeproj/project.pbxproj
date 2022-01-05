@@ -18,6 +18,8 @@
 		B753F5792782BE8C00D1AC92 /* ProfileHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B753F5782782BE8C00D1AC92 /* ProfileHeaderViewModel.swift */; };
 		B753F57C2782D1AB00D1AC92 /* FeedHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B753F57A2782D1AB00D1AC92 /* FeedHeaderTableViewCell.swift */; };
 		B753F57D2782D1AB00D1AC92 /* FeedHeaderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B753F57B2782D1AB00D1AC92 /* FeedHeaderTableViewCell.xib */; };
+		B7586BE427856066009FEE29 /* ProfileHeaderSkeletonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7586BE227856066009FEE29 /* ProfileHeaderSkeletonTableViewCell.swift */; };
+		B7586BE527856066009FEE29 /* ProfileHeaderSkeletonTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7586BE327856066009FEE29 /* ProfileHeaderSkeletonTableViewCell.xib */; };
 		B78795BF26C6129500FECC21 /* MeHeaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78795BE26C6129500FECC21 /* MeHeaderViewController.swift */; };
 		B78795D226C61B0D00FECC21 /* UserDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78795D126C61B0D00FECC21 /* UserDetailViewController.swift */; };
 		B78795D426C61FFA00FECC21 /* UserInfoTabStripViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78795D326C61FFA00FECC21 /* UserInfoTabStripViewController.swift */; };
@@ -102,6 +104,8 @@
 		B753F5782782BE8C00D1AC92 /* ProfileHeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderViewModel.swift; sourceTree = "<group>"; };
 		B753F57A2782D1AB00D1AC92 /* FeedHeaderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedHeaderTableViewCell.swift; sourceTree = "<group>"; };
 		B753F57B2782D1AB00D1AC92 /* FeedHeaderTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeedHeaderTableViewCell.xib; sourceTree = "<group>"; };
+		B7586BE227856066009FEE29 /* ProfileHeaderSkeletonTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderSkeletonTableViewCell.swift; sourceTree = "<group>"; };
+		B7586BE327856066009FEE29 /* ProfileHeaderSkeletonTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileHeaderSkeletonTableViewCell.xib; sourceTree = "<group>"; };
 		B78795BE26C6129500FECC21 /* MeHeaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeHeaderViewController.swift; sourceTree = "<group>"; };
 		B78795D126C61B0D00FECC21 /* UserDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailViewController.swift; sourceTree = "<group>"; };
 		B78795D326C61FFA00FECC21 /* UserInfoTabStripViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoTabStripViewController.swift; sourceTree = "<group>"; };
@@ -223,6 +227,8 @@
 				B753F5752782AB8D00D1AC92 /* ProfileHeaderTableViewCell.xib */,
 				B753F57A2782D1AB00D1AC92 /* FeedHeaderTableViewCell.swift */,
 				B753F57B2782D1AB00D1AC92 /* FeedHeaderTableViewCell.xib */,
+				B7586BE227856066009FEE29 /* ProfileHeaderSkeletonTableViewCell.swift */,
+				B7586BE327856066009FEE29 /* ProfileHeaderSkeletonTableViewCell.xib */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -477,6 +483,7 @@
 				B7AF661226F2E56400BDE9C4 /* CreatePageDisplayNameCell.xib in Resources */,
 				B7AF663226F35E0E00BDE9C4 /* SocialTableViewCell.xib in Resources */,
 				B7910ECD26BF1E1C0097C94E /* SocialLinkTableViewCell.xib in Resources */,
+				B7586BE527856066009FEE29 /* ProfileHeaderSkeletonTableViewCell.xib in Resources */,
 				B7910E7926BBD6FD0097C94E /* Assets.xcassets in Resources */,
 				B7910E6F26BBD36A0097C94E /* Profile.storyboard in Resources */,
 				B753F5772782AB8D00D1AC92 /* ProfileHeaderTableViewCell.xib in Resources */,
@@ -539,6 +546,7 @@
 				B7C098372727CFCD009ACE22 /* EditPageInfoTableViewCell.swift in Sources */,
 				B7AF661426F2E88B00BDE9C4 /* CreatePageDisplayNameSectionController.swift in Sources */,
 				B7AF662526F3447900BDE9C4 /* AboutTableViewCell.swift in Sources */,
+				B7586BE427856066009FEE29 /* ProfileHeaderSkeletonTableViewCell.swift in Sources */,
 				B7910E7226BBD52F0097C94E /* ProfileNibVars.swift in Sources */,
 				B7AF660926F24A2F00BDE9C4 /* WelcomeCreatePageViewController.swift in Sources */,
 				B7F63C26271D7CE1005856B2 /* DeletePageViewController.swift in Sources */,

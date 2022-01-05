@@ -66,6 +66,18 @@ public final class ProfileFeedViewModel {
     var postLoaded: Bool = false
     var blogLoaded: Bool = false
     var photoLoaded: Bool = false
+    
+    var feedLoaded: Bool {
+        if self.profileContentType == .post {
+            return self.postLoaded
+        } else if self.profileContentType == .blog {
+            return self.blogLoaded
+        } else if self.profileContentType == .photo {
+            return self.photoLoaded
+        } else {
+            return self.allLoaded
+        }
+    }
 
     //MARK: Input
     public func getContents() {

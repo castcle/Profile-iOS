@@ -67,6 +67,7 @@ public struct ProfileNibVars {
         public static let confirmDeletePage = "ConfirmDeletePageTableViewCell"
         public static let profileHeader = "ProfileHeaderTableViewCell"
         public static let feedHeader = "FeedHeaderTableViewCell"
+        public static let profileHeaderSkeleton = "ProfileHeaderSkeletonTableViewCell"
     }
     
     // MARK: - CollectionViewCell

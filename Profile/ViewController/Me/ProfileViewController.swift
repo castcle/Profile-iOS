@@ -52,18 +52,27 @@ class ProfileViewController: UIViewController {
         self.setupNavBar()
         
         self.profileFeedViewModel.delegate = self
-        self.profileFeedViewModel.getContents()
+//        self.profileFeedViewModel.getContents()
         
         self.profileViewModel.didGetMeInfoFinish = {
-            self.tableView.reloadData()
+            self.profileViewModel.profileLoaded = true
+            UIView.transition(with: self.view, duration: 0.35, options: .transitionCrossDissolve, animations: {
+                self.tableView.reloadData()
+            })
         }
 
         self.profileViewModel.didGetUserInfoFinish = {
-            self.tableView.reloadData()
+            self.profileViewModel.profileLoaded = true
+            UIView.transition(with: self.view, duration: 0.35, options: .transitionCrossDissolve, animations: {
+                self.tableView.reloadData()
+            })
         }
 
         self.profileViewModel.didGetPageInfoFinish = {
-            self.tableView.reloadData()
+            self.profileViewModel.profileLoaded = true
+            UIView.transition(with: self.view, duration: 0.35, options: .transitionCrossDissolve, animations: {
+                self.tableView.reloadData()
+            })
         }
     }
     
@@ -72,6 +81,7 @@ class ProfileViewController: UIViewController {
         self.tableView.dataSource = self
         self.tableView.register(UINib(nibName: ProfileNibVars.TableViewCell.profileHeader, bundle: ConfigBundle.profile), forCellReuseIdentifier: ProfileNibVars.TableViewCell.profileHeader)
         self.tableView.register(UINib(nibName: ProfileNibVars.TableViewCell.feedHeader, bundle: ConfigBundle.profile), forCellReuseIdentifier: ProfileNibVars.TableViewCell.feedHeader)
+        self.tableView.register(UINib(nibName: ProfileNibVars.TableViewCell.profileHeaderSkeleton, bundle: ConfigBundle.profile), forCellReuseIdentifier: ProfileNibVars.TableViewCell.profileHeaderSkeleton)
         self.tableView.registerFeedCell()
         self.tableView.rowHeight = UITableView.automaticDimension
         self.tableView.estimatedRowHeight = 100
@@ -90,7 +100,7 @@ class ProfileViewController: UIViewController {
 
 extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return (self.profileFeedViewModel.feedLoaded ? 2 : 5)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -122,11 +132,17 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.profileHeader, for: indexPath as IndexPath) as? ProfileHeaderTableViewCell
-            cell?.delegate = self
-            cell?.backgroundColor = UIColor.Asset.darkGray
-            cell?.configCell(viewModel: ProfileHeaderViewModel(profileType: self.profileViewModel.profileType, pageInfo: self.profileViewModel.pageInfo, userInfo: self.profileViewModel.userInfo))
-            return cell ?? ProfileHeaderTableViewCell()
+            if self.profileViewModel.profileLoaded {
+                let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.profileHeader, for: indexPath as IndexPath) as? ProfileHeaderTableViewCell
+                cell?.delegate = self
+                cell?.backgroundColor = UIColor.Asset.darkGray
+                cell?.configCell(viewModel: ProfileHeaderViewModel(profileType: self.profileViewModel.profileType, pageInfo: self.profileViewModel.pageInfo, userInfo: self.profileViewModel.userInfo))
+                return cell ?? ProfileHeaderTableViewCell()
+            } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.profileHeaderSkeleton, for: indexPath as IndexPath) as? ProfileHeaderSkeletonTableViewCell
+                cell?.backgroundColor = UIColor.Asset.darkGray
+                return cell ?? ProfileHeaderSkeletonTableViewCell()
+            }
         } else if indexPath.section == 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.feedHeader, for: indexPath as IndexPath) as? FeedHeaderTableViewCell
             cell?.delegate = self
@@ -134,7 +150,14 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
             cell?.configCell(profileContentType: self.profileFeedViewModel.profileContentType)
             return cell ?? FeedHeaderTableViewCell()
         } else {
-            return UITableViewCell()
+            if self.profileFeedViewModel.feedLoaded {
+                return UITableViewCell()
+            } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: ComponentNibVars.TableViewCell.skeleton, for: indexPath as IndexPath) as? SkeletonFeedTableViewCell
+                cell?.backgroundColor = UIColor.Asset.darkGray
+                cell?.configCell()
+                return cell ?? SkeletonFeedTableViewCell()
+            }
         }
 //        if self.viewModel.state == .loading {
 //            let cell = tableView.dequeueReusableCell(withIdentifier: ComponentNibVars.TableViewCell.skeleton, for: indexPath as IndexPath) as? SkeletonFeedTableViewCell
@@ -215,15 +238,23 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
 //        }
     }
     
-//    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-//        return 5
-//    }
-//
-//    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-//        let footerView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: tableView.frame.width, height: 5))
-//        footerView.backgroundColor = UIColor.clear
-//        return footerView
-//    }
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        if section > 1 {
+            return 5
+        } else {
+            return 0
+        }
+    }
+
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        if section > 1 {
+            let footerView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: tableView.frame.width, height: 5))
+            footerView.backgroundColor = UIColor.clear
+            return footerView
+        } else {
+            return UIView()
+        }
+    }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 //        if UserManager.shared.isLogin {
