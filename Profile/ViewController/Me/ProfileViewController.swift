@@ -45,17 +45,48 @@ class ProfileViewController: UIViewController {
         case footer
     }
     
+    enum ProfileViewControllerSection: Int, CaseIterable {
+        case header = 0
+        case munu
+    }
+    
+    enum PeofileHeaderRaw: Int, CaseIterable {
+        case info = 0
+        case post
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
         self.configureTableView()
         self.setupNavBar()
         
+        self.tableView.isScrollEnabled = false
+        self.tableView.cr.addHeadRefresh(animator: FastAnimator()) { [weak self] in
+            guard let self = self else { return }
+            self.tableView.isScrollEnabled = false
+            self.profileViewModel.profileLoaded = false
+            self.tableView.reloadData()
+            self.profileViewModel.getProfile()
+        }
+        
+        self.tableView.cr.addFootRefresh(animator: NormalFooterAnimator()) { [weak self] in
+            guard let self = self else { return }
+            
+            if !self.profileFeedViewModel.displayMeta.oldestId.isEmpty {
+//                self.profileFeedViewModel.getContents()
+            } else {
+                self.tableView.cr.noticeNoMoreData()
+            }
+        }
+        
         self.profileFeedViewModel.delegate = self
-//        self.profileFeedViewModel.getContents()
+        self.profileFeedViewModel.getContents()
         
         self.profileViewModel.didGetMeInfoFinish = {
             self.profileViewModel.profileLoaded = true
+            self.tableView.cr.endHeaderRefresh()
+            self.tableView.isScrollEnabled = true
             UIView.transition(with: self.view, duration: 0.35, options: .transitionCrossDissolve, animations: {
                 self.tableView.reloadData()
             })
@@ -63,6 +94,8 @@ class ProfileViewController: UIViewController {
 
         self.profileViewModel.didGetUserInfoFinish = {
             self.profileViewModel.profileLoaded = true
+            self.tableView.cr.endHeaderRefresh()
+            self.tableView.isScrollEnabled = true
             UIView.transition(with: self.view, duration: 0.35, options: .transitionCrossDissolve, animations: {
                 self.tableView.reloadData()
             })
@@ -70,6 +103,8 @@ class ProfileViewController: UIViewController {
 
         self.profileViewModel.didGetPageInfoFinish = {
             self.profileViewModel.profileLoaded = true
+            self.tableView.cr.endHeaderRefresh()
+            self.tableView.isScrollEnabled = true
             UIView.transition(with: self.view, duration: 0.35, options: .transitionCrossDissolve, animations: {
                 self.tableView.reloadData()
             })
@@ -100,48 +135,48 @@ class ProfileViewController: UIViewController {
 
 extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return (self.profileFeedViewModel.feedLoaded ? 2 : 5)
+        return (self.profileFeedViewModel.feedLoaded ? 2 + self.profileFeedViewModel.displayContents.count : 5)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-//        if self.viewModel.state == .loading {
-//            return 1
-//        } else {
-//            if UserManager.shared.isLogin {
-//                if section == 0 {
-//                    return 1
-//                } else {
-//                    let content = self.viewModel.feeds[section - 1].payload
-//                    if content.participate.recasted || content.participate.quoted {
-//                        return 4
-//                    } else {
-//                        return 3
-//                    }
-//                }
-//            } else {
-//                let content = self.viewModel.feeds[section].payload
-//                if content.participate.recasted || content.participate.quoted {
-//                    return 4
-//                } else {
-//                    return 3
-//                }
-//            }
-//        }
+        if section == ProfileViewControllerSection.header.rawValue {
+            if self.profileViewModel.profileLoaded && (self.profileViewModel.profileType == .me || self.profileViewModel.profileType == .myPage) {
+                return 2
+            } else {
+                return 1
+            }
+        } else if section == ProfileViewControllerSection.munu.rawValue {
+            return 1
+        } else {
+            if self.profileFeedViewModel.feedLoaded {
+                let content = self.profileFeedViewModel.displayContents[section - 2]
+                if content.participate.recasted || content.participate.quoted {
+                    return 4
+                } else {
+                    return 3
+                }
+            } else {
+                return 1
+            }
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
-            if self.profileViewModel.profileLoaded {
-                let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.profileHeader, for: indexPath as IndexPath) as? ProfileHeaderTableViewCell
-                cell?.delegate = self
-                cell?.backgroundColor = UIColor.Asset.darkGray
-                cell?.configCell(viewModel: ProfileHeaderViewModel(profileType: self.profileViewModel.profileType, pageInfo: self.profileViewModel.pageInfo, userInfo: self.profileViewModel.userInfo))
-                return cell ?? ProfileHeaderTableViewCell()
+            if indexPath.row == PeofileHeaderRaw.info.rawValue {
+                if self.profileViewModel.profileLoaded {
+                    let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.profileHeader, for: indexPath as IndexPath) as? ProfileHeaderTableViewCell
+                    cell?.delegate = self
+                    cell?.backgroundColor = UIColor.Asset.darkGray
+                    cell?.configCell(viewModel: ProfileHeaderViewModel(profileType: self.profileViewModel.profileType, pageInfo: self.profileViewModel.pageInfo, userInfo: self.profileViewModel.userInfo))
+                    return cell ?? ProfileHeaderTableViewCell()
+                } else {
+                    let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.profileHeaderSkeleton, for: indexPath as IndexPath) as? ProfileHeaderSkeletonTableViewCell
+                    cell?.backgroundColor = UIColor.Asset.darkGray
+                    return cell ?? ProfileHeaderSkeletonTableViewCell()
+                }
             } else {
-                let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.profileHeaderSkeleton, for: indexPath as IndexPath) as? ProfileHeaderSkeletonTableViewCell
-                cell?.backgroundColor = UIColor.Asset.darkGray
-                return cell ?? ProfileHeaderSkeletonTableViewCell()
+                return UITableViewCell()
             }
         } else if indexPath.section == 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.feedHeader, for: indexPath as IndexPath) as? FeedHeaderTableViewCell
@@ -151,7 +186,36 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
             return cell ?? FeedHeaderTableViewCell()
         } else {
             if self.profileFeedViewModel.feedLoaded {
-                return UITableViewCell()
+                let content = self.profileFeedViewModel.displayContents[indexPath.section - 2]
+                if content.participate.recasted {
+                    if indexPath.row == 0 {
+                        return self.renderFeedCell(content: content, cellType: .activity, tableView: tableView, indexPath: indexPath)
+                    } else if indexPath.row == 1 {
+                        return self.renderFeedCell(content: content, cellType: .header, tableView: tableView, indexPath: indexPath)
+                    } else if indexPath.row == 2 {
+                        return self.renderFeedCell(content: content, cellType: .content, tableView: tableView, indexPath: indexPath)
+                    } else {
+                        return self.renderFeedCell(content: content, cellType: .footer, tableView: tableView, indexPath: indexPath)
+                    }
+                } else if content.participate.quoted {
+                    if indexPath.row == 0 {
+                        return self.renderFeedCell(content: content, cellType: .header, tableView: tableView, indexPath: indexPath)
+                    } else if indexPath.row == 1 {
+                        return self.renderFeedCell(content: content, cellType: .content, tableView: tableView, indexPath: indexPath)
+                    } else if indexPath.row == 2 {
+                        return self.renderFeedCell(content: content, cellType: .quote, tableView: tableView, indexPath: indexPath)
+                    } else {
+                        return self.renderFeedCell(content: content, cellType: .footer, tableView: tableView, indexPath: indexPath)
+                    }
+                } else {
+                    if indexPath.row == 0 {
+                        return self.renderFeedCell(content: content, cellType: .header, tableView: tableView, indexPath: indexPath)
+                    } else if indexPath.row == 1 {
+                        return self.renderFeedCell(content: content, cellType: .content, tableView: tableView, indexPath: indexPath)
+                    } else {
+                        return self.renderFeedCell(content: content, cellType: .footer, tableView: tableView, indexPath: indexPath)
+                    }
+                }
             } else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: ComponentNibVars.TableViewCell.skeleton, for: indexPath as IndexPath) as? SkeletonFeedTableViewCell
                 cell?.backgroundColor = UIColor.Asset.darkGray
@@ -159,83 +223,6 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
                 return cell ?? SkeletonFeedTableViewCell()
             }
         }
-//        if self.viewModel.state == .loading {
-//            let cell = tableView.dequeueReusableCell(withIdentifier: ComponentNibVars.TableViewCell.skeleton, for: indexPath as IndexPath) as? SkeletonFeedTableViewCell
-//            cell?.backgroundColor = UIColor.Asset.darkGray
-//            cell?.configCell()
-//            return cell ?? SkeletonFeedTableViewCell()
-//        } else {
-//            if UserManager.shared.isLogin {
-//                if indexPath.section == 0 {
-//                    let cell = tableView.dequeueReusableCell(withIdentifier: FeedNibVars.TableViewCell.post, for: indexPath as IndexPath) as? NewPostTableViewCell
-//                    cell?.backgroundColor = UIColor.Asset.darkGray
-//                    cell?.configCell()
-//                    return cell ?? NewPostTableViewCell()
-//                } else {
-//                    let content = self.viewModel.feeds[indexPath.section - 1].payload
-//                    if content.participate.recasted {
-//                        if indexPath.row == 0 {
-//                            return self.renderFeedCell(content: content, cellType: .activity, tableView: tableView, indexPath: indexPath)
-//                        } else if indexPath.row == 1 {
-//                            return self.renderFeedCell(content: content, cellType: .header, tableView: tableView, indexPath: indexPath)
-//                        } else if indexPath.row == 2 {
-//                            return self.renderFeedCell(content: content, cellType: .content, tableView: tableView, indexPath: indexPath)
-//                        } else {
-//                            return self.renderFeedCell(content: content, cellType: .footer, tableView: tableView, indexPath: indexPath)
-//                        }
-//                    } else if content.participate.quoted {
-//                        if indexPath.row == 0 {
-//                            return self.renderFeedCell(content: content, cellType: .header, tableView: tableView, indexPath: indexPath)
-//                        } else if indexPath.row == 1 {
-//                            return self.renderFeedCell(content: content, cellType: .content, tableView: tableView, indexPath: indexPath)
-//                        } else if indexPath.row == 2 {
-//                            return self.renderFeedCell(content: content, cellType: .quote, tableView: tableView, indexPath: indexPath)
-//                        } else {
-//                            return self.renderFeedCell(content: content, cellType: .footer, tableView: tableView, indexPath: indexPath)
-//                        }
-//                    } else {
-//                        if indexPath.row == 0 {
-//                            return self.renderFeedCell(content: content, cellType: .header, tableView: tableView, indexPath: indexPath)
-//                        } else if indexPath.row == 1 {
-//                            return self.renderFeedCell(content: content, cellType: .content, tableView: tableView, indexPath: indexPath)
-//                        } else {
-//                            return self.renderFeedCell(content: content, cellType: .footer, tableView: tableView, indexPath: indexPath)
-//                        }
-//                    }
-//                }
-//            } else {
-//                let content = self.viewModel.feeds[indexPath.section].payload
-//                if content.participate.recasted {
-//                    if indexPath.row == 0 {
-//                        return self.renderFeedCell(content: content, cellType: .activity, tableView: tableView, indexPath: indexPath)
-//                    } else if indexPath.row == 1 {
-//                        return self.renderFeedCell(content: content, cellType: .header, tableView: tableView, indexPath: indexPath)
-//                    } else if indexPath.row == 2 {
-//                        return self.renderFeedCell(content: content, cellType: .content, tableView: tableView, indexPath: indexPath)
-//                    } else {
-//                        return self.renderFeedCell(content: content, cellType: .footer, tableView: tableView, indexPath: indexPath)
-//                    }
-//                } else if content.participate.quoted {
-//                    if indexPath.row == 0 {
-//                        return self.renderFeedCell(content: content, cellType: .header, tableView: tableView, indexPath: indexPath)
-//                    } else if indexPath.row == 1 {
-//                        return self.renderFeedCell(content: content, cellType: .content, tableView: tableView, indexPath: indexPath)
-//                    } else if indexPath.row == 2 {
-//                        return self.renderFeedCell(content: content, cellType: .quote, tableView: tableView, indexPath: indexPath)
-//                    } else {
-//                        return self.renderFeedCell(content: content, cellType: .footer, tableView: tableView, indexPath: indexPath)
-//                    }
-//                } else {
-//                    if indexPath.row == 0 {
-//                        return self.renderFeedCell(content: content, cellType: .header, tableView: tableView, indexPath: indexPath)
-//                    } else if indexPath.row == 1 {
-//                        return self.renderFeedCell(content: content, cellType: .content, tableView: tableView, indexPath: indexPath)
-//                    } else {
-//                        return self.renderFeedCell(content: content, cellType: .footer, tableView: tableView, indexPath: indexPath)
-//                    }
-//                }
-//            }
-//        }
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
@@ -257,43 +244,23 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        if UserManager.shared.isLogin {
-//            let content = self.viewModel.feeds[indexPath.section - 1].payload
-//            if content.participate.recasted {
-//                if content.type == .long && indexPath.row == 2 {
-//                    self.viewModel.feeds[indexPath.section - 1].payload.isExpand.toggle()
-//                    tableView.reloadRows(at: [indexPath], with: .automatic)
-//                }
-//            } else if content.participate.quoted {
-//                if content.type == .long && indexPath.row == 1 {
-//                    self.viewModel.feeds[indexPath.section - 1].payload.isExpand.toggle()
-//                    tableView.reloadRows(at: [indexPath], with: .automatic)
-//                }
-//            } else {
-//                if content.type == .long && indexPath.row == 1 {
-//                    self.viewModel.feeds[indexPath.section - 1].payload.isExpand.toggle()
-//                    tableView.reloadRows(at: [indexPath], with: .automatic)
-//                }
-//            }
-//        } else {
-//            let content = self.viewModel.feeds[indexPath.section].payload
-//            if content.participate.recasted {
-//                if content.type == .long && indexPath.row == 2 {
-//                    self.viewModel.feeds[indexPath.section].payload.isExpand.toggle()
-//                    tableView.reloadRows(at: [indexPath], with: .automatic)
-//                }
-//            } else if content.participate.quoted {
-//                if content.type == .long && indexPath.row == 1 {
-//                    self.viewModel.feeds[indexPath.section].payload.isExpand.toggle()
-//                    tableView.reloadRows(at: [indexPath], with: .automatic)
-//                }
-//            } else {
-//                if content.type == .long && indexPath.row == 1 {
-//                    self.viewModel.feeds[indexPath.section].payload.isExpand.toggle()
-//                    tableView.reloadRows(at: [indexPath], with: .automatic)
-//                }
-//            }
-//        }
+        let content = self.profileFeedViewModel.displayContents[indexPath.section - 2]
+        if content.participate.recasted {
+            if content.type == .long && indexPath.row == 2 {
+                self.profileFeedViewModel.displayContents[indexPath.section - 1].isExpand.toggle()
+                tableView.reloadRows(at: [indexPath], with: .automatic)
+            }
+        } else if content.participate.quoted {
+            if content.type == .long && indexPath.row == 1 {
+                self.profileFeedViewModel.displayContents[indexPath.section - 1].isExpand.toggle()
+                tableView.reloadRows(at: [indexPath], with: .automatic)
+            }
+        } else {
+            if content.type == .long && indexPath.row == 1 {
+                self.profileFeedViewModel.displayContents[indexPath.section - 1].isExpand.toggle()
+                tableView.reloadRows(at: [indexPath], with: .automatic)
+            }
+        }
     }
     
     func renderFeedCell(content: Content, cellType: FeedCellType, tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
@@ -401,21 +368,26 @@ extension ProfileViewController: FooterTableViewCellDelegate {
 
 extension ProfileViewController: FeedHeaderTableViewCellDelegate {
     func didSelectTab(_ feedHeaderTableViewCell: FeedHeaderTableViewCell, profileContentType: ProfileContentType) {
+        if profileContentType != self.profileFeedViewModel.profileContentType {
+            self.profileFeedViewModel.profileContentType = profileContentType
+            if self.profileFeedViewModel.feedLoaded {
+                self.profileFeedViewModel.updateDisplayContent()
+                self.tableView.reloadData()
+            } else {
+                self.profileFeedViewModel.getContents()
+                self.tableView.reloadData()
+            }
+        }
     }
 }
 
 extension ProfileViewController: ProfileFeedViewModelDelegate {
     func didGetContentFinish(success: Bool) {
         if success {
-            if self.profileFeedViewModel.profileContentType == .all {
-                self.profileFeedViewModel.displayContents = self.profileFeedViewModel.allContents
-            } else if self.profileFeedViewModel.profileContentType == .post {
-                self.profileFeedViewModel.displayContents = self.profileFeedViewModel.postContents
-            } else if self.profileFeedViewModel.profileContentType == .blog {
-                self.profileFeedViewModel.displayContents = self.profileFeedViewModel.blogContents
-            } else if self.profileFeedViewModel.profileContentType == .photo {
-                self.profileFeedViewModel.displayContents = self.profileFeedViewModel.photoContents
-            }
+            self.profileFeedViewModel.updateDisplayContent()
+            UIView.transition(with: self.view, duration: 0.35, options: .transitionCrossDissolve, animations: {
+                self.tableView.reloadData()
+            })
         }
     }
 }

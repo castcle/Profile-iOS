@@ -46,8 +46,6 @@ public final class ProfileHeaderViewModel {
     var userId: String = ""
     
     enum Stage {
-        case getUserInfo
-        case getPageInfo
         case followUser
         case unfollowUser
         case reportUser
@@ -69,42 +67,6 @@ public final class ProfileHeaderViewModel {
         }
         
         self.tokenHelper.delegate = self
-    }
-    
-    func getUserInfo() {
-        self.stage = .getUserInfo
-        self.userRepository.getUser(userId: self.userInfo?.castcleId ?? "") { (success, response, isRefreshToken) in
-            if success {
-                do {
-                    let rawJson = try response.mapJSON()
-                    let json = JSON(rawJson)
-                    self.userInfo = User(json: json)
-                    self.didGetInfoFinish?()
-                } catch {}
-            } else {
-                if isRefreshToken {
-                    self.tokenHelper.refreshToken()
-                }
-            }
-        }
-    }
-    
-    func getPageInfo() {
-        self.stage = .getPageInfo
-        self.pageRepository.getPageInfo(pageId: self.pageInfo.castcleId) { (success, response, isRefreshToken) in
-            if success {
-                do {
-                    let rawJson = try response.mapJSON()
-                    let json = JSON(rawJson)
-                    self.pageInfo = PageInfo(json: json)
-                    self.didGetInfoFinish?()
-                } catch {}
-            } else {
-                if isRefreshToken {
-                    self.tokenHelper.refreshToken()
-                }
-            }
-        }
     }
     
     func followUser() {
@@ -168,33 +130,11 @@ public final class ProfileHeaderViewModel {
             }
         }
     }
-    
-    func reloadInfo() {
-        if self.profileType == .myPage || self.profileType == .page {
-            self.getPageInfo()
-        } else if self.profileType == .people {
-            self.getUserInfo()
-        } else if self.stage == .followUser {
-            self.followUser()
-        } else if self.stage == .unfollowUser {
-            self.unfollowUser()
-        } else {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                self.didGetInfoFinish?()
-            }
-        }
-    }
-    
-    var didGetInfoFinish: (() -> ())?
 }
 
 extension ProfileHeaderViewModel: TokenHelperDelegate {
     public func didRefreshTokenFinish() {
-        if self.stage == .getUserInfo {
-            self.getUserInfo()
-        } else if self.stage == .getPageInfo {
-            self.getPageInfo()
-        } else if self.stage == .followUser {
+        if self.stage == .followUser {
             self.followUser()
         } else if self.stage == .unfollowUser {
             self.unfollowUser()

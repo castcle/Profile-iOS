@@ -68,7 +68,11 @@ public final class ProfileViewModel {
         if let page = page {
             self.page = page
         }
-
+        
+        self.getProfile()
+    }
+    
+    func getProfile() {
         if self.profileType == .me {
             self.getMeInfo()
         } else if self.profileType == .myPage || self.profileType == .page {
@@ -78,7 +82,7 @@ public final class ProfileViewModel {
         }
     }
     
-    func getMeInfo() {
+    private func getMeInfo() {
         self.stage = .getMeInfo
         self.userRepository.getMe() { (success, response, isRefreshToken) in
             if success {
@@ -97,7 +101,7 @@ public final class ProfileViewModel {
         }
     }
     
-    func getUserInfo() {
+    private func getUserInfo() {
         self.stage = .getUserInfo
         self.userRepository.getUser(userId: self.castcleId) { (success, response, isRefreshToken) in
             if success {
@@ -115,7 +119,7 @@ public final class ProfileViewModel {
         }
     }
     
-    func getPageInfo() {
+    private func getPageInfo() {
         self.stage = .getPageInfo
         self.pageRepository.getPageInfo(pageId: self.page.castcleId) { (success, response, isRefreshToken) in
             if success {

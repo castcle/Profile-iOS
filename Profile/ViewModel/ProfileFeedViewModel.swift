@@ -57,6 +57,7 @@ public final class ProfileFeedViewModel {
     var postMeta: Meta = Meta()
     var blogMeta: Meta = Meta()
     var photoMeta: Meta = Meta()
+    var displayMeta: Meta = Meta()
     var profileContentType: ProfileContentType = .all
     var profileType: ProfileType = .unknow
     let tokenHelper: TokenHelper = TokenHelper()
@@ -81,7 +82,6 @@ public final class ProfileFeedViewModel {
 
     //MARK: Input
     public func getContents() {
-        
         if self.profileContentType == .all {
             self.contentRequest.type = .unknow
             self.contentRequest.maxResults = self.allMeta.resultCount
@@ -234,6 +234,7 @@ public final class ProfileFeedViewModel {
         self.postMeta = Meta()
         self.blogMeta = Meta()
         self.photoMeta = Meta()
+        self.displayMeta = Meta()
         self.contentRequest = ContentRequest()
     }
 
@@ -247,12 +248,29 @@ public final class ProfileFeedViewModel {
         self.postMeta = Meta()
         self.blogMeta = Meta()
         self.photoMeta = Meta()
+        self.displayMeta = Meta()
         self.contentRequest = ContentRequest()
         self.allLoaded = false
         self.postLoaded = false
         self.blogLoaded = false
         self.photoLoaded = false
         self.getContents()
+    }
+    
+    func updateDisplayContent() {
+        if self.profileContentType == .all {
+            self.displayContents = self.allContents
+            self.displayMeta = self.allMeta
+        } else if self.profileContentType == .post {
+            self.displayContents = self.postContents
+            self.displayMeta = self.postMeta
+        } else if self.profileContentType == .blog {
+            self.displayContents = self.blogContents
+            self.displayMeta = self.blogMeta
+        } else if self.profileContentType == .photo {
+            self.displayContents = self.photoContents
+            self.displayMeta = self.photoMeta
+        }
     }
 }
 
