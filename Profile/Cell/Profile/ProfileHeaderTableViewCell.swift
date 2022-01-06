@@ -19,10 +19,10 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  MeHeaderViewController.swift
+//  ProfileHeaderTableViewCell.swift
 //  Profile
 //
-//  Created by Castcle Co., Ltd. on 13/8/2564 BE.
+//  Created by Castcle Co., Ltd. on 3/1/2565 BE.
 //
 
 import UIKit
@@ -30,19 +30,16 @@ import Photos
 import MobileCoreServices
 import Core
 import Component
-import Post
-import Kingfisher
-import SwiftColor
+import NVActivityIndicatorView
 import ActiveLabel
 import TLPhotoPicker
 import TOCropViewController
-import NVActivityIndicatorView
 
-public protocol MeHeaderViewControllerDelegate {
-    func didUpdateProfileFinish()
+protocol ProfileHeaderTableViewCellDelegate {
+    func didUpdateProfileSuccess(_ profileHeaderTableViewCell: ProfileHeaderTableViewCell)
 }
 
-class MeHeaderViewController: UIViewController {
+class ProfileHeaderTableViewCell: UITableViewCell {
 
     @IBOutlet var coverImage: UIImageView!
     @IBOutlet var profileImage: UIImageView!
@@ -57,13 +54,6 @@ class MeHeaderViewController: UIViewController {
     @IBOutlet var followButton: UIButton!
     @IBOutlet var followLabel: ActiveLabel!
     
-    @IBOutlet var lineView: UIView!
-    @IBOutlet var newPostView: UIView!
-    @IBOutlet var searchView: UIView!
-    @IBOutlet var miniProfileImage: UIImageView!
-    @IBOutlet var placeholderLabel: UILabel!
-    @IBOutlet var postViewConstaint: NSLayoutConstraint!
-    
     @IBOutlet var coverLoadView: UIView!
     @IBOutlet var coverBackgroundView: UIView!
     @IBOutlet var coverIndicator: NVActivityIndicatorView!
@@ -72,8 +62,8 @@ class MeHeaderViewController: UIViewController {
     @IBOutlet var avatarBackgroundView: UIView!
     @IBOutlet var avatarIndicator: NVActivityIndicatorView!
     
-    public var delegate: MeHeaderViewControllerDelegate?
-    var viewModel = MeHeaderViewModel(profileType: .unknow, userInfo: nil)
+    public var delegate: ProfileHeaderTableViewCellDelegate?
+    private var viewModel = ProfileHeaderViewModel(profileType: .unknow, userInfo: nil)
     private let editProfileViewModel = EditProfileViewModel()
     private var updateImageType: UpdateImageType = .none
     
@@ -83,10 +73,8 @@ class MeHeaderViewController: UIViewController {
         case cover
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        self.view.backgroundColor = UIColor.Asset.darkGray
+    override func awakeFromNib() {
+        super.awakeFromNib()
         self.displayNameLabel.font = UIFont.asset(.regular, fontSize: .h4)
         self.displayNameLabel.textColor = UIColor.Asset.white
         self.userIdLabel.font = UIFont.asset(.regular, fontSize: .overline)
@@ -98,18 +86,14 @@ class MeHeaderViewController: UIViewController {
         
         self.profileImage.circle(color: UIColor.Asset.white)
         self.avatarLoadView.capsule(borderWidth: 2.0, borderColor: UIColor.Asset.white)
-        
         self.editProfileImageButton.setImage(UIImage.init(icon: .castcle(.camera), size: CGSize(width: 15, height: 15), textColor: UIColor.Asset.darkGraphiteBlue).withRenderingMode(.alwaysOriginal), for: .normal)
         self.editProfileImageButton.setBackgroundImage(UIColor.Asset.lightBlue.toImage(), for: .normal)
         self.editProfileImageButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.darkGraphiteBlue)
-        
         self.moreButton.setImage(UIImage.init(icon: .castcle(.ellipsisV), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.gray).withRenderingMode(.alwaysOriginal), for: .normal)
         self.moreButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.gray)
-        
         self.editCoverButton.setImage(UIImage.init(icon: .castcle(.camera), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white).withRenderingMode(.alwaysOriginal), for: .normal)
         self.editCoverButton.setBackgroundImage(UIColor.Asset.gray.toImage(), for: .normal)
         self.editCoverButton.capsule()
-        
         self.editProfileButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .overline)
         self.editProfileButton.setTitleColor(UIColor.Asset.lightBlue, for: .normal)
         self.editProfileButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
@@ -118,16 +102,6 @@ class MeHeaderViewController: UIViewController {
         self.viewProfileButton.setTitleColor(UIColor.Asset.lightBlue, for: .normal)
         self.viewProfileButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
         
-        self.lineView.backgroundColor = UIColor.Asset.darkGraphiteBlue
-        self.newPostView.backgroundColor = UIColor.Asset.darkGray
-        self.searchView.custom(color: UIColor.Asset.darkGray, cornerRadius: 18, borderWidth: 1, borderColor: UIColor.Asset.darkGraphiteBlue)
-        self.miniProfileImage.circle(color: UIColor.Asset.darkGraphiteBlue)
-        self.placeholderLabel.font = UIFont.asset(.light, fontSize: .overline)
-        self.placeholderLabel.textColor = UIColor.Asset.lightGray
-        
-        self.followUI()
-        self.editProfileViewModel.delegate = self
-        
         self.coverBackgroundView.backgroundColor = UIColor.Asset.darkGray
         self.avatarBackgroundView.backgroundColor = UIColor.Asset.darkGray
         self.coverLoadView.isHidden = true
@@ -135,36 +109,107 @@ class MeHeaderViewController: UIViewController {
         self.coverIndicator.type = .ballBeat
         self.avatarIndicator.type = .ballBeat
         
-        self.viewModel.didGetInfoFinish = {
-            self.updateProfileUI()
-            self.delegate?.didUpdateProfileFinish()
+        self.editProfileViewModel.delegate = self
+    }
+
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+    }
+    
+    func configCell(viewModel: ProfileHeaderViewModel) {
+        self.viewModel = viewModel
+        self.updateProfileUI()
+        self.followUI()
+    }
+    
+    @IBAction func editCoverAction(_ sender: Any) {
+        if self.viewModel.profileType == .me || self.viewModel.profileType == .myPage {
+            self.updateImageType = .cover
+            self.selectImageSource()
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.updateProfileUI()
-        NotificationCenter.default.addObserver(self, selector: #selector(self.reloadData(notification:)), name: .getUserInfo, object: nil)
+    @IBAction func editProfileImageAction(_ sender: Any) {
+        if self.viewModel.profileType == .me || self.viewModel.profileType == .myPage {
+            self.updateImageType = .avatar
+            self.selectImageSource()
+        }
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        NotificationCenter.default.removeObserver(self, name: .getUserInfo, object: nil)
+    @IBAction func moreAction(_ sender: Any) {
+        if self.viewModel.profileType == .myPage {
+            let actionSheet = CCActionSheet()
+            let syncButton = CCAction(title: "Sync social media", image: UIImage.init(icon: .castcle(.bindLink), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
+                actionSheet.dismissActionSheet()
+            }
+            let deleteButton = CCAction(title: "Delete page", image: UIImage.init(icon: .castcle(.deleteOne), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
+                actionSheet.dismissActionSheet()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.deletePage(DeletePageViewModel(page: self.viewModel.pageInfo))), animated: true)
+                }
+            }
+            let shareButton = CCAction(title: "Share", image: UIImage.init(icon: .castcle(.share), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
+                actionSheet.dismissActionSheet()
+            }
+            
+            actionSheet.addActions([syncButton, deleteButton, shareButton])
+            Utility.currentViewController().present(actionSheet, animated: true, completion: nil)
+        } else if self.viewModel.profileType != .me && self.viewModel.profileType != .myPage {
+            let actionSheet = CCActionSheet()
+            
+            var castcleId: String = ""
+            var userId: String = ""
+            if self.viewModel.profileType == .page {
+                castcleId = self.viewModel.pageInfo.castcleId
+                userId = self.viewModel.pageInfo.id
+            } else {
+                castcleId = self.viewModel.userInfo?.castcleId ?? ""
+                userId = self.viewModel.userInfo?.id ?? ""
+            }
+            
+            let reportButton = CCAction(title: "Report @\(castcleId)", image: UIImage.init(icon: .castcle(.report), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
+                actionSheet.dismissActionSheet()
+                self.viewModel.reportUser(castcleId: castcleId, userId: userId)
+            }
+            let blockButton = CCAction(title: "Block @\(castcleId)", image: UIImage.init(icon: .castcle(.block), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
+                actionSheet.dismissActionSheet()
+                self.viewModel.blockUser(castcleId: castcleId, userId: userId)
+            }
+            
+            actionSheet.addActions([blockButton, reportButton])
+            Utility.currentViewController().present(actionSheet, animated: true, completion: nil)
+        }
     }
     
-    @objc func reloadData(notification: NSNotification) {
-        self.viewModel.reloadInfo()
+    @IBAction func editProfileAction(_ sender: Any) {
+        if self.viewModel.profileType == .me || self.viewModel.profileType == .myPage {
+            Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.editInfo(self.viewModel.profileType, self.viewModel.pageInfo)), animated: true)
+        }
     }
     
+    @IBAction func viewProfileAction(_ sender: Any) {
+        Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.userInfo), animated: true)
+    }
+    
+    @IBAction func followAction(_ sender: Any) {
+        if self.viewModel.isFollow {
+            self.viewModel.unfollowUser()
+        } else {
+            self.viewModel.followUser()
+        }
+        self.viewModel.isFollow.toggle()
+        self.followUI()
+    }
+}
+
+extension ProfileHeaderTableViewCell {
     private func updateProfileUI() {
         if self.viewModel.profileType == .me {
             if let avatar = self.editProfileViewModel.avatar {
                 self.profileImage.image = avatar
-                self.miniProfileImage.image = avatar
             } else {
                 let url = URL(string: UserManager.shared.avatar)
                 self.profileImage.kf.setImage(with: url, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
-                self.miniProfileImage.kf.setImage(with: url, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
             }
             
             if let cover = self.editProfileViewModel.cover {
@@ -179,10 +224,8 @@ class MeHeaderViewController: UIViewController {
             
             if let avatar = self.editProfileViewModel.avatar {
                 self.profileImage.image = avatar
-                self.miniProfileImage.image = avatar
             } else {
                 self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
-                self.miniProfileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
             }
             
             if let cover = self.editProfileViewModel.cover {
@@ -266,22 +309,14 @@ class MeHeaderViewController: UIViewController {
             self.editCoverButton.isHidden = false
             self.editProfileButton.isHidden = false
             self.editProfileImageButton.isHidden = false
-            
             self.viewProfileButton.isHidden = true
             self.followButton.isHidden = true
-            
-            self.newPostView.isHidden = false
-            self.postViewConstaint.constant = 65.0
         } else {
             self.editCoverButton.isHidden = true
             self.editProfileButton.isHidden = true
             self.editProfileImageButton.isHidden = true
-            
             self.viewProfileButton.isHidden = false
             self.followButton.isHidden = false
-            
-            self.newPostView.isHidden = true
-            self.postViewConstaint.constant = 0.0
         }
     }
     
@@ -348,61 +383,61 @@ class MeHeaderViewController: UIViewController {
         Utility.currentViewController().present(photosPickerViewController, animated: true, completion: nil)
     }
     
-   private func selectTakePhoto() {
-        self.showCameraIfAuthorized()
-    }
-    
-    private func showCameraIfAuthorized() {
-        let cameraAuthorization = AVCaptureDevice.authorizationStatus(for: .video)
-        switch cameraAuthorization {
-        case .authorized:
-            self.showCamera()
-        case .notDetermined:
-            AVCaptureDevice.requestAccess(for: .video, completionHandler: { [weak self] (authorized) in
-                DispatchQueue.main.async { [weak self] in
-                    if authorized {
-                        self?.showCamera()
-                    } else {
-                        self?.handleDeniedCameraAuthorization()
-                    }
-                }
-            })
-        case .restricted, .denied:
-            self.handleDeniedCameraAuthorization()
-        @unknown default:
-            break
-        }
-    }
-    
-    private func showCamera() {
-        let picker = UIImagePickerController()
-        picker.sourceType = .camera
-        var mediaTypes: [String] = []
-        mediaTypes.append(kUTTypeImage as String)
-        
-        guard mediaTypes.count > 0 else {
-            return
-        }
-        picker.cameraDevice = .rear
-        picker.mediaTypes = mediaTypes
-        picker.allowsEditing = false
-        picker.delegate = self
-        self.present(picker, animated: true, completion: nil)
-    }
-    
-    private func handleDeniedCameraAuthorization() {
-        DispatchQueue.main.async {
-            let alert = UIAlertController(title: "Error", message: "Denied camera permissions granted", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-            Utility.currentViewController().present(alert, animated: true, completion: nil)
-        }
-    }
+    private func selectTakePhoto() {
+         self.showCameraIfAuthorized()
+     }
+     
+     private func showCameraIfAuthorized() {
+         let cameraAuthorization = AVCaptureDevice.authorizationStatus(for: .video)
+         switch cameraAuthorization {
+         case .authorized:
+             self.showCamera()
+         case .notDetermined:
+             AVCaptureDevice.requestAccess(for: .video, completionHandler: { [weak self] (authorized) in
+                 DispatchQueue.main.async { [weak self] in
+                     if authorized {
+                         self?.showCamera()
+                     } else {
+                         self?.handleDeniedCameraAuthorization()
+                     }
+                 }
+             })
+         case .restricted, .denied:
+             self.handleDeniedCameraAuthorization()
+         @unknown default:
+             break
+         }
+     }
+     
+     private func showCamera() {
+         let picker = UIImagePickerController()
+         picker.sourceType = .camera
+         var mediaTypes: [String] = []
+         mediaTypes.append(kUTTypeImage as String)
+         
+         guard mediaTypes.count > 0 else {
+             return
+         }
+         picker.cameraDevice = .rear
+         picker.mediaTypes = mediaTypes
+         picker.allowsEditing = false
+         picker.delegate = self
+         Utility.currentViewController().present(picker, animated: true, completion: nil)
+     }
+     
+     private func handleDeniedCameraAuthorization() {
+         DispatchQueue.main.async {
+             let alert = UIAlertController(title: "Error", message: "Denied camera permissions granted", preferredStyle: .alert)
+             alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+             Utility.currentViewController().present(alert, animated: true, completion: nil)
+         }
+     }
     
     private func presentCropViewController(image: UIImage, updateImageType: UpdateImageType) {
         if updateImageType == .avatar {
             let cropController = TOCropViewController(croppingStyle: .circular, image: image)
             cropController.delegate = self
-            self.present(cropController, animated: true, completion: nil)
+            Utility.currentViewController().present(cropController, animated: true, completion: nil)
         } else {
             let cropController = TOCropViewController(croppingStyle: .default, image: image)
             cropController.aspectRatioPreset = .preset4x3
@@ -410,103 +445,12 @@ class MeHeaderViewController: UIViewController {
             cropController.resetAspectRatioEnabled = false
             cropController.aspectRatioPickerButtonHidden = true
             cropController.delegate = self
-            self.present(cropController, animated: true, completion: nil)
+            Utility.currentViewController().present(cropController, animated: true, completion: nil)
         }
-    }
-    
-    @IBAction func postAction(_ sender: Any) {
-        if self.viewModel.profileType == .me {
-            let vc = PostOpener.open(.post(PostViewModel(postType: .newCast)))
-            vc.modalPresentationStyle = .fullScreen
-            Utility.currentViewController().present(vc, animated: true, completion: nil)
-        } else if self.viewModel.profileType == .myPage {
-            let vc = PostOpener.open(.post(PostViewModel(postType: .newCast, page: Page().initCustom(id: self.viewModel.pageInfo.id, displayName: self.viewModel.pageInfo.displayName, castcleId: self.viewModel.pageInfo.castcleId, avatar: self.viewModel.pageInfo.images.avatar.thumbnail, cover: self.viewModel.pageInfo.images.cover.fullHd))))
-            vc.modalPresentationStyle = .fullScreen
-            Utility.currentViewController().present(vc, animated: true, completion: nil)
-        }
-    }
-    
-    @IBAction func editCoverAction(_ sender: Any) {
-        if self.viewModel.profileType == .me || self.viewModel.profileType == .myPage {
-            self.updateImageType = .cover
-            self.selectImageSource()
-        }
-    }
-    
-    @IBAction func editProfileImageAction(_ sender: Any) {
-        if self.viewModel.profileType == .me || self.viewModel.profileType == .myPage {
-            self.updateImageType = .avatar
-            self.selectImageSource()
-        }
-    }
-    
-    @IBAction func moreAction(_ sender: Any) {
-        if self.viewModel.profileType == .myPage {
-            let actionSheet = CCActionSheet()
-            let syncButton = CCAction(title: "Sync social media", image: UIImage.init(icon: .castcle(.bindLink), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
-                actionSheet.dismissActionSheet()
-            }
-            let deleteButton = CCAction(title: "Delete page", image: UIImage.init(icon: .castcle(.deleteOne), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
-                actionSheet.dismissActionSheet()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.deletePage(DeletePageViewModel(page: self.viewModel.pageInfo))), animated: true)
-                }
-            }
-            let shareButton = CCAction(title: "Share", image: UIImage.init(icon: .castcle(.share), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
-                actionSheet.dismissActionSheet()
-            }
-            
-            actionSheet.addActions([syncButton, deleteButton, shareButton])
-            Utility.currentViewController().present(actionSheet, animated: true, completion: nil)
-        } else if self.viewModel.profileType != .me && self.viewModel.profileType != .myPage {
-            let actionSheet = CCActionSheet()
-            
-            var castcleId: String = ""
-            var userId: String = ""
-            if self.viewModel.profileType == .page {
-                castcleId = self.viewModel.pageInfo.castcleId
-                userId = self.viewModel.pageInfo.id
-            } else {
-                castcleId = self.viewModel.userInfo?.castcleId ?? ""
-                userId = self.viewModel.userInfo?.id ?? ""
-            }
-            
-            let reportButton = CCAction(title: "Report @\(castcleId)", image: UIImage.init(icon: .castcle(.report), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
-                actionSheet.dismissActionSheet()
-                self.viewModel.reportUser(castcleId: castcleId, userId: userId)
-            }
-            let blockButton = CCAction(title: "Block @\(castcleId)", image: UIImage.init(icon: .castcle(.block), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
-                actionSheet.dismissActionSheet()
-                self.viewModel.blockUser(castcleId: castcleId, userId: userId)
-            }
-            
-            actionSheet.addActions([blockButton, reportButton])
-            Utility.currentViewController().present(actionSheet, animated: true, completion: nil)
-        }
-    }
-    
-    @IBAction func editProfileAction(_ sender: Any) {
-        if self.viewModel.profileType == .me || self.viewModel.profileType == .myPage {
-            Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.editInfo(self.viewModel.profileType, self.viewModel.pageInfo)), animated: true)
-        }
-    }
-    
-    @IBAction func viewProfileAction(_ sender: Any) {
-        Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.userInfo), animated: true)
-    }
-    
-    @IBAction func followAction(_ sender: Any) {
-        if self.viewModel.isFollow {
-            self.viewModel.unfollowUser()
-        } else {
-            self.viewModel.followUser()
-        }
-        self.viewModel.isFollow.toggle()
-        self.followUI()
     }
 }
 
-extension MeHeaderViewController: TLPhotosPickerViewControllerDelegate {
+extension ProfileHeaderTableViewCell: TLPhotosPickerViewControllerDelegate {
     func shouldDismissPhotoPicker(withTLPHAssets: [TLPHAsset]) -> Bool {
         if let asset = withTLPHAssets.first {
             if let image = asset.fullResolutionImage {
@@ -523,7 +467,7 @@ extension MeHeaderViewController: TLPhotosPickerViewControllerDelegate {
     }
 }
 
-extension MeHeaderViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension ProfileHeaderTableViewCell: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     open func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let image = (info[UIImagePickerController.InfoKey.originalImage] as? UIImage) else { return }
 
@@ -537,13 +481,12 @@ extension MeHeaderViewController: UIImagePickerControllerDelegate, UINavigationC
     }
 }
 
-extension MeHeaderViewController: TOCropViewControllerDelegate {
+extension ProfileHeaderTableViewCell: TOCropViewControllerDelegate {
     func cropViewController(_ cropViewController: TOCropViewController, didCropToCircularImage image: UIImage, with cropRect: CGRect, angle: Int) {
         cropViewController.dismiss(animated: true, completion: {
             if self.updateImageType == .avatar {
                 let avatarCropImage = image.resizeImage(targetSize: CGSize.init(width: 200, height: 200))
                 self.profileImage.image = avatarCropImage
-                self.miniProfileImage.image = avatarCropImage
                 self.editProfileViewModel.avatar = avatarCropImage
                 if self.viewModel.profileType == .me {
                     self.avatarLoadView.isHidden = false
@@ -578,7 +521,7 @@ extension MeHeaderViewController: TOCropViewControllerDelegate {
     }
 }
 
-extension MeHeaderViewController: EditProfileViewModelDelegate {
+extension ProfileHeaderTableViewCell: EditProfileViewModelDelegate {
     func didUpdateProfileFinish(success: Bool) {
         if success {
             self.avatarLoadView.isHidden = true
@@ -587,7 +530,7 @@ extension MeHeaderViewController: EditProfileViewModelDelegate {
             self.coverIndicator.stopAnimating()
             if self.updateImageType == .avatar {
                 if self.viewModel.profileType == .me {
-                    self.delegate?.didUpdateProfileFinish()
+                    self.delegate?.didUpdateProfileSuccess(self)
                 }
                 self.updateImageType = .none
             }
@@ -602,7 +545,7 @@ extension MeHeaderViewController: EditProfileViewModelDelegate {
             self.coverIndicator.stopAnimating()
             if self.updateImageType == .avatar {
                 if self.viewModel.profileType == .myPage {
-                    self.delegate?.didUpdateProfileFinish()
+                    self.delegate?.didUpdateProfileSuccess(self)
                 }
                 self.updateImageType = .none
             }
