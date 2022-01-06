@@ -52,12 +52,10 @@ public final class ProfileFeedViewModel {
     var postContents: [Content] = []
     var blogContents: [Content] = []
     var photoContents: [Content] = []
-    var displayContents: [Content] = []
     var allMeta: Meta = Meta()
     var postMeta: Meta = Meta()
     var blogMeta: Meta = Meta()
     var photoMeta: Meta = Meta()
-    var displayMeta: Meta = Meta()
     var profileContentType: ProfileContentType = .all
     var profileType: ProfileType = .unknow
     let tokenHelper: TokenHelper = TokenHelper()
@@ -67,6 +65,22 @@ public final class ProfileFeedViewModel {
     var postLoaded: Bool = false
     var blogLoaded: Bool = false
     var photoLoaded: Bool = false
+    var allCanLoad: Bool = true
+    var postCanLoad: Bool = true
+    var blogCanLoad: Bool = true
+    var photoCanLoad: Bool = true
+    
+    var displayContents: [Content] {
+        if self.profileContentType == .post {
+            return self.postContents
+        } else if self.profileContentType == .blog {
+            return self.blogContents
+        } else if self.profileContentType == .photo {
+            return self.photoContents
+        } else {
+            return self.allContents
+        }
+    }
     
     var feedLoaded: Bool {
         if self.profileContentType == .post {
@@ -74,9 +88,21 @@ public final class ProfileFeedViewModel {
         } else if self.profileContentType == .blog {
             return self.blogLoaded
         } else if self.profileContentType == .photo {
-            return self.photoLoaded
+            return self.photoCanLoad
         } else {
             return self.allLoaded
+        }
+    }
+    
+    var feedCanLoad: Bool {
+        if self.profileContentType == .post {
+            return self.postCanLoad
+        } else if self.profileContentType == .blog {
+            return self.blogCanLoad
+        } else if self.profileContentType == .photo {
+            return self.photoLoaded
+        } else {
+            return self.allCanLoad
         }
     }
 
@@ -85,15 +111,19 @@ public final class ProfileFeedViewModel {
         if self.profileContentType == .all {
             self.contentRequest.type = .unknow
             self.contentRequest.maxResults = self.allMeta.resultCount
+            self.contentRequest.untilId = self.allMeta.oldestId
         } else if self.profileContentType == .post {
             self.contentRequest.type = .short
             self.contentRequest.maxResults = self.postMeta.resultCount
+            self.contentRequest.untilId = self.postMeta.oldestId
         } else if self.profileContentType == .blog {
             self.contentRequest.type = .blog
             self.contentRequest.maxResults = self.blogMeta.resultCount
+            self.contentRequest.untilId = self.blogMeta.oldestId
         } else if self.profileContentType == .photo {
             self.contentRequest.type = .image
             self.contentRequest.maxResults = self.photoMeta.resultCount
+            self.contentRequest.untilId = self.photoMeta.oldestId
         }
         
         if self.profileType == .me {
@@ -104,21 +134,33 @@ public final class ProfileFeedViewModel {
                         let json = JSON(rawJson)
                         let shelf = ContentShelf(json: json)
                         if self.profileContentType == .all {
+                            if shelf.meta.resultCount < self.contentRequest.maxResults {
+                                self.allCanLoad = false
+                            }
                             self.allContents.append(contentsOf: shelf.contents)
                             self.allMeta = shelf.meta
                             self.allMeta.resultCount = 25
                             self.allLoaded = true
                         } else if self.profileContentType == .post {
+                            if shelf.meta.resultCount < self.contentRequest.maxResults {
+                                self.postCanLoad = false
+                            }
                             self.postContents.append(contentsOf: shelf.contents)
                             self.postMeta = shelf.meta
                             self.postMeta.resultCount = 25
                             self.postLoaded = true
                         } else if self.profileContentType == .blog {
+                            if shelf.meta.resultCount < self.contentRequest.maxResults {
+                                self.blogCanLoad = false
+                            }
                             self.blogContents.append(contentsOf: shelf.contents)
                             self.blogMeta = shelf.meta
                             self.blogMeta.resultCount = 25
                             self.blogLoaded = true
                         } else if self.profileContentType == .photo {
+                            if shelf.meta.resultCount < self.contentRequest.maxResults {
+                                self.photoCanLoad = false
+                            }
                             self.photoContents.append(contentsOf: shelf.contents)
                             self.photoMeta = shelf.meta
                             self.photoMeta.resultCount = 25
@@ -144,21 +186,33 @@ public final class ProfileFeedViewModel {
                         let json = JSON(rawJson)
                         let shelf = ContentShelf(json: json)
                         if self.profileContentType == .all {
+                            if shelf.meta.resultCount < self.contentRequest.maxResults {
+                                self.allCanLoad = false
+                            }
                             self.allContents.append(contentsOf: shelf.contents)
                             self.allMeta = shelf.meta
                             self.allMeta.resultCount = 25
                             self.allLoaded = true
                         } else if self.profileContentType == .post {
+                            if shelf.meta.resultCount < self.contentRequest.maxResults {
+                                self.postCanLoad = false
+                            }
                             self.postContents.append(contentsOf: shelf.contents)
                             self.postMeta = shelf.meta
                             self.postMeta.resultCount = 25
                             self.postLoaded = true
                         } else if self.profileContentType == .blog {
+                            if shelf.meta.resultCount < self.contentRequest.maxResults {
+                                self.blogCanLoad = false
+                            }
                             self.blogContents.append(contentsOf: shelf.contents)
                             self.blogMeta = shelf.meta
                             self.blogMeta.resultCount = 25
                             self.blogLoaded = true
                         } else if self.profileContentType == .photo {
+                            if shelf.meta.resultCount < self.contentRequest.maxResults {
+                                self.photoCanLoad = false
+                            }
                             self.photoContents.append(contentsOf: shelf.contents)
                             self.photoMeta = shelf.meta
                             self.photoMeta.resultCount = 25
@@ -184,21 +238,33 @@ public final class ProfileFeedViewModel {
                         let json = JSON(rawJson)
                         let shelf = ContentShelf(json: json)
                         if self.profileContentType == .all {
+                            if shelf.meta.resultCount < self.contentRequest.maxResults {
+                                self.allCanLoad = false
+                            }
                             self.allContents.append(contentsOf: shelf.contents)
                             self.allMeta = shelf.meta
                             self.allMeta.resultCount = 25
                             self.allLoaded = true
                         } else if self.profileContentType == .post {
+                            if shelf.meta.resultCount < self.contentRequest.maxResults {
+                                self.postCanLoad = false
+                            }
                             self.postContents.append(contentsOf: shelf.contents)
                             self.postMeta = shelf.meta
                             self.postMeta.resultCount = 25
                             self.postLoaded = true
                         } else if self.profileContentType == .blog {
+                            if shelf.meta.resultCount < self.contentRequest.maxResults {
+                                self.blogCanLoad = false
+                            }
                             self.blogContents.append(contentsOf: shelf.contents)
                             self.blogMeta = shelf.meta
                             self.blogMeta.resultCount = 25
                             self.blogLoaded = true
                         } else if self.profileContentType == .photo {
+                            if shelf.meta.resultCount < self.contentRequest.maxResults {
+                                self.photoCanLoad = false
+                            }
                             self.photoContents.append(contentsOf: shelf.contents)
                             self.photoMeta = shelf.meta
                             self.photoMeta.resultCount = 25
@@ -226,7 +292,6 @@ public final class ProfileFeedViewModel {
         self.postContents = []
         self.blogContents = []
         self.photoContents = []
-        self.displayContents = []
         self.profileType = profileType
         self.page = page
         self.castcleId = castcleId
@@ -234,7 +299,6 @@ public final class ProfileFeedViewModel {
         self.postMeta = Meta()
         self.blogMeta = Meta()
         self.photoMeta = Meta()
-        self.displayMeta = Meta()
         self.contentRequest = ContentRequest()
     }
 
@@ -243,33 +307,31 @@ public final class ProfileFeedViewModel {
         self.postContents = []
         self.blogContents = []
         self.photoContents = []
-        self.displayContents = []
         self.allMeta = Meta()
         self.postMeta = Meta()
         self.blogMeta = Meta()
         self.photoMeta = Meta()
-        self.displayMeta = Meta()
         self.contentRequest = ContentRequest()
         self.allLoaded = false
         self.postLoaded = false
         self.blogLoaded = false
         self.photoLoaded = false
+        self.allCanLoad = true
+        self.postCanLoad = true
+        self.blogCanLoad = true
+        self.photoCanLoad = true
         self.getContents()
     }
     
-    func updateDisplayContent() {
+    func removeContentAt(index: Int) {
         if self.profileContentType == .all {
-            self.displayContents = self.allContents
-            self.displayMeta = self.allMeta
+            self.allContents.remove(at: index)
         } else if self.profileContentType == .post {
-            self.displayContents = self.postContents
-            self.displayMeta = self.postMeta
+            self.postContents.remove(at: index)
         } else if self.profileContentType == .blog {
-            self.displayContents = self.blogContents
-            self.displayMeta = self.blogMeta
+            self.blogContents.remove(at: index)
         } else if self.profileContentType == .photo {
-            self.displayContents = self.photoContents
-            self.displayMeta = self.photoMeta
+            self.photoContents.remove(at: index)
         }
     }
 }

@@ -29,6 +29,8 @@ import UIKit
 import Core
 import Component
 import Networking
+import Authen
+import Post
 
 class ProfileViewController: UIViewController {
 
@@ -64,17 +66,17 @@ class ProfileViewController: UIViewController {
         self.tableView.isScrollEnabled = false
         self.tableView.cr.addHeadRefresh(animator: FastAnimator()) { [weak self] in
             guard let self = self else { return }
+            self.tableView.cr.resetNoMore()
             self.tableView.isScrollEnabled = false
             self.profileViewModel.profileLoaded = false
             self.tableView.reloadData()
             self.profileViewModel.getProfile()
+            self.profileFeedViewModel.resetContent()
         }
         
-        self.tableView.cr.addFootRefresh(animator: NormalFooterAnimator()) { [weak self] in
-            guard let self = self else { return }
-            
-            if !self.profileFeedViewModel.displayMeta.oldestId.isEmpty {
-//                self.profileFeedViewModel.getContents()
+        self.tableView.cr.addFootRefresh(animator: NormalFooterAnimator()) {
+            if self.profileFeedViewModel.feedCanLoad {
+                self.profileFeedViewModel.getContents()
             } else {
                 self.tableView.cr.noticeNoMoreData()
             }
@@ -109,6 +111,8 @@ class ProfileViewController: UIViewController {
                 self.tableView.reloadData()
             })
         }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.getContent(notification:)), name: .getMyContent, object: nil)
     }
     
     func configureTableView() {
@@ -117,6 +121,7 @@ class ProfileViewController: UIViewController {
         self.tableView.register(UINib(nibName: ProfileNibVars.TableViewCell.profileHeader, bundle: ConfigBundle.profile), forCellReuseIdentifier: ProfileNibVars.TableViewCell.profileHeader)
         self.tableView.register(UINib(nibName: ProfileNibVars.TableViewCell.feedHeader, bundle: ConfigBundle.profile), forCellReuseIdentifier: ProfileNibVars.TableViewCell.feedHeader)
         self.tableView.register(UINib(nibName: ProfileNibVars.TableViewCell.profileHeaderSkeleton, bundle: ConfigBundle.profile), forCellReuseIdentifier: ProfileNibVars.TableViewCell.profileHeaderSkeleton)
+        self.tableView.register(UINib(nibName: ProfileNibVars.TableViewCell.profilePost, bundle: ConfigBundle.profile), forCellReuseIdentifier: ProfileNibVars.TableViewCell.profilePost)
         self.tableView.registerFeedCell()
         self.tableView.rowHeight = UITableView.automaticDimension
         self.tableView.estimatedRowHeight = 100
@@ -131,11 +136,15 @@ class ProfileViewController: UIViewController {
             self.customNavigationBar(.secondary, title: self.profileViewModel.displayName)
         }
     }
+    
+    @objc func getContent(notification: NSNotification) {
+        self.profileFeedViewModel.resetContent()
+    }
 }
 
 extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return (self.profileFeedViewModel.feedLoaded ? 2 + self.profileFeedViewModel.displayContents.count : 5)
+        return (self.profileFeedViewModel.feedLoaded ? 2 + self.profileFeedViewModel.displayContents.count : 10)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -146,7 +155,11 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
                 return 1
             }
         } else if section == ProfileViewControllerSection.munu.rawValue {
-            return 1
+            if self.profileViewModel.profileLoaded {
+                return 1
+            } else {
+                return 0
+            }
         } else {
             if self.profileFeedViewModel.feedLoaded {
                 let content = self.profileFeedViewModel.displayContents[section - 2]
@@ -176,7 +189,10 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
                     return cell ?? ProfileHeaderSkeletonTableViewCell()
                 }
             } else {
-                return UITableViewCell()
+                let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.profilePost, for: indexPath as IndexPath) as? ProfilePostTableViewCell
+                cell?.backgroundColor = UIColor.Asset.darkGray
+                cell?.configCell(profileType: self.profileViewModel.profileType, pageInfo: self.profileViewModel.pageInfo)
+                return cell ?? ProfilePostTableViewCell()
             }
         } else if indexPath.section == 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.feedHeader, for: indexPath as IndexPath) as? FeedHeaderTableViewCell
@@ -310,59 +326,61 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension ProfileViewController: ProfileHeaderTableViewCellDelegate {
     func didUpdateProfileSuccess(_ profileHeaderTableViewCell: ProfileHeaderTableViewCell) {
-        //
+        self.tableView.reloadData()
     }
 }
 
 extension ProfileViewController: HeaderTableViewCellDelegate {
     func didRemoveSuccess(_ headerTableViewCell: HeaderTableViewCell) {
-//        if let indexPath = self.tableView.indexPath(for: headerTableViewCell) {
-//            self.viewModel.feeds.remove(at: indexPath.section)
-//            self.tableView.reloadData()
-//        }
+        if let indexPath = self.tableView.indexPath(for: headerTableViewCell) {
+            UIView.transition(with: self.tableView, duration: 0.35, options: .transitionCrossDissolve, animations: {
+                self.profileFeedViewModel.removeContentAt(index: indexPath.section - 2)
+                self.tableView.reloadData()
+            })
+        }
     }
     
     func didTabProfile(_ headerTableViewCell: HeaderTableViewCell, author: Author) {
-//        if author.type == .page {
-//            ProfileOpener.openProfileDetail(author.type, castcleId: nil, displayName: "", page: Page().initCustom(id: author.id, displayName: author.displayName, castcleId: author.castcleId, avatar: author.avatar.thumbnail, cover: ""))
-//        } else {
-//            ProfileOpener.openProfileDetail(author.type, castcleId: author.castcleId, displayName: author.displayName, page: nil)
-//        }
+        if author.type == .page {
+            ProfileOpener.openProfileDetail(author.type, castcleId: nil, displayName: "", page: Page().initCustom(id: author.id, displayName: author.displayName, castcleId: author.castcleId, avatar: author.avatar.thumbnail, cover: ""))
+        } else {
+            ProfileOpener.openProfileDetail(author.type, castcleId: author.castcleId, displayName: author.displayName, page: nil)
+        }
     }
     
     func didAuthen(_ headerTableViewCell: HeaderTableViewCell) {
-//        Utility.currentViewController().presentPanModal(AuthenOpener.open(.signUpMethod) as! SignUpMethodViewController)
+        Utility.currentViewController().presentPanModal(AuthenOpener.open(.signUpMethod) as! SignUpMethodViewController)
     }
     
     func didReportSuccess(_ headerTableViewCell: HeaderTableViewCell) {
-//        if let indexPath = self.tableView.indexPath(for: headerTableViewCell) {
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//                Utility.currentViewController().navigationController?.pushViewController(ComponentOpener.open(.reportSuccess(true, "")), animated: true)
-//            }
-//
-//            UIView.transition(with: self.tableView, duration: 0.35, options: .transitionCrossDissolve, animations: {
-//                self.viewModel.feeds.remove(at: indexPath.section)
-//                self.tableView.reloadData()
-//            })
-//        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1 ) {
+            Utility.currentViewController().navigationController?.pushViewController(ComponentOpener.open(.reportSuccess(true, "")), animated: true)
+        }
+        
+        if let indexPath = self.tableView.indexPath(for: headerTableViewCell) {
+            UIView.transition(with: self.tableView, duration: 0.35, options: .transitionCrossDissolve, animations: {
+                self.profileFeedViewModel.removeContentAt(index: indexPath.section - 2)
+                self.tableView.reloadData()
+            })
+        }
     }
 }
 
 extension ProfileViewController: FooterTableViewCellDelegate {
     func didTabComment(_ footerTableViewCell: FooterTableViewCell, content: Content) {
-//        Utility.currentViewController().navigationController?.pushViewController(ComponentOpener.open(.comment(CommentViewModel(content: content))), animated: true)
+        Utility.currentViewController().navigationController?.pushViewController(ComponentOpener.open(.comment(CommentViewModel(content: content))), animated: true)
     }
     
     func didTabQuoteCast(_ footerTableViewCell: FooterTableViewCell, content: Content, page: Page) {
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 1 ) {
-//            let vc = PostOpener.open(.post(PostViewModel(postType: .quoteCast, content: content, page: page)))
-//            vc.modalPresentationStyle = .fullScreen
-//            Utility.currentViewController().present(vc, animated: true, completion: nil)
-//        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1 ) {
+            let vc = PostOpener.open(.post(PostViewModel(postType: .quoteCast, content: content, page: page)))
+            vc.modalPresentationStyle = .fullScreen
+            Utility.currentViewController().present(vc, animated: true, completion: nil)
+        }
     }
     
     func didAuthen(_ footerTableViewCell: FooterTableViewCell) {
-//        Utility.currentViewController().presentPanModal(AuthenOpener.open(.signUpMethod) as! SignUpMethodViewController)
+        Utility.currentViewController().presentPanModal(AuthenOpener.open(.signUpMethod) as! SignUpMethodViewController)
     }
 }
 
@@ -370,8 +388,8 @@ extension ProfileViewController: FeedHeaderTableViewCellDelegate {
     func didSelectTab(_ feedHeaderTableViewCell: FeedHeaderTableViewCell, profileContentType: ProfileContentType) {
         if profileContentType != self.profileFeedViewModel.profileContentType {
             self.profileFeedViewModel.profileContentType = profileContentType
+            self.tableView.cr.resetNoMore()
             if self.profileFeedViewModel.feedLoaded {
-                self.profileFeedViewModel.updateDisplayContent()
                 self.tableView.reloadData()
             } else {
                 self.profileFeedViewModel.getContents()
@@ -384,10 +402,8 @@ extension ProfileViewController: FeedHeaderTableViewCellDelegate {
 extension ProfileViewController: ProfileFeedViewModelDelegate {
     func didGetContentFinish(success: Bool) {
         if success {
-            self.profileFeedViewModel.updateDisplayContent()
-            UIView.transition(with: self.view, duration: 0.35, options: .transitionCrossDissolve, animations: {
-                self.tableView.reloadData()
-            })
+            self.tableView.cr.endLoadingMore()
+            self.tableView.reloadData()
         }
     }
 }

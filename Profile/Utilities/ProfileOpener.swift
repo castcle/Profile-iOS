@@ -39,10 +39,6 @@ public enum ProfileScene {
     case userInfo
     case editInfo(ProfileType, PageInfo)
     case action
-    case userDetail(UserDetailViewModel)
-    case meHeader(MeHeaderViewModel)
-    case infoTab
-    case userFeed(UserFeedViewModel)
     case welcomeCreatePage
     case createPage
     case deletePage(DeletePageViewModel)
@@ -86,25 +82,6 @@ public struct ProfileOpener {
             let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.me, bundle: ConfigBundle.profile)
             let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.action)
             return vc
-        case .userDetail(let viewModel):
-            let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.me, bundle: ConfigBundle.profile)
-            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.userDetail) as? UserDetailViewController
-            vc?.viewModel = viewModel
-            return vc ?? UserDetailViewController()
-        case .meHeader(let viewModel):
-            let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.me, bundle: ConfigBundle.profile)
-            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.meHeader) as? MeHeaderViewController
-            vc?.viewModel = viewModel
-            return vc ?? MeHeaderViewController()
-        case .infoTab:
-            let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.me, bundle: ConfigBundle.profile)
-            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.infoTab)
-            return vc
-        case .userFeed(let viewModel):
-            let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.me, bundle: ConfigBundle.profile)
-            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.userFeed) as? UserFeedViewController
-            vc?.viewModel = viewModel
-            return vc ?? UserFeedViewController()
         case .welcomeCreatePage:
             let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.profile, bundle: ConfigBundle.profile)
             let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.welcomeCreatePage)

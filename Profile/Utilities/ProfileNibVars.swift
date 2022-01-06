@@ -35,10 +35,6 @@ public struct ProfileNibVars {
         public static let userInfo = "UserInfoViewController"
         public static let editInfo = "EditInfoViewController"
         public static let action = "ProfileActionViewController"
-        public static let userDetail = "UserDetailViewController"
-        public static let meHeader = "MeHeaderViewController"
-        public static let infoTab = "UserInfoTabStripViewController"
-        public static let userFeed = "UserFeedViewController"
         public static let welcomeCreatePage = "WelcomeCreatePageViewController"
         public static let createPage = "PageDisplayNameViewController"
         public static let deletePage = "DeletePageViewController"
@@ -68,6 +64,7 @@ public struct ProfileNibVars {
         public static let profileHeader = "ProfileHeaderTableViewCell"
         public static let feedHeader = "FeedHeaderTableViewCell"
         public static let profileHeaderSkeleton = "ProfileHeaderSkeletonTableViewCell"
+        public static let profilePost = "ProfilePostTableViewCell"
     }
     
     // MARK: - CollectionViewCell
