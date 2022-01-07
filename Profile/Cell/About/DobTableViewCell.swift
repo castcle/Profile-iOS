@@ -40,7 +40,6 @@ class DobTableViewCell: UITableViewCell {
     @IBOutlet var birthdayTextField: JVFloatLabeledTextField! {
         didSet {
             self.birthdayTextField.font = UIFont.asset(.regular, fontSize: .body)
-            self.birthdayTextField.placeholder = "Date"
             self.birthdayTextField.placeholderColor = UIColor.Asset.gray
             self.birthdayTextField.floatingLabelTextColor = UIColor.Asset.gray
             self.birthdayTextField.floatingLabelActiveTextColor = UIColor.Asset.gray
@@ -62,6 +61,11 @@ class DobTableViewCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
+    }
+    
+    func configCell() {
+        self.birthdayLabel.text = Localization.updateInfo.birthday.text
+        self.birthdayTextField.placeholder = Localization.updateInfo.date.text
     }
     
     @IBAction func selectDateAction(_ sender: Any) {

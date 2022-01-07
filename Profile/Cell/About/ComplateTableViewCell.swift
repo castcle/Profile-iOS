@@ -51,11 +51,11 @@ class ComplateTableViewCell: UITableViewCell {
     func configCell(isSkip: Bool) {
         self.isSkip = isSkip
         if isSkip {
-            self.complateButton.setTitle("Skip", for: .normal)
+            self.complateButton.setTitle(Localization.updateInfo.skip.text, for: .normal)
             self.complateButton.setTitleColor(UIColor.Asset.lightBlue, for: .normal)
             self.complateButton.capsule(color: UIColor.Asset.darkGraphiteBlue, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
         } else {
-            self.complateButton.setTitle("Done", for: .normal)
+            self.complateButton.setTitle(Localization.updateInfo.done.text, for: .normal)
             self.complateButton.setTitleColor(UIColor.Asset.white, for: .normal)
             self.complateButton.capsule(color: UIColor.Asset.lightBlue, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
         }

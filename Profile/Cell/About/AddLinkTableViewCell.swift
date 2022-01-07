@@ -46,6 +46,11 @@ class AddLinkTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
+    func configCell() {
+        self.linkLabel.text = Localization.updateInfo.links.text
+        self.addSocialButton.setTitle(Localization.updateInfo.addSocial.text, for: .normal)
+    }
+    
     @IBAction func addSocialAction(_ sender: Any) {
         Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.addLink), animated: true)
     }

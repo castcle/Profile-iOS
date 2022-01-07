@@ -141,15 +141,18 @@ extension AboutInfoViewController: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.about, for: indexPath as IndexPath) as? AboutTableViewCell
             cell?.backgroundColor = UIColor.clear
             cell?.delegate = self
+            cell?.configCell()
             return cell ?? AboutTableViewCell()
         case AboutInfoViewControllerSection.dob.rawValue:
             let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.dob, for: indexPath as IndexPath) as? DobTableViewCell
             cell?.backgroundColor = UIColor.clear
             cell?.delegate = self
+            cell?.configCell()
             return cell ?? DobTableViewCell()
         case AboutInfoViewControllerSection.addSocial.rawValue:
             let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.addLink, for: indexPath as IndexPath) as? AddLinkTableViewCell
             cell?.backgroundColor = UIColor.clear
+            cell?.configCell()
             return cell ?? AddLinkTableViewCell()
         case AboutInfoViewControllerSection.social.rawValue:
             let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.social, for: indexPath as IndexPath) as? SocialTableViewCell

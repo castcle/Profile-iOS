@@ -1,0 +1,66 @@
+//  Copyright (c) 2021, Castcle and/or its affiliates. All rights reserved.
+//  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+//
+//  This code is free software; you can redistribute it and/or modify it
+//  under the terms of the GNU General Public License version 3 only, as
+//  published by the Free Software Foundation.
+//
+//  This code is distributed in the hope that it will be useful, but WITHOUT
+//  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+//  FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+//  version 3 for more details (a copy is included in the LICENSE file that
+//  accompanied this code).
+//
+//  You should have received a copy of the GNU General Public License version
+//  3 along with this work; if not, write to the Free Software Foundation,
+//  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+//
+//  Please contact Castcle, 22 Phet Kasem 47/2 Alley, Bang Khae, Bangkok,
+//  Thailand 10160, or visit www.castcle.com if you need additional information
+//  or have any questions.
+/*
+  Localizable.strings
+  Profile
+
+  Created by Castcle Co., Ltd. on 7/1/2565 BE.
+  
+*/
+
+// MARK: - Create Page
+"create_page_title"                 = "Create Page";
+"create_page_headline"              = "Create your page";
+"create_page_button"                = "Next";
+
+// MARK: - Create Page Display Name
+"create_page_name_headline"         = "Your Display name";
+"create_page_name_description"      = "You can change your display name later from your account settings.";
+"create_page_name_display_name"     = "Display name";
+"create_page_name_button"           = "Next";
+
+// MARK: - Choose Profile Image
+"choose_profile_image_skip"         = "Skip";
+"choose_profile_image_headline"     = "Add your Profile picture";
+"choose_profile_image_description"  = "Profile picture will help your friend can reach you";
+"choose_profile_image_camera_roll"  = "Choose from Camera Roll";
+"choose_profile_image_take_photo"   = "Take Photo";
+
+// MARK: - Update info
+"update_info_headline"              = "About you";
+"update_info_overview"              = "Overview";
+"update_info_overview_placeholder"  = "What's make you different?";
+"update_info_links"                 = "Links";
+"update_info_add_social"            = "+ Add social media or website";
+"update_info_skip"                  = "Skip";
+"update_info_done"                  = "Done";
+"update_info_birthday"              = "What is your birthday?";
+"update_info_date"                  = "Date";
+
+// MARK: - Add Social
+"add_social_title"                  = "+ Add social media or website";
+"add_social_apply"                  = "Apply";
+"add_social_description"            = "Add another channel for someone interesting on you can follow up.";
+"add_social_facebook"               = "Facebook";
+"add_social_twitter"                = "Twitter";
+"add_social_youtube"                = "Youtube";
+"add_social_medium"                 = "Medium";
+"add_social_website"                = "Website";
