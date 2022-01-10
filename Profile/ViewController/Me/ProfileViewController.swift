@@ -155,11 +155,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
                 return 1
             }
         } else if section == ProfileViewControllerSection.munu.rawValue {
-            if self.profileViewModel.profileLoaded {
-                return 1
-            } else {
-                return 0
-            }
+            return 0
         } else {
             if self.profileFeedViewModel.feedLoaded {
                 let content = self.profileFeedViewModel.displayContents[section - 2]
@@ -242,20 +238,20 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        if section > 1 {
-            return 5
-        } else {
+        if section == 1 {
             return 0
+        } else {
+            return 5
         }
     }
 
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        if section > 1 {
+        if section == 1 {
+            return UIView()
+        } else {
             let footerView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: tableView.frame.width, height: 5))
             footerView.backgroundColor = UIColor.clear
             return footerView
-        } else {
-            return UIView()
         }
     }
     
