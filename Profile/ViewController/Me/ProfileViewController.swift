@@ -256,21 +256,18 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let content = self.profileFeedViewModel.displayContents[indexPath.section - 2]
-        if content.referencedCasts.type == .recasted {
-            if content.type == .long && indexPath.row == 2 {
-                self.profileFeedViewModel.displayContents[indexPath.section - 1].isExpand.toggle()
-                tableView.reloadRows(at: [indexPath], with: .automatic)
-            }
-        } else if content.referencedCasts.type == .quoted {
-            if content.type == .long && indexPath.row == 1 {
-                self.profileFeedViewModel.displayContents[indexPath.section - 1].isExpand.toggle()
-                tableView.reloadRows(at: [indexPath], with: .automatic)
-            }
-        } else {
-            if content.type == .long && indexPath.row == 1 {
-                self.profileFeedViewModel.displayContents[indexPath.section - 1].isExpand.toggle()
-                tableView.reloadRows(at: [indexPath], with: .automatic)
+        if indexPath.section >= 2 {
+            let content = self.profileFeedViewModel.displayContents[indexPath.section - 2]
+            if content.referencedCasts.type == .recasted {
+                if content.type == .long && indexPath.row == 2 {
+                    self.profileFeedViewModel.displayContents[indexPath.section - 1].isExpand.toggle()
+                    tableView.reloadRows(at: [indexPath], with: .automatic)
+                }
+            } else {
+                if content.type == .long && indexPath.row == 1 {
+                    self.profileFeedViewModel.displayContents[indexPath.section - 1].isExpand.toggle()
+                    tableView.reloadRows(at: [indexPath], with: .automatic)
+                }
             }
         }
     }
