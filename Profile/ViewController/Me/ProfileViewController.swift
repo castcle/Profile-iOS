@@ -31,6 +31,7 @@ import Component
 import Networking
 import Authen
 import Post
+import Defaults
 
 class ProfileViewController: UIViewController {
 
@@ -61,8 +62,6 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
         self.configureTableView()
-        self.setupNavBar()
-        
         self.tableView.isScrollEnabled = false
         self.tableView.cr.addHeadRefresh(animator: FastAnimator()) { [weak self] in
             guard let self = self else { return }
@@ -113,6 +112,25 @@ class ProfileViewController: UIViewController {
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.getContent(notification:)), name: .getMyContent, object: nil)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.setupNavBar()
+        if self.profileViewModel.profileType == .people || self.profileViewModel.profileType == .me {
+            Defaults[.screenId] = ScreenId.profileTimeline.rawValue
+        } else {
+            Defaults[.screenId] = ScreenId.pageTimeline.rawValue
+        }
+    }
+    
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if self.profileViewModel.profileType == .people || self.profileViewModel.profileType == .me {
+            EngagementHelper().sendCastcleAnalytic(event: .onScreenView, screen: .profileTimeline)
+        } else {
+            EngagementHelper().sendCastcleAnalytic(event: .onScreenView, screen: .pageTimeline)
+        }
     }
     
     func configureTableView() {
