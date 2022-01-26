@@ -340,6 +340,10 @@ extension ProfileViewController: ProfileHeaderTableViewCellDelegate {
     func didUpdateProfileSuccess(_ profileHeaderTableViewCell: ProfileHeaderTableViewCell) {
         self.tableView.reloadData()
     }
+    
+    func didAuthen(_ profileHeaderTableViewCell: ProfileHeaderTableViewCell) {
+        Utility.currentViewController().presentPanModal(AuthenOpener.open(.signUpMethod) as! SignUpMethodViewController)
+    }
 }
 
 extension ProfileViewController: HeaderTableViewCellDelegate {

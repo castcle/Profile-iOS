@@ -37,6 +37,7 @@ import TOCropViewController
 
 protocol ProfileHeaderTableViewCellDelegate {
     func didUpdateProfileSuccess(_ profileHeaderTableViewCell: ProfileHeaderTableViewCell)
+    func didAuthen(_ profileHeaderTableViewCell: ProfileHeaderTableViewCell)
 }
 
 class ProfileHeaderTableViewCell: UITableViewCell {
@@ -192,13 +193,17 @@ class ProfileHeaderTableViewCell: UITableViewCell {
     }
     
     @IBAction func followAction(_ sender: Any) {
-        if self.viewModel.isFollow {
-            self.viewModel.unfollowUser()
+        if UserManager.shared.isLogin {
+            if self.viewModel.isFollow {
+                self.viewModel.unfollowUser()
+            } else {
+                self.viewModel.followUser()
+            }
+            self.viewModel.isFollow.toggle()
+            self.followUI()
         } else {
-            self.viewModel.followUser()
+            self.delegate?.didAuthen(self)
         }
-        self.viewModel.isFollow.toggle()
-        self.followUI()
     }
 }
 
