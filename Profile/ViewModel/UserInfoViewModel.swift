@@ -41,64 +41,64 @@ public class UserInfoViewModel {
         
         if self.profileType == .people {
             if !(self.userInfo?.links.facebook.isEmpty ?? true) {
-                self.socialLink.append(SocialLink(socialLinkType: .facebook, value: self.userInfo?.links.facebook ?? ""))
+                self.socialLink.append(SocialLink(socialLinkType: .facebook, value: self.userInfo?.links.facebook ?? "N/A"))
             } else {
-                self.socialLink.append(SocialLink(socialLinkType: .facebook, value: ""))
+                self.socialLink.append(SocialLink(socialLinkType: .facebook, value: "N/A"))
             }
             
             if !(self.userInfo?.links.twitter.isEmpty ?? true) {
-                self.socialLink.append(SocialLink(socialLinkType: .twitter, value: self.userInfo?.links.twitter ?? ""))
+                self.socialLink.append(SocialLink(socialLinkType: .twitter, value: self.userInfo?.links.twitter ?? "N/A"))
             } else {
-                self.socialLink.append(SocialLink(socialLinkType: .twitter, value: ""))
+                self.socialLink.append(SocialLink(socialLinkType: .twitter, value: "N/A"))
             }
             
             if !(self.userInfo?.links.youtube.isEmpty ?? true) {
-                self.socialLink.append(SocialLink(socialLinkType: .youtube, value: self.userInfo?.links.youtube ?? ""))
+                self.socialLink.append(SocialLink(socialLinkType: .youtube, value: self.userInfo?.links.youtube ?? "N/A"))
             } else {
-                self.socialLink.append(SocialLink(socialLinkType: .youtube, value: ""))
+                self.socialLink.append(SocialLink(socialLinkType: .youtube, value: "N/A"))
             }
             
             if !(self.userInfo?.links.medium.isEmpty ?? true) {
-                self.socialLink.append(SocialLink(socialLinkType: .medium, value: self.userInfo?.links.medium ?? ""))
+                self.socialLink.append(SocialLink(socialLinkType: .medium, value: self.userInfo?.links.medium ?? "N/A"))
             } else {
-                self.socialLink.append(SocialLink(socialLinkType: .medium, value: ""))
+                self.socialLink.append(SocialLink(socialLinkType: .medium, value: "N/A"))
             }
             
             if !(self.userInfo?.links.website.isEmpty ?? true) {
-                self.socialLink.append(SocialLink(socialLinkType: .website, value: self.userInfo?.links.website ?? ""))
+                self.socialLink.append(SocialLink(socialLinkType: .website, value: self.userInfo?.links.website ?? "N/A"))
             } else {
-                self.socialLink.append(SocialLink(socialLinkType: .website, value: ""))
+                self.socialLink.append(SocialLink(socialLinkType: .website, value: "N/A"))
             }
             
         } else if self.profileType == .page {
             if !self.pageInfo.links.facebook.isEmpty {
                 self.socialLink.append(SocialLink(socialLinkType: .facebook, value: self.pageInfo.links.facebook))
             } else {
-                self.socialLink.append(SocialLink(socialLinkType: .facebook, value: ""))
+                self.socialLink.append(SocialLink(socialLinkType: .facebook, value: "N/A"))
             }
             
             if !self.pageInfo.links.twitter.isEmpty {
                 self.socialLink.append(SocialLink(socialLinkType: .twitter, value: self.pageInfo.links.twitter))
             } else {
-                self.socialLink.append(SocialLink(socialLinkType: .twitter, value: ""))
+                self.socialLink.append(SocialLink(socialLinkType: .twitter, value: "N/A"))
             }
             
             if !self.pageInfo.links.youtube.isEmpty {
                 self.socialLink.append(SocialLink(socialLinkType: .youtube, value: self.pageInfo.links.youtube))
             } else {
-                self.socialLink.append(SocialLink(socialLinkType: .youtube, value: ""))
+                self.socialLink.append(SocialLink(socialLinkType: .youtube, value: "N/A"))
             }
             
             if !self.pageInfo.links.medium.isEmpty {
                 self.socialLink.append(SocialLink(socialLinkType: .medium, value: self.pageInfo.links.medium))
             } else {
-                self.socialLink.append(SocialLink(socialLinkType: .medium, value: ""))
+                self.socialLink.append(SocialLink(socialLinkType: .medium, value: "N/A"))
             }
             
             if !self.pageInfo.links.website.isEmpty {
                 self.socialLink.append(SocialLink(socialLinkType: .website, value: self.pageInfo.links.website))
             } else {
-                self.socialLink.append(SocialLink(socialLinkType: .website, value: ""))
+                self.socialLink.append(SocialLink(socialLinkType: .website, value: "N/A"))
             }
         }
     }
