@@ -45,6 +45,7 @@ public enum ProfileScene {
     case confirmDeletePage(DeletePageViewModel)
     case deletePageSuccess
     case profile(ProfileViewModel, ProfileFeedViewModel)
+    case newPageWithSocial
 }
 
 public struct ProfileOpener {
@@ -110,6 +111,10 @@ public struct ProfileOpener {
             vc?.profileViewModel = profileViewModel
             vc?.profileFeedViewModel = profileFeedViewModel
             return vc ?? ProfileViewController()
+        case .newPageWithSocial:
+            let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.profile, bundle: ConfigBundle.profile)
+            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.newPageWithSocial) as? NewPageWithSocialViewController
+            return vc ?? NewPageWithSocialViewController()
         }
     }
     
