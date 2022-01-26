@@ -28,6 +28,11 @@
 import UIKit
 import Core
 
+protocol NewPageWithSocialTableViewCellDelegate {
+    func didSyncFacebook(_ newPageWithSocialTableViewCell: NewPageWithSocialTableViewCell)
+    func didSyncTwitter(_ newPageWithSocialTableViewCell: NewPageWithSocialTableViewCell)
+}
+
 class NewPageWithSocialTableViewCell: UITableViewCell {
 
     @IBOutlet var titleLabel: UILabel!
@@ -39,6 +44,8 @@ class NewPageWithSocialTableViewCell: UITableViewCell {
     @IBOutlet var facebookImage: UIImageView!
     @IBOutlet var twitterImage: UIImageView!
     @IBOutlet var createPageNormalButton: UIButton!
+    
+    public var delegate: NewPageWithSocialTableViewCellDelegate?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -71,55 +78,11 @@ class NewPageWithSocialTableViewCell: UITableViewCell {
     }
     
     @IBAction func facebookAction(_ sender: Any) {
-//        let loginManager = LoginManager()
-//        if let _ = AccessToken.current {
-//            loginManager.logOut()
-//        } else {
-//            loginManager.logIn(permissions: ["public_profile", "email", "pages_show_list"], from: self) { (result, error) in
-//                guard error == nil else {
-//                    print(error!.localizedDescription)
-//                    return
-//                }
-//
-//                guard let result = result, !result.isCancelled else {
-//                    print("User cancelled login")
-//                    return
-//                }
-//
-//                Profile.loadCurrentProfile { (profile, error) in
-//                    let userId: String = profile?.userID ?? ""
-//                    let email: String = profile?.email ?? ""
-//                    let fullName: String = profile?.name ?? ""
-//                    let profilePicUrl: String = "http://graph.facebook.com/\(AccessToken.current?.userID ?? "")/picture?type=large"
-//                    let accessToken: String = AccessToken.current?.tokenString ?? ""
-//
-//                    var authenRequest: AuthenRequest = AuthenRequest()
-//                    authenRequest.provider = .facebook
-//                    authenRequest.uid = userId
-//                    authenRequest.displayName = fullName
-//                    authenRequest.avatar = profilePicUrl
-//                    authenRequest.email = email
-//                    authenRequest.authToken = accessToken
-//
-//                    self.dismiss(animated: true)
-//                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//                        self.hud.show(in: Utility.currentViewController().view)
-//                        self.viewModel.authenRequest = authenRequest
-//                        self.viewModel.socialLogin()
-//                    }
-//                }
-//            }
-//        }
+        self.delegate?.didSyncFacebook(self)
     }
     
     @IBAction func twitterAction(_ sender: Any) {
-//        self.swifter = Swifter(consumerKey: TwitterConstants.key, consumerSecret: TwitterConstants.secretKey)
-//        self.swifter.authorize(withProvider: self, callbackURL: URL(string: TwitterConstants.callbackUrl)!) { accessToken, response in
-//            self.accToken = accessToken
-//            self.getUserProfile()
-//        } failure: { error in
-//            print("ERROR: \(error.localizedDescription)")
-//        }
+        self.delegate?.didSyncTwitter(self)
     }
     
     @IBAction func createPageNormalAction(_ sender: Any) {

@@ -28,23 +28,26 @@
 import UIKit
 import Core
 import Defaults
+import Swifter
+import SafariServices
+import AuthenticationServices
+import FBSDKLoginKit
+import JGProgressHUD
 
 class NewPageWithSocialViewController: UIViewController {
 
     @IBOutlet var tableView: UITableView!
     
-    enum UserInfoViewControllerSection: Int, CaseIterable {
-        case info = 0
-        case link
-    }
-    
-    var viewModel = UserInfoViewModel()
+    var swifter: Swifter!
+    var accToken: Credential.OAuthAccessToken?
+    let hud = JGProgressHUD()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
         self.setupNavBar()
         self.configureTableView()
+        self.hud.textLabel.text = "Creating"
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -78,6 +81,97 @@ extension NewPageWithSocialViewController: UITableViewDelegate, UITableViewDataS
         let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.newPageWithSocial, for: indexPath as IndexPath) as? NewPageWithSocialTableViewCell
         cell?.backgroundColor = UIColor.clear
         cell?.configCell()
+        cell?.delegate = self
         return cell ?? NewPageWithSocialTableViewCell()
+    }
+}
+
+extension NewPageWithSocialViewController: NewPageWithSocialTableViewCellDelegate {
+    func didSyncFacebook(_ newPageWithSocialTableViewCell: NewPageWithSocialTableViewCell) {
+        let loginManager = LoginManager()
+        if let _ = AccessToken.current {
+            loginManager.logOut()
+        } else {
+            loginManager.logIn(permissions: ["public_profile", "email", "pages_show_list"], from: self) { (result, error) in
+                guard error == nil else {
+                    print(error!.localizedDescription)
+                    return
+                }
+
+                guard let result = result, !result.isCancelled else {
+                    print("User cancelled login")
+                    return
+                }
+
+//                Profile.loadCurrentProfile { (profile, error) in
+//                    let userId: String = profile?.userID ?? ""
+//                    let email: String = profile?.email ?? ""
+//                    let fullName: String = profile?.name ?? ""
+//                    let profilePicUrl: String = "http://graph.facebook.com/\(AccessToken.current?.userID ?? "")/picture?type=large"
+//                    let accessToken: String = AccessToken.current?.tokenString ?? ""
+
+//                    var authenRequest: AuthenRequest = AuthenRequest()
+//                    authenRequest.provider = .facebook
+//                    authenRequest.uid = userId
+//                    authenRequest.displayName = fullName
+//                    authenRequest.avatar = profilePicUrl
+//                    authenRequest.email = email
+//                    authenRequest.authToken = accessToken
+//
+//                    self.dismiss(animated: true)
+//                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//                        self.hud.show(in: Utility.currentViewController().view)
+//                        self.viewModel.authenRequest = authenRequest
+//                        self.viewModel.socialLogin()
+//                    }
+//                }
+            }
+        }
+    }
+    
+    func didSyncTwitter(_ newPageWithSocialTableViewCell: NewPageWithSocialTableViewCell) {
+        self.swifter = Swifter(consumerKey: TwitterConstants.key, consumerSecret: TwitterConstants.secretKey)
+        self.swifter.authorize(withProvider: self, callbackURL: URL(string: TwitterConstants.callbackUrl)!) { accessToken, response in
+            self.accToken = accessToken
+            self.getUserProfile()
+        } failure: { error in
+            print("ERROR: \(error.localizedDescription)")
+        }
+    }
+}
+
+extension NewPageWithSocialViewController: SFSafariViewControllerDelegate, ASWebAuthenticationPresentationContextProviding {
+    func getUserProfile() {
+        self.swifter.verifyAccountCredentials(includeEntities: false, skipStatus: false, includeEmail: true, success: { json in
+//            let twitterId: String = json["id_str"].string ?? ""
+//            let twitterName: String = json["name"].string ?? ""
+//            let twitterEmail: String = json["email"].string ?? ""
+//            let twitterProfilePic: String = json["profile_image_url_https"].string?.replacingOccurrences(of: "_normal", with: "", options: .literal, range: nil) ?? ""
+//
+//            var authenRequest: AuthenRequest = AuthenRequest()
+//            authenRequest.provider = .twitter
+//            authenRequest.uid = twitterId
+//            authenRequest.displayName = twitterName
+//            authenRequest.avatar = twitterProfilePic
+//            authenRequest.email = twitterEmail
+//            authenRequest.authToken = self.accToken?.key ?? ""
+//
+//            self.dismiss(animated: true)
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//                self.hud.show(in: Utility.currentViewController().view)
+//                self.viewModel.authenRequest = authenRequest
+//                self.viewModel.socialLogin()
+//            }
+        }) { error in
+            print("ERROR: \(error.localizedDescription)")
+        }
+    }
+    
+    public func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
+        controller.dismiss(animated: true, completion: nil)
+    }
+    
+    public func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
+        return self.view.window!
     }
 }
