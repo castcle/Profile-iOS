@@ -170,13 +170,20 @@ class ProfileHeaderTableViewCell: UITableViewCell {
             
             let reportButton = CCAction(title: "Report @\(castcleId)", image: UIImage.init(icon: .castcle(.report), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
                 actionSheet.dismissActionSheet()
-                self.viewModel.reportUser(castcleId: castcleId, userId: userId)
+                if UserManager.shared.isLogin {
+                    self.viewModel.reportUser(castcleId: castcleId)
+                } else {
+                    self.delegate?.didAuthen(self)
+                }
             }
             let blockButton = CCAction(title: "Block @\(castcleId)", image: UIImage.init(icon: .castcle(.block), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
                 actionSheet.dismissActionSheet()
-                self.viewModel.blockUser(castcleId: castcleId, userId: userId)
+                if UserManager.shared.isLogin {
+                    self.viewModel.blockUser(castcleId: castcleId, userId: userId)
+                } else {
+                    self.delegate?.didAuthen(self)
+                }
             }
-            
             actionSheet.addActions([blockButton, reportButton])
             Utility.currentViewController().present(actionSheet, animated: true, completion: nil)
         }
