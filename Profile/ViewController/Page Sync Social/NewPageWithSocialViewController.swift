@@ -42,6 +42,16 @@ class NewPageWithSocialViewController: UIViewController {
     var accToken: Credential.OAuthAccessToken?
     let hud = JGProgressHUD()
     
+    struct FBPage {
+        var id: String = ""
+        var name: String = ""
+        
+        init(json: JSON) {
+            self.id = json["id"].string ?? ""
+            self.name = json["name"].string ?? ""
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
@@ -65,6 +75,38 @@ class NewPageWithSocialViewController: UIViewController {
         self.tableView.register(UINib(nibName: ProfileNibVars.TableViewCell.newPageWithSocial, bundle: ConfigBundle.profile), forCellReuseIdentifier: ProfileNibVars.TableViewCell.newPageWithSocial)
         self.tableView.rowHeight = UITableView.automaticDimension
         self.tableView.estimatedRowHeight = 100
+    }
+    
+    func getPages() {
+        if let _ = AccessToken.current {
+            var request: GraphRequest?
+            let accessToken = AccessToken.current?.tokenString
+            let userId = AccessToken.current?.userID ?? ""
+            let params = ["access_token" : accessToken ?? ""]
+            request = GraphRequest(graphPath: "/\(userId)/accounts?fields=name", parameters: params, httpMethod: .get)
+            request?.start() { (connection, result, error) in
+                self.hud.dismiss()
+                guard error == nil else {
+                    print(error!.localizedDescription)
+                    return
+                }
+                let json = JSON.init(result ?? "")
+                let data: [FBPage] = (json["data"].array ?? []).map { FBPage(json: $0) }
+                
+                var srr = ""
+                data.forEach { page in
+                    if srr.isEmpty {
+                        srr = "Id: \(page.id) Name: \(page.name)"
+                    } else {
+                        srr = "\(srr)\nId: \(page.id) Name: \(page.name)"
+                    }
+                }
+                
+                let alert = UIAlertController(title: "", message: srr, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+                self.present(alert, animated: true)
+            }
+        }
     }
 }
 
@@ -91,47 +133,25 @@ extension NewPageWithSocialViewController: NewPageWithSocialTableViewCellDelegat
         let loginManager = LoginManager()
         if let _ = AccessToken.current {
             loginManager.logOut()
-        } else {
-            loginManager.logIn(permissions: ["public_profile", "email", "pages_show_list"], from: self) { (result, error) in
-                guard error == nil else {
-                    print(error!.localizedDescription)
-                    return
-                }
-
-                guard let result = result, !result.isCancelled else {
-                    print("User cancelled login")
-                    return
-                }
-
-//                Profile.loadCurrentProfile { (profile, error) in
-//                    let userId: String = profile?.userID ?? ""
-//                    let email: String = profile?.email ?? ""
-//                    let fullName: String = profile?.name ?? ""
-//                    let profilePicUrl: String = "http://graph.facebook.com/\(AccessToken.current?.userID ?? "")/picture?type=large"
-//                    let accessToken: String = AccessToken.current?.tokenString ?? ""
-
-//                    var authenRequest: AuthenRequest = AuthenRequest()
-//                    authenRequest.provider = .facebook
-//                    authenRequest.uid = userId
-//                    authenRequest.displayName = fullName
-//                    authenRequest.avatar = profilePicUrl
-//                    authenRequest.email = email
-//                    authenRequest.authToken = accessToken
-//
-//                    self.dismiss(animated: true)
-//                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//                        self.hud.show(in: Utility.currentViewController().view)
-//                        self.viewModel.authenRequest = authenRequest
-//                        self.viewModel.socialLogin()
-//                    }
-//                }
+        }
+        loginManager.logIn(permissions: ["public_profile", "email", "pages_show_list"], from: self) { (result, error) in
+            guard error == nil else {
+                print(error!.localizedDescription)
+                return
             }
+            guard let result = result, !result.isCancelled else {
+                print("User cancelled login")
+                return
+            }
+            self.hud.show(in: self.view)
+            self.getPages()
         }
     }
     
     func didSyncTwitter(_ newPageWithSocialTableViewCell: NewPageWithSocialTableViewCell) {
         self.swifter = Swifter(consumerKey: TwitterConstants.key, consumerSecret: TwitterConstants.secretKey)
         self.swifter.authorize(withProvider: self, callbackURL: URL(string: TwitterConstants.callbackUrl)!) { accessToken, response in
+            self.hud.show(in: self.view)
             self.accToken = accessToken
             self.getUserProfile()
         } failure: { error in
@@ -143,26 +163,16 @@ extension NewPageWithSocialViewController: NewPageWithSocialTableViewCellDelegat
 extension NewPageWithSocialViewController: SFSafariViewControllerDelegate, ASWebAuthenticationPresentationContextProviding {
     func getUserProfile() {
         self.swifter.verifyAccountCredentials(includeEntities: false, skipStatus: false, includeEmail: true, success: { json in
-//            let twitterId: String = json["id_str"].string ?? ""
-//            let twitterName: String = json["name"].string ?? ""
-//            let twitterEmail: String = json["email"].string ?? ""
-//            let twitterProfilePic: String = json["profile_image_url_https"].string?.replacingOccurrences(of: "_normal", with: "", options: .literal, range: nil) ?? ""
-//
-//            var authenRequest: AuthenRequest = AuthenRequest()
-//            authenRequest.provider = .twitter
-//            authenRequest.uid = twitterId
-//            authenRequest.displayName = twitterName
-//            authenRequest.avatar = twitterProfilePic
-//            authenRequest.email = twitterEmail
-//            authenRequest.authToken = self.accToken?.key ?? ""
-//
-//            self.dismiss(animated: true)
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//                self.hud.show(in: Utility.currentViewController().view)
-//                self.viewModel.authenRequest = authenRequest
-//                self.viewModel.socialLogin()
-//            }
+            self.hud.dismiss()
+            let twitterId: String = json["id_str"].string ?? ""
+            let twitterName: String = json["name"].string ?? ""
+            let twitterProfilePic: String = json["profile_image_url_https"].string?.replacingOccurrences(of: "_normal", with: "", options: .literal, range: nil) ?? ""
+            
+            let alert = UIAlertController(title: "", message: "Id: \(twitterId) Name: \(twitterName) Image: \(twitterProfilePic)", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+            self.present(alert, animated: true)
         }) { error in
+            self.hud.dismiss()
             print("ERROR: \(error.localizedDescription)")
         }
     }
