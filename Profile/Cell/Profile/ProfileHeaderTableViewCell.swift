@@ -189,7 +189,7 @@ class ProfileHeaderTableViewCell: UITableViewCell {
     }
     
     @IBAction func viewProfileAction(_ sender: Any) {
-        Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.userInfo), animated: true)
+        Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.userInfo(UserInfoViewModel(profileType: self.viewModel.profileType, pageInfo: self.viewModel.pageInfo, userInfo: self.viewModel.userInfo))), animated: true)
     }
     
     @IBAction func followAction(_ sender: Any) {
@@ -453,23 +453,6 @@ extension ProfileHeaderTableViewCell {
             Utility.currentViewController().present(cropController, animated: true, completion: nil)
         }
     }
-//<<<<<<< HEAD:Profile/ViewController/Me/MeHeaderViewController.swift
-//    
-//    @IBAction func viewProfileAction(_ sender: Any) {
-//        Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.userInfo(UserInfoViewModel(profileType: self.viewModel.profileType, pageInfo: self.viewModel.pageInfo, userInfo: self.viewModel.userInfo))), animated: true)
-//    }
-//    
-//    @IBAction func followAction(_ sender: Any) {
-//        if self.viewModel.isFollow {
-//            self.viewModel.unfollowUser()
-//        } else {
-//            self.viewModel.followUser()
-//        }
-//        self.viewModel.isFollow.toggle()
-//        self.followUI()
-//    }
-//=======
-//>>>>>>> release/release_1.1.0:Profile/Cell/Profile/ProfileHeaderTableViewCell.swift
 }
 
 extension ProfileHeaderTableViewCell: TLPhotosPickerViewControllerDelegate {
