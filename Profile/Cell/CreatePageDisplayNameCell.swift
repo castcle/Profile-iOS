@@ -76,6 +76,10 @@ class CreatePageDisplayNameCell: UICollectionViewCell, UITextFieldDelegate {
     func configCell(viewModel: CreatePageDisplayNameViewModel) {
         self.viewModel = viewModel
         self.viewModel.delegate = self
+        self.headlineLabel.text = Localization.createPageName.headline.text
+        self.subTitleLabel.text = Localization.createPageName.description.text
+        self.displayNameTextfield.placeholder = Localization.createPageName.displayName.text
+        self.nextButton.setTitle(Localization.createPageName.button.text, for: .normal)
     }
     
     private func castcleId(displayCastcleId: String) -> String {

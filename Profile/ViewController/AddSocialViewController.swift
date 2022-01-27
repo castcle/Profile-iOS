@@ -51,7 +51,6 @@ class AddSocialViewController: UIViewController {
 
         self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
         self.hideKeyboardWhenTapped()
-        self.setupNavBar()
         
         self.collectionView.alwaysBounceVertical = true
         self.collectionView.showsHorizontalScrollIndicator = false
@@ -70,15 +69,16 @@ class AddSocialViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         Defaults[.screenId] = ""
+        self.setupNavBar()
     }
     
     func setupNavBar() {
-        self.customNavigationBar(.secondary, title: "+ Add social media")
+        self.customNavigationBar(.secondary, title: Localization.addSocial.title.text)
         
         var rightButton: [UIBarButtonItem] = []
         
         let icon = UIButton()
-        icon.setTitle("Apply", for: .normal)
+        icon.setTitle(Localization.addSocial.apply.text, for: .normal)
         icon.titleLabel?.font = UIFont.asset(.bold, fontSize: .h4)
         icon.setTitleColor(UIColor.Asset.lightBlue, for: .normal)
         icon.addTarget(self, action: #selector(applyAction), for: .touchUpInside)

@@ -19,39 +19,28 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  AddLinkTableViewCell.swift
+//  ProfileHeaderSkeletonTableViewCell.swift
 //  Profile
 //
-//  Created by Castcle Co., Ltd. on 16/9/2564 BE.
+//  Created by Castcle Co., Ltd. on 5/1/2565 BE.
 //
 
 import UIKit
 import Core
+import SkeletonView
 
-class AddLinkTableViewCell: UITableViewCell {
+class ProfileHeaderSkeletonTableViewCell: UITableViewCell {
 
-    @IBOutlet var linkLabel: UILabel!
-    @IBOutlet var addSocialButton: UIButton!
+    @IBOutlet var headerSkeletonView: UIView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.addSocialButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .body)
-        self.addSocialButton.setTitleColor(UIColor.Asset.lightBlue, for: .normal)
-        self.addSocialButton.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
-        self.linkLabel.font = UIFont.asset(.regular, fontSize: .body)
-        self.linkLabel.textColor = UIColor.Asset.white
+        DispatchQueue.main.async {
+            self.headerSkeletonView.showAnimatedGradientSkeleton(usingGradient: SkeletonGradient(baseColor: UIColor.Asset.gray))
+        }
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-    }
-    
-    func configCell() {
-        self.linkLabel.text = Localization.updateInfo.links.text
-        self.addSocialButton.setTitle(Localization.updateInfo.addSocial.text, for: .normal)
-    }
-    
-    @IBAction func addSocialAction(_ sender: Any) {
-        Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.addLink), animated: true)
     }
 }

@@ -19,13 +19,12 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  UserDetailViewModel.swift
+//  ProfileViewModel.swift
 //  Profile
 //
-//  Created by Castcle Co., Ltd. on 14/8/2564 BE.
+//  Created by Castcle Co., Ltd. on 3/1/2565 BE.
 //
 
-import Foundation
 import Core
 import Networking
 import SwiftyJSON
@@ -38,7 +37,7 @@ public enum ProfileType {
     case unknow
 }
 
-public final class UserDetailViewModel {
+public final class ProfileViewModel {
    
     var userRepository: UserRepository = UserRepositoryImpl()
     var pageRepository: PageRepository = PageRepositoryImpl()
@@ -49,6 +48,7 @@ public final class UserDetailViewModel {
     var castcleId: String = ""
     var displayName: String = ""
     let tokenHelper: TokenHelper = TokenHelper()
+    var profileLoaded: Bool = false
     
     var stage: Stage = .none
     
@@ -68,8 +68,11 @@ public final class UserDetailViewModel {
         if let page = page {
             self.page = page
         }
-        print("=====")
-        print(Date())
+        
+        self.getProfile()
+    }
+    
+    func getProfile() {
         if self.profileType == .me {
             self.getMeInfo()
         } else if self.profileType == .myPage || self.profileType == .page {
@@ -79,7 +82,7 @@ public final class UserDetailViewModel {
         }
     }
     
-    func getMeInfo() {
+    private func getMeInfo() {
         self.stage = .getMeInfo
         self.userRepository.getMe() { (success, response, isRefreshToken) in
             if success {
@@ -98,7 +101,7 @@ public final class UserDetailViewModel {
         }
     }
     
-    func getUserInfo() {
+    private func getUserInfo() {
         self.stage = .getUserInfo
         self.userRepository.getUser(userId: self.castcleId) { (success, response, isRefreshToken) in
             if success {
@@ -116,7 +119,7 @@ public final class UserDetailViewModel {
         }
     }
     
-    func getPageInfo() {
+    private func getPageInfo() {
         self.stage = .getPageInfo
         self.pageRepository.getPageInfo(pageId: self.page.castcleId) { (success, response, isRefreshToken) in
             if success {
@@ -139,7 +142,7 @@ public final class UserDetailViewModel {
     var didGetPageInfoFinish: (() -> ())?
 }
 
-extension UserDetailViewModel: TokenHelperDelegate {
+extension ProfileViewModel: TokenHelperDelegate {
     public func didRefreshTokenFinish() {
         if self.stage == .getMeInfo {
             self.getMeInfo()

@@ -48,7 +48,6 @@ class SelectPhotoMethodViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
-        self.setupNavBar()
         self.headlineLabel.font = UIFont.asset(.regular, fontSize: .title)
         self.headlineLabel.textColor = UIColor.Asset.white
         self.subTitleLabel.font = UIFont.asset(.regular, fontSize: .h4)
@@ -70,6 +69,12 @@ class SelectPhotoMethodViewController: UIViewController {
         super.viewWillAppear(animated)
         Defaults[.screenId] = ""
         self.hud.textLabel.text = "Saving"
+        
+        self.setupNavBar()
+        self.headlineLabel.text = Localization.chooseProfileImage.headline.text
+        self.subTitleLabel.text = Localization.chooseProfileImage.description.text
+        self.cameraRollButton.setTitle(Localization.chooseProfileImage.cameraRoll.text, for: .normal)
+        self.takePhotoButton.setTitle(Localization.chooseProfileImage.takePhoto.text, for: .normal)
     }
     
     func setupNavBar() {
@@ -83,7 +88,7 @@ class SelectPhotoMethodViewController: UIViewController {
             var rightButton: [UIBarButtonItem] = []
             
             let icon = UIButton()
-            icon.setTitle("Skip", for: .normal)
+            icon.setTitle(Localization.chooseProfileImage.skip.text, for: .normal)
             icon.titleLabel?.font = UIFont.asset(.bold, fontSize: .h4)
             icon.setTitleColor(UIColor.Asset.lightBlue, for: .normal)
             icon.addTarget(self, action: #selector(skipAction), for: .touchUpInside)

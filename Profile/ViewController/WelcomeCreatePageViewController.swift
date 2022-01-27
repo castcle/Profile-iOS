@@ -32,17 +32,13 @@ import Defaults
 class WelcomeCreatePageViewController: UIViewController {
 
     @IBOutlet var welcomeLabel: UILabel!
-    @IBOutlet var detailLabel: UILabel!
     @IBOutlet var nextButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
-        self.setupNavBar()
         self.welcomeLabel.font = UIFont.asset(.regular, fontSize: .title)
         self.welcomeLabel.textColor = UIColor.Asset.white
-        self.detailLabel.font = UIFont.asset(.regular, fontSize: .body)
-        self.detailLabel.textColor = UIColor.Asset.white
         self.nextButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .body)
         self.nextButton.setTitleColor(UIColor.Asset.white, for: .normal)
         self.nextButton.capsule(color: UIColor.Asset.lightBlue, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
@@ -51,10 +47,13 @@ class WelcomeCreatePageViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         Defaults[.screenId] = ""
+        self.setupNavBar()
+        self.welcomeLabel.text = Localization.createPage.headline.text
+        self.nextButton.setTitle(Localization.createPage.button.text, for: .normal)
     }
     
     func setupNavBar() {
-        self.customNavigationBar(.secondary, title: "สร้างเพจ")
+        self.customNavigationBar(.secondary, title: Localization.createPage.title.text)
     }
     
     @IBAction func nextAction(_ sender: Any) {

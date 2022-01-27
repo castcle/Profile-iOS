@@ -41,7 +41,6 @@ class AddSocialCell: UICollectionViewCell {
     @IBOutlet var facebookTextField: JVFloatLabeledTextField! {
         didSet {
             self.facebookTextField.font = UIFont.asset(.regular, fontSize: .body)
-            self.facebookTextField.placeholder = "Facebook"
             self.facebookTextField.placeholderColor = UIColor.Asset.gray
             self.facebookTextField.floatingLabelTextColor = UIColor.Asset.gray
             self.facebookTextField.floatingLabelActiveTextColor = UIColor.Asset.gray
@@ -52,7 +51,6 @@ class AddSocialCell: UICollectionViewCell {
     @IBOutlet var twitterTextField: JVFloatLabeledTextField! {
         didSet {
             self.twitterTextField.font = UIFont.asset(.regular, fontSize: .body)
-            self.twitterTextField.placeholder = "Twitter"
             self.twitterTextField.placeholderColor = UIColor.Asset.gray
             self.twitterTextField.floatingLabelTextColor = UIColor.Asset.gray
             self.twitterTextField.floatingLabelActiveTextColor = UIColor.Asset.gray
@@ -63,7 +61,6 @@ class AddSocialCell: UICollectionViewCell {
     @IBOutlet var youtubeTextField: JVFloatLabeledTextField! {
         didSet {
             self.youtubeTextField.font = UIFont.asset(.regular, fontSize: .body)
-            self.youtubeTextField.placeholder = "Youtube"
             self.youtubeTextField.placeholderColor = UIColor.Asset.gray
             self.youtubeTextField.floatingLabelTextColor = UIColor.Asset.gray
             self.youtubeTextField.floatingLabelActiveTextColor = UIColor.Asset.gray
@@ -74,7 +71,6 @@ class AddSocialCell: UICollectionViewCell {
     @IBOutlet var mediumTextField: JVFloatLabeledTextField! {
         didSet {
             self.mediumTextField.font = UIFont.asset(.regular, fontSize: .body)
-            self.mediumTextField.placeholder = "Medium"
             self.mediumTextField.placeholderColor = UIColor.Asset.gray
             self.mediumTextField.floatingLabelTextColor = UIColor.Asset.gray
             self.mediumTextField.floatingLabelActiveTextColor = UIColor.Asset.gray
@@ -85,7 +81,6 @@ class AddSocialCell: UICollectionViewCell {
     @IBOutlet var websiteTextField: JVFloatLabeledTextField! {
         didSet {
             self.websiteTextField.font = UIFont.asset(.regular, fontSize: .body)
-            self.websiteTextField.placeholder = "Add website"
             self.websiteTextField.placeholderColor = UIColor.Asset.gray
             self.websiteTextField.floatingLabelTextColor = UIColor.Asset.gray
             self.websiteTextField.floatingLabelActiveTextColor = UIColor.Asset.gray
@@ -121,6 +116,13 @@ class AddSocialCell: UICollectionViewCell {
         self.youtubeTextField.text = (Defaults[.youtube].isEmpty ? "https://" : Defaults[.youtube])
         self.mediumTextField.text = (Defaults[.medium].isEmpty ? "https://" : Defaults[.medium])
         self.websiteTextField.text = (Defaults[.website].isEmpty ? "https://" : Defaults[.website])
+        
+        self.titleLabel.text = Localization.addSocial.description.text
+        self.facebookTextField.placeholder = Localization.addSocial.facebook.text
+        self.twitterTextField.placeholder = Localization.addSocial.twitter.text
+        self.youtubeTextField.placeholder = Localization.addSocial.youtube.text
+        self.mediumTextField.placeholder = Localization.addSocial.medium.text
+        self.websiteTextField.placeholder = Localization.addSocial.website.text
     }
     
     static func cellSize(width: CGFloat) -> CGSize {

@@ -27,6 +27,7 @@
 
 import UIKit
 import Core
+import Networking
 import Defaults
 
 public class UserInfoViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
@@ -50,7 +51,12 @@ public class UserInfoViewController: UIViewController, UITableViewDelegate, UITa
     
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        Defaults[.screenId] = ""
+        Defaults[.screenId] = ScreenId.viewProfile.rawValue
+    }
+    
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        EngagementHelper().sendCastcleAnalytic(event: .onScreenView, screen: .viewProfile)
     }
     
     func setupNavBar() {

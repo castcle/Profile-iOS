@@ -26,6 +26,7 @@
 //
 
 import UIKit
+import Core
 
 protocol AboutTableViewCellDelegate {
     func didUpdateData(_ aboutTableViewCell: AboutTableViewCell, overview: String)
@@ -49,7 +50,6 @@ class AboutTableViewCell: UITableViewCell, UITextViewDelegate {
         self.overviewLabel.textColor = UIColor.Asset.white
         
         self.overviewTextView.delegate = self
-        self.overviewTextView.placeholder = "What's make you different?"
         self.overviewTextView.font = UIFont.asset(.regular, fontSize: .body)
         self.overviewTextView.textColor = UIColor.Asset.white
     }
@@ -58,8 +58,10 @@ class AboutTableViewCell: UITableViewCell, UITextViewDelegate {
         super.setSelected(selected, animated: animated)
     }
 
-    static func cellSize(width: CGFloat) -> CGSize {
-        return CGSize(width: width, height: 400)
+    func configCell() {
+        self.headlineLabel.text = Localization.updateInfo.headline.text
+        self.overviewLabel.text = Localization.updateInfo.overview.text
+        self.overviewTextView.placeholder = Localization.updateInfo.overviewPlaceholder.text
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
