@@ -26,6 +26,7 @@
 //
 
 import UIKit
+import Networking
 import Kingfisher
 
 class UserInfoTableViewCell: UITableViewCell {
@@ -40,36 +41,26 @@ class UserInfoTableViewCell: UITableViewCell {
     @IBOutlet var birthdayLabel: UILabel!
     @IBOutlet var linkTitleLabel: UILabel!
     
+    var profileType: ProfileType = .unknow
+    var pageInfo: PageInfo = PageInfo()
+    var userInfo: User?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-        let urlCover = URL(string: "https://cdn.pixabay.com/photo/2021/07/13/18/58/coffee-6464307_1280.jpg")
-        self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.35))])
-        
-        let urlProfile = URL(string: "https://static.wikia.nocookie.net/whywomenkill/images/e/e7/Alexandra_Daddario.jpg")
-        self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
-        
-        self.displayNameLabel.text = "Alexandra Daddario"
-        self.userIdLabel.text = "@alexandra-daddario"
-        
         self.displayNameLabel.font = UIFont.asset(.regular, fontSize: .h4)
         self.displayNameLabel.textColor = UIColor.Asset.white
         self.userIdLabel.font = UIFont.asset(.regular, fontSize: .overline)
         self.userIdLabel.textColor = UIColor.Asset.white
-        
         self.bioTitleLabel.font = UIFont.asset(.regular, fontSize: .body)
         self.bioTitleLabel.textColor = UIColor.Asset.lightBlue
         self.bioLabel.font = UIFont.asset(.regular, fontSize: .overline)
         self.bioLabel.textColor = UIColor.Asset.white
-        
         self.birthdayTitleLabel.font = UIFont.asset(.regular, fontSize: .body)
         self.birthdayTitleLabel.textColor = UIColor.Asset.lightBlue
         self.birthdayLabel.font = UIFont.asset(.regular, fontSize: .overline)
         self.birthdayLabel.textColor = UIColor.Asset.white
-        
         self.linkTitleLabel.font = UIFont.asset(.regular, fontSize: .body)
         self.linkTitleLabel.textColor = UIColor.Asset.lightBlue
-        
         self.profileImage.circle(color: UIColor.Asset.white)
     }
 
@@ -77,4 +68,34 @@ class UserInfoTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
+    func configCell(profileType: ProfileType, pageInfo: PageInfo = PageInfo(), userInfo: User? = nil) {
+        self.profileType = profileType
+        self.pageInfo = pageInfo
+        self.userInfo = userInfo
+        
+        if self.profileType == .people {
+            let urlCover = URL(string: self.userInfo?.images.cover.fullHd ?? "")
+            self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.35))])
+            let urlProfile = URL(string: self.userInfo?.images.avatar.thumbnail ?? "")
+            self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
+            self.displayNameLabel.text = self.userInfo?.displayName ?? ""
+            self.userIdLabel.text = "@\(self.userInfo?.castcleId ?? "")"
+            self.bioLabel.text = ((self.userInfo?.overview.isEmpty ?? true) ? "N/A" : self.userInfo?.overview ?? "")
+            if let dob = self.userInfo?.dob, !dob.isEmpty {
+                let dobDate = Date.stringToDate(str: dob)
+                self.birthdayLabel.text = dobDate.dateToString()
+            } else {
+                self.birthdayLabel.text = "N/A"
+            }
+        } else if self.profileType == .page {
+            let urlCover = URL(string: self.pageInfo.images.cover.fullHd )
+            self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.35))])
+            let urlProfile = URL(string: self.pageInfo.images.avatar.thumbnail )
+            self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
+            self.displayNameLabel.text = self.pageInfo.displayName
+            self.userIdLabel.text = "@\(self.pageInfo.castcleId)"
+            self.bioLabel.text = self.pageInfo.overview.isEmpty ? "N/A" : self.pageInfo.overview
+            self.birthdayLabel.text = "N/A"
+        }
+    }
 }

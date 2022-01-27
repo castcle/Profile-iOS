@@ -30,7 +30,7 @@ import Core
 import Networking
 import Defaults
 
-class UserInfoViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+public class UserInfoViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet var tableView: UITableView!
     
@@ -39,9 +39,9 @@ class UserInfoViewController: UIViewController, UITableViewDelegate, UITableView
         case link
     }
     
-    var viewModel = UserInfoViewModel()
+    var viewModel = UserInfoViewModel(profileType: .unknow)
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         
         self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
@@ -49,7 +49,7 @@ class UserInfoViewController: UIViewController, UITableViewDelegate, UITableView
         self.configureTableView()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         Defaults[.screenId] = ScreenId.viewProfile.rawValue
     }
@@ -60,7 +60,13 @@ class UserInfoViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func setupNavBar() {
-        self.customNavigationBar(.secondary, title: "Alexandra Daddario's Profile")
+        if self.viewModel.profileType == .people {
+            self.customNavigationBar(.secondary, title: self.viewModel.userInfo?.displayName ?? "")
+        } else if self.viewModel.profileType == .page {
+            self.customNavigationBar(.secondary, title: self.viewModel.pageInfo.displayName)
+        } else {
+            self.customNavigationBar(.secondary, title: "Error")
+        }
     }
     
     func configureTableView() {
@@ -75,11 +81,11 @@ class UserInfoViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     
-    func numberOfSections(in tableView: UITableView) -> Int {
+    public func numberOfSections(in tableView: UITableView) -> Int {
         return UserInfoViewControllerSection.allCases.count
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case UserInfoViewControllerSection.link.rawValue:
             return self.viewModel.socialLink.count
@@ -88,11 +94,12 @@ class UserInfoViewController: UIViewController, UITableViewDelegate, UITableView
         }
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case UserInfoViewControllerSection.info.rawValue:
             let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.meInfo, for: indexPath as IndexPath) as? UserInfoTableViewCell
             cell?.backgroundColor = UIColor.clear
+            cell?.configCell(profileType: self.viewModel.profileType, pageInfo: self.viewModel.pageInfo, userInfo: self.viewModel.userInfo)
             return cell ?? UserInfoTableViewCell()
         case UserInfoViewControllerSection.link.rawValue:
             let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.socialLink, for: indexPath as IndexPath) as? SocialLinkTableViewCell

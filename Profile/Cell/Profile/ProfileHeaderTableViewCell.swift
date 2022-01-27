@@ -189,7 +189,7 @@ class ProfileHeaderTableViewCell: UITableViewCell {
     }
     
     @IBAction func viewProfileAction(_ sender: Any) {
-        Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.userInfo), animated: true)
+        Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.userInfo(UserInfoViewModel(profileType: self.viewModel.profileType, pageInfo: self.viewModel.pageInfo, userInfo: self.viewModel.userInfo))), animated: true)
     }
     
     @IBAction func followAction(_ sender: Any) {
