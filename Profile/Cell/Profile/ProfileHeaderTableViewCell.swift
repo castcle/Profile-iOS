@@ -38,6 +38,7 @@ import TOCropViewController
 protocol ProfileHeaderTableViewCellDelegate {
     func didUpdateProfileSuccess(_ profileHeaderTableViewCell: ProfileHeaderTableViewCell)
     func didAuthen(_ profileHeaderTableViewCell: ProfileHeaderTableViewCell)
+    func didBlocked(_ profileHeaderTableViewCell: ProfileHeaderTableViewCell)
 }
 
 class ProfileHeaderTableViewCell: UITableViewCell {
@@ -120,6 +121,7 @@ class ProfileHeaderTableViewCell: UITableViewCell {
     func configCell(viewModel: ProfileHeaderViewModel) {
         self.viewModel = viewModel
         self.updateProfileUI()
+        self.viewModel.delegate = self
         self.followUI()
     }
     
@@ -159,13 +161,10 @@ class ProfileHeaderTableViewCell: UITableViewCell {
             let actionSheet = CCActionSheet()
             
             var castcleId: String = ""
-            var userId: String = ""
             if self.viewModel.profileType == .page {
                 castcleId = self.viewModel.pageInfo.castcleId
-                userId = self.viewModel.pageInfo.id
             } else {
                 castcleId = self.viewModel.userInfo?.castcleId ?? ""
-                userId = self.viewModel.userInfo?.id ?? ""
             }
             
             let reportButton = CCAction(title: "Report @\(castcleId)", image: UIImage.init(icon: .castcle(.report), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
@@ -179,7 +178,7 @@ class ProfileHeaderTableViewCell: UITableViewCell {
             let blockButton = CCAction(title: "Block @\(castcleId)", image: UIImage.init(icon: .castcle(.block), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
                 actionSheet.dismissActionSheet()
                 if UserManager.shared.isLogin {
-                    self.viewModel.blockUser(castcleId: castcleId, userId: userId)
+                    self.viewModel.blockUser(castcleId: castcleId)
                 } else {
                     self.delegate?.didAuthen(self)
                 }
@@ -562,5 +561,11 @@ extension ProfileHeaderTableViewCell: EditProfileViewModelDelegate {
                 self.updateImageType = .none
             }
         }
+    }
+}
+
+extension ProfileHeaderTableViewCell: ProfileHeaderViewModelDelegate {
+    func didBlocked() {
+        self.delegate?.didBlocked(self)
     }
 }

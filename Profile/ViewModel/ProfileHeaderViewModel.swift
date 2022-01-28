@@ -30,8 +30,13 @@ import Component
 import Networking
 import SwiftyJSON
 
+public protocol ProfileHeaderViewModelDelegate {
+    func didBlocked()
+}
+
 public final class ProfileHeaderViewModel {
    
+    public var delegate: ProfileHeaderViewModelDelegate?
     var userRepository: UserRepository = UserRepositoryImpl()
     var pageRepository: PageRepository = PageRepositoryImpl()
     var reportRepository: ReportRepository = ReportRepositoryImpl()
@@ -44,7 +49,6 @@ public final class ProfileHeaderViewModel {
     private var userRequest: UserRequest = UserRequest()
     private var reportRequest: ReportRequest = ReportRequest()
     var castcleId: String = ""
-    var userId: String = ""
     
     enum Stage {
         case followUser
@@ -119,12 +123,14 @@ public final class ProfileHeaderViewModel {
         }
     }
     
-    func blockUser(castcleId: String, userId: String) {
+    func blockUser(castcleId: String) {
         self.stage = .blockUser
         self.castcleId = castcleId
-        self.userId = userId
-        self.reportRepository.blockUser(userId: self.userId) { (success, response, isRefreshToken) in
-            if !success {
+        self.reportRequest.targetCastcleId = self.castcleId
+        self.reportRepository.blockUser(userId: UserManager.shared.rawCastcleId, reportRequest: self.reportRequest) { (success, response, isRefreshToken) in
+            if success {
+                self.delegate?.didBlocked()
+            } else {
                 if isRefreshToken {
                     self.tokenHelper.refreshToken()
                 }
@@ -142,7 +148,7 @@ extension ProfileHeaderViewModel: TokenHelperDelegate {
         } else if self.stage == .reportUser {
             self.reportUser(castcleId: self.castcleId)
         } else if self.stage == .blockUser {
-            self.blockUser(castcleId: self.castcleId, userId: self.userId)
+            self.blockUser(castcleId: self.castcleId)
         }
     }
 }

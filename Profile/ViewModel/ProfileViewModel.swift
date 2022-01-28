@@ -44,7 +44,7 @@ public final class ProfileViewModel {
     var profileType: ProfileType = .unknow
     var page: Page = Page()
     var pageInfo: PageInfo = PageInfo()
-    var userInfo: User?
+    var userInfo: User = User()
     var castcleId: String = ""
     var displayName: String = ""
     let tokenHelper: TokenHelper = TokenHelper()
@@ -57,6 +57,26 @@ public final class ProfileViewModel {
         case getUserInfo
         case getPageInfo
         case none
+    }
+    
+    var isBlocked: Bool {
+        if self.profileType == .people {
+            return self.userInfo.blocked
+        } else if self.profileType == .page {
+            return self.pageInfo.blocked
+        } else {
+            return false
+        }
+    }
+    
+    var castcleIdBlock: String {
+        if self.profileType == .people {
+            return self.userInfo.castcleId
+        } else if self.profileType == .page {
+            return self.pageInfo.castcleId
+        } else {
+            return ""
+        }
     }
     
     public init(profileType: ProfileType, castcleId: String?, displayName: String, page: Page?) {

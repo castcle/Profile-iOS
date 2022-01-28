@@ -65,6 +65,8 @@ public struct ProfileNibVars {
         public static let feedHeader = "FeedHeaderTableViewCell"
         public static let profileHeaderSkeleton = "ProfileHeaderSkeletonTableViewCell"
         public static let profilePost = "ProfilePostTableViewCell"
+        public static let blockedUser = "BlockedUserTableViewCell"
+        public static let headerBlocked = "HeaderBlockedTableViewCell"
     }
     
     // MARK: - CollectionViewCell
