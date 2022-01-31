@@ -25,12 +25,81 @@
 //  Created by Castcle Co., Ltd. on 8/8/2564 BE.
 //
 
-import Foundation
+import Networking
 
-class UserInfoViewModel {
-    let socialLink: [SocialLink] = [
-        SocialLink(socialLinkType: .facebook, value: "https://www.facebook.com"),
-        SocialLink(socialLinkType: .twitter, value: "https://www.twitter.com"),
-        SocialLink(socialLinkType: .website, value: "https://www.castcle.com")
-    ]
+public class UserInfoViewModel {
+    
+    var profileType: ProfileType = .unknow
+    var pageInfo: PageInfo = PageInfo()
+    var userInfo: User?
+    var socialLink: [SocialLink] = []
+    
+    init(profileType: ProfileType, pageInfo: PageInfo = PageInfo(), userInfo: User? = nil) {
+        self.profileType = profileType
+        self.pageInfo = pageInfo
+        self.userInfo = userInfo
+        
+        if self.profileType == .people {
+            if !(self.userInfo?.links.facebook.isEmpty ?? true) {
+                self.socialLink.append(SocialLink(socialLinkType: .facebook, value: self.userInfo?.links.facebook ?? "N/A"))
+            } else {
+                self.socialLink.append(SocialLink(socialLinkType: .facebook, value: "N/A"))
+            }
+            
+            if !(self.userInfo?.links.twitter.isEmpty ?? true) {
+                self.socialLink.append(SocialLink(socialLinkType: .twitter, value: self.userInfo?.links.twitter ?? "N/A"))
+            } else {
+                self.socialLink.append(SocialLink(socialLinkType: .twitter, value: "N/A"))
+            }
+            
+            if !(self.userInfo?.links.youtube.isEmpty ?? true) {
+                self.socialLink.append(SocialLink(socialLinkType: .youtube, value: self.userInfo?.links.youtube ?? "N/A"))
+            } else {
+                self.socialLink.append(SocialLink(socialLinkType: .youtube, value: "N/A"))
+            }
+            
+            if !(self.userInfo?.links.medium.isEmpty ?? true) {
+                self.socialLink.append(SocialLink(socialLinkType: .medium, value: self.userInfo?.links.medium ?? "N/A"))
+            } else {
+                self.socialLink.append(SocialLink(socialLinkType: .medium, value: "N/A"))
+            }
+            
+            if !(self.userInfo?.links.website.isEmpty ?? true) {
+                self.socialLink.append(SocialLink(socialLinkType: .website, value: self.userInfo?.links.website ?? "N/A"))
+            } else {
+                self.socialLink.append(SocialLink(socialLinkType: .website, value: "N/A"))
+            }
+            
+        } else if self.profileType == .page {
+            if !self.pageInfo.links.facebook.isEmpty {
+                self.socialLink.append(SocialLink(socialLinkType: .facebook, value: self.pageInfo.links.facebook))
+            } else {
+                self.socialLink.append(SocialLink(socialLinkType: .facebook, value: "N/A"))
+            }
+            
+            if !self.pageInfo.links.twitter.isEmpty {
+                self.socialLink.append(SocialLink(socialLinkType: .twitter, value: self.pageInfo.links.twitter))
+            } else {
+                self.socialLink.append(SocialLink(socialLinkType: .twitter, value: "N/A"))
+            }
+            
+            if !self.pageInfo.links.youtube.isEmpty {
+                self.socialLink.append(SocialLink(socialLinkType: .youtube, value: self.pageInfo.links.youtube))
+            } else {
+                self.socialLink.append(SocialLink(socialLinkType: .youtube, value: "N/A"))
+            }
+            
+            if !self.pageInfo.links.medium.isEmpty {
+                self.socialLink.append(SocialLink(socialLinkType: .medium, value: self.pageInfo.links.medium))
+            } else {
+                self.socialLink.append(SocialLink(socialLinkType: .medium, value: "N/A"))
+            }
+            
+            if !self.pageInfo.links.website.isEmpty {
+                self.socialLink.append(SocialLink(socialLinkType: .website, value: self.pageInfo.links.website))
+            } else {
+                self.socialLink.append(SocialLink(socialLinkType: .website, value: "N/A"))
+            }
+        }
+    }
 }
