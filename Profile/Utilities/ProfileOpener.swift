@@ -36,7 +36,7 @@ public enum ProfileScene {
     case photoMethod(SelectPhotoMethodViewModel)
     case about(AboutInfoViewModel)
     case addLink
-    case userInfo
+    case userInfo(UserInfoViewModel)
     case editInfo(ProfileType, PageInfo)
     case action
     case welcomeCreatePage
@@ -69,10 +69,11 @@ public struct ProfileOpener {
             let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.profile, bundle: ConfigBundle.profile)
             let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.addLink)
             return vc
-        case .userInfo:
+        case .userInfo(let viewModel):
             let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.me, bundle: ConfigBundle.profile)
-            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.userInfo)
-            return vc
+            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.userInfo) as? UserInfoViewController
+            vc?.viewModel = viewModel
+            return vc ?? UserInfoViewController()
         case .editInfo(let profileType, let pageInfo):
             let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.me, bundle: ConfigBundle.profile)
             let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.editInfo) as? EditInfoViewController

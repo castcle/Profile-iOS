@@ -49,7 +49,12 @@ class EditInfoViewController: UIViewController, UITableViewDelegate, UITableView
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        Defaults[.screenId] = ""
+        Defaults[.screenId] = ScreenId.viewProfile.rawValue
+    }
+    
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        EngagementHelper().sendCastcleAnalytic(event: .onScreenView, screen: .viewProfile)
     }
     
     func setupNavBar() {

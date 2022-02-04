@@ -31,6 +31,7 @@ import Component
 import Networking
 import Authen
 import Post
+import Defaults
 
 class ProfileViewController: UIViewController {
 
@@ -61,24 +62,30 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
         self.configureTableView()
-        self.setupNavBar()
-        
         self.tableView.isScrollEnabled = false
         self.tableView.cr.addHeadRefresh(animator: FastAnimator()) { [weak self] in
             guard let self = self else { return }
-            self.tableView.cr.resetNoMore()
-            self.tableView.isScrollEnabled = false
-            self.profileViewModel.profileLoaded = false
-            self.tableView.reloadData()
-            self.profileViewModel.getProfile()
-            self.profileFeedViewModel.resetContent()
+            if self.profileViewModel.isBlocked {
+                self.tableView.cr.endHeaderRefresh()
+            } else {
+                self.tableView.cr.resetNoMore()
+                self.tableView.isScrollEnabled = false
+                self.profileViewModel.profileLoaded = false
+                self.tableView.reloadData()
+                self.profileViewModel.getProfile()
+                self.profileFeedViewModel.resetContent()
+            }
         }
         
         self.tableView.cr.addFootRefresh(animator: NormalFooterAnimator()) {
-            if self.profileFeedViewModel.feedCanLoad {
-                self.profileFeedViewModel.getContents()
-            } else {
+            if self.profileViewModel.isBlocked {
                 self.tableView.cr.noticeNoMoreData()
+            } else {
+                if self.profileFeedViewModel.feedCanLoad {
+                    self.profileFeedViewModel.getContents()
+                } else {
+                    self.tableView.cr.noticeNoMoreData()
+                }
             }
         }
         
@@ -115,6 +122,25 @@ class ProfileViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(self.getContent(notification:)), name: .getMyContent, object: nil)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.setupNavBar()
+        if self.profileViewModel.profileType == .people || self.profileViewModel.profileType == .me {
+            Defaults[.screenId] = ScreenId.profileTimeline.rawValue
+        } else {
+            Defaults[.screenId] = ScreenId.pageTimeline.rawValue
+        }
+    }
+    
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if self.profileViewModel.profileType == .people || self.profileViewModel.profileType == .me {
+            EngagementHelper().sendCastcleAnalytic(event: .onScreenView, screen: .profileTimeline)
+        } else {
+            EngagementHelper().sendCastcleAnalytic(event: .onScreenView, screen: .pageTimeline)
+        }
+    }
+    
     func configureTableView() {
         self.tableView.delegate = self
         self.tableView.dataSource = self
@@ -122,6 +148,8 @@ class ProfileViewController: UIViewController {
         self.tableView.register(UINib(nibName: ProfileNibVars.TableViewCell.feedHeader, bundle: ConfigBundle.profile), forCellReuseIdentifier: ProfileNibVars.TableViewCell.feedHeader)
         self.tableView.register(UINib(nibName: ProfileNibVars.TableViewCell.profileHeaderSkeleton, bundle: ConfigBundle.profile), forCellReuseIdentifier: ProfileNibVars.TableViewCell.profileHeaderSkeleton)
         self.tableView.register(UINib(nibName: ProfileNibVars.TableViewCell.profilePost, bundle: ConfigBundle.profile), forCellReuseIdentifier: ProfileNibVars.TableViewCell.profilePost)
+        self.tableView.register(UINib(nibName: ProfileNibVars.TableViewCell.headerBlocked, bundle: ConfigBundle.profile), forCellReuseIdentifier: ProfileNibVars.TableViewCell.headerBlocked)
+        self.tableView.register(UINib(nibName: ProfileNibVars.TableViewCell.blockedUser, bundle: ConfigBundle.profile), forCellReuseIdentifier: ProfileNibVars.TableViewCell.blockedUser)
         self.tableView.registerFeedCell()
         self.tableView.rowHeight = UITableView.automaticDimension
         self.tableView.estimatedRowHeight = 100
@@ -144,7 +172,15 @@ class ProfileViewController: UIViewController {
 
 extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return (self.profileFeedViewModel.feedLoaded ? 2 + self.profileFeedViewModel.displayContents.count : 10)
+        if self.profileFeedViewModel.feedLoaded {
+            if self.profileViewModel.isBlocked {
+                return 3
+            } else {
+                return 2 + self.profileFeedViewModel.displayContents.count
+            }
+        } else {
+            return 10
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -158,11 +194,15 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
             return 0
         } else {
             if self.profileFeedViewModel.feedLoaded {
-                let content = self.profileFeedViewModel.displayContents[section - 2]
-                if content.referencedCasts.type == .recasted || content.referencedCasts.type == .quoted {
-                    return 4
+                if self.profileViewModel.isBlocked {
+                    return 1
                 } else {
-                    return 3
+                    let content = self.profileFeedViewModel.displayContents[section - 2]
+                    if content.referencedCasts.type == .recasted || content.referencedCasts.type == .quoted {
+                        return 4
+                    } else {
+                        return 3
+                    }
                 }
             } else {
                 return 1
@@ -174,11 +214,18 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         if indexPath.section == 0 {
             if indexPath.row == PeofileHeaderRaw.info.rawValue {
                 if self.profileViewModel.profileLoaded {
-                    let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.profileHeader, for: indexPath as IndexPath) as? ProfileHeaderTableViewCell
-                    cell?.delegate = self
-                    cell?.backgroundColor = UIColor.Asset.darkGray
-                    cell?.configCell(viewModel: ProfileHeaderViewModel(profileType: self.profileViewModel.profileType, pageInfo: self.profileViewModel.pageInfo, userInfo: self.profileViewModel.userInfo))
-                    return cell ?? ProfileHeaderTableViewCell()
+                    if self.profileViewModel.isBlocked {
+                        let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.headerBlocked, for: indexPath as IndexPath) as? HeaderBlockedTableViewCell
+                        cell?.backgroundColor = UIColor.Asset.darkGray
+                        cell?.configCell(profileType: self.profileViewModel.profileType, pageInfo: self.profileViewModel.pageInfo, userInfo: self.profileViewModel.userInfo)
+                        return cell ?? HeaderBlockedTableViewCell()
+                    } else {
+                        let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.profileHeader, for: indexPath as IndexPath) as? ProfileHeaderTableViewCell
+                        cell?.delegate = self
+                        cell?.backgroundColor = UIColor.Asset.darkGray
+                        cell?.configCell(viewModel: ProfileHeaderViewModel(profileType: self.profileViewModel.profileType, pageInfo: self.profileViewModel.pageInfo, userInfo: self.profileViewModel.userInfo))
+                        return cell ?? ProfileHeaderTableViewCell()
+                    }
                 } else {
                     let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.profileHeaderSkeleton, for: indexPath as IndexPath) as? ProfileHeaderSkeletonTableViewCell
                     cell?.backgroundColor = UIColor.Asset.darkGray
@@ -198,34 +245,42 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
             return cell ?? FeedHeaderTableViewCell()
         } else {
             if self.profileFeedViewModel.feedLoaded {
-                let content = self.profileFeedViewModel.displayContents[indexPath.section - 2]
-                if content.referencedCasts.type == .recasted {
-                    if indexPath.row == 0 {
-                        return self.renderFeedCell(content: content, cellType: .activity, tableView: tableView, indexPath: indexPath)
-                    } else if indexPath.row == 1 {
-                        return self.renderFeedCell(content: content, cellType: .header, tableView: tableView, indexPath: indexPath)
-                    } else if indexPath.row == 2 {
-                        return self.renderFeedCell(content: content, cellType: .content, tableView: tableView, indexPath: indexPath)
-                    } else {
-                        return self.renderFeedCell(content: content, cellType: .footer, tableView: tableView, indexPath: indexPath)
-                    }
-                } else if content.referencedCasts.type == .quoted {
-                    if indexPath.row == 0 {
-                        return self.renderFeedCell(content: content, cellType: .header, tableView: tableView, indexPath: indexPath)
-                    } else if indexPath.row == 1 {
-                        return self.renderFeedCell(content: content, cellType: .content, tableView: tableView, indexPath: indexPath)
-                    } else if indexPath.row == 2 {
-                        return self.renderFeedCell(content: content, cellType: .quote, tableView: tableView, indexPath: indexPath)
-                    } else {
-                        return self.renderFeedCell(content: content, cellType: .footer, tableView: tableView, indexPath: indexPath)
-                    }
+                if self.profileViewModel.isBlocked {
+                    let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.blockedUser, for: indexPath as IndexPath) as? BlockedUserTableViewCell
+                    cell?.delegate = self
+                    cell?.backgroundColor = UIColor.Asset.darkGraphiteBlue
+                    cell?.configCell(castcleId: self.profileViewModel.castcleIdBlock)
+                    return cell ?? BlockedUserTableViewCell()
                 } else {
-                    if indexPath.row == 0 {
-                        return self.renderFeedCell(content: content, cellType: .header, tableView: tableView, indexPath: indexPath)
-                    } else if indexPath.row == 1 {
-                        return self.renderFeedCell(content: content, cellType: .content, tableView: tableView, indexPath: indexPath)
+                    let content = self.profileFeedViewModel.displayContents[indexPath.section - 2]
+                    if content.referencedCasts.type == .recasted {
+                        if indexPath.row == 0 {
+                            return self.renderFeedCell(content: content, cellType: .activity, tableView: tableView, indexPath: indexPath)
+                        } else if indexPath.row == 1 {
+                            return self.renderFeedCell(content: content, cellType: .header, tableView: tableView, indexPath: indexPath)
+                        } else if indexPath.row == 2 {
+                            return self.renderFeedCell(content: content, cellType: .content, tableView: tableView, indexPath: indexPath)
+                        } else {
+                            return self.renderFeedCell(content: content, cellType: .footer, tableView: tableView, indexPath: indexPath)
+                        }
+                    } else if content.referencedCasts.type == .quoted {
+                        if indexPath.row == 0 {
+                            return self.renderFeedCell(content: content, cellType: .header, tableView: tableView, indexPath: indexPath)
+                        } else if indexPath.row == 1 {
+                            return self.renderFeedCell(content: content, cellType: .content, tableView: tableView, indexPath: indexPath)
+                        } else if indexPath.row == 2 {
+                            return self.renderFeedCell(content: content, cellType: .quote, tableView: tableView, indexPath: indexPath)
+                        } else {
+                            return self.renderFeedCell(content: content, cellType: .footer, tableView: tableView, indexPath: indexPath)
+                        }
                     } else {
-                        return self.renderFeedCell(content: content, cellType: .footer, tableView: tableView, indexPath: indexPath)
+                        if indexPath.row == 0 {
+                            return self.renderFeedCell(content: content, cellType: .header, tableView: tableView, indexPath: indexPath)
+                        } else if indexPath.row == 1 {
+                            return self.renderFeedCell(content: content, cellType: .content, tableView: tableView, indexPath: indexPath)
+                        } else {
+                            return self.renderFeedCell(content: content, cellType: .footer, tableView: tableView, indexPath: indexPath)
+                        }
                     }
                 }
             } else {
@@ -322,6 +377,20 @@ extension ProfileViewController: ProfileHeaderTableViewCellDelegate {
     func didUpdateProfileSuccess(_ profileHeaderTableViewCell: ProfileHeaderTableViewCell) {
         self.tableView.reloadData()
     }
+    
+    func didAuthen(_ profileHeaderTableViewCell: ProfileHeaderTableViewCell) {
+        Utility.currentViewController().presentPanModal(AuthenOpener.open(.signUpMethod) as! SignUpMethodViewController)
+    }
+    
+    func didBlocked(_ profileHeaderTableViewCell: ProfileHeaderTableViewCell) {
+        if self.profileViewModel.profileType == .people {
+            self.profileViewModel.userInfo.blocked = true
+            self.tableView.reloadData()
+        } else if self.profileViewModel.profileType == .page {
+            self.profileViewModel.pageInfo.blocked = true
+            self.tableView.reloadData()
+        }
+    }
 }
 
 extension ProfileViewController: HeaderTableViewCellDelegate {
@@ -389,6 +458,18 @@ extension ProfileViewController: FeedHeaderTableViewCellDelegate {
                 self.profileFeedViewModel.getContents()
                 self.tableView.reloadData()
             }
+        }
+    }
+}
+
+extension ProfileViewController: BlockedUserTableViewCellDelegate {
+    func didUnblocked(_ blockedUserTableViewCell: BlockedUserTableViewCell) {
+        if self.profileViewModel.profileType == .people {
+            self.profileViewModel.userInfo.blocked = false
+            self.tableView.reloadData()
+        } else if self.profileViewModel.profileType == .page {
+            self.profileViewModel.pageInfo.blocked = false
+            self.tableView.reloadData()
         }
     }
 }
