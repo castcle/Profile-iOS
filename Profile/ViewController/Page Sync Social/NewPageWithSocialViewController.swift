@@ -27,6 +27,7 @@
 
 import UIKit
 import Core
+import Networking
 import Defaults
 import Swifter
 import SafariServices
@@ -41,14 +42,17 @@ class NewPageWithSocialViewController: UIViewController {
     var swifter: Swifter!
     var accToken: Credential.OAuthAccessToken?
     let hud = JGProgressHUD()
+    var viewModel = NewPageWithSocialViewModel()
     
     struct FBPage {
         var id: String = ""
         var name: String = ""
+        var about: String = ""
         
         init(json: JSON) {
             self.id = json["id"].string ?? ""
             self.name = json["name"].string ?? ""
+            self.about = json["about"].string ?? ""
         }
     }
     
@@ -58,6 +62,7 @@ class NewPageWithSocialViewController: UIViewController {
         self.setupNavBar()
         self.configureTableView()
         self.hud.textLabel.text = "Creating"
+        self.viewModel.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -83,28 +88,27 @@ class NewPageWithSocialViewController: UIViewController {
             let accessToken = AccessToken.current?.tokenString
             let userId = AccessToken.current?.userID ?? ""
             let params = ["access_token" : accessToken ?? ""]
-            request = GraphRequest(graphPath: "/\(userId)/accounts?fields=name", parameters: params, httpMethod: .get)
+            request = GraphRequest(graphPath: "/\(userId)/accounts?fields=name,about,username", parameters: params, httpMethod: .get)
             request?.start() { (connection, result, error) in
-                self.hud.dismiss()
+                
                 guard error == nil else {
+                    self.hud.dismiss()
                     print(error!.localizedDescription)
                     return
                 }
                 let json = JSON.init(result ?? "")
                 let data: [FBPage] = (json["data"].array ?? []).map { FBPage(json: $0) }
-                
-                var srr = ""
+                self.viewModel.pageSocialRequest.payload = []
                 data.forEach { page in
-                    if srr.isEmpty {
-                        srr = "Id: \(page.id) Name: \(page.name)"
-                    } else {
-                        srr = "\(srr)\nId: \(page.id) Name: \(page.name)"
-                    }
+                    var pageSocial: PageSocial = PageSocial()
+                    pageSocial.provider = .facebook
+                    pageSocial.socialId = page.id
+                    pageSocial.displayName = page.name
+                    pageSocial.overview = page.about
+                    pageSocial.avatar = "https://graph.facebook.com/\(page.id)/picture?type=large&access_token=\(accessToken ?? "")"
+                    self.viewModel.pageSocialRequest.payload.append(pageSocial)
                 }
-                
-                let alert = UIAlertController(title: "", message: srr, preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-                self.present(alert, animated: true)
+                self.viewModel.createPageWithSocial()
             }
         }
     }
@@ -163,14 +167,23 @@ extension NewPageWithSocialViewController: NewPageWithSocialTableViewCellDelegat
 extension NewPageWithSocialViewController: SFSafariViewControllerDelegate, ASWebAuthenticationPresentationContextProviding {
     func getUserProfile() {
         self.swifter.verifyAccountCredentials(includeEntities: false, skipStatus: false, includeEmail: true, success: { json in
-            self.hud.dismiss()
             let twitterId: String = json["id_str"].string ?? ""
             let twitterName: String = json["name"].string ?? ""
             let twitterProfilePic: String = json["profile_image_url_https"].string?.replacingOccurrences(of: "_normal", with: "", options: .literal, range: nil) ?? ""
-            
-            let alert = UIAlertController(title: "", message: "Id: \(twitterId) Name: \(twitterName) Image: \(twitterProfilePic)", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-            self.present(alert, animated: true)
+            let twitterScreenName: String = json["screen_name"].string ?? ""
+            let twitterDescription: String = json["description"].string ?? ""
+            let twitterCover: String = json["profile_banner_url"].string ?? ""
+
+            var pageSocial: PageSocial = PageSocial()
+            pageSocial.provider = .twitter
+            pageSocial.socialId = twitterId
+            pageSocial.userName = twitterScreenName
+            pageSocial.displayName = twitterName
+            pageSocial.overview = twitterDescription
+            pageSocial.avatar = twitterProfilePic
+            pageSocial.cover = twitterCover
+            self.viewModel.pageSocialRequest.payload.append(pageSocial)
+            self.viewModel.createPageWithSocial()
         }) { error in
             self.hud.dismiss()
             print("ERROR: \(error.localizedDescription)")
@@ -183,5 +196,14 @@ extension NewPageWithSocialViewController: SFSafariViewControllerDelegate, ASWeb
     
     public func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
         return self.view.window!
+    }
+}
+
+extension NewPageWithSocialViewController: NewPageWithSocialViewModelDelegate {
+    func didCreatedPage(success: Bool) {
+        self.hud.dismiss()
+        if success {
+            self.navigationController!.popViewController(animated: true)
+        }
     }
 }

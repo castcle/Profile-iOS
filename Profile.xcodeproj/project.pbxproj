@@ -10,6 +10,7 @@
 		03CA6756D414568EB134E431 /* Pods_Profile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD702ADAD4D188AE2A7192EF /* Pods_Profile.framework */; };
 		B703A53C27883392007BFA01 /* Localizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B703A53B27883392007BFA01 /* Localizable.swift */; };
 		B703A53F2788340D007BFA01 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B703A5412788340D007BFA01 /* Localizable.strings */; };
+		B7167F9227AD018700067DBD /* NewPageWithSocialViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7167F9127AD018700067DBD /* NewPageWithSocialViewModel.swift */; };
 		B71B668927269EF500191A62 /* DeletePageSuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71B668827269EF500191A62 /* DeletePageSuccessViewController.swift */; };
 		B71B668B2726A57A00191A62 /* DeletePageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71B668A2726A57A00191A62 /* DeletePageViewModel.swift */; };
 		B7203DD027845237005401FB /* ProfileFeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7203DCF27845237005401FB /* ProfileFeedViewModel.swift */; };
@@ -102,6 +103,7 @@
 		B703A53B27883392007BFA01 /* Localizable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localizable.swift; sourceTree = "<group>"; };
 		B703A5402788340D007BFA01 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B703A54227883429007BFA01 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/Localizable.strings; sourceTree = "<group>"; };
+		B7167F9127AD018700067DBD /* NewPageWithSocialViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPageWithSocialViewModel.swift; sourceTree = "<group>"; };
 		B71B668827269EF500191A62 /* DeletePageSuccessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletePageSuccessViewController.swift; sourceTree = "<group>"; };
 		B71B668A2726A57A00191A62 /* DeletePageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletePageViewModel.swift; sourceTree = "<group>"; };
 		B7203DCF27845237005401FB /* ProfileFeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileFeedViewModel.swift; sourceTree = "<group>"; };
@@ -365,6 +367,7 @@
 				B753F5782782BE8C00D1AC92 /* ProfileHeaderViewModel.swift */,
 				B7203DCF27845237005401FB /* ProfileFeedViewModel.swift */,
 				B7AC3BC027A3EA2700C02867 /* UserBlockedViewModel.swift */,
+				B7167F9127AD018700067DBD /* NewPageWithSocialViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -621,6 +624,7 @@
 				B7AF660726F07DA400BDE9C4 /* EditProfileViewModel.swift in Sources */,
 				B7F63C28271DC2BF005856B2 /* ConfirmDeletePageViewController.swift in Sources */,
 				B7FFF3EF277EE67400BB0C33 /* ProfileViewController.swift in Sources */,
+				B7167F9227AD018700067DBD /* NewPageWithSocialViewModel.swift in Sources */,
 				B7910EA326BCE5420097C94E /* AddSocialViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
