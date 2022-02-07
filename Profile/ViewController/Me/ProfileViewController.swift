@@ -312,15 +312,22 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section >= 2 {
+            var originalContent = Content()
             let content = self.profileFeedViewModel.displayContents[indexPath.section - 2]
+            if content.referencedCasts.type == .recasted || content.referencedCasts.type == .quoted {
+                if let tempContent = ContentHelper.shared.getContentRef(id: content.referencedCasts.id) {
+                    originalContent = tempContent
+                }
+            }
+            
             if content.referencedCasts.type == .recasted {
-                if content.type == .long && indexPath.row == 2 {
-                    self.profileFeedViewModel.displayContents[indexPath.section - 1].isExpand.toggle()
+                if originalContent.type == .long && indexPath.row == 2 {
+                    self.profileFeedViewModel.displayContents[indexPath.section - 2].isOriginalExpand.toggle()
                     tableView.reloadRows(at: [indexPath], with: .automatic)
                 }
             } else {
                 if content.type == .long && indexPath.row == 1 {
-                    self.profileFeedViewModel.displayContents[indexPath.section - 1].isExpand.toggle()
+                    self.profileFeedViewModel.displayContents[indexPath.section - 2].isExpand.toggle()
                     tableView.reloadRows(at: [indexPath], with: .automatic)
                 }
             }
@@ -364,15 +371,15 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         case .quote:
             return FeedCellHelper().renderQuoteCastCell(content: originalContent, tableView: self.tableView, indexPath: indexPath, isRenderForFeed: true)
         default:
-            if content.type == .long && !content.isExpand {
-                if content.referencedCasts.type == .recasted {
+            if content.referencedCasts.type == .recasted {
+                if originalContent.type == .long && !content.isOriginalExpand {
                     return FeedCellHelper().renderLongCastCell(content: originalContent, tableView: self.tableView, indexPath: indexPath)
                 } else {
-                    return FeedCellHelper().renderLongCastCell(content: content, tableView: self.tableView, indexPath: indexPath)
+                    return FeedCellHelper().renderFeedCell(content: originalContent, tableView: self.tableView, indexPath: indexPath)
                 }
             } else {
-                if content.referencedCasts.type == .recasted {
-                    return FeedCellHelper().renderFeedCell(content: originalContent, tableView: self.tableView, indexPath: indexPath)
+                if content.type == .long && !content.isExpand {
+                    return FeedCellHelper().renderLongCastCell(content: content, tableView: self.tableView, indexPath: indexPath)
                 } else {
                     return FeedCellHelper().renderFeedCell(content: content, tableView: self.tableView, indexPath: indexPath)
                 }
