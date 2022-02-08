@@ -108,7 +108,7 @@ class SelectPhotoMethodViewController: UIViewController {
             Utility.currentViewController().navigationController?.popViewController(animated: true)
         } else {
             let viewControllers: [UIViewController] = Utility.currentViewController().navigationController!.viewControllers as [UIViewController]
-            Utility.currentViewController().navigationController!.popToViewController(viewControllers[viewControllers.count - 4], animated: true)
+            Utility.currentViewController().navigationController!.popToViewController(viewControllers[viewControllers.count - 5], animated: true)
         }
     }
     
@@ -262,7 +262,6 @@ extension SelectPhotoMethodViewController: SelectPhotoMethodViewModelDelegate {
     
     func didGetPageFinish() {
         self.hud.dismiss()
-        print(self.viewModel.pageRequest)
         Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.about(AboutInfoViewModel(avatarType: self.viewModel.avatarType, castcleId: self.viewModel.castcleId, pageRequest: self.viewModel.pageRequest))), animated: true)
     }
 }

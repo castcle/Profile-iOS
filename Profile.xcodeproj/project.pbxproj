@@ -10,6 +10,7 @@
 		03CA6756D414568EB134E431 /* Pods_Profile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD702ADAD4D188AE2A7192EF /* Pods_Profile.framework */; };
 		B703A53C27883392007BFA01 /* Localizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B703A53B27883392007BFA01 /* Localizable.swift */; };
 		B703A53F2788340D007BFA01 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B703A5412788340D007BFA01 /* Localizable.strings */; };
+		B7167F9227AD018700067DBD /* NewPageWithSocialViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7167F9127AD018700067DBD /* NewPageWithSocialViewModel.swift */; };
 		B71B668927269EF500191A62 /* DeletePageSuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71B668827269EF500191A62 /* DeletePageSuccessViewController.swift */; };
 		B71B668B2726A57A00191A62 /* DeletePageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71B668A2726A57A00191A62 /* DeletePageViewModel.swift */; };
 		B7203DD027845237005401FB /* ProfileFeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7203DCF27845237005401FB /* ProfileFeedViewModel.swift */; };
@@ -80,6 +81,9 @@
 		B7C098362727CFCD009ACE22 /* EditPageInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7C098342727CFCD009ACE22 /* EditPageInfoTableViewCell.xib */; };
 		B7C098372727CFCD009ACE22 /* EditPageInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C098352727CFCD009ACE22 /* EditPageInfoTableViewCell.swift */; };
 		B7C2525626CA077A00ACBB84 /* Post.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7C2525526CA077A00ACBB84 /* Post.framework */; };
+		B7C46D9027A12D2E0031179E /* NewPageWithSocialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C46D8F27A12D2E0031179E /* NewPageWithSocialViewController.swift */; };
+		B7C46D9327A135730031179E /* NewPageWithSocialTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C46D9127A135730031179E /* NewPageWithSocialTableViewCell.swift */; };
+		B7C46D9427A135730031179E /* NewPageWithSocialTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7C46D9227A135730031179E /* NewPageWithSocialTableViewCell.xib */; };
 		B7F63C26271D7CE1005856B2 /* DeletePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F63C25271D7CE1005856B2 /* DeletePageViewController.swift */; };
 		B7F63C28271DC2BF005856B2 /* ConfirmDeletePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F63C27271DC2BF005856B2 /* ConfirmDeletePageViewController.swift */; };
 		B7F63C2B271DC3C7005856B2 /* ConfirmDeletePageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F63C29271DC3C7005856B2 /* ConfirmDeletePageTableViewCell.swift */; };
@@ -99,6 +103,7 @@
 		B703A53B27883392007BFA01 /* Localizable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localizable.swift; sourceTree = "<group>"; };
 		B703A5402788340D007BFA01 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B703A54227883429007BFA01 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/Localizable.strings; sourceTree = "<group>"; };
+		B7167F9127AD018700067DBD /* NewPageWithSocialViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPageWithSocialViewModel.swift; sourceTree = "<group>"; };
 		B71B668827269EF500191A62 /* DeletePageSuccessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletePageSuccessViewController.swift; sourceTree = "<group>"; };
 		B71B668A2726A57A00191A62 /* DeletePageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletePageViewModel.swift; sourceTree = "<group>"; };
 		B7203DCF27845237005401FB /* ProfileFeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileFeedViewModel.swift; sourceTree = "<group>"; };
@@ -172,6 +177,9 @@
 		B7C098342727CFCD009ACE22 /* EditPageInfoTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditPageInfoTableViewCell.xib; sourceTree = "<group>"; };
 		B7C098352727CFCD009ACE22 /* EditPageInfoTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditPageInfoTableViewCell.swift; sourceTree = "<group>"; };
 		B7C2525526CA077A00ACBB84 /* Post.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Post.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B7C46D8F27A12D2E0031179E /* NewPageWithSocialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPageWithSocialViewController.swift; sourceTree = "<group>"; };
+		B7C46D9127A135730031179E /* NewPageWithSocialTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPageWithSocialTableViewCell.swift; sourceTree = "<group>"; };
+		B7C46D9227A135730031179E /* NewPageWithSocialTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewPageWithSocialTableViewCell.xib; sourceTree = "<group>"; };
 		B7F63C25271D7CE1005856B2 /* DeletePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletePageViewController.swift; sourceTree = "<group>"; };
 		B7F63C27271DC2BF005856B2 /* ConfirmDeletePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmDeletePageViewController.swift; sourceTree = "<group>"; };
 		B7F63C29271DC3C7005856B2 /* ConfirmDeletePageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmDeletePageTableViewCell.swift; sourceTree = "<group>"; };
@@ -325,6 +333,7 @@
 		B7910E8726BC54390097C94E /* Cell */ = {
 			isa = PBXGroup;
 			children = (
+				B7C46D8E27A12CE80031179E /* Page Sync Social */,
 				B753F5732782AB5300D1AC92 /* Profile */,
 				B7AF662226F3444300BDE9C4 /* About */,
 				B7910EA626BCE8F00097C94E /* AddSocialCell.swift */,
@@ -358,6 +367,7 @@
 				B753F5782782BE8C00D1AC92 /* ProfileHeaderViewModel.swift */,
 				B7203DCF27845237005401FB /* ProfileFeedViewModel.swift */,
 				B7AC3BC027A3EA2700C02867 /* UserBlockedViewModel.swift */,
+				B7167F9127AD018700067DBD /* NewPageWithSocialViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -365,6 +375,7 @@
 		B7910EB726BD0C1F0097C94E /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				B7C46D8D27A12CBE0031179E /* Page Sync Social */,
 				B7189ADF26EF595D00CB9719 /* Me */,
 				B7910E7526BBD68D0097C94E /* WelcomeEditProfileViewController.swift */,
 				B7910E8026BBE32E0097C94E /* SelectPhotoMethodViewController.swift */,
@@ -397,6 +408,23 @@
 				B7AF663426F360F500BDE9C4 /* ComplateTableViewCell.xib */,
 			);
 			path = About;
+			sourceTree = "<group>";
+		};
+		B7C46D8D27A12CBE0031179E /* Page Sync Social */ = {
+			isa = PBXGroup;
+			children = (
+				B7C46D8F27A12D2E0031179E /* NewPageWithSocialViewController.swift */,
+			);
+			path = "Page Sync Social";
+			sourceTree = "<group>";
+		};
+		B7C46D8E27A12CE80031179E /* Page Sync Social */ = {
+			isa = PBXGroup;
+			children = (
+				B7C46D9127A135730031179E /* NewPageWithSocialTableViewCell.swift */,
+				B7C46D9227A135730031179E /* NewPageWithSocialTableViewCell.xib */,
+			);
+			path = "Page Sync Social";
 			sourceTree = "<group>";
 		};
 		FDB9755588C404F0DCA882AE /* Frameworks */ = {
@@ -510,6 +538,7 @@
 				B7910EA926BCE8F00097C94E /* AddSocialCell.xib in Resources */,
 				B7AC3BBF27A3D2BB00C02867 /* BlockedUserTableViewCell.xib in Resources */,
 				B7910ED326C00A550097C94E /* EditInfoTableViewCell.xib in Resources */,
+				B7C46D9427A135730031179E /* NewPageWithSocialTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -580,6 +609,7 @@
 				B7AC3BC427A3EF9900C02867 /* HeaderBlockedTableViewCell.swift in Sources */,
 				B7910ED726C0340B0097C94E /* ProfileActionViewController.swift in Sources */,
 				B7AF663526F360F500BDE9C4 /* ComplateTableViewCell.swift in Sources */,
+				B7C46D9327A135730031179E /* NewPageWithSocialTableViewCell.swift in Sources */,
 				B71B668B2726A57A00191A62 /* DeletePageViewModel.swift in Sources */,
 				B7910E9F26BCDBEF0097C94E /* SocialLinkShelf.swift in Sources */,
 				B7910ECC26BF1E1C0097C94E /* SocialLinkTableViewCell.swift in Sources */,
@@ -589,10 +619,12 @@
 				B7910E7626BBD68D0097C94E /* WelcomeEditProfileViewController.swift in Sources */,
 				B753F5722782A50000D1AC92 /* ProfileViewModel.swift in Sources */,
 				B7910E9D26BCDAC40097C94E /* AboutInfoViewModel.swift in Sources */,
+				B7C46D9027A12D2E0031179E /* NewPageWithSocialViewController.swift in Sources */,
 				B7910ED526C00A700097C94E /* EditInfoViewController.swift in Sources */,
 				B7AF660726F07DA400BDE9C4 /* EditProfileViewModel.swift in Sources */,
 				B7F63C28271DC2BF005856B2 /* ConfirmDeletePageViewController.swift in Sources */,
 				B7FFF3EF277EE67400BB0C33 /* ProfileViewController.swift in Sources */,
+				B7167F9227AD018700067DBD /* NewPageWithSocialViewModel.swift in Sources */,
 				B7910EA326BCE5420097C94E /* AddSocialViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

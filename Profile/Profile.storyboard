@@ -495,6 +495,36 @@
             </objects>
             <point key="canvasLocation" x="827" y="841"/>
         </scene>
+        <!--New Page With Social View Controller-->
+        <scene sceneID="zuA-fb-aVo">
+            <objects>
+                <viewController storyboardIdentifier="NewPageWithSocialViewController" id="u6L-Ey-jzY" customClass="NewPageWithSocialViewController" customModule="Profile" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="11U-KN-MzD">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="cy6-gH-l2h">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Ilt-4d-4Wg"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="cy6-gH-l2h" firstAttribute="top" secondItem="Ilt-4d-4Wg" secondAttribute="top" id="CLL-J3-tob"/>
+                            <constraint firstAttribute="bottom" secondItem="cy6-gH-l2h" secondAttribute="bottom" id="FLz-Cy-OfI"/>
+                            <constraint firstItem="Ilt-4d-4Wg" firstAttribute="trailing" secondItem="cy6-gH-l2h" secondAttribute="trailing" id="eK1-Pe-FpS"/>
+                            <constraint firstItem="cy6-gH-l2h" firstAttribute="leading" secondItem="Ilt-4d-4Wg" secondAttribute="leading" id="uRP-nm-OcG"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="cy6-gH-l2h" id="exT-Yt-WpV"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Kgn-X2-7F3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-564" y="841"/>
+        </scene>
     </scenes>
     <resources>
         <image name="create-your-page" width="311" height="311"/>

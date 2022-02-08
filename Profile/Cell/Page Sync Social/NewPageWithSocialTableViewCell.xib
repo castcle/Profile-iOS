@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="528" id="KGk-i7-Jjw" customClass="NewPageWithSocialTableViewCell" customModule="Profile" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="528"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="528"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sync-social" translatesAutoresizingMaskIntoConstraints="NO" id="Xzj-Wc-pKz">
+                        <rect key="frame" x="20" y="20" width="280" height="180"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="180" id="c6C-c0-gJE"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sync your social media page" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T7n-9g-Glg">
+                        <rect key="frame" x="20" y="220" width="280" height="21.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Syncing your Castcle page with your social media account allows you to Cast your posts from another platform seamlessly" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LyK-5S-L6B">
+                        <rect key="frame" x="20" y="256.5" width="280" height="76.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="M6Z-qu-wVL">
+                        <rect key="frame" x="15" y="353" width="290" height="45"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Jy7-oP-OnX">
+                                <rect key="frame" x="30" y="11" width="23" height="23"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="23" id="DEQ-qm-XXS"/>
+                                    <constraint firstAttribute="height" constant="23" id="mfh-LX-mqm"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sync your page with Facebook" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AZm-oI-JJM">
+                                <rect key="frame" x="73" y="3.5" width="197" height="38.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AIE-4Y-vEk">
+                                <rect key="frame" x="0.0" y="0.0" width="290" height="45"/>
+                                <connections>
+                                    <action selector="facebookAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="87E-Zq-s0i"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="45" id="8Zl-sf-UV2"/>
+                            <constraint firstItem="Jy7-oP-OnX" firstAttribute="centerY" secondItem="M6Z-qu-wVL" secondAttribute="centerY" id="9UP-ga-NzU"/>
+                            <constraint firstAttribute="trailing" secondItem="AIE-4Y-vEk" secondAttribute="trailing" id="OoF-k1-Eal"/>
+                            <constraint firstItem="Jy7-oP-OnX" firstAttribute="leading" secondItem="M6Z-qu-wVL" secondAttribute="leading" constant="30" id="R8H-ba-YM6"/>
+                            <constraint firstItem="AZm-oI-JJM" firstAttribute="centerY" secondItem="Jy7-oP-OnX" secondAttribute="centerY" id="ZEy-Nz-VHD"/>
+                            <constraint firstItem="AZm-oI-JJM" firstAttribute="leading" secondItem="Jy7-oP-OnX" secondAttribute="trailing" constant="20" id="ZqX-va-JUh"/>
+                            <constraint firstItem="AIE-4Y-vEk" firstAttribute="leading" secondItem="M6Z-qu-wVL" secondAttribute="leading" id="aHi-rz-oh9"/>
+                            <constraint firstAttribute="trailing" secondItem="AZm-oI-JJM" secondAttribute="trailing" constant="20" id="e0i-xa-Ezb"/>
+                            <constraint firstAttribute="bottom" secondItem="AIE-4Y-vEk" secondAttribute="bottom" id="jBz-e4-kwT"/>
+                            <constraint firstItem="AIE-4Y-vEk" firstAttribute="top" secondItem="M6Z-qu-wVL" secondAttribute="top" id="rcm-20-Yj8"/>
+                        </constraints>
+                    </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="F3J-FD-QEf">
+                        <rect key="frame" x="15" y="418" width="290" height="45"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hGA-2o-jbj">
+                                <rect key="frame" x="30" y="11" width="23" height="23"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="23" id="frX-nb-jws"/>
+                                    <constraint firstAttribute="height" constant="23" id="hWf-cE-IFe"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sync your page with Twitter" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fa8-L0-BeA">
+                                <rect key="frame" x="73" y="3.5" width="197" height="38.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ghg-uW-a3s">
+                                <rect key="frame" x="0.0" y="0.0" width="290" height="45"/>
+                                <connections>
+                                    <action selector="twitterAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="cO7-Kq-dMU"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="hGA-2o-jbj" firstAttribute="centerY" secondItem="F3J-FD-QEf" secondAttribute="centerY" id="2Tz-8v-AWJ"/>
+                            <constraint firstAttribute="height" constant="45" id="FFX-UH-DAT"/>
+                            <constraint firstAttribute="trailing" secondItem="Ghg-uW-a3s" secondAttribute="trailing" id="J7k-zd-XZP"/>
+                            <constraint firstItem="Ghg-uW-a3s" firstAttribute="leading" secondItem="F3J-FD-QEf" secondAttribute="leading" id="Lze-H3-oUW"/>
+                            <constraint firstItem="fa8-L0-BeA" firstAttribute="leading" secondItem="hGA-2o-jbj" secondAttribute="trailing" constant="20" id="RMX-jN-xSQ"/>
+                            <constraint firstItem="Ghg-uW-a3s" firstAttribute="top" secondItem="F3J-FD-QEf" secondAttribute="top" id="XNp-Jf-9af"/>
+                            <constraint firstItem="hGA-2o-jbj" firstAttribute="leading" secondItem="F3J-FD-QEf" secondAttribute="leading" constant="30" id="eBX-4m-gzl"/>
+                            <constraint firstAttribute="bottom" secondItem="Ghg-uW-a3s" secondAttribute="bottom" id="fYq-Ne-yN8"/>
+                            <constraint firstItem="fa8-L0-BeA" firstAttribute="centerY" secondItem="hGA-2o-jbj" secondAttribute="centerY" id="qOi-Vo-JZb"/>
+                            <constraint firstAttribute="trailing" secondItem="fa8-L0-BeA" secondAttribute="trailing" constant="20" id="uzF-w9-yky"/>
+                        </constraints>
+                    </view>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5x4-3T-2GM">
+                        <rect key="frame" x="35" y="478" width="250" height="30"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="2Tt-RJ-uVZ"/>
+                            <constraint firstAttribute="width" constant="250" id="bwM-qK-b1l"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <state key="normal" title="+ Create new page"/>
+                        <connections>
+                            <action selector="createPageNormalAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="EYG-zv-PAQ"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="Xzj-Wc-pKz" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="20" id="7V3-TT-NiB"/>
+                    <constraint firstItem="5x4-3T-2GM" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="8wY-Au-nWQ"/>
+                    <constraint firstItem="T7n-9g-Glg" firstAttribute="top" secondItem="Xzj-Wc-pKz" secondAttribute="bottom" constant="20" id="9Kq-qS-9uG"/>
+                    <constraint firstItem="T7n-9g-Glg" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="Des-yt-caJ"/>
+                    <constraint firstItem="F3J-FD-QEf" firstAttribute="top" secondItem="M6Z-qu-wVL" secondAttribute="bottom" constant="20" id="H1X-f0-TQW"/>
+                    <constraint firstItem="F3J-FD-QEf" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="O7Y-fb-Bib"/>
+                    <constraint firstItem="LyK-5S-L6B" firstAttribute="top" secondItem="T7n-9g-Glg" secondAttribute="bottom" constant="15" id="VXy-T4-qhE"/>
+                    <constraint firstAttribute="trailing" secondItem="LyK-5S-L6B" secondAttribute="trailing" constant="20" id="Xa9-Tm-vlH"/>
+                    <constraint firstItem="Xzj-Wc-pKz" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="ZAm-RJ-71U"/>
+                    <constraint firstAttribute="bottom" secondItem="5x4-3T-2GM" secondAttribute="bottom" constant="20" id="Zvf-aN-3PM"/>
+                    <constraint firstItem="LyK-5S-L6B" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="ePP-30-pgo"/>
+                    <constraint firstItem="5x4-3T-2GM" firstAttribute="top" secondItem="F3J-FD-QEf" secondAttribute="bottom" constant="15" id="mVW-MA-5Ts"/>
+                    <constraint firstAttribute="trailing" secondItem="M6Z-qu-wVL" secondAttribute="trailing" constant="15" id="naI-yb-Bkq"/>
+                    <constraint firstAttribute="trailing" secondItem="F3J-FD-QEf" secondAttribute="trailing" constant="15" id="oRP-pT-R7i"/>
+                    <constraint firstAttribute="trailing" secondItem="T7n-9g-Glg" secondAttribute="trailing" constant="20" id="oVF-zd-Ku0"/>
+                    <constraint firstItem="M6Z-qu-wVL" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="oVM-qX-eWR"/>
+                    <constraint firstAttribute="trailing" secondItem="Xzj-Wc-pKz" secondAttribute="trailing" constant="20" id="oYK-yE-28m"/>
+                    <constraint firstItem="M6Z-qu-wVL" firstAttribute="top" secondItem="LyK-5S-L6B" secondAttribute="bottom" constant="20" id="qvu-cz-MQd"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="createPageNormalButton" destination="5x4-3T-2GM" id="w80-iy-jrR"/>
+                <outlet property="facebookImage" destination="Jy7-oP-OnX" id="7ad-0R-mYK"/>
+                <outlet property="facebookLabel" destination="AZm-oI-JJM" id="zHS-MH-ayq"/>
+                <outlet property="facebookView" destination="M6Z-qu-wVL" id="tpK-dn-boq"/>
+                <outlet property="subTitleLabel" destination="LyK-5S-L6B" id="8GD-vt-N8T"/>
+                <outlet property="titleLabel" destination="T7n-9g-Glg" id="oQp-Qr-o1u"/>
+                <outlet property="twitterImage" destination="hGA-2o-jbj" id="Wfd-CY-PAi"/>
+                <outlet property="twitterLabel" destination="fa8-L0-BeA" id="aWx-8b-QTp"/>
+                <outlet property="twitterView" destination="F3J-FD-QEf" id="XoX-4V-mw5"/>
+            </connections>
+            <point key="canvasLocation" x="137.68115942028987" y="259.15178571428572"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="sync-social" width="661" height="482.5"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

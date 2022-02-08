@@ -41,6 +41,7 @@ public struct ProfileNibVars {
         public static let confirmDeletePage = "ConfirmDeletePageViewController"
         public static let deletePageSuccess = "DeletePageSuccessViewController"
         public static let profile = "ProfileViewController"
+        public static let newPageWithSocial = "NewPageWithSocialViewController"
     }
     
     // MARK: - View
@@ -65,6 +66,7 @@ public struct ProfileNibVars {
         public static let feedHeader = "FeedHeaderTableViewCell"
         public static let profileHeaderSkeleton = "ProfileHeaderSkeletonTableViewCell"
         public static let profilePost = "ProfilePostTableViewCell"
+        public static let newPageWithSocial = "NewPageWithSocialTableViewCell"
         public static let blockedUser = "BlockedUserTableViewCell"
         public static let headerBlocked = "HeaderBlockedTableViewCell"
     }

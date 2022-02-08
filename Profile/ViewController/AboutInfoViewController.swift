@@ -114,7 +114,7 @@ class AboutInfoViewController: UIViewController {
             Utility.currentViewController().navigationController?.popToRootViewController(animated: true)
         } else {
             let viewControllers: [UIViewController] = Utility.currentViewController().navigationController!.viewControllers as [UIViewController]
-            Utility.currentViewController().navigationController!.popToViewController(viewControllers[viewControllers.count - 5], animated: true)
+            Utility.currentViewController().navigationController!.popToViewController(viewControllers[viewControllers.count - 6], animated: true)
         }
     }
 }
@@ -199,7 +199,7 @@ extension AboutInfoViewController: ComplateTableViewCellDelegate {
         } else {
             if skip {
                 let viewControllers: [UIViewController] = Utility.currentViewController().navigationController!.viewControllers as [UIViewController]
-                Utility.currentViewController().navigationController!.popToViewController(viewControllers[viewControllers.count - 5], animated: true)
+                Utility.currentViewController().navigationController!.popToViewController(viewControllers[viewControllers.count - 6], animated: true)
             } else {
                 self.viewModel.updatePageInfo()
             }
@@ -217,7 +217,7 @@ extension AboutInfoViewController: AboutInfoViewModelDelegate {
     func didUpdatePageInfoFinish(success: Bool) {
         if success {
             let viewControllers: [UIViewController] = Utility.currentViewController().navigationController!.viewControllers as [UIViewController]
-            Utility.currentViewController().navigationController!.popToViewController(viewControllers[viewControllers.count - 5], animated: false)
+            Utility.currentViewController().navigationController!.popToViewController(viewControllers[viewControllers.count - 6], animated: false)
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 ProfileOpener.openProfileDetail(.page, castcleId: nil, displayName: "", page: Page().initCustom(id: "", displayName: self.viewModel.pageRequest.displayName, castcleId: self.viewModel.pageRequest.castcleId, avatar: "", cover: ""))
             }
