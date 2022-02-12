@@ -57,6 +57,11 @@ public final class NewPageWithSocialViewModel {
         self.stage = .createPageWithSocial
         self.pageRepository.createPageWithSocial(pageSocialRequest: self.pageSocialRequest) { (success, response, isRefreshToken) in
             if success {
+//                do {
+//                    let rawJson = try response.mapJSON()
+//                    let json = JSON(rawJson)
+//                    print(json)
+//                } catch {}
                 self.getAllMyPage()
             } else {
                 if isRefreshToken {
