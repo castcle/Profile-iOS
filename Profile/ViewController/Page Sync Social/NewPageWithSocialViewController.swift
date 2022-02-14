@@ -138,7 +138,7 @@ extension NewPageWithSocialViewController: NewPageWithSocialTableViewCellDelegat
         if let _ = AccessToken.current {
             loginManager.logOut()
         }
-        loginManager.logIn(permissions: ["public_profile", "email", "pages_show_list"], from: self) { (result, error) in
+        loginManager.logIn(permissions: ["public_profile", "email", "pages_show_list", "pages_manage_metadata"], from: self) { (result, error) in
             guard error == nil else {
                 print(error!.localizedDescription)
                 return
