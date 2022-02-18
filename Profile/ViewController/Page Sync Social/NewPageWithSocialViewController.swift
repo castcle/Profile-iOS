@@ -48,11 +48,13 @@ class NewPageWithSocialViewController: UIViewController {
         var id: String = ""
         var name: String = ""
         var about: String = ""
+        var accessToken: String = ""
         
         init(json: JSON) {
             self.id = json["id"].string ?? ""
             self.name = json["name"].string ?? ""
             self.about = json["about"].string ?? ""
+            self.accessToken = json["access_token"].string ?? ""
         }
     }
     
@@ -88,7 +90,7 @@ class NewPageWithSocialViewController: UIViewController {
             let accessToken = AccessToken.current?.tokenString
             let userId = AccessToken.current?.userID ?? ""
             let params = ["access_token" : accessToken ?? ""]
-            request = GraphRequest(graphPath: "/\(userId)/accounts?fields=name,about,username", parameters: params, httpMethod: .get)
+            request = GraphRequest(graphPath: "/\(userId)/accounts?fields=name,about,username,access_token", parameters: params, httpMethod: .get)
             request?.start() { (connection, result, error) in
                 
                 guard error == nil else {
@@ -105,6 +107,7 @@ class NewPageWithSocialViewController: UIViewController {
                     pageSocial.socialId = page.id
                     pageSocial.displayName = page.name
                     pageSocial.overview = page.about
+                    pageSocial.authToken = page.accessToken
                     pageSocial.avatar = "https://graph.facebook.com/\(page.id)/picture?type=large&access_token=\(accessToken ?? "")"
                     self.viewModel.pageSocialRequest.payload.append(pageSocial)
                 }
