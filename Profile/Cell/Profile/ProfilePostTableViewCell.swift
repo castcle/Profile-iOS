@@ -74,7 +74,7 @@ class ProfilePostTableViewCell: UITableViewCell {
             vc.modalPresentationStyle = .fullScreen
             Utility.currentViewController().present(vc, animated: true, completion: nil)
         } else if self.profileType == .myPage {
-            let vc = PostOpener.open(.post(PostViewModel(postType: .newCast, page: Page().initCustom(id: self.pageInfo.id, displayName: self.pageInfo.displayName, castcleId: self.pageInfo.castcleId, avatar: self.pageInfo.images.avatar.thumbnail, cover: self.pageInfo.images.cover.fullHd))))
+            let vc = PostOpener.open(.post(PostViewModel(postType: .newCast, page: Page().initCustom(id: self.pageInfo.id, displayName: self.pageInfo.displayName, castcleId: self.pageInfo.castcleId, avatar: self.pageInfo.images.avatar.thumbnail, cover: self.pageInfo.images.cover.fullHd, overview: self.pageInfo.overview, official: self.pageInfo.verified.official))))
             vc.modalPresentationStyle = .fullScreen
             Utility.currentViewController().present(vc, animated: true, completion: nil)
         }
