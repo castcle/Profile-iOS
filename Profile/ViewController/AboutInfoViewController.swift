@@ -43,7 +43,7 @@ class AboutInfoViewController: UIViewController {
         case submit
     }
     
-    var viewModel = AboutInfoViewModel(avatarType: .user)
+    var viewModel = AboutInfoViewModel(avatarType: .user, castcleId: UserManager.shared.rawCastcleId)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -194,14 +194,14 @@ extension AboutInfoViewController: ComplateTableViewCellDelegate {
             if skip {
                 Utility.currentViewController().navigationController?.popToRootViewController(animated: true)
             } else {
-                self.viewModel.updateUserInfo()
+                self.viewModel.updateUserInfo(isPage: false)
             }
         } else {
             if skip {
                 let viewControllers: [UIViewController] = Utility.currentViewController().navigationController!.viewControllers as [UIViewController]
                 Utility.currentViewController().navigationController!.popToViewController(viewControllers[viewControllers.count - 6], animated: true)
             } else {
-                self.viewModel.updatePageInfo()
+                self.viewModel.updateUserInfo(isPage: true)
             }
         }
     }
@@ -210,16 +210,14 @@ extension AboutInfoViewController: ComplateTableViewCellDelegate {
 extension AboutInfoViewController: AboutInfoViewModelDelegate {
     func didUpdateUserInfoFinish(success: Bool) {
         if success {
-            Utility.currentViewController().navigationController?.popToRootViewController(animated: true)
-        }
-    }
-    
-    func didUpdatePageInfoFinish(success: Bool) {
-        if success {
-            let viewControllers: [UIViewController] = Utility.currentViewController().navigationController!.viewControllers as [UIViewController]
-            Utility.currentViewController().navigationController!.popToViewController(viewControllers[viewControllers.count - 6], animated: false)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                ProfileOpener.openProfileDetail(.page, castcleId: nil, displayName: "", page: Page().initCustom(id: "", displayName: self.viewModel.pageRequest.displayName, castcleId: self.viewModel.pageRequest.castcleId, avatar: "", cover: ""))
+            if self.viewModel.isPage {
+                let viewControllers: [UIViewController] = Utility.currentViewController().navigationController!.viewControllers as [UIViewController]
+                Utility.currentViewController().navigationController!.popToViewController(viewControllers[viewControllers.count - 6], animated: false)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    ProfileOpener.openProfileDetail(.page, castcleId: self.viewModel.castcleId, displayName: "")
+                }
+            } else {
+                Utility.currentViewController().navigationController?.popToRootViewController(animated: true)
             }
         }
     }

@@ -29,6 +29,7 @@ import Core
 import Component
 import Networking
 import SwiftyJSON
+import RealmSwift
 
 public protocol ProfileHeaderViewModelDelegate {
     func didBlocked()
@@ -38,17 +39,16 @@ public final class ProfileHeaderViewModel {
    
     public var delegate: ProfileHeaderViewModelDelegate?
     var userRepository: UserRepository = UserRepositoryImpl()
-    var pageRepository: PageRepository = PageRepositoryImpl()
     var reportRepository: ReportRepository = ReportRepositoryImpl()
     var profileType: ProfileType = .unknow
     var isFollow: Bool = false
-    var pageInfo: PageInfo = PageInfo()
-    var userInfo: User?
+    var userInfo: UserInfo = UserInfo()
     var stage: Stage = .none
     let tokenHelper: TokenHelper = TokenHelper()
     private var userRequest: UserRequest = UserRequest()
     private var reportRequest: ReportRequest = ReportRequest()
     var castcleId: String = ""
+    var isMyPage: Bool = false
     
     enum Stage {
         case followUser
@@ -58,30 +58,27 @@ public final class ProfileHeaderViewModel {
         case none
     }
     
-    public init(profileType: ProfileType, pageInfo: PageInfo = PageInfo(), userInfo: User?) {
+    public init(profileType: ProfileType, userInfo: UserInfo) {
         self.profileType = profileType
-        self.pageInfo = pageInfo
         self.userInfo = userInfo
-        
-        if self.profileType == .people {
-            self.isFollow = self.userInfo?.followed ?? false
-        } else if self.profileType == .page {
-            self.isFollow = self.pageInfo.followed
+        self.isFollow = self.userInfo.followed
+        if self.userInfo.type == .page {
+            let realm = try! Realm()
+            if realm.objects(Page.self).filter("castcleId = '\(self.userInfo.castcleId)'").first != nil {
+                self.isMyPage = true
+            } else {
+                self.isMyPage = false
+            }
         } else {
-            self.isFollow = false
+            self.isMyPage = false
         }
-        
         self.tokenHelper.delegate = self
     }
     
     func followUser() {
         self.stage = .followUser
         let userId: String = UserManager.shared.rawCastcleId
-        if self.profileType == .people {
-            self.userRequest.targetCastcleId = self.userInfo?.castcleId ?? ""
-        } else {
-            self.userRequest.targetCastcleId = self.pageInfo.castcleId
-        }
+        self.userRequest.targetCastcleId = self.userInfo.castcleId
         self.userRepository.follow(userId: userId, userRequest: self.userRequest) { (success, response, isRefreshToken) in
             if !success {
                 if isRefreshToken {
@@ -94,11 +91,7 @@ public final class ProfileHeaderViewModel {
     func unfollowUser() {
         self.stage = .unfollowUser
         let userId: String = UserManager.shared.rawCastcleId
-        if self.profileType == .people {
-            self.userRequest.targetCastcleId = self.userInfo?.castcleId ?? ""
-        } else {
-            self.userRequest.targetCastcleId = self.pageInfo.castcleId
-        }
+        self.userRequest.targetCastcleId = self.userInfo.castcleId
         self.userRepository.unfollow(userId: userId, userRequest: self.userRequest) { (success, response, isRefreshToken) in
             if !success {
                 if isRefreshToken {

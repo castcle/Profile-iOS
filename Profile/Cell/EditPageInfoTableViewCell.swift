@@ -137,23 +137,18 @@ class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         super.setSelected(selected, animated: animated)
     }
     
-    func configCell(pageInfo: PageInfo) {
-        self.viewModel.pageInfo = pageInfo
+    func configCell(userInfo: UserInfo) {
+        self.viewModel.userInfo = userInfo
         self.mappingData()
-        self.viewModel.getPageInfo(castcleId: self.viewModel.pageInfo.castcleId)
-        
-        self.viewModel.didGetPageInfoFinish = {
-            self.mappingData()
-        }
     }
     
     private func mappingData() {
-        self.overviewTextView.text = self.viewModel.pageInfo.overview
-        self.facebookTextField.text = (self.viewModel.pageInfo.links.facebook.isEmpty ? "https://" : self.viewModel.pageInfo.links.facebook)
-        self.twitterTextField.text = (self.viewModel.pageInfo.links.twitter.isEmpty ? "https://" : self.viewModel.pageInfo.links.twitter)
-        self.youtubeTextField.text = (self.viewModel.pageInfo.links.youtube.isEmpty ? "https://" : self.viewModel.pageInfo.links.youtube)
-        self.mediumTextField.text = (self.viewModel.pageInfo.links.medium.isEmpty ? "https://" : self.viewModel.pageInfo.links.medium)
-        self.websiteTextField.text = (self.viewModel.pageInfo.links.website.isEmpty ? "https://" : self.viewModel.pageInfo.links.website)
+        self.overviewTextView.text = self.viewModel.userInfo.overview
+        self.facebookTextField.text = (self.viewModel.userInfo.links.facebook.isEmpty ? "https://" : self.viewModel.userInfo.links.facebook)
+        self.twitterTextField.text = (self.viewModel.userInfo.links.twitter.isEmpty ? "https://" : self.viewModel.userInfo.links.twitter)
+        self.youtubeTextField.text = (self.viewModel.userInfo.links.youtube.isEmpty ? "https://" : self.viewModel.userInfo.links.youtube)
+        self.mediumTextField.text = (self.viewModel.userInfo.links.medium.isEmpty ? "https://" : self.viewModel.userInfo.links.medium)
+        self.websiteTextField.text = (self.viewModel.userInfo.links.website.isEmpty ? "https://" : self.viewModel.userInfo.links.website)
     }
     
     private func disableUI(isActive: Bool) {
@@ -177,22 +172,18 @@ class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
     @IBAction func saveAction(_ sender: Any) {
         self.hud.show(in: Utility.currentViewController().view)
         self.disableUI(isActive: false)
-        self.viewModel.pageRequest.overview = self.overviewTextView.text ?? ""
-        self.viewModel.pageRequest.links.facebook = (self.facebookTextField.text! == "https://" ? "" : self.facebookTextField.text!)
-        self.viewModel.pageRequest.links.twitter = (self.twitterTextField.text! == "https://" ? "" : self.twitterTextField.text!)
-        self.viewModel.pageRequest.links.youtube = (self.youtubeTextField.text! == "https://" ? "" : self.youtubeTextField.text!)
-        self.viewModel.pageRequest.links.medium = (self.mediumTextField.text! == "https://" ? "" : self.mediumTextField.text!)
-        self.viewModel.pageRequest.links.website = (self.websiteTextField.text! == "https://" ? "" : self.websiteTextField.text!)
-        self.viewModel.updatePageInfo(castcleId: self.viewModel.pageInfo.castcleId)
+        self.viewModel.userRequest.payload.overview = self.overviewTextView.text ?? ""
+        self.viewModel.userRequest.payload.links.facebook = (self.facebookTextField.text! == "https://" ? "" : self.facebookTextField.text!)
+        self.viewModel.userRequest.payload.links.twitter = (self.twitterTextField.text! == "https://" ? "" : self.twitterTextField.text!)
+        self.viewModel.userRequest.payload.links.youtube = (self.youtubeTextField.text! == "https://" ? "" : self.youtubeTextField.text!)
+        self.viewModel.userRequest.payload.links.medium = (self.mediumTextField.text! == "https://" ? "" : self.mediumTextField.text!)
+        self.viewModel.userRequest.payload.links.website = (self.websiteTextField.text! == "https://" ? "" : self.websiteTextField.text!)
+        self.viewModel.updateProfile(isPage: true, castcleId: self.viewModel.userInfo.castcleId)
     }
 }
 
 extension EditPageInfoTableViewCell: EditProfileViewModelDelegate {
-    func didUpdateProfileFinish(success: Bool) {
-        // Not thing
-    }
-    
-    func didUpdatePageFinish(success: Bool) {
+    func didUpdateInfoFinish(success: Bool) {
         self.hud.dismiss()
         if success {
             Utility.currentViewController().navigationController?.popViewController(animated: true)

@@ -29,7 +29,6 @@ import UIKit
 import Core
 import Networking
 import Defaults
-import RealmSwift
 
 public enum ProfileScene {
     case welcome
@@ -37,7 +36,7 @@ public enum ProfileScene {
     case about(AboutInfoViewModel)
     case addLink
     case userInfo(UserInfoViewModel)
-    case editInfo(ProfileType, PageInfo)
+    case editInfo(ProfileType, UserInfo)
     case action
     case welcomeCreatePage
     case createPage
@@ -74,11 +73,11 @@ public struct ProfileOpener {
             let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.userInfo) as? UserInfoViewController
             vc?.viewModel = viewModel
             return vc ?? UserInfoViewController()
-        case .editInfo(let profileType, let pageInfo):
+        case .editInfo(let profileType, let userInfo):
             let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.me, bundle: ConfigBundle.profile)
             let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.editInfo) as? EditInfoViewController
             vc?.profileType = profileType
-            vc?.pageInfo = pageInfo
+            vc?.userInfo = userInfo
             return vc ?? EditInfoViewController()
         case .action:
             let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.me, bundle: ConfigBundle.profile)
@@ -119,22 +118,11 @@ public struct ProfileOpener {
         }
     }
     
-    public static func openProfileDetail(_ type: AuthorType, castcleId: String?, displayName: String, page: Page?) {
-        if type == .people {
-            guard let id = castcleId else { return }
-            if id == UserManager.shared.rawCastcleId {
-                Utility.currentViewController().navigationController?.pushViewController(self.open(.profile(ProfileViewModel(profileType: .me, castcleId: nil, displayName: "", page: nil), ProfileFeedViewModel(profileContentType: .all, profileType: .me, castcleId: ""))), animated: true)
-            } else {
-                Utility.currentViewController().navigationController?.pushViewController(self.open(.profile(ProfileViewModel(profileType: .people, castcleId: castcleId, displayName: displayName, page: nil), ProfileFeedViewModel(profileContentType: .all, profileType: .people, castcleId: id))), animated: true)
-            }
+    public static func openProfileDetail(_ type: AuthorType, castcleId: String, displayName: String) {
+        if castcleId == UserManager.shared.rawCastcleId {
+            Utility.currentViewController().navigationController?.pushViewController(self.open(.profile(ProfileViewModel(profileType: .me, castcleId: castcleId, displayName: ""), ProfileFeedViewModel(profileContentType: .all, profileType: .me, castcleId: ""))), animated: true)
         } else {
-            guard let page = page else { return }
-            let realm = try! Realm()
-            if realm.objects(Page.self).filter("castcleId = '\(page.castcleId)'").first != nil {
-                Utility.currentViewController().navigationController?.pushViewController(self.open(.profile(ProfileViewModel(profileType: .myPage, castcleId: nil, displayName: "", page: page), ProfileFeedViewModel(profileContentType: .all, profileType: .myPage, page: page, castcleId: ""))), animated: true)
-            } else {
-                Utility.currentViewController().navigationController?.pushViewController(self.open(.profile(ProfileViewModel(profileType: .page, castcleId: nil, displayName: "", page: page), ProfileFeedViewModel(profileContentType: .all, profileType: .page, page: page, castcleId: ""))), animated: true)
-            }
+            Utility.currentViewController().navigationController?.pushViewController(self.open(.profile(ProfileViewModel(profileType: .user, castcleId: castcleId, displayName: displayName), ProfileFeedViewModel(profileContentType: .all, profileType: .user, castcleId: castcleId))), animated: true)
         }
     }
 }

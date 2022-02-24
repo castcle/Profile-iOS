@@ -49,21 +49,12 @@ class HeaderBlockedTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
-    func configCell(profileType: ProfileType, pageInfo: PageInfo, userInfo: User) {
-        if profileType == .people {
-            let urlProfile = URL(string: userInfo.images.avatar.thumbnail)
-            let urlCover = URL(string: userInfo.images.cover.large)
-            self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
-            self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.35))])
-            self.displayNameLabel.text = userInfo.displayName
-            self.userIdLabel.text = "@\(userInfo.castcleId)"
-        } else {
-            let urlProfile = URL(string: pageInfo.images.avatar.thumbnail)
-            let urlCover = URL(string: pageInfo.images.cover.large)
-            self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
-            self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.35))])
-            self.displayNameLabel.text = pageInfo.displayName
-            self.userIdLabel.text = "@\(pageInfo.castcleId)"
-        }
+    func configCell(userInfo: UserInfo) {
+        let urlProfile = URL(string: userInfo.images.avatar.thumbnail)
+        let urlCover = URL(string: userInfo.images.cover.large)
+        self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
+        self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.35))])
+        self.displayNameLabel.text = userInfo.displayName
+        self.userIdLabel.text = "@\(userInfo.castcleId)"
     }
 }
