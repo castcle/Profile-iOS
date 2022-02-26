@@ -36,7 +36,7 @@ class EditInfoViewController: UIViewController, UITableViewDelegate, UITableView
     @IBOutlet var tableView: UITableView!
     
     var profileType: ProfileType = .unknow
-    var pageInfo: PageInfo = PageInfo()
+    var userInfo: UserInfo = UserInfo()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,15 +81,15 @@ class EditInfoViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if self.profileType == .myPage {
-            let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.editPageInfo, for: indexPath as IndexPath) as? EditPageInfoTableViewCell
-            cell?.backgroundColor = UIColor.clear
-            cell?.configCell(pageInfo: self.pageInfo)
-            return cell ?? EditPageInfoTableViewCell()
-        } else {
+        if self.profileType == .me {
             let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.editInfo, for: indexPath as IndexPath) as? EditInfoTableViewCell
             cell?.backgroundColor = UIColor.clear
             return cell ?? EditInfoTableViewCell()
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.editPageInfo, for: indexPath as IndexPath) as? EditPageInfoTableViewCell
+            cell?.backgroundColor = UIColor.clear
+            cell?.configCell(userInfo: self.userInfo)
+            return cell ?? EditPageInfoTableViewCell()
         }
     }
 }

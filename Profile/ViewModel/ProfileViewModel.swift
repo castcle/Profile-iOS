@@ -28,76 +28,71 @@
 import Core
 import Networking
 import SwiftyJSON
+import RealmSwift
 
 public enum ProfileType {
     case me
-    case myPage
-    case people
-    case page
+    case user
     case unknow
 }
 
 public final class ProfileViewModel {
    
     var userRepository: UserRepository = UserRepositoryImpl()
-    var pageRepository: PageRepository = PageRepositoryImpl()
     var profileType: ProfileType = .unknow
-    var page: Page = Page()
-    var pageInfo: PageInfo = PageInfo()
-    var userInfo: User = User()
+    var userInfo: UserInfo = UserInfo()
     var castcleId: String = ""
     var displayName: String = ""
     let tokenHelper: TokenHelper = TokenHelper()
     var profileLoaded: Bool = false
+    var isMyPage: Bool = false
     
     var stage: Stage = .none
     
     enum Stage {
         case getMeInfo
         case getUserInfo
-        case getPageInfo
         case none
     }
     
     var isBlocked: Bool {
-        if self.profileType == .people {
+        if self.profileType == .user {
             return self.userInfo.blocked
-        } else if self.profileType == .page {
-            return self.pageInfo.blocked
         } else {
             return false
         }
     }
     
     var castcleIdBlock: String {
-        if self.profileType == .people {
+        if self.profileType == .user {
             return self.userInfo.castcleId
-        } else if self.profileType == .page {
-            return self.pageInfo.castcleId
         } else {
             return ""
         }
     }
     
-    public init(profileType: ProfileType, castcleId: String?, displayName: String, page: Page?) {
+    public init(profileType: ProfileType, castcleId: String, displayName: String) {
         self.profileType = profileType
-        self.castcleId = castcleId ?? ""
+        self.castcleId = castcleId
         self.displayName = displayName
-        self.tokenHelper.delegate = self
-        
-        if let page = page {
-            self.page = page
+        if self.userInfo.type == .page {
+            let realm = try! Realm()
+            if realm.objects(Page.self).filter("castcleId = '\(castcleId)'").first != nil {
+                self.isMyPage = true
+            } else {
+                self.isMyPage = false
+            }
+        } else {
+            self.isMyPage = false
         }
-        
+        self.tokenHelper.delegate = self
         self.getProfile()
     }
     
     func getProfile() {
         if self.profileType == .me {
             self.getMeInfo()
-        } else if self.profileType == .myPage || self.profileType == .page {
-            self.getPageInfo()
-        } else if self.profileType == .people {
+        } else if self.profileType == .user {
             self.getUserInfo()
         }
     }
@@ -110,7 +105,7 @@ public final class ProfileViewModel {
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
                     let userHelper = UserHelper()
-                    userHelper.updateLocalProfile(user: User(json: json))
+                    userHelper.updateLocalProfile(user: UserInfo(json: json))
                     self.didGetMeInfoFinish?()
                 } catch {}
             } else {
@@ -128,26 +123,8 @@ public final class ProfileViewModel {
                 do {
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
-                    self.userInfo = User(json: json)
+                    self.userInfo = UserInfo(json: json)
                     self.didGetUserInfoFinish?()
-                } catch {}
-            } else {
-                if isRefreshToken {
-                    self.tokenHelper.refreshToken()
-                }
-            }
-        }
-    }
-    
-    private func getPageInfo() {
-        self.stage = .getPageInfo
-        self.pageRepository.getPageInfo(pageId: self.page.castcleId) { (success, response, isRefreshToken) in
-            if success {
-                do {
-                    let rawJson = try response.mapJSON()
-                    let json = JSON(rawJson)
-                    self.pageInfo = PageInfo(json: json)
-                    self.didGetPageInfoFinish?()
                 } catch {}
             } else {
                 if isRefreshToken {
@@ -159,7 +136,6 @@ public final class ProfileViewModel {
     
     var didGetMeInfoFinish: (() -> ())?
     var didGetUserInfoFinish: (() -> ())?
-    var didGetPageInfoFinish: (() -> ())?
 }
 
 extension ProfileViewModel: TokenHelperDelegate {
@@ -168,8 +144,6 @@ extension ProfileViewModel: TokenHelperDelegate {
             self.getMeInfo()
         } else if self.stage == .getUserInfo {
             self.getUserInfo()
-        } else if self.stage == .getPageInfo {
-            self.getPageInfo()
         }
     }
 }

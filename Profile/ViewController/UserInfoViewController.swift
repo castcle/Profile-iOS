@@ -39,7 +39,7 @@ public class UserInfoViewController: UIViewController, UITableViewDelegate, UITa
         case link
     }
     
-    var viewModel = UserInfoViewModel(profileType: .unknow)
+    var viewModel = UserInfoViewModel(userInfo: UserInfo())
     
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,13 +60,7 @@ public class UserInfoViewController: UIViewController, UITableViewDelegate, UITa
     }
     
     func setupNavBar() {
-        if self.viewModel.profileType == .people {
-            self.customNavigationBar(.secondary, title: self.viewModel.userInfo?.displayName ?? "")
-        } else if self.viewModel.profileType == .page {
-            self.customNavigationBar(.secondary, title: self.viewModel.pageInfo.displayName)
-        } else {
-            self.customNavigationBar(.secondary, title: "Error")
-        }
+        self.customNavigationBar(.secondary, title: self.viewModel.userInfo.displayName)
     }
     
     func configureTableView() {
@@ -99,7 +93,7 @@ public class UserInfoViewController: UIViewController, UITableViewDelegate, UITa
         case UserInfoViewControllerSection.info.rawValue:
             let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.meInfo, for: indexPath as IndexPath) as? UserInfoTableViewCell
             cell?.backgroundColor = UIColor.clear
-            cell?.configCell(profileType: self.viewModel.profileType, pageInfo: self.viewModel.pageInfo, userInfo: self.viewModel.userInfo)
+            cell?.configCell(userInfo: self.viewModel.userInfo)
             return cell ?? UserInfoTableViewCell()
         case UserInfoViewControllerSection.link.rawValue:
             let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.socialLink, for: indexPath as IndexPath) as? SocialLinkTableViewCell
