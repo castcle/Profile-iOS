@@ -373,8 +373,9 @@ extension ProfileHeaderTableViewCell {
         configure.mediaType = .image
         configure.usedCameraButton = false
         configure.allowedLivePhotos = false
-        configure.allowedPhotograph = true
+        configure.allowedPhotograph = false
         configure.allowedVideo = false
+        configure.autoPlay = false
         configure.allowedVideoRecording = false
         configure.selectedColor = UIColor.Asset.lightBlue
         photosPickerViewController.configure = configure
@@ -490,7 +491,7 @@ extension ProfileHeaderTableViewCell: TOCropViewControllerDelegate {
                 if self.viewModel.profileType == .me {
                     self.avatarLoadView.isHidden = false
                     self.avatarIndicator.startAnimating()
-                    self.editProfileViewModel.updateAvatar(isPage: false, castcleId: self.viewModel.userInfo.castcleId)
+                    self.editProfileViewModel.updateAvatar(isPage: false, castcleId: UserManager.shared.rawCastcleId)
                 } else if self.viewModel.isMyPage {
                     self.avatarLoadView.isHidden = false
                     self.avatarIndicator.startAnimating()
@@ -509,7 +510,7 @@ extension ProfileHeaderTableViewCell: TOCropViewControllerDelegate {
                 if self.viewModel.profileType == .me {
                     self.coverLoadView.isHidden = false
                     self.coverIndicator.startAnimating()
-                    self.editProfileViewModel.updateCover(isPage: false, castcleId: self.viewModel.userInfo.castcleId)
+                    self.editProfileViewModel.updateCover(isPage: false, castcleId: UserManager.shared.rawCastcleId)
                 } else if self.viewModel.isMyPage {
                     self.coverLoadView.isHidden = false
                     self.coverIndicator.startAnimating()

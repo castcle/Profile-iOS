@@ -141,8 +141,9 @@ class SelectPhotoMethodViewController: UIViewController {
         configure.mediaType = .image
         configure.usedCameraButton = false
         configure.allowedLivePhotos = false
-        configure.allowedPhotograph = true
+        configure.allowedPhotograph = false
         configure.allowedVideo = false
+        configure.autoPlay = false
         configure.allowedVideoRecording = false
         configure.selectedColor = UIColor.Asset.lightBlue
         photosPickerViewController.configure = configure
