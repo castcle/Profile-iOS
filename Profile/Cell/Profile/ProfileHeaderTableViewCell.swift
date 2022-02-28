@@ -127,14 +127,14 @@ class ProfileHeaderTableViewCell: UITableViewCell {
     }
     
     @IBAction func editCoverAction(_ sender: Any) {
-        if self.viewModel.profileType == .me {
+        if self.viewModel.profileType == .me || self.viewModel.isMyPage {
             self.updateImageType = .cover
             self.selectImageSource()
         }
     }
     
     @IBAction func editProfileImageAction(_ sender: Any) {
-        if self.viewModel.profileType == .me {
+        if self.viewModel.profileType == .me || self.viewModel.isMyPage {
             self.updateImageType = .avatar
             self.selectImageSource()
         }
