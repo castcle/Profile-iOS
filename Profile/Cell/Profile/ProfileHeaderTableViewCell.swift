@@ -149,7 +149,7 @@ class ProfileHeaderTableViewCell: UITableViewCell {
             let deleteButton = CCAction(title: "Delete page", image: UIImage.init(icon: .castcle(.deleteOne), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
                 actionSheet.dismissActionSheet()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//                    Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.deletePage(DeletePageViewModel(page: self.viewModel.pageInfo))), animated: true)
+                    Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.deletePage(DeletePageViewModel(userInfo: self.viewModel.userInfo))), animated: true)
                 }
             }
 //            let shareButton = CCAction(title: "Share", image: UIImage.init(icon: .castcle(.share), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
@@ -253,16 +253,24 @@ extension ProfileHeaderTableViewCell {
                 label.numberOfLines = 1
                 label.textColor = UIColor.Asset.gray
                 
-                let followingType = ActiveType.custom(pattern: UserManager.shared.following)
-                let followerType = ActiveType.custom(pattern: UserManager.shared.followers)
+                let followingType = ActiveType.custom(pattern: "\(UserManager.shared.following) Following")
+                let followerType = ActiveType.custom(pattern: "\(UserManager.shared.followers) Followers")
                 
                 label.enabledTypes = [followingType, followerType]
                 label.customColor[followingType] = UIColor.Asset.white
                 label.customSelectedColor[followingType] = UIColor.Asset.gray
                 label.customColor[followerType] = UIColor.Asset.white
                 label.customSelectedColor[followerType] = UIColor.Asset.gray
+                
+                label.handleCustomTap(for: followingType) { element in
+                    Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.userFollow(UserFollowViewModel(followType: .following, castcleId: UserManager.shared.rawCastcleId))), animated: true)
+                }
+                
+                label.handleCustomTap(for: followerType) { element in
+                    Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.userFollow(UserFollowViewModel(followType: .follower, castcleId: UserManager.shared.rawCastcleId))), animated: true)
+                }
             }
-            self.followLabel.text = "\(UserManager.shared.following)Following   \(UserManager.shared.followers)Followers"
+            self.followLabel.text = "\(UserManager.shared.following) Following   \(UserManager.shared.followers) Followers"
             self.bioLabel.text = UserManager.shared.overview
         } else {
             self.displayNameLabel.text = self.viewModel.userInfo.displayName
@@ -273,14 +281,22 @@ extension ProfileHeaderTableViewCell {
                 label.numberOfLines = 1
                 label.textColor = UIColor.Asset.gray
                 
-                let followingType = ActiveType.custom(pattern: "\(self.viewModel.userInfo.following.count) ")
-                let followerType = ActiveType.custom(pattern: "\(self.viewModel.userInfo.followers.count) ")
+                let followingType = ActiveType.custom(pattern: "\(self.viewModel.userInfo.following.count) Following")
+                let followerType = ActiveType.custom(pattern: "\(self.viewModel.userInfo.followers.count) Followers")
                 
                 label.enabledTypes = [followingType, followerType]
                 label.customColor[followingType] = UIColor.Asset.white
                 label.customSelectedColor[followingType] = UIColor.Asset.gray
                 label.customColor[followerType] = UIColor.Asset.white
                 label.customSelectedColor[followerType] = UIColor.Asset.gray
+                
+                label.handleCustomTap(for: followingType) { element in
+                    Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.userFollow(UserFollowViewModel(followType: .following, castcleId: self.viewModel.userInfo.castcleId))), animated: true)
+                }
+                
+                label.handleCustomTap(for: followerType) { element in
+                    Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.userFollow(UserFollowViewModel(followType: .follower, castcleId: self.viewModel.userInfo.castcleId))), animated: true)
+                }
             }
             self.followLabel.text = "\(self.viewModel.userInfo.following.count) Following   \(self.viewModel.userInfo.followers.count) Followers"
             self.bioLabel.text = self.viewModel.userInfo.overview

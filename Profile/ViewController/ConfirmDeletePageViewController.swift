@@ -34,7 +34,7 @@ class ConfirmDeletePageViewController: UIViewController, UITableViewDelegate, UI
 
     @IBOutlet var tableView: UITableView!
     
-    var viewModel = DeletePageViewModel(page: PageInfo())
+    var viewModel = DeletePageViewModel(userInfo: UserInfo())
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,7 +74,7 @@ class ConfirmDeletePageViewController: UIViewController, UITableViewDelegate, UI
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.confirmDeletePage, for: indexPath as IndexPath) as? ConfirmDeletePageTableViewCell
         cell?.backgroundColor = UIColor.clear
-        cell?.configCell(page: self.viewModel.page)
+        cell?.configCell(userInfo: self.viewModel.userInfo)
         return cell ?? ConfirmDeletePageTableViewCell()
     }
 }

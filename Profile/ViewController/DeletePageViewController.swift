@@ -43,7 +43,7 @@ class DeletePageViewController: UIViewController {
     @IBOutlet var line1View: UIView!
     @IBOutlet var line2View: UIView!
     
-    var viewModel = DeletePageViewModel(page: PageInfo())
+    var viewModel = DeletePageViewModel(userInfo: UserInfo())
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,9 +66,9 @@ class DeletePageViewController: UIViewController {
         self.deleteButton.setTitleColor(UIColor.Asset.white, for: .normal)
         self.deleteButton.capsule(color: UIColor.Asset.lightBlue, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
         
-        let url = URL(string: self.viewModel.page.images.avatar.thumbnail)
+        let url = URL(string: self.viewModel.userInfo.images.avatar.thumbnail)
         self.avatarImage.kf.setImage(with: url, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
-        self.displayNameLabel.text = self.viewModel.page.displayName
+        self.displayNameLabel.text = self.viewModel.userInfo.displayName
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -81,6 +81,6 @@ class DeletePageViewController: UIViewController {
     }
     
     @IBAction func deleteAction(_ sender: Any) {
-        Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.confirmDeletePage(DeletePageViewModel(page: self.viewModel.page))), animated: true)
+        Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.confirmDeletePage(DeletePageViewModel(userInfo: self.viewModel.userInfo))), animated: true)
     }
 }

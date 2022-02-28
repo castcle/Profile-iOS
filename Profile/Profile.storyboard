@@ -525,6 +525,36 @@
             </objects>
             <point key="canvasLocation" x="-564" y="841"/>
         </scene>
+        <!--User Follow View Controller-->
+        <scene sceneID="Qig-jZ-WJ0">
+            <objects>
+                <viewController storyboardIdentifier="UserFollowViewController" id="0M9-Kb-30B" customClass="UserFollowViewController" customModule="Profile" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="uKU-Po-Zph">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="9iK-Wu-oi8">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="6IB-5O-mfp"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="9iK-Wu-oi8" firstAttribute="top" secondItem="6IB-5O-mfp" secondAttribute="top" id="CJ3-lh-Y5H"/>
+                            <constraint firstAttribute="bottom" secondItem="9iK-Wu-oi8" secondAttribute="bottom" id="k3z-bG-lpw"/>
+                            <constraint firstItem="6IB-5O-mfp" firstAttribute="trailing" secondItem="9iK-Wu-oi8" secondAttribute="trailing" id="wTr-ZX-xbu"/>
+                            <constraint firstItem="9iK-Wu-oi8" firstAttribute="leading" secondItem="6IB-5O-mfp" secondAttribute="leading" id="wyZ-rp-daP"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="9iK-Wu-oi8" id="Nji-Mu-eND"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oFp-GX-ueg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="139" y="2265"/>
+        </scene>
     </scenes>
     <resources>
         <image name="create-your-page" width="311" height="311"/>

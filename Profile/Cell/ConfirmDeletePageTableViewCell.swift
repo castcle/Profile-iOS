@@ -45,7 +45,7 @@ class ConfirmDeletePageTableViewCell: UITableViewCell {
     @IBOutlet var showPasswordButton: UIButton!
     @IBOutlet var nextButton: UIButton!
     
-    var viewModel = DeletePageViewModel(page: PageInfo())
+    var viewModel = DeletePageViewModel(userInfo: UserInfo())
     let hud = JGProgressHUD()
     
     override func awakeFromNib() {
@@ -88,8 +88,8 @@ class ConfirmDeletePageTableViewCell: UITableViewCell {
         self.setupNextButton(isActive: self.isCanNext())
     }
     
-    func configCell(page: PageInfo) {
-        self.viewModel.page = page
+    func configCell(userInfo: UserInfo) {
+        self.viewModel.userInfo = userInfo
         self.passwordTextField.font = UIFont.asset(.regular, fontSize: .body)
         self.passwordTextField.placeholder = "Password"
         self.passwordTextField.placeholderColor = UIColor.Asset.gray
@@ -99,9 +99,9 @@ class ConfirmDeletePageTableViewCell: UITableViewCell {
         self.passwordTextField.textColor = UIColor.Asset.white
         self.passwordTextField.isSecureTextEntry = true
         
-        let url = URL(string: self.viewModel.page.images.avatar.thumbnail)
+        let url = URL(string: self.viewModel.userInfo.images.avatar.thumbnail)
         self.avatarImage.kf.setImage(with: url, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
-        self.displayNameLabel.text = self.viewModel.page.displayName
+        self.displayNameLabel.text = self.viewModel.userInfo.displayName
     }
     
     private func setupNextButton(isActive: Bool) {
