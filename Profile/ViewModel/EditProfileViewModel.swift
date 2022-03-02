@@ -32,34 +32,28 @@ import SwiftyJSON
 import RealmSwift
 
 public protocol EditProfileViewModelDelegate {
-    func didUpdateProfileFinish(success: Bool)
-    func didUpdatePageFinish(success: Bool)
+    func didUpdateInfoFinish(success: Bool)
 }
 
 class EditProfileViewModel {
     
     public var delegate: EditProfileViewModelDelegate?
-    
     var userRepository: UserRepository = UserRepositoryImpl()
-    var pageRepository: PageRepository = PageRepositoryImpl()
     var userRequest: UserRequest = UserRequest()
-    var pageRequest: PageRequest = PageRequest()
     let tokenHelper: TokenHelper = TokenHelper()
     private var stage: Stage = .none
     var avatar: UIImage? = nil
     var cover: UIImage? = nil
     var dobDate: Date? = nil
     var castcleId: String = ""
-    var pageInfo: PageInfo = PageInfo()
+    var isPage: Bool = false
+    var userInfo: UserInfo = UserInfo()
     private let realm = try! Realm()
     
     enum Stage {
         case updateProfile
         case updateAvatar
         case updateCover
-        case updatePageInfo
-        case updatePageAvatar
-        case updatePageCover
         case getInfo
         case none
     }
@@ -70,211 +64,117 @@ class EditProfileViewModel {
         self.tokenHelper.delegate = self
     }
     
-    public func updateProfile() {
+    public func updateProfile(isPage: Bool, castcleId: String) {
         self.stage = .updateProfile
+        self.isPage = isPage
+        self.castcleId = castcleId
         if let dob = self.dobDate {
             self.userRequest.payload.dob = dob.dateToStringSever()
         }
-        self.userRepository.updateMe(userRequest: self.userRequest) { (success, response, isRefreshToken) in
+        self.userRepository.updateInfo(userId: self.castcleId, userRequest: self.userRequest) { (success, response, isRefreshToken) in
             if success {
-                do {
-                    let rawJson = try response.mapJSON()
-                    let json = JSON(rawJson)
-                    let userHelper = UserHelper()
-                    userHelper.updateLocalProfile(user: User(json: json))
-                    self.delegate?.didUpdateProfileFinish(success: true)
-                } catch {}
+                if isPage {
+                    self.delegate?.didUpdateInfoFinish(success: true)
+                } else {
+                    do {
+                        let rawJson = try response.mapJSON()
+                        let json = JSON(rawJson)
+                        let userHelper = UserHelper()
+                        userHelper.updateLocalProfile(user: UserInfo(json: json))
+                        self.delegate?.didUpdateInfoFinish(success: true)
+                    } catch {}
+                }
             } else {
                 if isRefreshToken {
                     self.tokenHelper.refreshToken()
                 } else {
-                    self.delegate?.didUpdateProfileFinish(success: false)
+                    self.delegate?.didUpdateInfoFinish(success: false)
                 }
             }
         }
     }
     
-    public func updateAvatar() {
+    public func updateAvatar(isPage: Bool, castcleId: String) {
         guard let image = self.avatar else { return }
         self.stage = .updateAvatar
+        self.isPage = isPage
+        self.castcleId = castcleId
         self.userRequest.payload.images.avatar = image.toBase64() ?? ""
-        self.userRepository.updateMeAvatar(userRequest: self.userRequest) { (success, response, isRefreshToken) in
+        self.userRepository.updateAvatar(userId: self.castcleId, userRequest: self.userRequest) { (success, response, isRefreshToken) in
             if success {
                 do {
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
                     let userHelper = UserHelper()
-                    let user = User(json: json)
-                    userHelper.updateLocalProfile(user: user)
-                    self.delegate?.didUpdateProfileFinish(success: true)
+                    let user = UserInfo(json: json)
+                    if isPage {
+                        let pageRealm = self.realm.objects(Page.self).filter("castcleId == '\(user.castcleId)'").first
+                        if let page = pageRealm {
+                            try! self.realm.write {
+                                page.avatar = user.images.avatar.thumbnail
+                                self.realm.add(page, update: .modified)
+                            }
+                        }
+                    } else {
+                        userHelper.updateLocalProfile(user: user)
+                    }
+                    self.delegate?.didUpdateInfoFinish(success: true)
                 } catch {}
             } else {
                 if isRefreshToken {
                     self.tokenHelper.refreshToken()
                 } else {
-                    self.delegate?.didUpdateProfileFinish(success: false)
+                    self.delegate?.didUpdateInfoFinish(success: false)
                 }
             }
         }
     }
     
-    public func updateCover() {
+    public func updateCover(isPage: Bool, castcleId: String) {
         guard let image = self.cover else { return }
         self.stage = .updateCover
+        self.isPage = isPage
+        self.castcleId = castcleId
         self.userRequest.payload.images.cover = image.toBase64() ?? ""
-        self.userRepository.updateMeCover(userRequest: self.userRequest) { (success, response, isRefreshToken) in
+        self.userRepository.updateCover(userId: self.castcleId, userRequest: self.userRequest) { (success, response, isRefreshToken) in
             if success {
                 do {
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
                     let userHelper = UserHelper()
-                    let user = User(json: json)
-                    userHelper.updateLocalProfile(user: user)
-                    self.delegate?.didUpdateProfileFinish(success: true)
+                    let user = UserInfo(json: json)
+                    if self.isPage {
+                        let pageRealm = self.realm.objects(Page.self).filter("castcleId == '\(user.castcleId)'").first
+                        if let page = pageRealm {
+                            try! self.realm.write {
+                                page.cover = user.images.cover.fullHd
+                                self.realm.add(page, update: .modified)
+                            }
+                        }
+                    } else {
+                        userHelper.updateLocalProfile(user: user)
+                    }
+                    self.delegate?.didUpdateInfoFinish(success: true)
                 } catch {}
             } else {
                 if isRefreshToken {
                     self.tokenHelper.refreshToken()
                 } else {
-                    self.delegate?.didUpdateProfileFinish(success: false)
+                    self.delegate?.didUpdateInfoFinish(success: false)
                 }
             }
         }
     }
-    
-    func updatePageInfo(castcleId: String) {
-        self.castcleId = castcleId
-        if !self.castcleId.isEmpty {
-            self.stage = .updatePageInfo
-            self.pageRepository.updatePageInfo(pageId: self.castcleId, pageRequest: self.pageRequest) { (success, response, isRefreshToken) in
-                if success {
-                    self.stage = .none
-                    self.delegate?.didUpdatePageFinish(success: true)
-                } else {
-                    if isRefreshToken {
-                        self.tokenHelper.refreshToken()
-                    } else {
-                        self.delegate?.didUpdatePageFinish(success: false)
-                    }
-                }
-            }
-        } else {
-            self.delegate?.didUpdatePageFinish(success: false)
-        }
-    }
-    
-    func updatePageAvatar(castcleId: String) {
-        self.castcleId = castcleId
-        if !self.castcleId.isEmpty, let image = self.avatar {
-            self.stage = .updatePageAvatar
-            self.pageRequest.avatar = image.toBase64() ?? ""
-            self.pageRepository.updatePageAvatar(pageId: self.castcleId, pageRequest: self.pageRequest) { (success, response, isRefreshToken) in
-                if success {
-                    self.stage = .none
-                    do {
-                        let rawJson = try response.mapJSON()
-                        let json = JSON(rawJson)
-                        let pageInfo = PageInfo(json: json)
-                        let pageRealm = self.realm.objects(Page.self).filter("castcleId == '\(pageInfo.castcleId)'").first
-                        if let page = pageRealm {
-                            try! self.realm.write {
-                                page.avatar = pageInfo.images.avatar.thumbnail
-                                self.realm.add(page, update: .modified)
-                            }
-                        }
-                        self.delegate?.didUpdatePageFinish(success: true)
-                    } catch {}
-                } else {
-                    if isRefreshToken {
-                        self.tokenHelper.refreshToken()
-                    } else {
-                        self.delegate?.didUpdatePageFinish(success: false)
-                    }
-                }
-            }
-        } else {
-            self.delegate?.didUpdatePageFinish(success: false)
-        }
-    }
-    
-    func updatePageCover(castcleId: String) {
-        self.castcleId = castcleId
-        if !self.castcleId.isEmpty, let image = self.cover {
-            self.stage = .updatePageCover
-            self.pageRequest.cover = image.toBase64() ?? ""
-            self.pageRepository.updatePageCover(pageId: self.castcleId, pageRequest: self.pageRequest) { (success, response, isRefreshToken) in
-                if success {
-                    self.stage = .none
-                    do {
-                        let rawJson = try response.mapJSON()
-                        let json = JSON(rawJson)
-                        let pageInfo = PageInfo(json: json)
-                        let pageRealm = self.realm.objects(Page.self).filter("castcleId == '\(pageInfo.castcleId)'").first
-                        if let page = pageRealm {
-                            try! self.realm.write {
-                                page.cover = pageInfo.images.cover.fullHd
-                                self.realm.add(page, update: .modified)
-                            }
-                        }
-                        self.delegate?.didUpdatePageFinish(success: true)
-                    } catch {}
-                } else {
-                    if isRefreshToken {
-                        self.tokenHelper.refreshToken()
-                    } else {
-                        self.delegate?.didUpdatePageFinish(success: false)
-                    }
-                }
-            }
-        } else {
-            self.delegate?.didUpdatePageFinish(success: false)
-        }
-    }
-    
-    func getPageInfo(castcleId: String) {
-        self.castcleId = castcleId
-        if !self.castcleId.isEmpty {
-            self.stage = .getInfo
-            self.pageRepository.getPageInfo(pageId: self.castcleId) { (success, response, isRefreshToken) in
-                if success {
-                    do {
-                        let rawJson = try response.mapJSON()
-                        let json = JSON(rawJson)
-                        self.pageInfo = PageInfo(json: json)
-                        self.didGetPageInfoFinish?()
-                    } catch {
-                        
-                    }
-                } else {
-                    if isRefreshToken {
-                        self.tokenHelper.refreshToken()
-                    }
-                }
-            }
-        } else {
-            self.delegate?.didUpdatePageFinish(success: false)
-        }
-    }
-    
-    var didGetPageInfoFinish: (() -> ())?
 }
 
 extension EditProfileViewModel: TokenHelperDelegate {
     func didRefreshTokenFinish() {
         if self.stage == .updateProfile {
-            self.updateProfile()
+            self.updateProfile(isPage: self.isPage, castcleId: self.castcleId)
         } else if self.stage == .updateAvatar {
-            self.updateAvatar()
+            self.updateAvatar(isPage: self.isPage, castcleId: self.castcleId)
         } else if self.stage == .updateCover {
-            self.updateCover()
-        } else if self.stage == .updatePageInfo {
-            self.updatePageInfo(castcleId: self.castcleId)
-        } else if self.stage == .updatePageAvatar {
-            self.updatePageAvatar(castcleId: self.castcleId)
-        } else if self.stage == .updatePageCover {
-            self.updatePageCover(castcleId: self.castcleId)
-        } else if self.stage == .getInfo {
-            self.getPageInfo(castcleId: self.castcleId)
+            self.updateCover(isPage: self.isPage, castcleId: self.castcleId)
         }
     }
 }

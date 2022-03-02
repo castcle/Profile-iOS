@@ -39,7 +39,7 @@ class ProfilePostTableViewCell: UITableViewCell {
     @IBOutlet var placeholderLabel: UILabel!
     
     var profileType: ProfileType = .unknow
-    var pageInfo: PageInfo = PageInfo()
+    var userInfo: UserInfo = UserInfo()
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -55,15 +55,15 @@ class ProfilePostTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
-    func configCell(profileType: ProfileType, pageInfo: PageInfo) {
+    func configCell(profileType: ProfileType, userInfo: UserInfo) {
         self.profileType = profileType
-        self.pageInfo = pageInfo
+        self.userInfo = userInfo
         
         if self.profileType == .me {
             let urlProfile = URL(string: UserManager.shared.avatar)
             self.miniProfileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
-        } else if self.profileType == .myPage {
-            let urlProfile = URL(string: self.pageInfo.images.avatar.thumbnail)
+        } else {
+            let urlProfile = URL(string: self.userInfo.images.avatar.thumbnail)
             self.miniProfileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
         }
     }
@@ -73,8 +73,8 @@ class ProfilePostTableViewCell: UITableViewCell {
             let vc = PostOpener.open(.post(PostViewModel(postType: .newCast)))
             vc.modalPresentationStyle = .fullScreen
             Utility.currentViewController().present(vc, animated: true, completion: nil)
-        } else if self.profileType == .myPage {
-            let vc = PostOpener.open(.post(PostViewModel(postType: .newCast, page: Page().initCustom(id: self.pageInfo.id, displayName: self.pageInfo.displayName, castcleId: self.pageInfo.castcleId, avatar: self.pageInfo.images.avatar.thumbnail, cover: self.pageInfo.images.cover.fullHd, overview: self.pageInfo.overview, official: self.pageInfo.verified.official))))
+        } else {
+            let vc = PostOpener.open(.post(PostViewModel(postType: .newCast, page: Page().initCustom(id: self.userInfo.id, displayName: self.userInfo.displayName, castcleId: self.userInfo.castcleId, avatar: self.userInfo.images.avatar.thumbnail, cover: self.userInfo.images.cover.fullHd))))
             vc.modalPresentationStyle = .fullScreen
             Utility.currentViewController().present(vc, animated: true, completion: nil)
         }

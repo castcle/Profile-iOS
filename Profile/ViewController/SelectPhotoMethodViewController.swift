@@ -113,7 +113,7 @@ class SelectPhotoMethodViewController: UIViewController {
     }
     
     @objc private func skipAction() {
-        Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.about(AboutInfoViewModel(avatarType: self.viewModel.avatarType, castcleId: self.viewModel.castcleId, pageRequest: self.viewModel.pageRequest))), animated: true)
+        Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.about(AboutInfoViewModel(avatarType: self.viewModel.avatarType, castcleId: self.viewModel.castcleId, userRequest: self.viewModel.userRequest))), animated: true)
     }
     
     @IBAction func cameraRollAction(_ sender: Any) {
@@ -141,8 +141,9 @@ class SelectPhotoMethodViewController: UIViewController {
         configure.mediaType = .image
         configure.usedCameraButton = false
         configure.allowedLivePhotos = false
-        configure.allowedPhotograph = true
+        configure.allowedPhotograph = false
         configure.allowedVideo = false
+        configure.autoPlay = false
         configure.allowedVideoRecording = false
         configure.selectedColor = UIColor.Asset.lightBlue
         photosPickerViewController.configure = configure
@@ -236,32 +237,32 @@ extension SelectPhotoMethodViewController: TOCropViewControllerDelegate {
             self.viewModel.avatar = image.resizeImage(targetSize: CGSize.init(width: 500, height: 500))
             self.hud.show(in: self.view)
             if self.viewModel.avatarType == .page {
-                self.viewModel.updatePageAvatar()
+                self.viewModel.updateUserAvatar(isPage: true)
             } else {
-                self.viewModel.updateUserAvatar()
+                self.viewModel.updateUserAvatar(isPage: false)
             }
         })
     }
 }
 
 extension SelectPhotoMethodViewController: SelectPhotoMethodViewModelDelegate {
-    func didUpdateUserFinish(success: Bool) {
-        self.hud.dismiss()
-        if success {
-            Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.about(AboutInfoViewModel(avatarType: self.viewModel.avatarType))), animated: true)
-        }
-    }
-    
-    func didUpdatePageFinish(success: Bool) {
-        if success {
-            self.viewModel.getMyPage()
+    func didUpdateFinish(success: Bool) {
+        if self.viewModel.isPage {
+            if success {
+                self.viewModel.getMyPage()
+            } else {
+                self.hud.dismiss()
+            }
         } else {
             self.hud.dismiss()
+            if success {
+                Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.about(AboutInfoViewModel(avatarType: self.viewModel.avatarType, castcleId: self.viewModel.castcleId))), animated: true)
+            }
         }
     }
     
     func didGetPageFinish() {
         self.hud.dismiss()
-        Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.about(AboutInfoViewModel(avatarType: self.viewModel.avatarType, castcleId: self.viewModel.castcleId, pageRequest: self.viewModel.pageRequest))), animated: true)
+        Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.about(AboutInfoViewModel(avatarType: self.viewModel.avatarType, castcleId: self.viewModel.castcleId, userRequest: self.viewModel.userRequest))), animated: true)
     }
 }

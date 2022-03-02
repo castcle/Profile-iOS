@@ -23,6 +23,8 @@
 		B753F57D2782D1AB00D1AC92 /* FeedHeaderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B753F57B2782D1AB00D1AC92 /* FeedHeaderTableViewCell.xib */; };
 		B7586BE427856066009FEE29 /* ProfileHeaderSkeletonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7586BE227856066009FEE29 /* ProfileHeaderSkeletonTableViewCell.swift */; };
 		B7586BE527856066009FEE29 /* ProfileHeaderSkeletonTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7586BE327856066009FEE29 /* ProfileHeaderSkeletonTableViewCell.xib */; };
+		B786903127CCA79A0029EDFE /* UserFollowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B786903027CCA79A0029EDFE /* UserFollowViewController.swift */; };
+		B786903327CCA7D40029EDFE /* UserFollowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B786903227CCA7D40029EDFE /* UserFollowViewModel.swift */; };
 		B7910DDC26AFC60E0097C94E /* Profile.h in Headers */ = {isa = PBXBuildFile; fileRef = B7910DDA26AFC60E0097C94E /* Profile.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B7910DE526AFC9B40097C94E /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910DE426AFC9B40097C94E /* Profile.swift */; };
 		B7910DF026AFCD920097C94E /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7910DEF26AFCD920097C94E /* Core.framework */; };
@@ -116,6 +118,8 @@
 		B753F57B2782D1AB00D1AC92 /* FeedHeaderTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeedHeaderTableViewCell.xib; sourceTree = "<group>"; };
 		B7586BE227856066009FEE29 /* ProfileHeaderSkeletonTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderSkeletonTableViewCell.swift; sourceTree = "<group>"; };
 		B7586BE327856066009FEE29 /* ProfileHeaderSkeletonTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileHeaderSkeletonTableViewCell.xib; sourceTree = "<group>"; };
+		B786903027CCA79A0029EDFE /* UserFollowViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFollowViewController.swift; sourceTree = "<group>"; };
+		B786903227CCA7D40029EDFE /* UserFollowViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFollowViewModel.swift; sourceTree = "<group>"; };
 		B78795DB26C6504E00FECC21 /* Feed.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Feed.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7910DD726AFC60E0097C94E /* Profile.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Profile.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7910DDA26AFC60E0097C94E /* Profile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Profile.h; sourceTree = "<group>"; };
@@ -257,6 +261,14 @@
 			path = Profile;
 			sourceTree = "<group>";
 		};
+		B786902F27CCA7740029EDFE /* User Follow */ = {
+			isa = PBXGroup;
+			children = (
+				B786903027CCA79A0029EDFE /* UserFollowViewController.swift */,
+			);
+			path = "User Follow";
+			sourceTree = "<group>";
+		};
 		B7910DCD26AFC60E0097C94E = {
 			isa = PBXGroup;
 			children = (
@@ -368,6 +380,7 @@
 				B7203DCF27845237005401FB /* ProfileFeedViewModel.swift */,
 				B7AC3BC027A3EA2700C02867 /* UserBlockedViewModel.swift */,
 				B7167F9127AD018700067DBD /* NewPageWithSocialViewModel.swift */,
+				B786903227CCA7D40029EDFE /* UserFollowViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -375,6 +388,7 @@
 		B7910EB726BD0C1F0097C94E /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				B786902F27CCA7740029EDFE /* User Follow */,
 				B7C46D8D27A12CBE0031179E /* Page Sync Social */,
 				B7189ADF26EF595D00CB9719 /* Me */,
 				B7910E7526BBD68D0097C94E /* WelcomeEditProfileViewController.swift */,
@@ -585,6 +599,7 @@
 				B7F63C2B271DC3C7005856B2 /* ConfirmDeletePageTableViewCell.swift in Sources */,
 				B7910EC526BF03640097C94E /* UserInfoViewController.swift in Sources */,
 				B7AF661626F2E94C00BDE9C4 /* CreatePageDisplayNameViewModel.swift in Sources */,
+				B786903127CCA79A0029EDFE /* UserFollowViewController.swift in Sources */,
 				B7AC3BBE27A3D2BB00C02867 /* BlockedUserTableViewCell.swift in Sources */,
 				B753F5762782AB8D00D1AC92 /* ProfileHeaderTableViewCell.swift in Sources */,
 				B7910EC826BF06050097C94E /* UserInfoTableViewCell.swift in Sources */,
@@ -603,6 +618,7 @@
 				B7AF662126F3303300BDE9C4 /* SelectPhotoMethodViewModel.swift in Sources */,
 				B7910EA126BCDC410097C94E /* SocialLink.swift in Sources */,
 				B7910EA526BCE83D0097C94E /* AddSocialSectionController.swift in Sources */,
+				B786903327CCA7D40029EDFE /* UserFollowViewModel.swift in Sources */,
 				B7910E7426BBD5480097C94E /* ProfileOpener.swift in Sources */,
 				B7B7C20A2786E6DA00DD488A /* ProfilePostTableViewCell.swift in Sources */,
 				B753F5792782BE8C00D1AC92 /* ProfileHeaderViewModel.swift in Sources */,

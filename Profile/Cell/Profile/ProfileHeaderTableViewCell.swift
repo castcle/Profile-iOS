@@ -30,6 +30,7 @@ import Photos
 import MobileCoreServices
 import Core
 import Component
+import Networking
 import NVActivityIndicatorView
 import ActiveLabel
 import TLPhotoPicker
@@ -65,7 +66,7 @@ class ProfileHeaderTableViewCell: UITableViewCell {
     @IBOutlet var avatarIndicator: NVActivityIndicatorView!
     
     public var delegate: ProfileHeaderTableViewCellDelegate?
-    private var viewModel = ProfileHeaderViewModel(profileType: .unknow, userInfo: nil)
+    private var viewModel = ProfileHeaderViewModel(profileType: .unknow, userInfo: UserInfo())
     private let editProfileViewModel = EditProfileViewModel()
     private var updateImageType: UpdateImageType = .none
     
@@ -126,21 +127,21 @@ class ProfileHeaderTableViewCell: UITableViewCell {
     }
     
     @IBAction func editCoverAction(_ sender: Any) {
-        if self.viewModel.profileType == .me || self.viewModel.profileType == .myPage {
+        if self.viewModel.profileType == .me || self.viewModel.isMyPage {
             self.updateImageType = .cover
             self.selectImageSource()
         }
     }
     
     @IBAction func editProfileImageAction(_ sender: Any) {
-        if self.viewModel.profileType == .me || self.viewModel.profileType == .myPage {
+        if self.viewModel.profileType == .me || self.viewModel.isMyPage {
             self.updateImageType = .avatar
             self.selectImageSource()
         }
     }
     
     @IBAction func moreAction(_ sender: Any) {
-        if self.viewModel.profileType == .myPage {
+        if self.viewModel.isMyPage && self.viewModel.profileType != .me {
             let actionSheet = CCActionSheet()
 //            let syncButton = CCAction(title: "Sync social media", image: UIImage.init(icon: .castcle(.bindLink), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
 //                actionSheet.dismissActionSheet()
@@ -148,7 +149,7 @@ class ProfileHeaderTableViewCell: UITableViewCell {
             let deleteButton = CCAction(title: "Delete page", image: UIImage.init(icon: .castcle(.deleteOne), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
                 actionSheet.dismissActionSheet()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.deletePage(DeletePageViewModel(page: self.viewModel.pageInfo))), animated: true)
+                    Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.deletePage(DeletePageViewModel(userInfo: self.viewModel.userInfo))), animated: true)
                 }
             }
 //            let shareButton = CCAction(title: "Share", image: UIImage.init(icon: .castcle(.share), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
@@ -157,16 +158,9 @@ class ProfileHeaderTableViewCell: UITableViewCell {
             
             actionSheet.addActions([deleteButton])
             Utility.currentViewController().present(actionSheet, animated: true, completion: nil)
-        } else if self.viewModel.profileType != .me && self.viewModel.profileType != .myPage {
+        } else if !self.viewModel.isMyPage && self.viewModel.profileType != .me {
             let actionSheet = CCActionSheet()
-            
-            var castcleId: String = ""
-            if self.viewModel.profileType == .page {
-                castcleId = self.viewModel.pageInfo.castcleId
-            } else {
-                castcleId = self.viewModel.userInfo?.castcleId ?? ""
-            }
-            
+            let castcleId: String = self.viewModel.userInfo.castcleId
             let reportButton = CCAction(title: "Report @\(castcleId)", image: UIImage.init(icon: .castcle(.report), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
                 actionSheet.dismissActionSheet()
                 if UserManager.shared.isLogin {
@@ -189,13 +183,13 @@ class ProfileHeaderTableViewCell: UITableViewCell {
     }
     
     @IBAction func editProfileAction(_ sender: Any) {
-        if self.viewModel.profileType == .me || self.viewModel.profileType == .myPage {
-            Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.editInfo(self.viewModel.profileType, self.viewModel.pageInfo)), animated: true)
+        if self.viewModel.profileType == .me || self.viewModel.isMyPage {
+            Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.editInfo(self.viewModel.profileType, self.viewModel.userInfo)), animated: true)
         }
     }
     
     @IBAction func viewProfileAction(_ sender: Any) {
-        Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.userInfo(UserInfoViewModel(profileType: self.viewModel.profileType, pageInfo: self.viewModel.pageInfo, userInfo: self.viewModel.userInfo))), animated: true)
+        Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.userInfo(UserInfoViewModel(userInfo: self.viewModel.userInfo))), animated: true)
     }
     
     @IBAction func followAction(_ sender: Any) {
@@ -229,51 +223,28 @@ extension ProfileHeaderTableViewCell {
                 let url = URL(string: UserManager.shared.cover)
                 self.coverImage.kf.setImage(with: url, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.35))])
             }
-        } else if self.viewModel.profileType == .myPage || self.viewModel.profileType == .page {
-            let urlProfile = URL(string: self.viewModel.pageInfo.images.avatar.thumbnail)
-            let urlCover = URL(string: self.viewModel.pageInfo.images.cover.large)
-            
-            if let avatar = self.editProfileViewModel.avatar {
-                self.profileImage.image = avatar
+        } else {
+            let urlProfile = URL(string: self.viewModel.userInfo.images.avatar.thumbnail)
+            let urlCover = URL(string: self.viewModel.userInfo.images.cover.fullHd)
+            if self.viewModel.isMyPage {
+                if let avatar = self.editProfileViewModel.avatar {
+                    self.profileImage.image = avatar
+                } else {
+                    self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
+                }
+                
+                if let cover = self.editProfileViewModel.cover {
+                    self.coverImage.image = cover
+                } else {
+                    self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.35))])
+                }
             } else {
                 self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
-            }
-            
-            if let cover = self.editProfileViewModel.cover {
-                self.coverImage.image = cover
-            } else {
                 self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.35))])
             }
-        } else {
-            guard let user = self.viewModel.userInfo else { return }
-            let urlProfile = URL(string: user.images.avatar.thumbnail)
-            let urlCover = URL(string: user.images.cover.fullHd)
-            
-            self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
-            self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.35))])
         }
         
-        if self.viewModel.profileType == .myPage || self.viewModel.profileType == .page {
-            self.displayNameLabel.text = self.viewModel.pageInfo.displayName
-            self.userIdLabel.text = "@\(self.viewModel.pageInfo.castcleId)"
-            
-            self.followLabel.customize { label in
-                label.font = UIFont.asset(.regular, fontSize: .body)
-                label.numberOfLines = 1
-                label.textColor = UIColor.Asset.gray
-                
-                let followingType = ActiveType.custom(pattern: "\(self.viewModel.pageInfo.following.count) ")
-                let followerType = ActiveType.custom(pattern: "\(self.viewModel.pageInfo.followers.count) ")
-                
-                label.enabledTypes = [followingType, followerType]
-                label.customColor[followingType] = UIColor.Asset.white
-                label.customSelectedColor[followingType] = UIColor.Asset.gray
-                label.customColor[followerType] = UIColor.Asset.white
-                label.customSelectedColor[followerType] = UIColor.Asset.gray
-            }
-            self.followLabel.text = "\(self.viewModel.pageInfo.following.count) Following   \(self.viewModel.pageInfo.followers.count) Followers"
-            self.bioLabel.text = self.viewModel.pageInfo.overview
-        } else if self.viewModel.profileType == .me {
+        if self.viewModel.profileType == .me {
             self.displayNameLabel.text = UserManager.shared.displayName
             self.userIdLabel.text = UserManager.shared.castcleId
             
@@ -282,41 +253,58 @@ extension ProfileHeaderTableViewCell {
                 label.numberOfLines = 1
                 label.textColor = UIColor.Asset.gray
                 
-                let followingType = ActiveType.custom(pattern: UserManager.shared.following)
-                let followerType = ActiveType.custom(pattern: UserManager.shared.followers)
+                let followingType = ActiveType.custom(pattern: "\(UserManager.shared.following) Following")
+                let followerType = ActiveType.custom(pattern: "\(UserManager.shared.followers) Followers")
                 
                 label.enabledTypes = [followingType, followerType]
                 label.customColor[followingType] = UIColor.Asset.white
                 label.customSelectedColor[followingType] = UIColor.Asset.gray
                 label.customColor[followerType] = UIColor.Asset.white
                 label.customSelectedColor[followerType] = UIColor.Asset.gray
+                
+                // MARK: - Uncomment in 1.3.0
+//                label.handleCustomTap(for: followingType) { element in
+//                    Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.userFollow(UserFollowViewModel(followType: .following, castcleId: UserManager.shared.rawCastcleId))), animated: true)
+//                }
+//
+//                label.handleCustomTap(for: followerType) { element in
+//                    Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.userFollow(UserFollowViewModel(followType: .follower, castcleId: UserManager.shared.rawCastcleId))), animated: true)
+//                }
             }
-            self.followLabel.text = "\(UserManager.shared.following)Following   \(UserManager.shared.followers)Followers"
+            self.followLabel.text = "\(UserManager.shared.following) Following   \(UserManager.shared.followers) Followers"
             self.bioLabel.text = UserManager.shared.overview
         } else {
-            guard let user = self.viewModel.userInfo else { return }
-            self.displayNameLabel.text = user.displayName
-            self.userIdLabel.text = "@\(user.castcleId)"
+            self.displayNameLabel.text = self.viewModel.userInfo.displayName
+            self.userIdLabel.text = "@\(self.viewModel.userInfo.castcleId)"
             
             self.followLabel.customize { label in
                 label.font = UIFont.asset(.regular, fontSize: .body)
                 label.numberOfLines = 1
                 label.textColor = UIColor.Asset.gray
                 
-                let followingType = ActiveType.custom(pattern: "\(user.following.count) ")
-                let followerType = ActiveType.custom(pattern: "\(user.followers.count) ")
+                let followingType = ActiveType.custom(pattern: "\(self.viewModel.userInfo.following.count) Following")
+                let followerType = ActiveType.custom(pattern: "\(self.viewModel.userInfo.followers.count) Followers")
                 
                 label.enabledTypes = [followingType, followerType]
                 label.customColor[followingType] = UIColor.Asset.white
                 label.customSelectedColor[followingType] = UIColor.Asset.gray
                 label.customColor[followerType] = UIColor.Asset.white
                 label.customSelectedColor[followerType] = UIColor.Asset.gray
+                
+                // MARK: - Uncomment in 1.3.0
+//                label.handleCustomTap(for: followingType) { element in
+//                    Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.userFollow(UserFollowViewModel(followType: .following, castcleId: self.viewModel.userInfo.castcleId))), animated: true)
+//                }
+//
+//                label.handleCustomTap(for: followerType) { element in
+//                    Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.userFollow(UserFollowViewModel(followType: .follower, castcleId: self.viewModel.userInfo.castcleId))), animated: true)
+//                }
             }
-            self.followLabel.text = "\(user.following.count) Following   \(user.followers.count) Followers"
-            self.bioLabel.text = user.overview
+            self.followLabel.text = "\(self.viewModel.userInfo.following.count) Following   \(self.viewModel.userInfo.followers.count) Followers"
+            self.bioLabel.text = self.viewModel.userInfo.overview
         }
         
-        if self.viewModel.profileType == .me || self.viewModel.profileType == .myPage {
+        if self.viewModel.profileType == .me || self.viewModel.isMyPage {
             self.editCoverButton.isHidden = false
             self.editProfileButton.isHidden = false
             self.editProfileImageButton.isHidden = false
@@ -385,8 +373,9 @@ extension ProfileHeaderTableViewCell {
         configure.mediaType = .image
         configure.usedCameraButton = false
         configure.allowedLivePhotos = false
-        configure.allowedPhotograph = true
+        configure.allowedPhotograph = false
         configure.allowedVideo = false
+        configure.autoPlay = false
         configure.allowedVideoRecording = false
         configure.selectedColor = UIColor.Asset.lightBlue
         photosPickerViewController.configure = configure
@@ -502,11 +491,11 @@ extension ProfileHeaderTableViewCell: TOCropViewControllerDelegate {
                 if self.viewModel.profileType == .me {
                     self.avatarLoadView.isHidden = false
                     self.avatarIndicator.startAnimating()
-                    self.editProfileViewModel.updateAvatar()
-                } else if self.viewModel.profileType == .myPage {
+                    self.editProfileViewModel.updateAvatar(isPage: false, castcleId: UserManager.shared.rawCastcleId)
+                } else if self.viewModel.isMyPage {
                     self.avatarLoadView.isHidden = false
                     self.avatarIndicator.startAnimating()
-                    self.editProfileViewModel.updatePageAvatar(castcleId: self.viewModel.pageInfo.castcleId)
+                    self.editProfileViewModel.updateAvatar(isPage: true, castcleId: self.viewModel.userInfo.castcleId)
                 }
             }
         })
@@ -521,11 +510,11 @@ extension ProfileHeaderTableViewCell: TOCropViewControllerDelegate {
                 if self.viewModel.profileType == .me {
                     self.coverLoadView.isHidden = false
                     self.coverIndicator.startAnimating()
-                    self.editProfileViewModel.updateCover()
-                } else if self.viewModel.profileType == .myPage {
+                    self.editProfileViewModel.updateCover(isPage: false, castcleId: UserManager.shared.rawCastcleId)
+                } else if self.viewModel.isMyPage {
                     self.coverLoadView.isHidden = false
                     self.coverIndicator.startAnimating()
-                    self.editProfileViewModel.updatePageCover(castcleId: self.viewModel.pageInfo.castcleId)
+                    self.editProfileViewModel.updateCover(isPage: true, castcleId: self.viewModel.userInfo.castcleId)
                 }
             }
         })
@@ -533,32 +522,32 @@ extension ProfileHeaderTableViewCell: TOCropViewControllerDelegate {
 }
 
 extension ProfileHeaderTableViewCell: EditProfileViewModelDelegate {
-    func didUpdateProfileFinish(success: Bool) {
-        if success {
-            self.avatarLoadView.isHidden = true
-            self.coverLoadView.isHidden = true
-            self.avatarIndicator.stopAnimating()
-            self.coverIndicator.stopAnimating()
-            if self.updateImageType == .avatar {
-                if self.viewModel.profileType == .me {
-                    self.delegate?.didUpdateProfileSuccess(self)
+    func didUpdateInfoFinish(success: Bool) {
+        if self.viewModel.isMyPage {
+            if success {
+                self.avatarLoadView.isHidden = true
+                self.coverLoadView.isHidden = true
+                self.avatarIndicator.stopAnimating()
+                self.coverIndicator.stopAnimating()
+                if self.updateImageType == .avatar {
+                    if self.viewModel.isMyPage {
+                        self.delegate?.didUpdateProfileSuccess(self)
+                    }
+                    self.updateImageType = .none
                 }
-                self.updateImageType = .none
             }
-        }
-    }
-    
-    func didUpdatePageFinish(success: Bool) {
-        if success {
-            self.avatarLoadView.isHidden = true
-            self.coverLoadView.isHidden = true
-            self.avatarIndicator.stopAnimating()
-            self.coverIndicator.stopAnimating()
-            if self.updateImageType == .avatar {
-                if self.viewModel.profileType == .myPage {
-                    self.delegate?.didUpdateProfileSuccess(self)
+        } else {
+            if success {
+                self.avatarLoadView.isHidden = true
+                self.coverLoadView.isHidden = true
+                self.avatarIndicator.stopAnimating()
+                self.coverIndicator.stopAnimating()
+                if self.updateImageType == .avatar {
+                    if self.viewModel.profileType == .me {
+                        self.delegate?.didUpdateProfileSuccess(self)
+                    }
+                    self.updateImageType = .none
                 }
-                self.updateImageType = .none
             }
         }
     }

@@ -213,7 +213,7 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         self.viewModel.userRequest.payload.links.youtube = (self.youtubeTextField.text! == "https://" ? "" : self.youtubeTextField.text!)
         self.viewModel.userRequest.payload.links.medium = (self.mediumTextField.text! == "https://" ? "" : self.mediumTextField.text!)
         self.viewModel.userRequest.payload.links.website = (self.websiteTextField.text! == "https://" ? "" : self.websiteTextField.text!)
-        self.viewModel.updateProfile()
+        self.viewModel.updateProfile(isPage: false, castcleId: UserManager.shared.rawCastcleId)
     }
 }
 
@@ -225,16 +225,14 @@ extension EditInfoTableViewCell: DatePickerViewControllerDelegate {
 }
 
 extension EditInfoTableViewCell: EditProfileViewModelDelegate {
-    func didUpdateProfileFinish(success: Bool) {
-        self.hud.dismiss()
-        if success {
-            Utility.currentViewController().navigationController?.popViewController(animated: true)
-        } else {
-            self.disableUI(isActive: true)
+    func didUpdateInfoFinish(success: Bool) {
+        if !self.viewModel.isPage {
+            self.hud.dismiss()
+            if success {
+                Utility.currentViewController().navigationController?.popViewController(animated: true)
+            } else {
+                self.disableUI(isActive: true)
+            }
         }
-    }
-    
-    func didUpdatePageFinish(success: Bool) {
-        // Not thing
     }
 }

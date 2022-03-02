@@ -44,7 +44,7 @@ public class DeletePageViewModel {
     var pageRequest: PageRequest = PageRequest()
     let tokenHelper: TokenHelper = TokenHelper()
     private var stage: Stage = .none
-    var page: PageInfo = PageInfo()
+    var userInfo: UserInfo = UserInfo()
     private let realm = try! Realm()
     
     enum Stage {
@@ -54,14 +54,14 @@ public class DeletePageViewModel {
     }
 
     //MARK: Input
-    public init(page: PageInfo) {
-        self.page = page
+    public init(userInfo: UserInfo) {
+        self.userInfo = userInfo
         self.tokenHelper.delegate = self
     }
     
     public func deletePage() {
         self.stage = .deletePage
-        self.pageRepository.deletePage(pageId: self.page.castcleId, pageRequest: self.pageRequest) { (success, response, isRefreshToken) in
+        self.pageRepository.deletePage(pageId: self.userInfo.castcleId, pageRequest: self.pageRequest) { (success, response, isRefreshToken) in
             if success {
                 self.delegate?.didDeletePageFinish(success: true)
             } else {

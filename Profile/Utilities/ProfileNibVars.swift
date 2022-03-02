@@ -42,6 +42,7 @@ public struct ProfileNibVars {
         public static let deletePageSuccess = "DeletePageSuccessViewController"
         public static let profile = "ProfileViewController"
         public static let newPageWithSocial = "NewPageWithSocialViewController"
+        public static let userFollow = "UserFollowViewController"
     }
     
     // MARK: - View

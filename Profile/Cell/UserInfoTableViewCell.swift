@@ -41,9 +41,7 @@ class UserInfoTableViewCell: UITableViewCell {
     @IBOutlet var birthdayLabel: UILabel!
     @IBOutlet var linkTitleLabel: UILabel!
     
-    var profileType: ProfileType = .unknow
-    var pageInfo: PageInfo = PageInfo()
-    var userInfo: User?
+    var userInfo: UserInfo = UserInfo()
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -68,33 +66,19 @@ class UserInfoTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
-    func configCell(profileType: ProfileType, pageInfo: PageInfo = PageInfo(), userInfo: User? = nil) {
-        self.profileType = profileType
-        self.pageInfo = pageInfo
+    func configCell(userInfo: UserInfo) {
         self.userInfo = userInfo
-        
-        if self.profileType == .people {
-            let urlCover = URL(string: self.userInfo?.images.cover.fullHd ?? "")
-            self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.35))])
-            let urlProfile = URL(string: self.userInfo?.images.avatar.thumbnail ?? "")
-            self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
-            self.displayNameLabel.text = self.userInfo?.displayName ?? ""
-            self.userIdLabel.text = "@\(self.userInfo?.castcleId ?? "")"
-            self.bioLabel.text = ((self.userInfo?.overview.isEmpty ?? true) ? "N/A" : self.userInfo?.overview ?? "")
-            if let dob = self.userInfo?.dob, !dob.isEmpty {
-                let dobDate = Date.stringToDate(str: dob)
-                self.birthdayLabel.text = dobDate.dateToString()
-            } else {
-                self.birthdayLabel.text = "N/A"
-            }
-        } else if self.profileType == .page {
-            let urlCover = URL(string: self.pageInfo.images.cover.fullHd )
-            self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.35))])
-            let urlProfile = URL(string: self.pageInfo.images.avatar.thumbnail )
-            self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
-            self.displayNameLabel.text = self.pageInfo.displayName
-            self.userIdLabel.text = "@\(self.pageInfo.castcleId)"
-            self.bioLabel.text = self.pageInfo.overview.isEmpty ? "N/A" : self.pageInfo.overview
+        let urlCover = URL(string: self.userInfo.images.cover.fullHd)
+        self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.35))])
+        let urlProfile = URL(string: self.userInfo.images.avatar.thumbnail)
+        self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
+        self.displayNameLabel.text = self.userInfo.displayName
+        self.userIdLabel.text = "@\(self.userInfo.castcleId)"
+        self.bioLabel.text = ((self.userInfo.overview.isEmpty) ? "N/A" : self.userInfo.overview)
+        if self.userInfo.dob.isEmpty {
+            let dobDate = Date.stringToDate(str: self.userInfo.dob)
+            self.birthdayLabel.text = dobDate.dateToString()
+        } else {
             self.birthdayLabel.text = "N/A"
         }
     }

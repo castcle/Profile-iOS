@@ -37,7 +37,7 @@ class ProfileViewController: UIViewController {
 
     @IBOutlet var tableView: UITableView!
     
-    var profileViewModel = ProfileViewModel(profileType: .unknow, castcleId: nil, displayName: "", page: nil)
+    var profileViewModel = ProfileViewModel(profileType: .unknow, castcleId: "", displayName: "")
     var profileFeedViewModel = ProfileFeedViewModel(profileContentType: .unknow, profileType: .unknow, castcleId: "")
     
     enum FeedCellType {
@@ -109,15 +109,6 @@ class ProfileViewController: UIViewController {
                 self.tableView.reloadData()
             })
         }
-
-        self.profileViewModel.didGetPageInfoFinish = {
-            self.profileViewModel.profileLoaded = true
-            self.tableView.cr.endHeaderRefresh()
-            self.tableView.isScrollEnabled = true
-            UIView.transition(with: self.view, duration: 0.35, options: .transitionCrossDissolve, animations: {
-                self.tableView.reloadData()
-            })
-        }
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.getContent(notification:)), name: .getMyContent, object: nil)
     }
@@ -125,19 +116,27 @@ class ProfileViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.setupNavBar()
-        if self.profileViewModel.profileType == .people || self.profileViewModel.profileType == .me {
+        if self.profileViewModel.profileType == .me {
             Defaults[.screenId] = ScreenId.profileTimeline.rawValue
         } else {
-            Defaults[.screenId] = ScreenId.pageTimeline.rawValue
+            if self.profileViewModel.userInfo.type == .people {
+                Defaults[.screenId] = ScreenId.profileTimeline.rawValue
+            } else {
+                Defaults[.screenId] = ScreenId.pageTimeline.rawValue
+            }
         }
     }
     
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if self.profileViewModel.profileType == .people || self.profileViewModel.profileType == .me {
+        if self.profileViewModel.profileType == .me {
             EngagementHelper().sendCastcleAnalytic(event: .onScreenView, screen: .profileTimeline)
         } else {
-            EngagementHelper().sendCastcleAnalytic(event: .onScreenView, screen: .pageTimeline)
+            if self.profileViewModel.userInfo.type == .people {
+                EngagementHelper().sendCastcleAnalytic(event: .onScreenView, screen: .profileTimeline)
+            } else {
+                EngagementHelper().sendCastcleAnalytic(event: .onScreenView, screen: .pageTimeline)
+            }
         }
     }
     
@@ -158,8 +157,6 @@ class ProfileViewController: UIViewController {
     func setupNavBar() {
         if self.profileViewModel.profileType == .me {
             self.customNavigationBar(.secondary, title: UserManager.shared.displayName)
-        } else if self.profileViewModel.profileType == .myPage || self.profileViewModel.profileType == .page {
-            self.customNavigationBar(.secondary, title: self.profileViewModel.page.displayName)
         } else {
             self.customNavigationBar(.secondary, title: self.profileViewModel.displayName)
         }
@@ -185,7 +182,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == ProfileViewControllerSection.header.rawValue {
-            if self.profileViewModel.profileLoaded && (self.profileViewModel.profileType == .me || self.profileViewModel.profileType == .myPage) {
+            if self.profileViewModel.profileLoaded && (self.profileViewModel.profileType == .me || self.profileViewModel.isMyPage) {
                 return 2
             } else {
                 return 1
@@ -217,13 +214,13 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
                     if self.profileViewModel.isBlocked {
                         let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.headerBlocked, for: indexPath as IndexPath) as? HeaderBlockedTableViewCell
                         cell?.backgroundColor = UIColor.Asset.darkGray
-                        cell?.configCell(profileType: self.profileViewModel.profileType, pageInfo: self.profileViewModel.pageInfo, userInfo: self.profileViewModel.userInfo)
+                        cell?.configCell(userInfo: self.profileViewModel.userInfo)
                         return cell ?? HeaderBlockedTableViewCell()
                     } else {
                         let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.profileHeader, for: indexPath as IndexPath) as? ProfileHeaderTableViewCell
                         cell?.delegate = self
                         cell?.backgroundColor = UIColor.Asset.darkGray
-                        cell?.configCell(viewModel: ProfileHeaderViewModel(profileType: self.profileViewModel.profileType, pageInfo: self.profileViewModel.pageInfo, userInfo: self.profileViewModel.userInfo))
+                        cell?.configCell(viewModel: ProfileHeaderViewModel(profileType: self.profileViewModel.profileType, userInfo: self.profileViewModel.userInfo))
                         return cell ?? ProfileHeaderTableViewCell()
                     }
                 } else {
@@ -234,7 +231,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
             } else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.profilePost, for: indexPath as IndexPath) as? ProfilePostTableViewCell
                 cell?.backgroundColor = UIColor.Asset.darkGray
-                cell?.configCell(profileType: self.profileViewModel.profileType, pageInfo: self.profileViewModel.pageInfo)
+                cell?.configCell(profileType: self.profileViewModel.profileType, userInfo: self.profileViewModel.userInfo)
                 return cell ?? ProfilePostTableViewCell()
             }
         } else if indexPath.section == 1 {
@@ -398,13 +395,8 @@ extension ProfileViewController: ProfileHeaderTableViewCellDelegate {
     }
     
     func didBlocked(_ profileHeaderTableViewCell: ProfileHeaderTableViewCell) {
-        if self.profileViewModel.profileType == .people {
-            self.profileViewModel.userInfo.blocked = true
-            self.tableView.reloadData()
-        } else if self.profileViewModel.profileType == .page {
-            self.profileViewModel.pageInfo.blocked = true
-            self.tableView.reloadData()
-        }
+        self.profileViewModel.userInfo.blocked = true
+        self.tableView.reloadData()
     }
 }
 
@@ -419,11 +411,7 @@ extension ProfileViewController: HeaderTableViewCellDelegate {
     }
     
     func didTabProfile(_ headerTableViewCell: HeaderTableViewCell, author: Author) {
-        if author.type == .page {
-            ProfileOpener.openProfileDetail(author.type, castcleId: nil, displayName: "", page: Page().initCustom(id: author.id, displayName: author.displayName, castcleId: author.castcleId, avatar: author.avatar.thumbnail, cover: "", overview: "", official: false))
-        } else {
-            ProfileOpener.openProfileDetail(author.type, castcleId: author.castcleId, displayName: author.displayName, page: nil)
-        }
+        ProfileOpener.openProfileDetail(author.type, castcleId: author.castcleId, displayName: author.displayName)
     }
     
     func didAuthen(_ headerTableViewCell: HeaderTableViewCell) {
@@ -479,11 +467,8 @@ extension ProfileViewController: FeedHeaderTableViewCellDelegate {
 
 extension ProfileViewController: BlockedUserTableViewCellDelegate {
     func didUnblocked(_ blockedUserTableViewCell: BlockedUserTableViewCell) {
-        if self.profileViewModel.profileType == .people {
+        if self.profileViewModel.profileType != .me && !self.profileViewModel.isMyPage {
             self.profileViewModel.userInfo.blocked = false
-            self.tableView.reloadData()
-        } else if self.profileViewModel.profileType == .page {
-            self.profileViewModel.pageInfo.blocked = false
             self.tableView.reloadData()
         }
     }
