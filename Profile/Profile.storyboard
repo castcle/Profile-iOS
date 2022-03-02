@@ -330,7 +330,7 @@
                                     <constraint firstAttribute="height" constant="50" id="HfV-BC-IKX"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <state key="normal" title="ลบเพจ"/>
+                                <state key="normal" title="Delete page"/>
                                 <connections>
                                     <action selector="deleteAction:" destination="qFb-Fm-0R6" eventType="touchUpInside" id="Owk-Ba-amY"/>
                                     <action selector="nextAction:" destination="SG0-g5-NG0" eventType="touchUpInside" id="Nme-4P-DhR"/>
@@ -441,7 +441,7 @@
                                             <constraint firstAttribute="height" constant="50" id="dDh-W4-oO0"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                        <state key="normal" title="กลับสู่เมนู"/>
+                                        <state key="normal" title="Back to menu"/>
                                         <connections>
                                             <action selector="homeAction:" destination="z98-ol-yK5" eventType="touchUpInside" id="LMz-t5-Dpc"/>
                                         </connections>

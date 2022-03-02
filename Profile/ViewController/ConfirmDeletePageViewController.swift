@@ -50,7 +50,7 @@ class ConfirmDeletePageViewController: UIViewController, UITableViewDelegate, UI
     }
     
     func setupNavBar() {
-        self.customNavigationBar(.secondary, title: "Confirm ลบเพจ")
+        self.customNavigationBar(.secondary, title: "Confirm delete page")
     }
     
     func configureTableView() {
