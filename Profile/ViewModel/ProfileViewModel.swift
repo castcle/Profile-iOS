@@ -75,13 +75,9 @@ public final class ProfileViewModel {
         self.profileType = profileType
         self.castcleId = castcleId
         self.displayName = displayName
-        if self.userInfo.type == .page {
-            let realm = try! Realm()
-            if realm.objects(Page.self).filter("castcleId = '\(castcleId)'").first != nil {
-                self.isMyPage = true
-            } else {
-                self.isMyPage = false
-            }
+        let realm = try! Realm()
+        if realm.objects(Page.self).filter("castcleId = '\(castcleId)'").first != nil {
+            self.isMyPage = true
         } else {
             self.isMyPage = false
         }
