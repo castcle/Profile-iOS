@@ -143,9 +143,9 @@ class ProfileHeaderTableViewCell: UITableViewCell {
     @IBAction func moreAction(_ sender: Any) {
         if self.viewModel.isMyPage && self.viewModel.profileType != .me {
             let actionSheet = CCActionSheet()
-//            let syncButton = CCAction(title: "Sync social media", image: UIImage.init(icon: .castcle(.bindLink), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
-//                actionSheet.dismissActionSheet()
-//            }
+            let syncButton = CCAction(title: "Sync social media", image: UIImage.init(icon: .castcle(.bindLink), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
+                actionSheet.dismissActionSheet()
+            }
             let deleteButton = CCAction(title: "Delete page", image: UIImage.init(icon: .castcle(.deleteOne), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
                 actionSheet.dismissActionSheet()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -156,7 +156,7 @@ class ProfileHeaderTableViewCell: UITableViewCell {
 //                actionSheet.dismissActionSheet()
 //            }
             
-            actionSheet.addActions([deleteButton])
+            actionSheet.addActions([syncButton, deleteButton])
             Utility.currentViewController().present(actionSheet, animated: true, completion: nil)
         } else if !self.viewModel.isMyPage && self.viewModel.profileType != .me {
             let actionSheet = CCActionSheet()
