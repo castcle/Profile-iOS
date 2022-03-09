@@ -555,6 +555,36 @@
             </objects>
             <point key="canvasLocation" x="139" y="2265"/>
         </scene>
+        <!--Page Sync Social View Controller-->
+        <scene sceneID="vq7-Qd-E0j">
+            <objects>
+                <viewController storyboardIdentifier="PageSyncSocialViewController" id="4b1-RE-LKT" customClass="PageSyncSocialViewController" customModule="Profile" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="4lF-0S-BgF">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="tfL-fq-wfZ">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Hs5-Bd-hhS"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="tfL-fq-wfZ" firstAttribute="top" secondItem="Hs5-Bd-hhS" secondAttribute="top" id="DUx-30-IEE"/>
+                            <constraint firstItem="Hs5-Bd-hhS" firstAttribute="trailing" secondItem="tfL-fq-wfZ" secondAttribute="trailing" id="HeO-fs-iWP"/>
+                            <constraint firstAttribute="bottom" secondItem="tfL-fq-wfZ" secondAttribute="bottom" id="Lay-kR-fK4"/>
+                            <constraint firstItem="tfL-fq-wfZ" firstAttribute="leading" secondItem="Hs5-Bd-hhS" secondAttribute="leading" id="hbG-vf-Lxg"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="tfL-fq-wfZ" id="14t-1C-YiX"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FrR-GI-oUZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="827" y="2265"/>
+        </scene>
     </scenes>
     <resources>
         <image name="create-your-page" width="311" height="311"/>

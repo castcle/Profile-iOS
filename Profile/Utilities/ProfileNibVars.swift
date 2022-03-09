@@ -43,6 +43,7 @@ public struct ProfileNibVars {
         public static let profile = "ProfileViewController"
         public static let newPageWithSocial = "NewPageWithSocialViewController"
         public static let userFollow = "UserFollowViewController"
+        public static let pageSyncSocial = "PageSyncSocialViewController"
     }
     
     // MARK: - View
@@ -70,6 +71,7 @@ public struct ProfileNibVars {
         public static let newPageWithSocial = "NewPageWithSocialTableViewCell"
         public static let blockedUser = "BlockedUserTableViewCell"
         public static let headerBlocked = "HeaderBlockedTableViewCell"
+        public static let pageSyncSocial = "PageSyncSocialTableViewCell"
     }
     
     // MARK: - CollectionViewCell

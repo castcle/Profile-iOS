@@ -34,6 +34,7 @@ public enum FollowType {
     case follower
     case none
 }
+
 public final class UserFollowViewModel {
    
     var userRepository: UserRepository = UserRepositoryImpl()

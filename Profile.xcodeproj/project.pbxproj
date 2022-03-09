@@ -90,6 +90,10 @@
 		B7F63C28271DC2BF005856B2 /* ConfirmDeletePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F63C27271DC2BF005856B2 /* ConfirmDeletePageViewController.swift */; };
 		B7F63C2B271DC3C7005856B2 /* ConfirmDeletePageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F63C29271DC3C7005856B2 /* ConfirmDeletePageTableViewCell.swift */; };
 		B7F63C2C271DC3C7005856B2 /* ConfirmDeletePageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7F63C2A271DC3C7005856B2 /* ConfirmDeletePageTableViewCell.xib */; };
+		B7FB347327D8B37E00C3C6A3 /* PageSyncSocialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7FB347227D8B37E00C3C6A3 /* PageSyncSocialViewController.swift */; };
+		B7FB347527D8B64E00C3C6A3 /* PageSyncSocialViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7FB347427D8B64E00C3C6A3 /* PageSyncSocialViewModel.swift */; };
+		B7FB347827D8B7F000C3C6A3 /* PageSyncSocialTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7FB347627D8B7F000C3C6A3 /* PageSyncSocialTableViewCell.swift */; };
+		B7FB347927D8B7F000C3C6A3 /* PageSyncSocialTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7FB347727D8B7F000C3C6A3 /* PageSyncSocialTableViewCell.xib */; };
 		B7FFF3EF277EE67400BB0C33 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7FFF3EE277EE67400BB0C33 /* ProfileViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -188,6 +192,10 @@
 		B7F63C27271DC2BF005856B2 /* ConfirmDeletePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmDeletePageViewController.swift; sourceTree = "<group>"; };
 		B7F63C29271DC3C7005856B2 /* ConfirmDeletePageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmDeletePageTableViewCell.swift; sourceTree = "<group>"; };
 		B7F63C2A271DC3C7005856B2 /* ConfirmDeletePageTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConfirmDeletePageTableViewCell.xib; sourceTree = "<group>"; };
+		B7FB347227D8B37E00C3C6A3 /* PageSyncSocialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageSyncSocialViewController.swift; sourceTree = "<group>"; };
+		B7FB347427D8B64E00C3C6A3 /* PageSyncSocialViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageSyncSocialViewModel.swift; sourceTree = "<group>"; };
+		B7FB347627D8B7F000C3C6A3 /* PageSyncSocialTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageSyncSocialTableViewCell.swift; sourceTree = "<group>"; };
+		B7FB347727D8B7F000C3C6A3 /* PageSyncSocialTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PageSyncSocialTableViewCell.xib; sourceTree = "<group>"; };
 		B7FFF3EE277EE67400BB0C33 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		DD702ADAD4D188AE2A7192EF /* Pods_Profile.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Profile.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -381,6 +389,7 @@
 				B7AC3BC027A3EA2700C02867 /* UserBlockedViewModel.swift */,
 				B7167F9127AD018700067DBD /* NewPageWithSocialViewModel.swift */,
 				B786903227CCA7D40029EDFE /* UserFollowViewModel.swift */,
+				B7FB347427D8B64E00C3C6A3 /* PageSyncSocialViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -428,6 +437,7 @@
 			isa = PBXGroup;
 			children = (
 				B7C46D8F27A12D2E0031179E /* NewPageWithSocialViewController.swift */,
+				B7FB347227D8B37E00C3C6A3 /* PageSyncSocialViewController.swift */,
 			);
 			path = "Page Sync Social";
 			sourceTree = "<group>";
@@ -437,6 +447,8 @@
 			children = (
 				B7C46D9127A135730031179E /* NewPageWithSocialTableViewCell.swift */,
 				B7C46D9227A135730031179E /* NewPageWithSocialTableViewCell.xib */,
+				B7FB347627D8B7F000C3C6A3 /* PageSyncSocialTableViewCell.swift */,
+				B7FB347727D8B7F000C3C6A3 /* PageSyncSocialTableViewCell.xib */,
 			);
 			path = "Page Sync Social";
 			sourceTree = "<group>";
@@ -538,6 +550,7 @@
 				B703A53F2788340D007BFA01 /* Localizable.strings in Resources */,
 				B7AF662E26F35B5900BDE9C4 /* AddLinkTableViewCell.xib in Resources */,
 				B7AF662626F3447900BDE9C4 /* AboutTableViewCell.xib in Resources */,
+				B7FB347927D8B7F000C3C6A3 /* PageSyncSocialTableViewCell.xib in Resources */,
 				B753F57D2782D1AB00D1AC92 /* FeedHeaderTableViewCell.xib in Resources */,
 				B7AC3BC527A3EF9900C02867 /* HeaderBlockedTableViewCell.xib in Resources */,
 				B7AF661226F2E56400BDE9C4 /* CreatePageDisplayNameCell.xib in Resources */,
@@ -590,6 +603,7 @@
 			files = (
 				B7910DE526AFC9B40097C94E /* Profile.swift in Sources */,
 				B7AF661126F2E56400BDE9C4 /* CreatePageDisplayNameCell.swift in Sources */,
+				B7FB347827D8B7F000C3C6A3 /* PageSyncSocialTableViewCell.swift in Sources */,
 				B703A53C27883392007BFA01 /* Localizable.swift in Sources */,
 				B71B668927269EF500191A62 /* DeletePageSuccessViewController.swift in Sources */,
 				B7910EA826BCE8F00097C94E /* AddSocialCell.swift in Sources */,
@@ -605,6 +619,7 @@
 				B7910EC826BF06050097C94E /* UserInfoTableViewCell.swift in Sources */,
 				B7910ECF26BF1FD70097C94E /* UserInfoViewModel.swift in Sources */,
 				B753F57C2782D1AB00D1AC92 /* FeedHeaderTableViewCell.swift in Sources */,
+				B7FB347527D8B64E00C3C6A3 /* PageSyncSocialViewModel.swift in Sources */,
 				B7AF662D26F35B5900BDE9C4 /* AddLinkTableViewCell.swift in Sources */,
 				B7C098372727CFCD009ACE22 /* EditPageInfoTableViewCell.swift in Sources */,
 				B7AF661426F2E88B00BDE9C4 /* CreatePageDisplayNameSectionController.swift in Sources */,
@@ -641,6 +656,7 @@
 				B7F63C28271DC2BF005856B2 /* ConfirmDeletePageViewController.swift in Sources */,
 				B7FFF3EF277EE67400BB0C33 /* ProfileViewController.swift in Sources */,
 				B7167F9227AD018700067DBD /* NewPageWithSocialViewModel.swift in Sources */,
+				B7FB347327D8B37E00C3C6A3 /* PageSyncSocialViewController.swift in Sources */,
 				B7910EA326BCE5420097C94E /* AddSocialViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
