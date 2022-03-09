@@ -51,6 +51,8 @@ class DeletePageSuccessViewController: UIViewController {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
         Defaults[.screenId] = ""
+        self.headlineLabel.text = Localization.deletePageSuccess.title.text
+        self.homeButton.setTitle(Localization.deletePageSuccess.backToMenu.text, for: .normal)
     }
 
     override func viewWillDisappear(_ animated: Bool) {

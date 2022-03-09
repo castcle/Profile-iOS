@@ -48,7 +48,6 @@ class DeletePageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
-        self.setupNavBar()
         self.headlineLabel.font = UIFont.asset(.regular, fontSize: .title)
         self.headlineLabel.textColor = UIColor.Asset.white
         self.subtitleLabel.font = UIFont.asset(.regular, fontSize: .body)
@@ -74,10 +73,16 @@ class DeletePageViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         Defaults[.screenId] = ""
+        self.setupNavBar()
+        self.headlineLabel.text = Localization.deletePage.subTitle.text
+        self.subtitleLabel.text = Localization.deletePage.detail.text
+        self.confirmLabel.text = Localization.deletePage.comfirmNotice.text
+        self.pageLabel.text = Localization.deletePage.page.text
+        self.deleteButton.setTitle(Localization.deletePage.button.text, for: .normal)
     }
     
     func setupNavBar() {
-        self.customNavigationBar(.secondary, title: "Delete page")
+        self.customNavigationBar(.secondary, title: Localization.deletePage.title.text)
     }
     
     @IBAction func deleteAction(_ sender: Any) {

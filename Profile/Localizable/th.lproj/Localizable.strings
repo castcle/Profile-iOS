@@ -64,3 +64,23 @@
 "add_social_youtube"                = "Youtube";
 "add_social_medium"                 = "Medium";
 "add_social_website"                = "Website";
+
+// MARK: - Delete page
+"delete_page_title"                 = "Delete page";
+"delete_page_sub_title"             = "Deleting a page cannot be undone.";
+"delete_page_detail"                = "When you delete a page You will not be able to retrieve it.";
+"delete_page_page"                  = "Page";
+"delete_page_comfirm_notice"        = "Are you sure you want to delete?";
+"delete_page_button"                = "Delete page";
+     
+// MARK: - Delete page confirm
+"delete_page_confirm_title"         = "Confirm delete page";
+"delete_page_confirm_sub_title"     = "Confirm that this is your Page";
+"delete_page_confirm_sub_detail"    = "Before you permanently delete you Page, please enter your password.";
+"delete_page_confirm_page"          = "Page";
+"delete_page_confirm_password"      = "Password";
+"delete_page_confirm_next"          = "Continue";
+    
+// MARK: - Delete page success
+"delete_page_success_title"         = "Your page has been permanently deleted.";
+"delete_page_success_back_to_menu"  = "back to menu";

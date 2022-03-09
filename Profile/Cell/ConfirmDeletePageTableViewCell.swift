@@ -91,7 +91,7 @@ class ConfirmDeletePageTableViewCell: UITableViewCell {
     func configCell(userInfo: UserInfo) {
         self.viewModel.userInfo = userInfo
         self.passwordTextField.font = UIFont.asset(.regular, fontSize: .body)
-        self.passwordTextField.placeholder = "Password"
+        self.passwordTextField.placeholder = Localization.deletePageConfirm.password.text
         self.passwordTextField.placeholderColor = UIColor.Asset.gray
         self.passwordTextField.floatingLabelTextColor = UIColor.Asset.gray
         self.passwordTextField.floatingLabelActiveTextColor = UIColor.Asset.gray
@@ -102,6 +102,11 @@ class ConfirmDeletePageTableViewCell: UITableViewCell {
         let url = URL(string: self.viewModel.userInfo.images.avatar.thumbnail)
         self.avatarImage.kf.setImage(with: url, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
         self.displayNameLabel.text = self.viewModel.userInfo.displayName
+        
+        self.headlineLabel.text = Localization.deletePageConfirm.subTitle.text
+        self.subtitleLabel.text = Localization.deletePageConfirm.subDetail.text
+        self.pageLabel.text = Localization.deletePageConfirm.page.text
+        self.nextButton.setTitle(Localization.deletePageConfirm.next.text, for: .normal)
     }
     
     private func setupNextButton(isActive: Bool) {

@@ -40,17 +40,17 @@ class ConfirmDeletePageViewController: UIViewController, UITableViewDelegate, UI
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
         self.hideKeyboardWhenTapped()
-        self.setupNavBar()
         self.configureTableView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         Defaults[.screenId] = ""
+        self.setupNavBar()
     }
     
     func setupNavBar() {
-        self.customNavigationBar(.secondary, title: "Confirm delete page")
+        self.customNavigationBar(.secondary, title: Localization.deletePageConfirm.title.text)
     }
     
     func configureTableView() {

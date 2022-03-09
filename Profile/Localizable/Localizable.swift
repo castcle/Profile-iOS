@@ -160,4 +160,73 @@ extension Localization {
             }
         }
     }
+    
+    // MARK: - Delete page
+    public enum deletePage {
+        case title
+        case subTitle
+        case detail
+        case page
+        case comfirmNotice
+        case button
+        
+        public var text: String {
+            switch self {
+            case .title:
+                return "delete_page_title".localized(bundle: ConfigBundle.profile)
+            case .subTitle:
+                return "delete_page_sub_title".localized(bundle: ConfigBundle.profile)
+            case .detail:
+                return "delete_page_detail".localized(bundle: ConfigBundle.profile)
+            case .page:
+                return "delete_page_page".localized(bundle: ConfigBundle.profile)
+            case .comfirmNotice:
+                return "delete_page_comfirm_notice".localized(bundle: ConfigBundle.profile)
+            case .button:
+                return "delete_page_button".localized(bundle: ConfigBundle.profile)
+            }
+        }
+    }
+         
+    // MARK: - Delete page confirm
+    public enum deletePageConfirm {
+        case title
+        case subTitle
+        case subDetail
+        case page
+        case password
+        case next
+        
+        public var text: String {
+            switch self {
+            case .title:
+                return "delete_page_confirm_title".localized(bundle: ConfigBundle.profile)
+            case .subTitle:
+                return "delete_page_confirm_sub_title".localized(bundle: ConfigBundle.profile)
+            case .subDetail:
+                return "delete_page_confirm_sub_detail".localized(bundle: ConfigBundle.profile)
+            case .page:
+                return "delete_page_confirm_page".localized(bundle: ConfigBundle.profile)
+            case .password:
+                return "delete_page_confirm_password".localized(bundle: ConfigBundle.profile)
+            case .next:
+                return "delete_page_confirm_next".localized(bundle: ConfigBundle.profile)
+            }
+        }
+    }
+        
+    // MARK: - Delete page success
+    public enum deletePageSuccess {
+        case title
+        case backToMenu
+        
+        public var text: String {
+            switch self {
+            case .title:
+                return "delete_page_success_title".localized(bundle: ConfigBundle.profile)
+            case .backToMenu:
+                return "delete_page_success_back_to_menu".localized(bundle: ConfigBundle.profile)
+            }
+        }
+    }
 }
