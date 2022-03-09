@@ -41,7 +41,7 @@ class EditProfileViewModel {
     var userRepository: UserRepository = UserRepositoryImpl()
     var userRequest: UserRequest = UserRequest()
     let tokenHelper: TokenHelper = TokenHelper()
-    private var stage: Stage = .none
+    private var state: State = .none
     var avatar: UIImage? = nil
     var cover: UIImage? = nil
     var dobDate: Date? = nil
@@ -50,7 +50,7 @@ class EditProfileViewModel {
     var userInfo: UserInfo = UserInfo()
     private let realm = try! Realm()
     
-    enum Stage {
+    enum State {
         case updateProfile
         case updateAvatar
         case updateCover
@@ -65,7 +65,7 @@ class EditProfileViewModel {
     }
     
     public func updateProfile(isPage: Bool, castcleId: String) {
-        self.stage = .updateProfile
+        self.state = .updateProfile
         self.isPage = isPage
         self.castcleId = castcleId
         if let dob = self.dobDate {
@@ -96,7 +96,7 @@ class EditProfileViewModel {
     
     public func updateAvatar(isPage: Bool, castcleId: String) {
         guard let image = self.avatar else { return }
-        self.stage = .updateAvatar
+        self.state = .updateAvatar
         self.isPage = isPage
         self.castcleId = castcleId
         self.userRequest.payload.images.avatar = image.toBase64() ?? ""
@@ -132,7 +132,7 @@ class EditProfileViewModel {
     
     public func updateCover(isPage: Bool, castcleId: String) {
         guard let image = self.cover else { return }
-        self.stage = .updateCover
+        self.state = .updateCover
         self.isPage = isPage
         self.castcleId = castcleId
         self.userRequest.payload.images.cover = image.toBase64() ?? ""
@@ -169,11 +169,11 @@ class EditProfileViewModel {
 
 extension EditProfileViewModel: TokenHelperDelegate {
     func didRefreshTokenFinish() {
-        if self.stage == .updateProfile {
+        if self.state == .updateProfile {
             self.updateProfile(isPage: self.isPage, castcleId: self.castcleId)
-        } else if self.stage == .updateAvatar {
+        } else if self.state == .updateAvatar {
             self.updateAvatar(isPage: self.isPage, castcleId: self.castcleId)
-        } else if self.stage == .updateCover {
+        } else if self.state == .updateCover {
             self.updateCover(isPage: self.isPage, castcleId: self.castcleId)
         }
     }

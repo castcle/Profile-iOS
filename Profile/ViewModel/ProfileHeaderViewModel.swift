@@ -43,14 +43,14 @@ public final class ProfileHeaderViewModel {
     var profileType: ProfileType = .unknow
     var isFollow: Bool = false
     var userInfo: UserInfo = UserInfo()
-    var stage: Stage = .none
+    var state: State = .none
     let tokenHelper: TokenHelper = TokenHelper()
     private var userRequest: UserRequest = UserRequest()
     private var reportRequest: ReportRequest = ReportRequest()
     var castcleId: String = ""
     var isMyPage: Bool = false
     
-    enum Stage {
+    enum State {
         case followUser
         case unfollowUser
         case reportUser
@@ -76,7 +76,7 @@ public final class ProfileHeaderViewModel {
     }
     
     func followUser() {
-        self.stage = .followUser
+        self.state = .followUser
         let userId: String = UserManager.shared.rawCastcleId
         self.userRequest.targetCastcleId = self.userInfo.castcleId
         self.userRepository.follow(userId: userId, userRequest: self.userRequest) { (success, response, isRefreshToken) in
@@ -89,7 +89,7 @@ public final class ProfileHeaderViewModel {
     }
     
     func unfollowUser() {
-        self.stage = .unfollowUser
+        self.state = .unfollowUser
         let userId: String = UserManager.shared.rawCastcleId
         self.userRequest.targetCastcleId = self.userInfo.castcleId
         self.userRepository.unfollow(userId: userId, targetCastcleId: self.userRequest.targetCastcleId) { (success, response, isRefreshToken) in
@@ -102,7 +102,7 @@ public final class ProfileHeaderViewModel {
     }
     
     func reportUser(castcleId: String) {
-        self.stage = .reportUser
+        self.state = .reportUser
         self.castcleId = castcleId
         self.reportRequest.targetCastcleId = self.castcleId
         self.reportRepository.reportUser(userId: UserManager.shared.rawCastcleId, reportRequest: self.reportRequest) { (success, response, isRefreshToken) in
@@ -117,7 +117,7 @@ public final class ProfileHeaderViewModel {
     }
     
     func blockUser(castcleId: String) {
-        self.stage = .blockUser
+        self.state = .blockUser
         self.castcleId = castcleId
         self.reportRequest.targetCastcleId = self.castcleId
         self.reportRepository.blockUser(userId: UserManager.shared.rawCastcleId, reportRequest: self.reportRequest) { (success, response, isRefreshToken) in
@@ -134,13 +134,13 @@ public final class ProfileHeaderViewModel {
 
 extension ProfileHeaderViewModel: TokenHelperDelegate {
     public func didRefreshTokenFinish() {
-        if self.stage == .followUser {
+        if self.state == .followUser {
             self.followUser()
-        } else if self.stage == .unfollowUser {
+        } else if self.state == .unfollowUser {
             self.unfollowUser()
-        } else if self.stage == .reportUser {
+        } else if self.state == .reportUser {
             self.reportUser(castcleId: self.castcleId)
-        } else if self.stage == .blockUser {
+        } else if self.state == .blockUser {
             self.blockUser(castcleId: self.castcleId)
         }
     }

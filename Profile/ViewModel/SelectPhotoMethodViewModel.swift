@@ -52,12 +52,12 @@ public class SelectPhotoMethodViewModel {
     let tokenHelper: TokenHelper = TokenHelper()
     var avatar: UIImage?
     var avatarType: AvatarType
-    var stage: Stage = .none
+    var state: State = .none
     var castcleId: String
     var isPage: Bool = false
     private let realm = try! Realm()
     
-    enum Stage {
+    enum State {
         case updateUserAvatar
         case updatePageAvatar
         case getMyPage
@@ -73,7 +73,7 @@ public class SelectPhotoMethodViewModel {
     
     public func updateUserAvatar(isPage: Bool) {
         guard let image = self.avatar else { return }
-        self.stage = .updateUserAvatar
+        self.state = .updateUserAvatar
         self.userRequest.payload.images.avatar = image.toBase64() ?? ""
         self.userRepository.updateAvatar(userId: self.castcleId, userRequest: self.userRequest) { (success, response, isRefreshToken) in
             if success {
@@ -100,10 +100,10 @@ public class SelectPhotoMethodViewModel {
     }
     
     func getMyPage() {
-        self.stage = .getMyPage
+        self.state = .getMyPage
         self.pageRepository.getMyPage() { (success, response, isRefreshToken) in
             if success {
-                self.stage = .none
+                self.state = .none
                 do {
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
@@ -145,9 +145,9 @@ public class SelectPhotoMethodViewModel {
 
 extension SelectPhotoMethodViewModel: TokenHelperDelegate {
     public func didRefreshTokenFinish() {
-        if self.stage == .updateUserAvatar {
+        if self.state == .updateUserAvatar {
             self.updateUserAvatar(isPage: self.isPage)
-        } else if self.stage == .getMyPage {
+        } else if self.state == .getMyPage {
             self.getMyPage()
         }
     }

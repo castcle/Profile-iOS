@@ -31,29 +31,57 @@ import SwiftyJSON
 
 public final class PageSyncSocialViewModel {
    
-//    var userRepository: UserRepository = UserRepositoryImpl()
-//    let tokenHelper: TokenHelper = TokenHelper()
+    var userRepository: UserRepository = UserRepositoryImpl()
+    let tokenHelper: TokenHelper = TokenHelper()
 //    var castcleId: String = ""
 //    var followType: FollowType = .none
 //    var userFollowRequest: UserFollowRequest = UserFollowRequest()
 //    var users: [UserInfo] = []
 //    var meta: Meta = Meta()
-//    var state: State = .loading
+    var state: State = .none
     var userInfo: UserInfo = UserInfo()
     
-//    enum State {
-//        case loading
-//        case loaded
-//    }
+    enum State {
+        case getUserInfo
+        case loaded
+        case none
+    }
     
     public init(userInfo: UserInfo = UserInfo()) {
         self.userInfo = userInfo
+        self.tokenHelper.delegate = self
+        if !self.userInfo.castcleId.isEmpty {
+            self.getUserInfo()
+        }
 //        self.followType = followType
 //        self.castcleId = castcleId
-//        self.tokenHelper.delegate = self
 //        self.userFollowRequest.maxResults = 25
 //        self.loadData()
     }
+    
+    private func getUserInfo() {
+        self.state = .getUserInfo
+        self.userRepository.getUser(userId: self.userInfo.castcleId) { (success, response, isRefreshToken) in
+            if success {
+                do {
+                    let rawJson = try response.mapJSON()
+                    let json = JSON(rawJson)
+                    self.userInfo = UserInfo(json: json)
+                    self.didGetUserInfoFinish?()
+                } catch {
+                    self.didGetUserInfoFinish?()
+                }
+            } else {
+                if isRefreshToken {
+                    self.tokenHelper.refreshToken()
+                } else {
+                    self.didGetUserInfoFinish?()
+                }
+            }
+        }
+    }
+    
+    var didGetUserInfoFinish: (() -> ())?
     
 //    public func reloadData() {
 //        self.users = []
@@ -120,10 +148,10 @@ public final class PageSyncSocialViewModel {
 
 extension PageSyncSocialViewModel: TokenHelperDelegate {
     public func didRefreshTokenFinish() {
-//        if self.followType == .follower {
-//            self.getFollower()
+        if self.state == .getUserInfo {
+            self.getUserInfo()
 //        } else if self.followType == .following {
 //            self.getFollowing()
-//        }
+        }
     }
 }

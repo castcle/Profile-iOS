@@ -37,11 +37,11 @@ public final class UserBlockedViewModel {
    
     public var delegate: UserBlockedViewModelDelegate?
     var reportRepository: ReportRepository = ReportRepositoryImpl()
-    var stage: Stage = .none
+    var state: State = .none
     let tokenHelper: TokenHelper = TokenHelper()
     var castcleId: String = ""
     
-    enum Stage {
+    enum State {
         case unblockUser
         case none
     }
@@ -51,7 +51,7 @@ public final class UserBlockedViewModel {
     }
     
     func unblockUser(castcleId: String) {
-        self.stage = .unblockUser
+        self.state = .unblockUser
         self.castcleId = castcleId
         self.reportRepository.unblockUser(userId: UserManager.shared.rawCastcleId, targetCastcleId: self.castcleId) { (success, response, isRefreshToken) in
             if success {
@@ -67,7 +67,7 @@ public final class UserBlockedViewModel {
 
 extension UserBlockedViewModel: TokenHelperDelegate {
     public func didRefreshTokenFinish() {
-        if self.stage == .unblockUser {
+        if self.state == .unblockUser {
             self.unblockUser(castcleId: self.castcleId)
         }
     }

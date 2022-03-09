@@ -48,10 +48,10 @@ class CreatePageDisplayNameViewModel {
     var pageRequest: PageRequest
     var isCastcleIdExist: Bool = true
     let tokenHelper: TokenHelper = TokenHelper()
-    private var stage: CreateDisplayNameStage = .none
+    private var state: State = .none
     private let realm = try! Realm()
     
-    enum CreateDisplayNameStage {
+    enum State {
         case suggest
         case check
         case createPage
@@ -68,7 +68,7 @@ class CreatePageDisplayNameViewModel {
     }
     
     public func suggestCastcleId() {
-        self.stage = .suggest
+        self.state = .suggest
         self.authenticationRepository.suggestCastcleId(authenRequest: self.authenRequest) { (success, response, isRefreshToken) in
             if success {
                 do {
@@ -87,7 +87,7 @@ class CreatePageDisplayNameViewModel {
     }
     
     public func checkCastcleIdExists() {
-        self.stage = .check
+        self.state = .check
         self.authenticationRepository.checkCastcleIdExists(authenRequest: self.authenRequest) { (success, response, isRefreshToken) in
             if success {
                 do {
@@ -109,10 +109,10 @@ class CreatePageDisplayNameViewModel {
     }
     
     public func createPage() {
-        self.stage = .createPage
+        self.state = .createPage
         self.pageRepository.createPage(pageRequest: self.pageRequest) { (success, response, isRefreshToken) in
             if success {
-                self.stage = .none
+                self.state = .none
                 self.delegate?.didCreatePageFinish(success: true, castcleId: self.pageRequest.castcleId)
             } else {
                 if isRefreshToken {
@@ -125,10 +125,10 @@ class CreatePageDisplayNameViewModel {
     }
     
     func getAllMyPage(castcleId: String) {
-        self.stage = .getMyPage
+        self.state = .getMyPage
         self.pageRepository.getMyPage() { (success, response, isRefreshToken) in
             if success {
-                self.stage = .none
+                self.state = .none
                 do {
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
@@ -170,13 +170,13 @@ class CreatePageDisplayNameViewModel {
 
 extension CreatePageDisplayNameViewModel: TokenHelperDelegate {
     func didRefreshTokenFinish() {
-        if self.stage == .suggest {
+        if self.state == .suggest {
             self.suggestCastcleId()
-        } else if self.stage == .check {
+        } else if self.state == .check {
             self.checkCastcleIdExists()
-        } else if self.stage == .createPage {
+        } else if self.state == .createPage {
             self.createPage()
-        } else if self.stage == .getMyPage {
+        } else if self.state == .getMyPage {
             self.getAllMyPage(castcleId: self.pageRequest.castcleId)
         }
     }

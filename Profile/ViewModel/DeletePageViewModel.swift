@@ -43,11 +43,11 @@ public class DeletePageViewModel {
     var pageRepository: PageRepository = PageRepositoryImpl()
     var pageRequest: PageRequest = PageRequest()
     let tokenHelper: TokenHelper = TokenHelper()
-    private var stage: Stage = .none
+    private var state: State = .none
     var userInfo: UserInfo = UserInfo()
     private let realm = try! Realm()
     
-    enum Stage {
+    enum State {
         case deletePage
         case getMyPage
         case none
@@ -60,7 +60,7 @@ public class DeletePageViewModel {
     }
     
     public func deletePage() {
-        self.stage = .deletePage
+        self.state = .deletePage
         self.pageRepository.deletePage(pageId: self.userInfo.castcleId, pageRequest: self.pageRequest) { (success, response, isRefreshToken) in
             if success {
                 self.delegate?.didDeletePageFinish(success: true)
@@ -75,10 +75,10 @@ public class DeletePageViewModel {
     }
     
     func getAllMyPage() {
-        self.stage = .getMyPage
+        self.state = .getMyPage
         self.pageRepository.getMyPage() { (success, response, isRefreshToken) in
             if success {
-                self.stage = .none
+                self.state = .none
                 do {
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
@@ -120,9 +120,9 @@ public class DeletePageViewModel {
 
 extension DeletePageViewModel: TokenHelperDelegate {
     public func didRefreshTokenFinish() {
-        if self.stage == .deletePage {
+        if self.state == .deletePage {
             self.deletePage()
-        } else if self.stage == .getMyPage {
+        } else if self.state == .getMyPage {
             self.getAllMyPage()
         }
     }

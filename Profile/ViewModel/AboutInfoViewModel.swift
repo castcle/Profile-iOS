@@ -50,9 +50,9 @@ public class AboutInfoViewModel {
     var dobDate: Date?
     var castcleId: String
     var isPage: Bool = false
-    var stage: Stage = .none
+    var state: State = .none
     
-    enum Stage {
+    enum State {
         case updateUserInfo
         case updatePageInfo
         case none
@@ -101,7 +101,7 @@ public class AboutInfoViewModel {
     }
     
     public func updateUserInfo(isPage: Bool) {
-        self.stage = .updateUserInfo
+        self.state = .updateUserInfo
         self.isPage = isPage
         if let dob = self.dobDate {
             self.userRequest.payload.dob = dob.dateToStringSever()
@@ -144,7 +144,7 @@ public class AboutInfoViewModel {
 
 extension AboutInfoViewModel: TokenHelperDelegate {
     public func didRefreshTokenFinish() {
-        if self.stage == .updateUserInfo {
+        if self.state == .updateUserInfo {
             self.updateUserInfo(isPage: self.isPage)
         }
     }

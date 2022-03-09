@@ -28,27 +28,36 @@
 import UIKit
 import Core
 import Defaults
+import JGProgressHUD
 
 class PageSyncSocialViewController: UIViewController {
 
     @IBOutlet var tableView: UITableView!
     
     var viewModel = PageSyncSocialViewModel()
+    let hud = JGProgressHUD()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
         self.setupNavBar()
         self.configureTableView()
+        self.hud.show(in: self.view)
+        
+        self.viewModel.didGetUserInfoFinish = {
+            self.hud.dismiss()
+            self.tableView.reloadData()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         Defaults[.screenId] = ""
+        self.hud.textLabel.text = "Loading"
     }
     
     func setupNavBar() {
-        self.customNavigationBar(.secondary, title: "Sync social media")
+        self.customNavigationBar(.secondary, title: "Sync with \(self.viewModel.userInfo.syncSocial.provider.capitalized)")
     }
     
     func configureTableView() {
@@ -73,6 +82,18 @@ extension PageSyncSocialViewController: UITableViewDelegate, UITableViewDataSour
         let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.pageSyncSocial, for: indexPath as IndexPath) as? PageSyncSocialTableViewCell
         cell?.backgroundColor = UIColor.clear
         cell?.configCell(userInfo: self.viewModel.userInfo)
+        cell?.delegate = self
         return cell ?? PageSyncSocialTableViewCell()
+    }
+}
+
+extension PageSyncSocialViewController: PageSyncSocialTableViewCellDelegate {
+    func didConnect(_ pageSyncSocialTableViewCell: PageSyncSocialTableViewCell, isActive: Bool) {
+        self.viewModel.userInfo.syncSocial.active = isActive
+        self.tableView.reloadData()
+    }
+    
+    func didAutoPost(_ pageSyncSocialTableViewCell: PageSyncSocialTableViewCell, isAutoPost: Bool) {
+        self.viewModel.userInfo.syncSocial.autoPost = isAutoPost
     }
 }

@@ -46,10 +46,9 @@ public final class ProfileViewModel {
     let tokenHelper: TokenHelper = TokenHelper()
     var profileLoaded: Bool = false
     var isMyPage: Bool = false
+    var state: State = .none
     
-    var stage: Stage = .none
-    
-    enum Stage {
+    enum State {
         case getMeInfo
         case getUserInfo
         case none
@@ -94,7 +93,7 @@ public final class ProfileViewModel {
     }
     
     private func getMeInfo() {
-        self.stage = .getMeInfo
+        self.state = .getMeInfo
         self.userRepository.getMe() { (success, response, isRefreshToken) in
             if success {
                 do {
@@ -113,7 +112,7 @@ public final class ProfileViewModel {
     }
     
     private func getUserInfo() {
-        self.stage = .getUserInfo
+        self.state = .getUserInfo
         self.userRepository.getUser(userId: self.castcleId) { (success, response, isRefreshToken) in
             if success {
                 do {
@@ -136,9 +135,9 @@ public final class ProfileViewModel {
 
 extension ProfileViewModel: TokenHelperDelegate {
     public func didRefreshTokenFinish() {
-        if self.stage == .getMeInfo {
+        if self.state == .getMeInfo {
             self.getMeInfo()
-        } else if self.stage == .getUserInfo {
+        } else if self.state == .getUserInfo {
             self.getUserInfo()
         }
     }
