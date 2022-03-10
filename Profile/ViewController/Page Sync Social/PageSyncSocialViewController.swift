@@ -48,6 +48,22 @@ class PageSyncSocialViewController: UIViewController {
             self.hud.dismiss()
             self.tableView.reloadData()
         }
+        
+        self.viewModel.didSetAutoPostFinish = {
+            self.hud.dismiss()
+        }
+        
+        self.viewModel.didCancelAutoPostFinish = {
+            self.hud.dismiss()
+        }
+        
+        self.viewModel.didReconnectSyncSocialFinish = {
+            self.hud.dismiss()
+        }
+        
+        self.viewModel.didDisconnectSyncSocialFinish = {
+            self.hud.dismiss()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -89,11 +105,23 @@ extension PageSyncSocialViewController: UITableViewDelegate, UITableViewDataSour
 
 extension PageSyncSocialViewController: PageSyncSocialTableViewCellDelegate {
     func didConnect(_ pageSyncSocialTableViewCell: PageSyncSocialTableViewCell, isActive: Bool) {
+        self.hud.show(in: self.view)
         self.viewModel.userInfo.syncSocial.active = isActive
         self.tableView.reloadData()
+        if isActive {
+            self.viewModel.reconnectSyncSocial()
+        } else {
+            self.viewModel.disconnectSyncSocial()
+        }
     }
     
     func didAutoPost(_ pageSyncSocialTableViewCell: PageSyncSocialTableViewCell, isAutoPost: Bool) {
+        self.hud.show(in: self.view)
         self.viewModel.userInfo.syncSocial.autoPost = isAutoPost
+        if isAutoPost {
+            self.viewModel.setAutoPost()
+        } else {
+            self.viewModel.cancelAutoPost()
+        }
     }
 }

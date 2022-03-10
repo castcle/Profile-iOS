@@ -32,18 +32,19 @@ import SwiftyJSON
 public final class PageSyncSocialViewModel {
    
     var userRepository: UserRepository = UserRepositoryImpl()
+    var pageRepository: PageRepository = PageRepositoryImpl()
     let tokenHelper: TokenHelper = TokenHelper()
-//    var castcleId: String = ""
-//    var followType: FollowType = .none
-//    var userFollowRequest: UserFollowRequest = UserFollowRequest()
-//    var users: [UserInfo] = []
-//    var meta: Meta = Meta()
     var state: State = .none
     var userInfo: UserInfo = UserInfo()
+    var pageSocial: PageSocial = PageSocial()
+    var syncSocialId: String = ""
     
     enum State {
         case getUserInfo
-        case loaded
+        case setAutoPost
+        case cancelAutoPost
+        case reconnectSyncSocial
+        case disconnectSyncSocial
         case none
     }
     
@@ -51,12 +52,18 @@ public final class PageSyncSocialViewModel {
         self.userInfo = userInfo
         self.tokenHelper.delegate = self
         if !self.userInfo.castcleId.isEmpty {
+            self.mapPageSocialRequest()
             self.getUserInfo()
         }
-//        self.followType = followType
-//        self.castcleId = castcleId
-//        self.userFollowRequest.maxResults = 25
-//        self.loadData()
+    }
+    
+    private func mapPageSocialRequest() {
+        self.syncSocialId = self.userInfo.syncSocial.id
+        self.pageSocial.provider = ProviderCreatePage(rawValue: self.userInfo.syncSocial.provider) ?? .none
+        self.pageSocial.socialId = self.userInfo.syncSocial.socialId
+        self.pageSocial.userName = self.userInfo.syncSocial.userName
+        self.pageSocial.displayName = self.userInfo.syncSocial.displayName
+        self.pageSocial.avatar = self.userInfo.syncSocial.avatar
     }
     
     private func getUserInfo() {
@@ -67,6 +74,7 @@ public final class PageSyncSocialViewModel {
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
                     self.userInfo = UserInfo(json: json)
+                    self.mapPageSocialRequest()
                     self.didGetUserInfoFinish?()
                 } catch {
                     self.didGetUserInfoFinish?()
@@ -81,77 +89,85 @@ public final class PageSyncSocialViewModel {
         }
     }
     
+    public func setAutoPost() {
+        self.state = .setAutoPost
+        self.pageRepository.setAutoPost(syncSocialId: self.syncSocialId) { (success, response, isRefreshToken) in
+            if success {
+                self.didSetAutoPostFinish?()
+            } else {
+                if isRefreshToken {
+                    self.tokenHelper.refreshToken()
+                } else {
+                    self.didSetAutoPostFinish?()
+                }
+            }
+        }
+    }
+    
+    public func cancelAutoPost() {
+        self.state = .cancelAutoPost
+        self.pageRepository.cancelAutoPost(syncSocialId: self.syncSocialId) { (success, response, isRefreshToken) in
+            if success {
+                self.didCancelAutoPostFinish?()
+            } else {
+                if isRefreshToken {
+                    self.tokenHelper.refreshToken()
+                } else {
+                    self.didCancelAutoPostFinish?()
+                }
+            }
+        }
+    }
+    
+    public func reconnectSyncSocial() {
+        self.state = .reconnectSyncSocial
+        self.pageRepository.reconnectSyncSocial(syncSocialId: self.syncSocialId, pageSocial: self.pageSocial) { (success, response, isRefreshToken) in
+            if success {
+                self.didReconnectSyncSocialFinish?()
+            } else {
+                if isRefreshToken {
+                    self.tokenHelper.refreshToken()
+                } else {
+                    self.didReconnectSyncSocialFinish?()
+                }
+            }
+        }
+    }
+    
+    public func disconnectSyncSocial() {
+        self.state = .disconnectSyncSocial
+        self.pageRepository.disconnectSyncSocial(syncSocialId: self.syncSocialId) { (success, response, isRefreshToken) in
+            if success {
+                self.didDisconnectSyncSocialFinish?()
+            } else {
+                if isRefreshToken {
+                    self.tokenHelper.refreshToken()
+                } else {
+                    self.didDisconnectSyncSocialFinish?()
+                }
+            }
+        }
+    }
+    
     var didGetUserInfoFinish: (() -> ())?
-    
-//    public func reloadData() {
-//        self.users = []
-//        self.meta = Meta()
-//        self.loadData()
-//    }
-//
-//    func loadData() {
-//        if self.followType == .follower && !self.castcleId.isEmpty {
-//            self.getFollower()
-//        } else if self.followType == .following && !self.castcleId.isEmpty {
-//            self.getFollowing()
-//        }
-//    }
-//
-//    private func getFollower() {
-//        self.userRepository.getUserFollower(userId: self.castcleId, userFollowRequest: self.userFollowRequest) { (success, response, isRefreshToken) in
-//            if success {
-//                do {
-//                    let rawJson = try response.mapJSON()
-//                    let json = JSON(rawJson)
-//                    let userData = (json[FeedShelfKey.payload.rawValue].arrayValue).map { UserInfo(json: $0) }
-//                    self.meta = Meta(json: JSON(json[FeedShelfKey.meta.rawValue].dictionaryValue))
-//                    self.users.append(contentsOf: userData)
-//                    self.didLoadFollowUserFinish?()
-//                } catch {
-//                    self.didLoadFollowUserFinish?()
-//                }
-//            } else {
-//                if isRefreshToken {
-//                    self.tokenHelper.refreshToken()
-//                } else {
-//                    self.didLoadFollowUserFinish?()
-//                }
-//            }
-//        }
-//    }
-//
-//    private func getFollowing() {
-//        self.userRepository.getUserFollowing(userId: self.castcleId, userFollowRequest: self.userFollowRequest) { (success, response, isRefreshToken) in
-//            if success {
-//                do {
-//                    let rawJson = try response.mapJSON()
-//                    let json = JSON(rawJson)
-//                    let userData = (json[FeedShelfKey.payload.rawValue].arrayValue).map { UserInfo(json: $0) }
-//                    self.meta = Meta(json: JSON(json[FeedShelfKey.meta.rawValue].dictionaryValue))
-//                    self.users.append(contentsOf: userData)
-//                    self.didLoadFollowUserFinish?()
-//                } catch {
-//                    self.didLoadFollowUserFinish?()
-//                }
-//            } else {
-//                if isRefreshToken {
-//                    self.tokenHelper.refreshToken()
-//                } else {
-//                    self.didLoadFollowUserFinish?()
-//                }
-//            }
-//        }
-//    }
-    
-    var didLoadFollowUserFinish: (() -> ())?
+    var didSetAutoPostFinish: (() -> ())?
+    var didCancelAutoPostFinish: (() -> ())?
+    var didReconnectSyncSocialFinish: (() -> ())?
+    var didDisconnectSyncSocialFinish: (() -> ())?
 }
 
 extension PageSyncSocialViewModel: TokenHelperDelegate {
     public func didRefreshTokenFinish() {
         if self.state == .getUserInfo {
             self.getUserInfo()
-//        } else if self.followType == .following {
-//            self.getFollowing()
+        } else if self.state == .setAutoPost {
+            self.setAutoPost()
+        } else if self.state == .cancelAutoPost {
+            self.cancelAutoPost()
+        } else if self.state == .reconnectSyncSocial {
+            self.reconnectSyncSocial()
+        } else if self.state == .disconnectSyncSocial {
+            self.disconnectSyncSocial()
         }
     }
 }
