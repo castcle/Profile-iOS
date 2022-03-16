@@ -37,16 +37,21 @@ public enum ProfileType {
 }
 
 public final class ProfileViewModel {
-   
     var userRepository: UserRepository = UserRepositoryImpl()
     var profileType: ProfileType = .unknow
     var userInfo: UserInfo = UserInfo()
     var castcleId: String = ""
     var displayName: String = ""
     let tokenHelper: TokenHelper = TokenHelper()
-    var profileLoaded: Bool = false
+    var loadState: LoadState = .loading
     var isMyPage: Bool = false
     var state: State = .none
+    
+    enum LoadState {
+        case loading
+        case loaded
+        case error
+    }
     
     enum State {
         case getMeInfo
@@ -120,10 +125,14 @@ public final class ProfileViewModel {
                     let json = JSON(rawJson)
                     self.userInfo = UserInfo(json: json)
                     self.didGetUserInfoFinish?()
-                } catch {}
+                } catch {
+                    self.didGetUserInfoFalse?()
+                }
             } else {
                 if isRefreshToken {
                     self.tokenHelper.refreshToken()
+                } else {
+                    self.didGetUserInfoFalse?()
                 }
             }
         }
@@ -131,6 +140,7 @@ public final class ProfileViewModel {
     
     var didGetMeInfoFinish: (() -> ())?
     var didGetUserInfoFinish: (() -> ())?
+    var didGetUserInfoFalse: (() -> ())?
 }
 
 extension ProfileViewModel: TokenHelperDelegate {

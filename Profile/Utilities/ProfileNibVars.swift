@@ -72,6 +72,7 @@ public struct ProfileNibVars {
         public static let blockedUser = "BlockedUserTableViewCell"
         public static let headerBlocked = "HeaderBlockedTableViewCell"
         public static let pageSyncSocial = "PageSyncSocialTableViewCell"
+        public static let userNotFound = "UserNotFoundTableViewCell"
     }
     
     // MARK: - CollectionViewCell

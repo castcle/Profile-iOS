@@ -23,6 +23,8 @@
 		B753F57D2782D1AB00D1AC92 /* FeedHeaderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B753F57B2782D1AB00D1AC92 /* FeedHeaderTableViewCell.xib */; };
 		B7586BE427856066009FEE29 /* ProfileHeaderSkeletonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7586BE227856066009FEE29 /* ProfileHeaderSkeletonTableViewCell.swift */; };
 		B7586BE527856066009FEE29 /* ProfileHeaderSkeletonTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7586BE327856066009FEE29 /* ProfileHeaderSkeletonTableViewCell.xib */; };
+		B76CE4A227E1CEC300CCA693 /* UserNotFoundTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B76CE4A027E1CEC300CCA693 /* UserNotFoundTableViewCell.swift */; };
+		B76CE4A327E1CEC300CCA693 /* UserNotFoundTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B76CE4A127E1CEC300CCA693 /* UserNotFoundTableViewCell.xib */; };
 		B786903127CCA79A0029EDFE /* UserFollowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B786903027CCA79A0029EDFE /* UserFollowViewController.swift */; };
 		B786903327CCA7D40029EDFE /* UserFollowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B786903227CCA7D40029EDFE /* UserFollowViewModel.swift */; };
 		B7910DDC26AFC60E0097C94E /* Profile.h in Headers */ = {isa = PBXBuildFile; fileRef = B7910DDA26AFC60E0097C94E /* Profile.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -122,6 +124,8 @@
 		B753F57B2782D1AB00D1AC92 /* FeedHeaderTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeedHeaderTableViewCell.xib; sourceTree = "<group>"; };
 		B7586BE227856066009FEE29 /* ProfileHeaderSkeletonTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderSkeletonTableViewCell.swift; sourceTree = "<group>"; };
 		B7586BE327856066009FEE29 /* ProfileHeaderSkeletonTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileHeaderSkeletonTableViewCell.xib; sourceTree = "<group>"; };
+		B76CE4A027E1CEC300CCA693 /* UserNotFoundTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNotFoundTableViewCell.swift; sourceTree = "<group>"; };
+		B76CE4A127E1CEC300CCA693 /* UserNotFoundTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserNotFoundTableViewCell.xib; sourceTree = "<group>"; };
 		B786903027CCA79A0029EDFE /* UserFollowViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFollowViewController.swift; sourceTree = "<group>"; };
 		B786903227CCA7D40029EDFE /* UserFollowViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFollowViewModel.swift; sourceTree = "<group>"; };
 		B78795DB26C6504E00FECC21 /* Feed.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Feed.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -265,6 +269,8 @@
 				B7AC3BBD27A3D2BB00C02867 /* BlockedUserTableViewCell.xib */,
 				B7AC3BC227A3EF9900C02867 /* HeaderBlockedTableViewCell.swift */,
 				B7AC3BC327A3EF9900C02867 /* HeaderBlockedTableViewCell.xib */,
+				B76CE4A027E1CEC300CCA693 /* UserNotFoundTableViewCell.swift */,
+				B76CE4A127E1CEC300CCA693 /* UserNotFoundTableViewCell.xib */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -557,6 +563,7 @@
 				B7AF663226F35E0E00BDE9C4 /* SocialTableViewCell.xib in Resources */,
 				B7910ECD26BF1E1C0097C94E /* SocialLinkTableViewCell.xib in Resources */,
 				B7B7C20B2786E6DA00DD488A /* ProfilePostTableViewCell.xib in Resources */,
+				B76CE4A327E1CEC300CCA693 /* UserNotFoundTableViewCell.xib in Resources */,
 				B7586BE527856066009FEE29 /* ProfileHeaderSkeletonTableViewCell.xib in Resources */,
 				B7910E7926BBD6FD0097C94E /* Assets.xcassets in Resources */,
 				B7910E6F26BBD36A0097C94E /* Profile.storyboard in Resources */,
@@ -640,6 +647,7 @@
 				B7AC3BC427A3EF9900C02867 /* HeaderBlockedTableViewCell.swift in Sources */,
 				B7910ED726C0340B0097C94E /* ProfileActionViewController.swift in Sources */,
 				B7AF663526F360F500BDE9C4 /* ComplateTableViewCell.swift in Sources */,
+				B76CE4A227E1CEC300CCA693 /* UserNotFoundTableViewCell.swift in Sources */,
 				B7C46D9327A135730031179E /* NewPageWithSocialTableViewCell.swift in Sources */,
 				B71B668B2726A57A00191A62 /* DeletePageViewModel.swift in Sources */,
 				B7910E9F26BCDBEF0097C94E /* SocialLinkShelf.swift in Sources */,

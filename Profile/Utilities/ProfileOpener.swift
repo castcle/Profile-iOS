@@ -130,7 +130,7 @@ public struct ProfileOpener {
         }
     }
     
-    public static func openProfileDetail(_ type: AuthorType, castcleId: String, displayName: String) {
+    public static func openProfileDetail(_ castcleId: String, displayName: String) {
         if castcleId == UserManager.shared.rawCastcleId {
             Utility.currentViewController().navigationController?.pushViewController(self.open(.profile(ProfileViewModel(profileType: .me, castcleId: castcleId, displayName: ""), ProfileFeedViewModel(profileContentType: .all, profileType: .me, castcleId: ""))), animated: true)
         } else {

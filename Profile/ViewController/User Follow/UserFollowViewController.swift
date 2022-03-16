@@ -136,7 +136,7 @@ extension UserFollowViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension UserFollowViewController: UserToFollowTableViewCellDelegate {
     func didTabProfile(_ userToFollowTableViewCell: UserToFollowTableViewCell, author: Author) {
-        ProfileOpener.openProfileDetail(author.type, castcleId: author.castcleId, displayName:author.displayName)
+        ProfileOpener.openProfileDetail(author.castcleId, displayName:author.displayName)
     }
     
     func didAuthen(_ userToFollowTableViewCell: UserToFollowTableViewCell) {

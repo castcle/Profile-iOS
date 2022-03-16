@@ -214,7 +214,7 @@ extension AboutInfoViewController: AboutInfoViewModelDelegate {
                 let viewControllers: [UIViewController] = Utility.currentViewController().navigationController!.viewControllers as [UIViewController]
                 Utility.currentViewController().navigationController!.popToViewController(viewControllers[viewControllers.count - 6], animated: false)
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    ProfileOpener.openProfileDetail(.page, castcleId: self.viewModel.castcleId, displayName: "")
+                    ProfileOpener.openProfileDetail(self.viewModel.castcleId, displayName: "")
                 }
             } else {
                 Utility.currentViewController().navigationController?.popToRootViewController(animated: true)

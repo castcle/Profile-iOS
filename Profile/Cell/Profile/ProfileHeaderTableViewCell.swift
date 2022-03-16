@@ -277,6 +277,7 @@ extension ProfileHeaderTableViewCell {
             }
             self.followLabel.text = "\(UserManager.shared.following) Following   \(UserManager.shared.followers) Followers"
             self.bioLabel.text = UserManager.shared.overview
+            self.editProfileButton.setTitle("Edit Profile", for: .normal)
         } else {
             self.displayNameLabel.text = self.viewModel.userInfo.displayName
             self.userIdLabel.text = "@\(self.viewModel.userInfo.castcleId)"
@@ -305,6 +306,13 @@ extension ProfileHeaderTableViewCell {
             }
             self.followLabel.text = "\(self.viewModel.userInfo.following.count) Following   \(self.viewModel.userInfo.followers.count) Followers"
             self.bioLabel.text = self.viewModel.userInfo.overview
+            if self.viewModel.isMyPage {
+                self.editProfileButton.setTitle("Edit Page", for: .normal)
+            } else if self.viewModel.userInfo.type == .page {
+                self.viewProfileButton.setTitle("View Page", for: .normal)
+            } else {
+                self.viewProfileButton.setTitle("View Profile", for: .normal)
+            }
         }
         
         if self.viewModel.profileType == .me || self.viewModel.isMyPage {
