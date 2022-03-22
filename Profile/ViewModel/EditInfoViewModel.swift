@@ -25,8 +25,70 @@
 //  Created by Castcle Co., Ltd. on 21/3/2565 BE.
 //
 
+import UIKit
 import Networking
+import SwiftyJSON
+
+public protocol EditInfoViewModelDelegate {
+    func didUpdateInfoFinish(success: Bool)
+}
 
 class EditInfoViewModel {
+    public var delegate: EditInfoViewModelDelegate?
+    var userRepository: UserRepository = UserRepositoryImpl()
+    var userRequest: UserRequest = UserRequest()
+    let tokenHelper: TokenHelper = TokenHelper()
     
+    var avatar: UIImage? = nil
+    var cover: UIImage? = nil
+    var dobDate: Date? = nil
+    var castcleId: String = ""
+    var isPage: Bool = false
+    
+    public init() {
+        self.tokenHelper.delegate = self
+    }
+    
+    public func updateProfile(isPage: Bool, castcleId: String) {
+        self.isPage = isPage
+        self.castcleId = castcleId
+        if let dob = self.dobDate {
+            self.userRequest.payload.dob = dob.dateToStringSever()
+        }
+        self.userRepository.updateInfo(userId: self.castcleId, userRequest: self.userRequest) { (success, response, isRefreshToken) in
+            if success {
+                if isPage {
+                    self.delegate?.didUpdateInfoFinish(success: true)
+                } else {
+                    do {
+                        let rawJson = try response.mapJSON()
+                        let json = JSON(rawJson)
+                        let userHelper = UserHelper()
+                        userHelper.updateLocalProfile(user: UserInfo(json: json))
+                        self.delegate?.didUpdateInfoFinish(success: true)
+                    } catch {
+                        self.delegate?.didUpdateInfoFinish(success: false)
+                    }
+                }
+            } else {
+                if isRefreshToken {
+                    self.tokenHelper.refreshToken()
+                } else {
+                    self.delegate?.didUpdateInfoFinish(success: false)
+                }
+            }
+        }
+    }
+}
+
+extension EditInfoViewModel: TokenHelperDelegate {
+    func didRefreshTokenFinish() {
+//        if self.state == .updateProfile {
+            self.updateProfile(isPage: self.isPage, castcleId: self.castcleId)
+//        } else if self.state == .updateAvatar {
+//            self.updateAvatar(isPage: self.isPage, castcleId: self.castcleId)
+//        } else if self.state == .updateCover {
+//            self.updateCover(isPage: self.isPage, castcleId: self.castcleId)
+//        }
+    }
 }

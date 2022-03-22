@@ -79,7 +79,7 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
     @IBOutlet var selectDateButton: UIButton!
     @IBOutlet var saveButton: UIButton!
     
-    let viewModel = EditProfileViewModel()
+    let viewModel = EditInfoViewModel()
     let hud = JGProgressHUD()
     private var dobDate: Date? = nil
     
@@ -183,7 +183,7 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         }
         
         self.castcleIdTextField.text = UserManager.shared.rawCastcleId
-        self.displayNameTextField.text = UserManager.shared.rawCastcleId
+        self.displayNameTextField.text = UserManager.shared.displayName
         self.overviewTextView.text = UserManager.shared.overview
         
         self.dobDate = (UserManager.shared.dob == "" ? nil : (Date.stringToDate(str: UserManager.shared.dob)))
@@ -247,15 +247,13 @@ extension EditInfoTableViewCell: DatePickerViewControllerDelegate {
     }
 }
 
-extension EditInfoTableViewCell: EditProfileViewModelDelegate {
+extension EditInfoTableViewCell: EditInfoViewModelDelegate {
     func didUpdateInfoFinish(success: Bool) {
-        if !self.viewModel.isPage {
-            self.hud.dismiss()
-            if success {
-                Utility.currentViewController().navigationController?.popViewController(animated: true)
-            } else {
-                self.disableUI(isActive: true)
-            }
+        self.hud.dismiss()
+        if success {
+            Utility.currentViewController().navigationController?.popViewController(animated: true)
+        } else {
+            self.disableUI(isActive: true)
         }
     }
 }
