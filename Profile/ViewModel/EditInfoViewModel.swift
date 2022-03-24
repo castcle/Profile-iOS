@@ -39,6 +39,7 @@ class EditInfoViewModel {
     var userRequest: UserRequest = UserRequest()
     let tokenHelper: TokenHelper = TokenHelper()
     
+    var userInfo: UserInfo = UserInfo()
     var avatar: UIImage? = nil
     var cover: UIImage? = nil
     var dobDate: Date? = nil
@@ -54,6 +55,12 @@ class EditInfoViewModel {
         self.castcleId = castcleId
         if let dob = self.dobDate {
             self.userRequest.payload.dob = dob.dateToStringSever()
+        }
+        if let avatarImage = self.avatar {
+            self.userRequest.payload.images.avatar = avatarImage.toBase64() ?? ""
+        }
+        if let coverImage = self.cover {
+            self.userRequest.payload.images.cover = coverImage.toBase64() ?? ""
         }
         self.userRepository.updateInfo(userId: self.castcleId, userRequest: self.userRequest) { (success, response, isRefreshToken) in
             if success {
@@ -83,12 +90,6 @@ class EditInfoViewModel {
 
 extension EditInfoViewModel: TokenHelperDelegate {
     func didRefreshTokenFinish() {
-//        if self.state == .updateProfile {
-            self.updateProfile(isPage: self.isPage, castcleId: self.castcleId)
-//        } else if self.state == .updateAvatar {
-//            self.updateAvatar(isPage: self.isPage, castcleId: self.castcleId)
-//        } else if self.state == .updateCover {
-//            self.updateCover(isPage: self.isPage, castcleId: self.castcleId)
-//        }
+        self.updateProfile(isPage: self.isPage, castcleId: self.castcleId)
     }
 }

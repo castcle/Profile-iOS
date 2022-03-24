@@ -395,8 +395,8 @@ extension ProfileHeaderTableViewCell {
     }
     
     private func selectTakePhoto() {
-         self.showCameraIfAuthorized()
-     }
+        self.showCameraIfAuthorized()
+    }
      
      private func showCameraIfAuthorized() {
          let cameraAuthorization = AVCaptureDevice.authorizationStatus(for: .video)

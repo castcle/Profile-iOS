@@ -26,12 +26,16 @@
 //
 
 import UIKit
+import Photos
+import MobileCoreServices
 import Core
 import Component
 import UITextView_Placeholder
 import PanModal
 import Defaults
 import JGProgressHUD
+import TOCropViewController
+import TLPhotoPicker
 
 class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
 
@@ -82,6 +86,13 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
     let viewModel = EditInfoViewModel()
     let hud = JGProgressHUD()
     private var dobDate: Date? = nil
+    private var updateImageType: UpdateImageType = .none
+    
+    enum UpdateImageType {
+        case none
+        case avatar
+        case cover
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -238,6 +249,132 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         self.viewModel.userRequest.payload.links.website = (self.websiteTextField.text! == "https://" ? "" : self.websiteTextField.text!)
         self.viewModel.updateProfile(isPage: false, castcleId: UserManager.shared.rawCastcleId)
     }
+    
+    @IBAction func editCoverAction(_ sender: Any) {
+        self.updateImageType = .cover
+        self.selectImageSource()
+    }
+    
+    @IBAction func editProfileImageAction(_ sender: Any) {
+        self.updateImageType = .avatar
+        self.selectImageSource()
+    }
+    
+    private func selectImageSource() {
+        let actionSheet = CCActionSheet()
+        let albumButton = CCAction(title: "Choose from Camera Roll", image: UIImage.init(icon: .castcle(.image), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
+            actionSheet.dismissActionSheet()
+            self.selectCameraRoll()
+        }
+        let cameraButton = CCAction(title: "Take Photo", image: UIImage.init(icon: .castcle(.camera), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
+            actionSheet.dismissActionSheet()
+            self.selectTakePhoto()
+        }
+        
+        actionSheet.addActions([albumButton, cameraButton])
+        Utility.currentViewController().present(actionSheet, animated: true, completion: nil)
+    }
+    
+    private func selectCameraRoll() {
+        let photosPickerViewController = TLPhotosPickerViewController()
+        photosPickerViewController.delegate = self
+        photosPickerViewController.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
+        photosPickerViewController.collectionView.backgroundColor = UIColor.clear
+        photosPickerViewController.navigationBar.barTintColor = UIColor.Asset.darkGraphiteBlue
+        photosPickerViewController.navigationBar.isTranslucent = false
+        photosPickerViewController.titleLabel.font = UIFont.asset(.regular, fontSize: .overline)
+        photosPickerViewController.subTitleLabel.font = UIFont.asset(.regular, fontSize: .small)
+        
+        photosPickerViewController.doneButton.setTitleTextAttributes([
+            NSAttributedString.Key.font : UIFont.asset(.bold, fontSize: .h4),
+            NSAttributedString.Key.foregroundColor : UIColor.Asset.lightBlue
+        ], for: .normal)
+        photosPickerViewController.cancelButton.setTitleTextAttributes([
+            NSAttributedString.Key.font : UIFont.asset(.regular, fontSize: .body),
+            NSAttributedString.Key.foregroundColor : UIColor.Asset.lightBlue
+        ], for: .normal)
+
+        var configure = TLPhotosPickerConfigure()
+        configure.numberOfColumn = 3
+        configure.singleSelectedMode = true
+        configure.mediaType = .image
+        configure.usedCameraButton = false
+        configure.allowedLivePhotos = false
+        configure.allowedPhotograph = false
+        configure.allowedVideo = false
+        configure.autoPlay = false
+        configure.allowedVideoRecording = false
+        configure.selectedColor = UIColor.Asset.lightBlue
+        photosPickerViewController.configure = configure
+
+        Utility.currentViewController().present(photosPickerViewController, animated: true, completion: nil)
+    }
+    
+    private func selectTakePhoto() {
+        self.showCameraIfAuthorized()
+    }
+     
+     private func showCameraIfAuthorized() {
+         let cameraAuthorization = AVCaptureDevice.authorizationStatus(for: .video)
+         switch cameraAuthorization {
+         case .authorized:
+             self.showCamera()
+         case .notDetermined:
+             AVCaptureDevice.requestAccess(for: .video, completionHandler: { [weak self] (authorized) in
+                 DispatchQueue.main.async { [weak self] in
+                     if authorized {
+                         self?.showCamera()
+                     } else {
+                         self?.handleDeniedCameraAuthorization()
+                     }
+                 }
+             })
+         case .restricted, .denied:
+             self.handleDeniedCameraAuthorization()
+         @unknown default:
+             break
+         }
+     }
+     
+     private func showCamera() {
+         let picker = UIImagePickerController()
+         picker.sourceType = .camera
+         var mediaTypes: [String] = []
+         mediaTypes.append(kUTTypeImage as String)
+         
+         guard mediaTypes.count > 0 else {
+             return
+         }
+         picker.cameraDevice = .rear
+         picker.mediaTypes = mediaTypes
+         picker.allowsEditing = false
+         picker.delegate = self
+         Utility.currentViewController().present(picker, animated: true, completion: nil)
+     }
+     
+     private func handleDeniedCameraAuthorization() {
+         DispatchQueue.main.async {
+             let alert = UIAlertController(title: "Error", message: "Denied camera permissions granted", preferredStyle: .alert)
+             alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+             Utility.currentViewController().present(alert, animated: true, completion: nil)
+         }
+     }
+    
+    private func presentCropViewController(image: UIImage, updateImageType: UpdateImageType) {
+        if updateImageType == .avatar {
+            let cropController = TOCropViewController(croppingStyle: .circular, image: image)
+            cropController.delegate = self
+            Utility.currentViewController().present(cropController, animated: true, completion: nil)
+        } else {
+            let cropController = TOCropViewController(croppingStyle: .default, image: image)
+            cropController.aspectRatioPreset = .preset4x3
+            cropController.aspectRatioLockEnabled = true
+            cropController.resetAspectRatioEnabled = false
+            cropController.aspectRatioPickerButtonHidden = true
+            cropController.delegate = self
+            Utility.currentViewController().present(cropController, animated: true, completion: nil)
+        }
+    }
 }
 
 extension EditInfoTableViewCell: DatePickerViewControllerDelegate {
@@ -255,5 +392,58 @@ extension EditInfoTableViewCell: EditInfoViewModelDelegate {
         } else {
             self.disableUI(isActive: true)
         }
+    }
+}
+
+extension EditInfoTableViewCell: TLPhotosPickerViewControllerDelegate {
+    func shouldDismissPhotoPicker(withTLPHAssets: [TLPHAsset]) -> Bool {
+        if let asset = withTLPHAssets.first {
+            if let image = asset.fullResolutionImage {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    if self.updateImageType == .avatar {
+                        self.presentCropViewController(image: image, updateImageType: .avatar)
+                    } else if self.updateImageType == .cover {
+                        self.presentCropViewController(image: image, updateImageType: .cover)
+                    }
+                }
+            }
+        }
+        return true
+    }
+}
+
+extension EditInfoTableViewCell: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    open func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        guard let image = (info[UIImagePickerController.InfoKey.originalImage] as? UIImage) else { return }
+
+        picker.dismiss(animated: true, completion: {
+            if self.updateImageType == .avatar {
+                self.presentCropViewController(image: image, updateImageType: .avatar)
+            } else if self.updateImageType == .cover {
+                self.presentCropViewController(image: image, updateImageType: .cover)
+            }
+        })
+    }
+}
+
+extension EditInfoTableViewCell: TOCropViewControllerDelegate {
+    func cropViewController(_ cropViewController: TOCropViewController, didCropToCircularImage image: UIImage, with cropRect: CGRect, angle: Int) {
+        cropViewController.dismiss(animated: true, completion: {
+            if self.updateImageType == .avatar {
+                let avatarCropImage = image.resizeImage(targetSize: CGSize.init(width: 200, height: 200))
+                self.profileImage.image = avatarCropImage
+                self.viewModel.avatar = avatarCropImage
+            }
+        })
+    }
+    
+    func cropViewController(_ cropViewController: TOCropViewController, didCropTo image: UIImage, with cropRect: CGRect, angle: Int) {
+        cropViewController.dismiss(animated: true, completion: {
+            if self.updateImageType == .cover {
+                let coverCropImage = image.resizeImage(targetSize: CGSize.init(width: 640, height: 480))
+                self.coverImage.image = coverCropImage
+                self.viewModel.cover = coverCropImage
+            }
+        })
     }
 }

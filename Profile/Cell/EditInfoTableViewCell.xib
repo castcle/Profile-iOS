@@ -30,6 +30,9 @@
                             <constraint firstAttribute="height" constant="40" id="WoR-h3-RBq"/>
                             <constraint firstAttribute="width" constant="40" id="mMB-y9-kDP"/>
                         </constraints>
+                        <connections>
+                            <action selector="editCoverAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="l27-pR-lqO"/>
+                        </connections>
                     </button>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qie-pj-IYW">
                         <rect key="frame" x="120" y="200" width="80" height="80"/>
@@ -44,6 +47,9 @@
                             <constraint firstAttribute="height" constant="25" id="Xpk-ug-Q9q"/>
                             <constraint firstAttribute="width" constant="25" id="cmV-gq-hg7"/>
                         </constraints>
+                        <connections>
+                            <action selector="editProfileImageAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="a4w-Sq-aVz"/>
+                        </connections>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Castcle ID" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Euw-0I-ZRJ">
                         <rect key="frame" x="20" y="295" width="280" height="21.5"/>
