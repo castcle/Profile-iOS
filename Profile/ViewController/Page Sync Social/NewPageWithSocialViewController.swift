@@ -47,14 +47,20 @@ class NewPageWithSocialViewController: UIViewController {
     struct FBPage {
         var id: String = ""
         var name: String = ""
+        var userName: String = ""
         var about: String = ""
         var accessToken: String = ""
+        var cover: String = ""
         
         init(json: JSON) {
             self.id = json["id"].string ?? ""
             self.name = json["name"].string ?? ""
+            self.userName = json["username"].string ?? ""
             self.about = json["about"].string ?? ""
             self.accessToken = json["access_token"].string ?? ""
+            if let cover = json["cover"].object {
+                self.cover = cover["source"]?.string ?? ""
+            }
         }
     }
     
@@ -90,9 +96,8 @@ class NewPageWithSocialViewController: UIViewController {
             let accessToken = AccessToken.current?.tokenString
             let userId = AccessToken.current?.userID ?? ""
             let params = ["access_token" : accessToken ?? ""]
-            request = GraphRequest(graphPath: "/\(userId)/accounts?fields=name,about,username,access_token", parameters: params, httpMethod: .get)
+            request = GraphRequest(graphPath: "/\(userId)/accounts?fields=name,about,username,access_token,cover", parameters: params, httpMethod: .get)
             request?.start() { (connection, result, error) in
-                
                 guard error == nil else {
                     self.hud.dismiss()
                     print(error!.localizedDescription)
@@ -105,10 +110,12 @@ class NewPageWithSocialViewController: UIViewController {
                     var pageSocial: PageSocial = PageSocial()
                     pageSocial.provider = .facebook
                     pageSocial.socialId = page.id
+                    pageSocial.userName = page.userName
                     pageSocial.displayName = page.name
                     pageSocial.overview = page.about
                     pageSocial.authToken = page.accessToken
                     pageSocial.avatar = "https://graph.facebook.com/\(page.id)/picture?type=large&access_token=\(accessToken ?? "")"
+                    pageSocial.cover = page.cover
                     self.viewModel.pageSocialRequest.payload.append(pageSocial)
                 }
                 self.viewModel.createPageWithSocial()
