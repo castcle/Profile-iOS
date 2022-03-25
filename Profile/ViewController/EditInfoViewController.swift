@@ -84,6 +84,7 @@ class EditInfoViewController: UIViewController, UITableViewDelegate, UITableView
         if self.profileType == .me {
             let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.editInfo, for: indexPath as IndexPath) as? EditInfoTableViewCell
             cell?.backgroundColor = UIColor.clear
+            cell?.configCell()
             return cell ?? EditInfoTableViewCell()
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.editPageInfo, for: indexPath as IndexPath) as? EditPageInfoTableViewCell
