@@ -196,6 +196,14 @@ class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         
         self.castcleIdTextField.text = self.viewModel.userInfo.castcleId
         self.displayNameTextField.text = self.viewModel.userInfo.displayName
+        
+        if self.viewModel.userInfo.canUpdateCastcleId {
+            self.castcleIdNoticeLabel.text = ""
+            self.castcleIdTextField.isEnabled = true
+        } else {
+            self.castcleIdNoticeLabel.text = "Once your Castcle ID has been changed, you can edit it again after 60 days."
+            self.castcleIdTextField.isEnabled = false
+        }
     }
     
     private func disableUI(isActive: Bool) {

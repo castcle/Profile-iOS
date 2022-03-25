@@ -197,6 +197,14 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         self.displayNameTextField.text = UserManager.shared.displayName
         self.overviewTextView.text = UserManager.shared.overview
         
+        if UserManager.shared.canUpdateCastcleId {
+            self.castcleIdNoticeLabel.text = ""
+            self.castcleIdTextField.isEnabled = true
+        } else {
+            self.castcleIdNoticeLabel.text = "Once your Castcle ID has been changed, you can edit it again after 60 days."
+            self.castcleIdTextField.isEnabled = false
+        }
+        
         self.dobDate = (UserManager.shared.dob == "" ? nil : (Date.stringToDate(str: UserManager.shared.dob)))
         if let dob = self.dobDate {
             self.birthdayLabel.text = dob.dateToString()
