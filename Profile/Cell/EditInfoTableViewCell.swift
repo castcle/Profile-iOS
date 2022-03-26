@@ -249,6 +249,15 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
     @IBAction func saveAction(_ sender: Any) {
         self.hud.show(in: Utility.currentViewController().view)
         self.disableUI(isActive: false)
+        
+        if (self.castcleIdTextField.text!).trimmingCharacters(in: .whitespacesAndNewlines) != UserManager.shared.rawCastcleId {
+            self.viewModel.userRequest.payload.castcleId = (self.castcleIdTextField.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+        }
+        
+        if (self.displayNameTextField.text!).trimmingCharacters(in: .whitespacesAndNewlines) != UserManager.shared.displayName {
+            self.viewModel.userRequest.payload.displayName = (self.displayNameTextField.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+        }
+        
         self.viewModel.userRequest.payload.overview = self.overviewTextView.text ?? ""
         self.viewModel.userRequest.payload.links.facebook = (self.facebookTextField.text! == "https://" ? "" : self.facebookTextField.text!)
         self.viewModel.userRequest.payload.links.twitter = (self.twitterTextField.text! == "https://" ? "" : self.twitterTextField.text!)
