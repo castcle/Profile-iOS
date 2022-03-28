@@ -78,8 +78,7 @@ public struct ProfileOpener {
         case .editInfo(let profileType, let userInfo):
             let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.me, bundle: ConfigBundle.profile)
             let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.editInfo) as? EditInfoViewController
-            vc?.profileType = profileType
-            vc?.userInfo = userInfo
+            vc?.viewModel = EditInfoViewModel(profileType: profileType, userInfo: userInfo)
             return vc ?? EditInfoViewController()
         case .action:
             let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.me, bundle: ConfigBundle.profile)

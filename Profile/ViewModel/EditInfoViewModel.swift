@@ -30,6 +30,7 @@ import Networking
 import SwiftyJSON
 
 public protocol EditInfoViewModelDelegate {
+    func didGetInfoFinish(success: Bool)
     func didUpdateInfoFinish(success: Bool)
 }
 
@@ -38,16 +39,71 @@ class EditInfoViewModel {
     var userRepository: UserRepository = UserRepositoryImpl()
     var userRequest: UserRequest = UserRequest()
     let tokenHelper: TokenHelper = TokenHelper()
-    
+    var profileType: ProfileType = .unknow
     var userInfo: UserInfo = UserInfo()
     var avatar: UIImage? = nil
     var cover: UIImage? = nil
     var dobDate: Date? = nil
     var castcleId: String = ""
     var isPage: Bool = false
+    var state: State = .none
     
-    public init() {
+    enum State {
+        case getMeInfo
+        case getUserInfo
+        case updateUserInfo
+        case none
+    }
+    
+    public init(profileType: ProfileType = .unknow, userInfo: UserInfo = UserInfo()) {
         self.tokenHelper.delegate = self
+        self.profileType = profileType
+        self.userInfo = userInfo
+    }
+    
+    func getMeInfo() {
+        self.state = .getMeInfo
+        self.userRepository.getMe() { (success, response, isRefreshToken) in
+            if success {
+                do {
+                    let rawJson = try response.mapJSON()
+                    let json = JSON(rawJson)
+                    let userHelper = UserHelper()
+                    userHelper.updateLocalProfile(user: UserInfo(json: json))
+                    self.delegate?.didGetInfoFinish(success: true)
+                } catch {
+                    self.delegate?.didGetInfoFinish(success: false)
+                }
+            } else {
+                if isRefreshToken {
+                    self.tokenHelper.refreshToken()
+                } else {
+                    self.delegate?.didGetInfoFinish(success: false)
+                }
+            }
+        }
+    }
+    
+    func getUserInfo() {
+        self.state = .getUserInfo
+        self.userRepository.getUser(userId: self.castcleId) { (success, response, isRefreshToken) in
+            if success {
+                do {
+                    let rawJson = try response.mapJSON()
+                    let json = JSON(rawJson)
+                    self.userInfo = UserInfo(json: json)
+                    self.delegate?.didGetInfoFinish(success: true)
+                } catch {
+                    self.delegate?.didGetInfoFinish(success: false)
+                }
+            } else {
+                if isRefreshToken {
+                    self.tokenHelper.refreshToken()
+                } else {
+                    self.delegate?.didGetInfoFinish(success: false)
+                }
+            }
+        }
     }
     
     public func updateProfile(isPage: Bool, castcleId: String) {
@@ -90,6 +146,12 @@ class EditInfoViewModel {
 
 extension EditInfoViewModel: TokenHelperDelegate {
     func didRefreshTokenFinish() {
-        self.updateProfile(isPage: self.isPage, castcleId: self.castcleId)
+        if self.state == .updateUserInfo {
+            self.updateProfile(isPage: self.isPage, castcleId: self.castcleId)
+        } else if self.state == .getMeInfo {
+            self.getMeInfo()
+        } else if self.state == .getUserInfo {
+            self.getUserInfo()
+        }
     }
 }

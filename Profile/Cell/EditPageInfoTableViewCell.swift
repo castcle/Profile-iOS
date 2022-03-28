@@ -373,6 +373,10 @@ class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
 }
 
 extension EditPageInfoTableViewCell: EditInfoViewModelDelegate {
+    func didGetInfoFinish(success: Bool) {
+        // Not use
+    }
+    
     func didUpdateInfoFinish(success: Bool) {
         self.hud.dismiss()
         if success {

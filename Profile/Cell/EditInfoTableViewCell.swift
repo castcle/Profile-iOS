@@ -402,6 +402,10 @@ extension EditInfoTableViewCell: DatePickerViewControllerDelegate {
 }
 
 extension EditInfoTableViewCell: EditInfoViewModelDelegate {
+    func didGetInfoFinish(success: Bool) {
+        // Not use
+    }
+    
     func didUpdateInfoFinish(success: Bool) {
         self.hud.dismiss()
         if success {
