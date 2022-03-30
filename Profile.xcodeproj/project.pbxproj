@@ -11,6 +11,7 @@
 		B703A53C27883392007BFA01 /* Localizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B703A53B27883392007BFA01 /* Localizable.swift */; };
 		B703A53F2788340D007BFA01 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B703A5412788340D007BFA01 /* Localizable.strings */; };
 		B7167F9227AD018700067DBD /* NewPageWithSocialViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7167F9127AD018700067DBD /* NewPageWithSocialViewModel.swift */; };
+		B71B204B27F474F70030721A /* Farming.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B71B204A27F474F70030721A /* Farming.framework */; };
 		B71B668927269EF500191A62 /* DeletePageSuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71B668827269EF500191A62 /* DeletePageSuccessViewController.swift */; };
 		B71B668B2726A57A00191A62 /* DeletePageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71B668A2726A57A00191A62 /* DeletePageViewModel.swift */; };
 		B7203DD027845237005401FB /* ProfileFeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7203DCF27845237005401FB /* ProfileFeedViewModel.swift */; };
@@ -113,6 +114,7 @@
 		B703A5402788340D007BFA01 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B703A54227883429007BFA01 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B7167F9127AD018700067DBD /* NewPageWithSocialViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPageWithSocialViewModel.swift; sourceTree = "<group>"; };
+		B71B204A27F474F70030721A /* Farming.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Farming.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B71B668827269EF500191A62 /* DeletePageSuccessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletePageSuccessViewController.swift; sourceTree = "<group>"; };
 		B71B668A2726A57A00191A62 /* DeletePageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletePageViewModel.swift; sourceTree = "<group>"; };
 		B7203DCF27845237005401FB /* ProfileFeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileFeedViewModel.swift; sourceTree = "<group>"; };
@@ -211,6 +213,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B71B204B27F474F70030721A /* Farming.framework in Frameworks */,
 				B74CEF1926C5073F006B1F2C /* Networking.framework in Frameworks */,
 				B7910E7B26BBD9CE0097C94E /* Component.framework in Frameworks */,
 				03CA6756D414568EB134E431 /* Pods_Profile.framework in Frameworks */,
@@ -465,6 +468,7 @@
 		FDB9755588C404F0DCA882AE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B71B204A27F474F70030721A /* Farming.framework */,
 				B7AF661D26F32E7000BDE9C4 /* Authen.framework */,
 				B7C2525526CA077A00ACBB84 /* Post.framework */,
 				B78795DB26C6504E00FECC21 /* Feed.framework */,
