@@ -19,111 +19,65 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  NewPageWithSocialViewController.swift
+//  SyncSocialMediaViewController.swift
 //  Profile
 //
-//  Created by Castcle Co., Ltd. on 26/1/2565 BE.
+//  Created by Castcle Co., Ltd. on 4/4/2565 BE.
 //
 
 import UIKit
 import Core
 import Networking
-import Defaults
 import Swifter
 import SafariServices
 import AuthenticationServices
 import FBSDKLoginKit
 import JGProgressHUD
 
-class NewPageWithSocialViewController: UIViewController {
+class SyncSocialMediaViewController: UIViewController {
 
     @IBOutlet var tableView: UITableView!
     
+    var viewModel = SyncSocialMediaViewModel(castcleId: "")
     var swifter: Swifter!
     var accToken: Credential.OAuthAccessToken?
     let hud = JGProgressHUD()
-    var viewModel = NewPageWithSocialViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
         self.setupNavBar()
         self.configureTableView()
-        self.hud.textLabel.text = "Creating"
-        self.viewModel.delegate = self
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        Defaults[.screenId] = ""
+        self.hud.textLabel.text = "Loading"
+        
+        if !self.viewModel.castcleId.isEmpty {
+            self.hud.show(in: self.view)
+            self.viewModel.getInfo(duplicate: false)
+        }
+        
+        self.viewModel.didGetUserInfoFinish = {
+            self.tableView.reloadData()
+            self.hud.dismiss()
+        }
+        
+        self.viewModel.didError = {
+            self.hud.dismiss()
+        }
     }
     
     func setupNavBar() {
-        self.customNavigationBar(.secondary, title: "New Page")
+        self.customNavigationBar(.secondary, title: "Sync Social Media")
     }
     
     func configureTableView() {
         self.tableView.delegate = self
         self.tableView.dataSource = self
-        self.tableView.register(UINib(nibName: ProfileNibVars.TableViewCell.newPageWithSocial, bundle: ConfigBundle.profile), forCellReuseIdentifier: ProfileNibVars.TableViewCell.newPageWithSocial)
+        self.tableView.register(UINib(nibName: ProfileNibVars.TableViewCell.socialAccount, bundle: ConfigBundle.profile), forCellReuseIdentifier: ProfileNibVars.TableViewCell.socialAccount)
         self.tableView.rowHeight = UITableView.automaticDimension
         self.tableView.estimatedRowHeight = 100
     }
     
-    func getPages() {
-        if let _ = AccessToken.current {
-            var request: GraphRequest?
-            let accessToken = AccessToken.current?.tokenString
-            let userId = AccessToken.current?.userID ?? ""
-            let params = ["access_token" : accessToken ?? ""]
-            request = GraphRequest(graphPath: "/\(userId)/accounts?fields=name,about,username,access_token,cover", parameters: params, httpMethod: .get)
-            request?.start() { (connection, result, error) in
-                guard error == nil else {
-                    self.hud.dismiss()
-                    print(error!.localizedDescription)
-                    return
-                }
-                let json = JSON.init(result ?? "")
-                let data: [FacebookPage] = (json["data"].array ?? []).map { FacebookPage(json: $0) }
-                self.viewModel.pageSocialRequest.payload = []
-                data.forEach { page in
-                    var pageSocial: PageSocial = PageSocial()
-                    pageSocial.provider = .facebook
-                    pageSocial.socialId = page.id
-                    pageSocial.userName = page.userName
-                    pageSocial.displayName = page.name
-                    pageSocial.overview = page.about
-                    pageSocial.authToken = page.accessToken
-                    pageSocial.avatar = "https://graph.facebook.com/\(page.id)/picture?type=large&access_token=\(accessToken ?? "")"
-                    pageSocial.cover = page.cover
-                    self.viewModel.pageSocialRequest.payload.append(pageSocial)
-                }
-                self.viewModel.createPageWithSocial()
-            }
-        }
-    }
-}
-
-extension NewPageWithSocialViewController: UITableViewDelegate, UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.newPageWithSocial, for: indexPath as IndexPath) as? NewPageWithSocialTableViewCell
-        cell?.backgroundColor = UIColor.clear
-        cell?.configCell()
-        cell?.delegate = self
-        return cell ?? NewPageWithSocialTableViewCell()
-    }
-}
-
-extension NewPageWithSocialViewController: NewPageWithSocialTableViewCellDelegate {
-    func didSyncFacebook(_ newPageWithSocialTableViewCell: NewPageWithSocialTableViewCell) {
+    func syncFacebook() {
         let loginManager = LoginManager()
         if let _ = AccessToken.current {
             loginManager.logOut()
@@ -142,7 +96,7 @@ extension NewPageWithSocialViewController: NewPageWithSocialTableViewCellDelegat
         }
     }
     
-    func didSyncTwitter(_ newPageWithSocialTableViewCell: NewPageWithSocialTableViewCell) {
+    func syncTwitter() {
         self.swifter = Swifter(consumerKey: TwitterConstants.key, consumerSecret: TwitterConstants.secretKey)
         self.swifter.authorize(withProvider: self, callbackURL: URL(string: TwitterConstants.callbackUrl)!) { accessToken, response in
             self.hud.show(in: self.view)
@@ -152,9 +106,55 @@ extension NewPageWithSocialViewController: NewPageWithSocialTableViewCellDelegat
             print("ERROR: \(error.localizedDescription)")
         }
     }
+    
+    func getPages() {
+        if let _ = AccessToken.current {
+            var request: GraphRequest?
+            let accessToken = AccessToken.current?.tokenString
+            let userId = AccessToken.current?.userID ?? ""
+            let params = ["access_token" : accessToken ?? ""]
+            request = GraphRequest(graphPath: "/\(userId)/accounts?fields=name,about,username,access_token,cover", parameters: params, httpMethod: .get)
+            request?.start() { (connection, result, error) in
+                guard error == nil else {
+                    self.hud.dismiss()
+                    print(error!.localizedDescription)
+                    return
+                }
+                let json = JSON.init(result ?? "")
+                self.viewModel.facebookPage = (json["data"].array ?? []).map { FacebookPage(json: $0) }
+                
+                // Select page
+            }
+        }
+    }
 }
 
-extension NewPageWithSocialViewController: SFSafariViewControllerDelegate, ASWebAuthenticationPresentationContextProviding {
+extension SyncSocialMediaViewController: UITableViewDelegate, UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.viewModel.socials.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.socialAccount, for: indexPath as IndexPath) as? SocialAccountTableViewCell
+        cell?.backgroundColor = UIColor.clear
+        cell?.configCell(socialType: self.viewModel.socials[indexPath.row], userInfo: self.viewModel.userInfo)
+        return cell ?? SocialAccountTableViewCell()
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if self.viewModel.socials[indexPath.row] == .facebook {
+            self.syncFacebook()
+        } else if self.viewModel.socials[indexPath.row] == .twitter {
+            self.syncTwitter()
+        }
+    }
+}
+
+extension SyncSocialMediaViewController: SFSafariViewControllerDelegate, ASWebAuthenticationPresentationContextProviding {
     func getUserProfile() {
         self.swifter.verifyAccountCredentials(includeEntities: false, skipStatus: false, includeEmail: true, success: { json in
             let twitterId: String = json["id_str"].string ?? ""
@@ -172,8 +172,9 @@ extension NewPageWithSocialViewController: SFSafariViewControllerDelegate, ASWeb
             pageSocial.overview = twitterDescription
             pageSocial.avatar = twitterProfilePic
             pageSocial.cover = twitterCover
-            self.viewModel.pageSocialRequest.payload.append(pageSocial)
-            self.viewModel.createPageWithSocial()
+            
+            self.viewModel.pageSocial = pageSocial
+            self.viewModel.syncSocial()
         }) { error in
             self.hud.dismiss()
             print("ERROR: \(error.localizedDescription)")
@@ -186,14 +187,5 @@ extension NewPageWithSocialViewController: SFSafariViewControllerDelegate, ASWeb
     
     public func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
         return self.view.window!
-    }
-}
-
-extension NewPageWithSocialViewController: NewPageWithSocialViewModelDelegate {
-    func didCreatedPage(success: Bool) {
-        self.hud.dismiss()
-        if success {
-            self.navigationController!.popViewController(animated: true)
-        }
     }
 }

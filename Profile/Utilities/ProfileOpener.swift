@@ -47,6 +47,7 @@ public enum ProfileScene {
     case newPageWithSocial
     case userFollow(UserFollowViewModel)
     case pageSyncSocial(PageSyncSocialViewModel)
+    case syncSocialMedia(SyncSocialMediaViewModel)
 }
 
 public struct ProfileOpener {
@@ -126,6 +127,11 @@ public struct ProfileOpener {
             let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.pageSyncSocial) as? PageSyncSocialViewController
             vc?.viewModel = viewModel
             return vc ?? PageSyncSocialViewController()
+        case .syncSocialMedia(let viewModel):
+            let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.profile, bundle: ConfigBundle.profile)
+            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.syncSocialMedia) as? SyncSocialMediaViewController
+            vc?.viewModel = viewModel
+            return vc ?? SyncSocialMediaViewController()
         }
     }
     

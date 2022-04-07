@@ -141,27 +141,29 @@ class ProfileHeaderTableViewCell: UITableViewCell {
     }
     
     @IBAction func moreAction(_ sender: Any) {
-        if self.viewModel.isMyPage && self.viewModel.profileType != .me {
+        if self.viewModel.isMyPage || self.viewModel.profileType == .me {
+            let castcleId: String = (self.viewModel.isMyPage ? self.viewModel.userInfo.castcleId : UserManager.shared.rawCastcleId)
             let actionSheet = CCActionSheet()
-            let deleteButton = CCAction(title: "Delete page", image: UIImage.init(icon: .castcle(.deleteOne), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
-                actionSheet.dismissActionSheet()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.deletePage(DeletePageViewModel(userInfo: self.viewModel.userInfo))), animated: true)
+            if self.viewModel.isMyPage {
+                let deleteButton = CCAction(title: "Delete page", image: UIImage.init(icon: .castcle(.deleteOne), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
+                    actionSheet.dismissActionSheet()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.deletePage(DeletePageViewModel(userInfo: self.viewModel.userInfo))), animated: true)
+                    }
                 }
+                actionSheet.addActions([deleteButton])
             }
-            actionSheet.addActions([deleteButton])
+            
 //            let shareButton = CCAction(title: "Share", image: UIImage.init(icon: .castcle(.share), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
 //                actionSheet.dismissActionSheet()
 //            }
-            if !self.viewModel.userInfo.syncSocial.provider.isEmpty {
-                let syncButton = CCAction(title: "Sync social media", image: UIImage.init(icon: .castcle(.bindLink), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
-                    actionSheet.dismissActionSheet()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.pageSyncSocial(PageSyncSocialViewModel(userInfo: self.viewModel.userInfo))), animated: true)
-                    }
+            let syncButton = CCAction(title: "Sync social media", image: UIImage.init(icon: .castcle(.bindLink), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
+                actionSheet.dismissActionSheet()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.syncSocialMedia(SyncSocialMediaViewModel(castcleId: castcleId))), animated: true)
                 }
-                actionSheet.addActions([syncButton])
             }
+            actionSheet.addActions([syncButton])
             Utility.currentViewController().present(actionSheet, animated: true, completion: nil)
         } else if !self.viewModel.isMyPage && self.viewModel.profileType != .me {
             let actionSheet = CCActionSheet()
