@@ -25,13 +25,9 @@
 //  Created by Castcle Co., Ltd. on 4/4/2565 BE.
 //
 
+import Core
 import Networking
 import SwiftyJSON
-
-public enum SocialType: String {
-    case facebook = "Facebook"
-    case twitter = "Twitter"
-}
 
 public final class SyncSocialMediaViewModel {
     
@@ -42,6 +38,7 @@ public final class SyncSocialMediaViewModel {
     var facebookPage: [FacebookPage] = []
     let tokenHelper: TokenHelper = TokenHelper()
     var castcleId: String = ""
+    var socialType: SocialType = .unknow
     private var duplicate: Bool = false
     var state: State = .none
     
@@ -91,7 +88,6 @@ public final class SyncSocialMediaViewModel {
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
                     let duplicate: Bool = json["duplicate"].boolValue
-                    print(json)
                     self.getInfo(duplicate: duplicate)
                 } catch {}
             } else {

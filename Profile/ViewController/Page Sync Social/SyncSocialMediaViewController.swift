@@ -27,6 +27,7 @@
 
 import UIKit
 import Core
+import Component
 import Networking
 import Swifter
 import SafariServices
@@ -48,9 +49,9 @@ class SyncSocialMediaViewController: UIViewController {
         self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
         self.setupNavBar()
         self.configureTableView()
-        self.hud.textLabel.text = "Loading"
         
         if !self.viewModel.castcleId.isEmpty {
+            self.hud.textLabel.text = "Loading"
             self.hud.show(in: self.view)
             self.viewModel.getInfo(duplicate: false)
         }
@@ -58,6 +59,11 @@ class SyncSocialMediaViewController: UIViewController {
         self.viewModel.didGetUserInfoFinish = {
             self.tableView.reloadData()
             self.hud.dismiss()
+        }
+        
+        self.viewModel.didDuplicate = {
+            self.hud.dismiss()
+            Utility.currentViewController().present(ComponentOpener.open(.acceptSyncSocialPopup(AcceptSyncSocialPopupViewModel(socialType: self.viewModel.socialType, pageSocial: self.viewModel.pageSocial, userInfo: self.viewModel.userInfo))), animated: true)
         }
         
         self.viewModel.didError = {
@@ -99,6 +105,7 @@ class SyncSocialMediaViewController: UIViewController {
     func syncTwitter() {
         self.swifter = Swifter(consumerKey: TwitterConstants.key, consumerSecret: TwitterConstants.secretKey)
         self.swifter.authorize(withProvider: self, callbackURL: URL(string: TwitterConstants.callbackUrl)!) { accessToken, response in
+            self.hud.textLabel.text = "Syncing"
             self.hud.show(in: self.view)
             self.accToken = accessToken
             self.getUserProfile()
@@ -115,15 +122,16 @@ class SyncSocialMediaViewController: UIViewController {
             let params = ["access_token" : accessToken ?? ""]
             request = GraphRequest(graphPath: "/\(userId)/accounts?fields=name,about,username,access_token,cover", parameters: params, httpMethod: .get)
             request?.start() { (connection, result, error) in
+                self.hud.dismiss()
                 guard error == nil else {
-                    self.hud.dismiss()
                     print(error!.localizedDescription)
                     return
                 }
                 let json = JSON.init(result ?? "")
                 self.viewModel.facebookPage = (json["data"].array ?? []).map { FacebookPage(json: $0) }
-                
-                // Select page
+                let vc = ProfileOpener.open(.facebookPageList(self.viewModel.facebookPage)) as? FacebookPageListViewController
+                vc?.delegate = self
+                Utility.currentViewController().navigationController?.pushViewController(vc ?? FacebookPageListViewController(), animated: true)
             }
         }
     }
@@ -147,8 +155,10 @@ extension SyncSocialMediaViewController: UITableViewDelegate, UITableViewDataSou
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if self.viewModel.socials[indexPath.row] == .facebook {
+            self.viewModel.socialType = .facebook
             self.syncFacebook()
         } else if self.viewModel.socials[indexPath.row] == .twitter {
+            self.viewModel.socialType = .twitter
             self.syncTwitter()
         }
     }
@@ -187,5 +197,24 @@ extension SyncSocialMediaViewController: SFSafariViewControllerDelegate, ASWebAu
     
     public func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
         return self.view.window!
+    }
+}
+
+extension SyncSocialMediaViewController: FacebookPageListViewControllerDelegate {
+    func didSelectFacebookPage(_ facebookPageListViewController: FacebookPageListViewController, page: FacebookPage) {
+        var pageSocial: PageSocial = PageSocial()
+        pageSocial.provider = .facebook
+        pageSocial.socialId = page.id
+        pageSocial.userName = page.userName
+        pageSocial.displayName = page.name
+        pageSocial.overview = page.about
+        pageSocial.avatar = page.avatar
+        pageSocial.cover = page.cover
+        pageSocial.authToken = page.accessToken
+        
+        self.hud.textLabel.text = "Syncing"
+        self.hud.show(in: self.view)
+        self.viewModel.pageSocial = pageSocial
+        self.viewModel.syncSocial()
     }
 }

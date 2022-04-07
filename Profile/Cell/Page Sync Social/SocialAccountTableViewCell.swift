@@ -54,7 +54,7 @@ class SocialAccountTableViewCell: UITableViewCell {
     
     func configCell(socialType: SocialType, userInfo: UserInfo) {
         self.userInfo = userInfo
-        self.titleLabel.text = socialType.rawValue
+        self.titleLabel.text = socialType.display
         if socialType == .facebook {
             self.socialView.capsule(color: UIColor.Asset.facebook)
             self.socialImage.image = UIImage.init(icon: .castcle(.facebook), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.white)
