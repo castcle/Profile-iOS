@@ -59,7 +59,7 @@ public final class PageSyncSocialViewModel {
     
     private func mapPageSocialRequest() {
         self.syncSocialId = self.userInfo.syncSocial.id
-        self.pageSocial.provider = ProviderCreatePage(rawValue: self.userInfo.syncSocial.provider) ?? .none
+        self.pageSocial.provider = SocialType(rawValue: self.userInfo.syncSocial.provider) ?? .unknow
         self.pageSocial.socialId = self.userInfo.syncSocial.socialId
         self.pageSocial.userName = self.userInfo.syncSocial.userName
         self.pageSocial.displayName = self.userInfo.syncSocial.displayName
