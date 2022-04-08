@@ -415,7 +415,7 @@ extension ProfileViewController: ProfileHeaderTableViewCellDelegate {
     }
     
     func didAuthen(_ profileHeaderTableViewCell: ProfileHeaderTableViewCell) {
-        Utility.currentViewController().presentPanModal(AuthenOpener.open(.signUpMethod) as! SignUpMethodViewController)
+        NotificationCenter.default.post(name: .openSignInDelegate, object: nil, userInfo: nil)
     }
     
     func didBlocked(_ profileHeaderTableViewCell: ProfileHeaderTableViewCell) {
@@ -439,7 +439,7 @@ extension ProfileViewController: HeaderTableViewCellDelegate {
     }
     
     func didAuthen(_ headerTableViewCell: HeaderTableViewCell) {
-        Utility.currentViewController().presentPanModal(AuthenOpener.open(.signUpMethod) as! SignUpMethodViewController)
+        NotificationCenter.default.post(name: .openSignInDelegate, object: nil, userInfo: nil)
     }
     
     func didReportSuccess(_ headerTableViewCell: HeaderTableViewCell) {
@@ -470,7 +470,7 @@ extension ProfileViewController: FooterTableViewCellDelegate {
     }
     
     func didAuthen(_ footerTableViewCell: FooterTableViewCell) {
-        Utility.currentViewController().presentPanModal(AuthenOpener.open(.signUpMethod) as! SignUpMethodViewController)
+        NotificationCenter.default.post(name: .openSignInDelegate, object: nil, userInfo: nil)
     }
     
     func didViewFarmmingHistory(_ footerTableViewCell: FooterTableViewCell) {
