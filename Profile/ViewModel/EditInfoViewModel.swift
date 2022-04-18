@@ -86,7 +86,7 @@ class EditInfoViewModel {
     
     func getUserInfo() {
         self.state = .getUserInfo
-        self.userRepository.getUser(userId: self.castcleId) { (success, response, isRefreshToken) in
+        self.userRepository.getUser(userId: self.userInfo.castcleId) { (success, response, isRefreshToken) in
             if success {
                 do {
                     let rawJson = try response.mapJSON()

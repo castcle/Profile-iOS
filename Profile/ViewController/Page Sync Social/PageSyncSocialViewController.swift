@@ -73,7 +73,7 @@ class PageSyncSocialViewController: UIViewController {
     }
     
     func setupNavBar() {
-        self.customNavigationBar(.secondary, title: "Sync with \(self.viewModel.userInfo.syncSocial.provider.capitalized)")
+//        self.customNavigationBar(.secondary, title: "Sync with \(self.viewModel.userInfo.syncSocial.provider.capitalized)")
     }
     
     func configureTableView() {
@@ -97,7 +97,7 @@ extension PageSyncSocialViewController: UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.pageSyncSocial, for: indexPath as IndexPath) as? PageSyncSocialTableViewCell
         cell?.backgroundColor = UIColor.clear
-        cell?.configCell(userInfo: self.viewModel.userInfo)
+//        cell?.configCell(userInfo: self.viewModel.userInfo)
         cell?.delegate = self
         return cell ?? PageSyncSocialTableViewCell()
     }
@@ -106,7 +106,7 @@ extension PageSyncSocialViewController: UITableViewDelegate, UITableViewDataSour
 extension PageSyncSocialViewController: PageSyncSocialTableViewCellDelegate {
     func didConnect(_ pageSyncSocialTableViewCell: PageSyncSocialTableViewCell, isActive: Bool) {
         self.hud.show(in: self.view)
-        self.viewModel.userInfo.syncSocial.active = isActive
+//        self.viewModel.userInfo.syncSocial.active = isActive
         self.tableView.reloadData()
         if isActive {
             self.viewModel.reconnectSyncSocial()
@@ -117,7 +117,7 @@ extension PageSyncSocialViewController: PageSyncSocialTableViewCellDelegate {
     
     func didAutoPost(_ pageSyncSocialTableViewCell: PageSyncSocialTableViewCell, isAutoPost: Bool) {
         self.hud.show(in: self.view)
-        self.viewModel.userInfo.syncSocial.autoPost = isAutoPost
+//        self.viewModel.userInfo.syncSocial.autoPost = isAutoPost
         if isAutoPost {
             self.viewModel.setAutoPost()
         } else {

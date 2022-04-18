@@ -35,7 +35,8 @@ public final class PageSyncSocialViewModel {
     var pageRepository: PageRepository = PageRepositoryImpl()
     let tokenHelper: TokenHelper = TokenHelper()
     var state: State = .none
-    var userInfo: UserInfo = UserInfo()
+//    var userInfo: UserInfo = UserInfo()
+    var syncDetail: SyncDetail = SyncDetail()
     var pageSocial: PageSocial = PageSocial()
     var syncSocialId: String = ""
     
@@ -49,44 +50,45 @@ public final class PageSyncSocialViewModel {
     }
     
     public init(userInfo: UserInfo = UserInfo()) {
-        self.userInfo = userInfo
+//        self.userInfo = userInfo
+//        self.syncDetail = syncDetail
         self.tokenHelper.delegate = self
-        if !self.userInfo.castcleId.isEmpty {
-            self.mapPageSocialRequest()
-            self.getUserInfo()
-        }
+//        if !self.userInfo.castcleId.isEmpty {
+//            self.mapPageSocialRequest()
+//            self.getUserInfo()
+//        }
     }
     
     private func mapPageSocialRequest() {
-        self.syncSocialId = self.userInfo.syncSocial.id
-        self.pageSocial.provider = SocialType(rawValue: self.userInfo.syncSocial.provider) ?? .unknow
-        self.pageSocial.socialId = self.userInfo.syncSocial.socialId
-        self.pageSocial.userName = self.userInfo.syncSocial.userName
-        self.pageSocial.displayName = self.userInfo.syncSocial.displayName
-        self.pageSocial.avatar = self.userInfo.syncSocial.avatar
+//        self.syncSocialId = self.userInfo.syncSocial.id
+//        self.pageSocial.provider = SocialType(rawValue: self.userInfo.syncSocial.provider) ?? .unknow
+//        self.pageSocial.socialId = self.userInfo.syncSocial.socialId
+//        self.pageSocial.userName = self.userInfo.syncSocial.userName
+//        self.pageSocial.displayName = self.userInfo.syncSocial.displayName
+//        self.pageSocial.avatar = self.userInfo.syncSocial.avatar
     }
     
     private func getUserInfo() {
         self.state = .getUserInfo
-        self.userRepository.getUser(userId: self.userInfo.castcleId) { (success, response, isRefreshToken) in
-            if success {
-                do {
-                    let rawJson = try response.mapJSON()
-                    let json = JSON(rawJson)
-                    self.userInfo = UserInfo(json: json)
-                    self.mapPageSocialRequest()
-                    self.didGetUserInfoFinish?()
-                } catch {
-                    self.didGetUserInfoFinish?()
-                }
-            } else {
-                if isRefreshToken {
-                    self.tokenHelper.refreshToken()
-                } else {
-                    self.didGetUserInfoFinish?()
-                }
-            }
-        }
+//        self.userRepository.getUser(userId: self.userInfo.castcleId) { (success, response, isRefreshToken) in
+//            if success {
+//                do {
+//                    let rawJson = try response.mapJSON()
+//                    let json = JSON(rawJson)
+//                    self.userInfo = UserInfo(json: json)
+//                    self.mapPageSocialRequest()
+//                    self.didGetUserInfoFinish?()
+//                } catch {
+//                    self.didGetUserInfoFinish?()
+//                }
+//            } else {
+//                if isRefreshToken {
+//                    self.tokenHelper.refreshToken()
+//                } else {
+//                    self.didGetUserInfoFinish?()
+//                }
+//            }
+//        }
     }
     
     public func setAutoPost() {
