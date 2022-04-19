@@ -41,6 +41,8 @@ public final class SyncSocialMediaViewModel {
     var socialType: SocialType = .unknow
     private var duplicate: Bool = false
     var state: State = .none
+    var isSyncTwitter: Bool = false
+    var isSyncFacebook: Bool = false
     
     enum State {
         case getInfo
@@ -62,6 +64,16 @@ public final class SyncSocialMediaViewModel {
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
                     self.userInfo = UserInfo(json: json)
+                    if !self.userInfo.syncSocial.twitter.socialId.isEmpty {
+                        self.isSyncTwitter = true
+                    } else {
+                        self.isSyncTwitter = false
+                    }
+                    if !self.userInfo.syncSocial.facebook.socialId.isEmpty {
+                        self.isSyncFacebook = true
+                    } else {
+                        self.isSyncFacebook = false
+                    }
                     if duplicate {
                         self.didDuplicate?()
                     } else {

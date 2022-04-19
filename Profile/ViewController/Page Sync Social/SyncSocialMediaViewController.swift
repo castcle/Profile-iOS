@@ -34,6 +34,7 @@ import SafariServices
 import AuthenticationServices
 import FBSDKLoginKit
 import JGProgressHUD
+import Defaults
 
 class SyncSocialMediaViewController: UIViewController {
 
@@ -50,12 +51,6 @@ class SyncSocialMediaViewController: UIViewController {
         self.setupNavBar()
         self.configureTableView()
         
-        if !self.viewModel.castcleId.isEmpty {
-            self.hud.textLabel.text = "Loading"
-            self.hud.show(in: self.view)
-            self.viewModel.getInfo(duplicate: false)
-        }
-        
         self.viewModel.didGetUserInfoFinish = {
             self.tableView.reloadData()
             self.hud.dismiss()
@@ -68,6 +63,20 @@ class SyncSocialMediaViewController: UIViewController {
         
         self.viewModel.didError = {
             self.hud.dismiss()
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        Defaults[.screenId] = ""
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if !self.viewModel.castcleId.isEmpty {
+            self.hud.textLabel.text = "Loading"
+            self.hud.show(in: self.view)
+            self.viewModel.getInfo(duplicate: false)
         }
     }
     
@@ -149,17 +158,31 @@ extension SyncSocialMediaViewController: UITableViewDelegate, UITableViewDataSou
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.socialAccount, for: indexPath as IndexPath) as? SocialAccountTableViewCell
         cell?.backgroundColor = UIColor.clear
-        cell?.configCell(socialType: self.viewModel.socials[indexPath.row], userInfo: self.viewModel.userInfo)
+        if self.viewModel.socials[indexPath.row] == .facebook {
+            cell?.configCell(socialType: .facebook, isSync: self.viewModel.isSyncFacebook)
+        } else if self.viewModel.socials[indexPath.row] == .twitter {
+            cell?.configCell(socialType: .twitter, isSync: self.viewModel.isSyncTwitter)
+        } else {
+            cell?.configCell(socialType: .unknow, isSync: false)
+        }
         return cell ?? SocialAccountTableViewCell()
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if self.viewModel.socials[indexPath.row] == .facebook {
-            self.viewModel.socialType = .facebook
-            self.syncFacebook()
+            if self.viewModel.isSyncFacebook {
+                
+            } else {
+                self.viewModel.socialType = .facebook
+                self.syncFacebook()
+            }
         } else if self.viewModel.socials[indexPath.row] == .twitter {
-            self.viewModel.socialType = .twitter
-            self.syncTwitter()
+            if self.viewModel.isSyncTwitter {
+                
+            } else {
+                self.viewModel.socialType = .twitter
+                self.syncTwitter()
+            }
         }
     }
 }
