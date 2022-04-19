@@ -171,14 +171,14 @@ extension SyncSocialMediaViewController: UITableViewDelegate, UITableViewDataSou
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if self.viewModel.socials[indexPath.row] == .facebook {
             if self.viewModel.isSyncFacebook {
-                
+                self.navigationController?.pushViewController(ProfileOpener.open(.pageSyncSocial(PageSyncSocialViewModel(userInfo: self.viewModel.userInfo, socialType: .facebook))), animated: true)
             } else {
                 self.viewModel.socialType = .facebook
                 self.syncFacebook()
             }
         } else if self.viewModel.socials[indexPath.row] == .twitter {
             if self.viewModel.isSyncTwitter {
-                
+                self.navigationController?.pushViewController(ProfileOpener.open(.pageSyncSocial(PageSyncSocialViewModel(userInfo: self.viewModel.userInfo, socialType: .twitter))), animated: true)
             } else {
                 self.viewModel.socialType = .twitter
                 self.syncTwitter()

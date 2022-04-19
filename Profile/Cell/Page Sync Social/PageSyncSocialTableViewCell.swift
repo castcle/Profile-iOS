@@ -30,7 +30,6 @@ import Networking
 import Kingfisher
 
 protocol PageSyncSocialTableViewCellDelegate {
-    func didConnect(_ pageSyncSocialTableViewCell: PageSyncSocialTableViewCell, isActive: Bool)
     func didAutoPost(_ pageSyncSocialTableViewCell: PageSyncSocialTableViewCell, isAutoPost: Bool)
 }
 
@@ -54,10 +53,6 @@ class PageSyncSocialTableViewCell: UITableViewCell {
     @IBOutlet var noticeLabel: UILabel!
     @IBOutlet var line01View: UIView!
     @IBOutlet var line02View: UIView!
-    
-    @IBOutlet var actionTitleLabel: UILabel!
-    @IBOutlet var actionDetailLabel: UILabel!
-    @IBOutlet var actionButton: UIButton!
     
     public var delegate: PageSyncSocialTableViewCellDelegate?
     var syncDetail: SyncDetail = SyncDetail()
@@ -91,13 +86,6 @@ class PageSyncSocialTableViewCell: UITableViewCell {
         self.noticeLabel.textColor = UIColor.Asset.gray
         self.line01View.backgroundColor = UIColor.Asset.black
         self.line02View.backgroundColor = UIColor.Asset.black
-        
-        self.actionTitleLabel.font = UIFont.asset(.regular, fontSize: .body)
-        self.actionTitleLabel.textColor = UIColor.Asset.white
-        self.actionDetailLabel.font = UIFont.asset(.regular, fontSize: .overline)
-        self.actionDetailLabel.textColor = UIColor.Asset.white
-        self.actionButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .overline)
-        self.actionButton.setTitleColor(UIColor.Asset.white, for: .normal)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -137,25 +125,5 @@ class PageSyncSocialTableViewCell: UITableViewCell {
         }
         
         self.noticeLabel.text = "Your post on \(self.syncDetail.provider.display) will automatically cast on Castcle."
-        self.updateButton()
-    }
-    
-    private func updateButton() {
-        if self.syncDetail.active {
-            self.actionTitleLabel.text = "Do You want to disconnect from \(self.syncDetail.provider.display)? "
-            self.actionDetailLabel.text = "Disconnect sync does not affect any of the information you have posted, and it will not affect your account.  You can reconnect it at any time"
-            self.actionButton.setTitle("Disconnect", for: .normal)
-            self.actionButton.capsule(color: UIColor.Asset.denger, borderWidth: 1, borderColor: UIColor.Asset.denger)
-        } else {
-            self.actionTitleLabel.text = "Do you wish to reconnect with \(self.syncDetail.provider.display)?"
-            self.actionDetailLabel.text = " By reconnecting your social media account, you will be able to automatically cast on Castcle."
-            self.actionButton.setTitle("Reconnect", for: .normal)
-            self.actionButton.capsule(color: UIColor.Asset.lightBlue, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
-        }
-    }
-    
-    @IBAction func syncAction(_ sender: Any) {
-        self.syncDetail.active.toggle()
-        self.delegate?.didConnect(self, isActive: self.syncDetail.active)
     }
 }

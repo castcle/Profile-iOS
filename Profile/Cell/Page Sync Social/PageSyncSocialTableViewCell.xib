@@ -11,11 +11,11 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="515" id="KGk-i7-Jjw" customClass="PageSyncSocialTableViewCell" customModule="Profile" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="515"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="285" id="KGk-i7-Jjw" customClass="PageSyncSocialTableViewCell" customModule="Profile" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="285"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="515"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="285"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QHm-3w-Qm2">
@@ -153,8 +153,8 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your post on Facebook will automatically cast on Castcle." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yQy-yJ-QPg">
-                        <rect key="frame" x="20" y="235" width="200" height="33.5"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Your post on Facebook will automatically cast on Castcle." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yQy-yJ-QPg">
+                        <rect key="frame" x="20" y="235" width="200" height="34"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -163,52 +163,21 @@
                         <rect key="frame" x="251" y="205" width="51" height="31"/>
                     </switch>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YDT-kU-juG">
-                        <rect key="frame" x="0.0" y="283.5" width="320" height="1"/>
+                        <rect key="frame" x="0.0" y="284" width="320" height="1"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="1" id="H8I-Wj-9EZ"/>
                         </constraints>
                     </view>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Do You want to disconnect from Facebook? " lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ym9-Jm-LCO">
-                        <rect key="frame" x="20" y="304.5" width="280" height="38.5"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                        <nil key="textColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="azm-pF-SCD">
-                        <rect key="frame" x="20" y="358" width="280" height="67"/>
-                        <string key="text">Disconnect sync does not affect any of the information you have posted, and it will not affect your account. You can reconnect it at any time</string>
-                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                        <nil key="textColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V6c-1f-1Wv">
-                        <rect key="frame" x="20" y="455" width="280" height="40"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="40" id="a3C-jO-grP"/>
-                        </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                        <state key="normal" title="Disconnect"/>
-                        <connections>
-                            <action selector="syncAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="NNe-cD-4gH"/>
-                        </connections>
-                    </button>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="44W-Pq-m6s" secondAttribute="trailing" id="3Rc-me-jAI"/>
                     <constraint firstItem="YDT-kU-juG" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="8nY-Ux-tWs"/>
-                    <constraint firstAttribute="bottom" secondItem="V6c-1f-1Wv" secondAttribute="bottom" constant="20" id="Czv-O8-Y4d"/>
-                    <constraint firstItem="azm-pF-SCD" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="FZN-7C-Zr4"/>
                     <constraint firstItem="yQy-yJ-QPg" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="GYZ-I5-EmG"/>
-                    <constraint firstItem="azm-pF-SCD" firstAttribute="top" secondItem="Ym9-Jm-LCO" secondAttribute="bottom" constant="15" id="Gi8-IZ-MTB"/>
-                    <constraint firstItem="V6c-1f-1Wv" firstAttribute="top" secondItem="azm-pF-SCD" secondAttribute="bottom" constant="30" id="NOL-Of-GPL"/>
                     <constraint firstItem="44W-Pq-m6s" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="OoX-4k-0Ga"/>
-                    <constraint firstItem="Ym9-Jm-LCO" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="Q3m-BJ-O3O"/>
-                    <constraint firstAttribute="trailing" secondItem="azm-pF-SCD" secondAttribute="trailing" constant="20" id="RKS-Mw-XsL"/>
                     <constraint firstItem="ecl-jx-Y5u" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="RgB-Ue-LIe"/>
                     <constraint firstItem="Voj-sR-DBJ" firstAttribute="centerY" secondItem="ecl-jx-Y5u" secondAttribute="centerY" id="SCX-Rc-8PT"/>
                     <constraint firstItem="yQy-yJ-QPg" firstAttribute="top" secondItem="ecl-jx-Y5u" secondAttribute="bottom" constant="10" id="SGe-8P-wg8"/>
-                    <constraint firstAttribute="trailing" secondItem="Ym9-Jm-LCO" secondAttribute="trailing" constant="20" id="T1g-Q8-KJR"/>
                     <constraint firstAttribute="trailing" secondItem="yQy-yJ-QPg" secondAttribute="trailing" constant="100" id="VXT-1s-uL9"/>
                     <constraint firstItem="Voj-sR-DBJ" firstAttribute="leading" secondItem="ecl-jx-Y5u" secondAttribute="trailing" constant="15" id="Wac-0d-OgL"/>
                     <constraint firstItem="YDT-kU-juG" firstAttribute="top" secondItem="yQy-yJ-QPg" secondAttribute="bottom" constant="15" id="fhg-sT-sO0"/>
@@ -216,19 +185,14 @@
                     <constraint firstAttribute="trailing" secondItem="YDT-kU-juG" secondAttribute="trailing" id="hG0-nU-6jZ"/>
                     <constraint firstItem="44W-Pq-m6s" firstAttribute="top" secondItem="QHm-3w-Qm2" secondAttribute="bottom" constant="10" id="nSu-wj-8gN"/>
                     <constraint firstItem="QHm-3w-Qm2" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="nU4-lD-PmQ"/>
-                    <constraint firstItem="Ym9-Jm-LCO" firstAttribute="top" secondItem="YDT-kU-juG" secondAttribute="bottom" constant="20" id="tbU-ws-M6M"/>
-                    <constraint firstItem="V6c-1f-1Wv" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="um1-kv-qHt"/>
                     <constraint firstItem="ecl-jx-Y5u" firstAttribute="top" secondItem="44W-Pq-m6s" secondAttribute="bottom" constant="15" id="vIb-6M-V9b"/>
+                    <constraint firstAttribute="bottom" secondItem="YDT-kU-juG" secondAttribute="bottom" id="wKx-jU-vUx"/>
                     <constraint firstItem="6dX-Xi-v40" firstAttribute="top" secondItem="44W-Pq-m6s" secondAttribute="bottom" constant="15" id="xr3-9W-ImE"/>
-                    <constraint firstAttribute="trailing" secondItem="V6c-1f-1Wv" secondAttribute="trailing" constant="20" id="yU9-CR-3Cr"/>
                     <constraint firstAttribute="trailing" secondItem="6dX-Xi-v40" secondAttribute="trailing" constant="20" id="zs9-2f-V6G"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
-                <outlet property="actionButton" destination="V6c-1f-1Wv" id="dLE-9d-Xbd"/>
-                <outlet property="actionDetailLabel" destination="azm-pF-SCD" id="0J5-DO-B44"/>
-                <outlet property="actionTitleLabel" destination="Ym9-Jm-LCO" id="3NF-a8-S0g"/>
                 <outlet property="autoPostIcon" destination="ecl-jx-Y5u" id="gYG-9d-tje"/>
                 <outlet property="autoPostLabel" destination="Voj-sR-DBJ" id="fIj-af-0QA"/>
                 <outlet property="autoPostSwitch" destination="6dX-Xi-v40" id="eRA-Vr-kyb"/>
@@ -247,7 +211,7 @@
                 <outlet property="socialIdLabel" destination="pmD-d1-L5o" id="Lko-ar-D8w"/>
                 <outlet property="socialNameLabel" destination="4Qh-51-oac" id="txi-J3-d0J"/>
             </connections>
-            <point key="canvasLocation" x="137.68115942028987" y="246.42857142857142"/>
+            <point key="canvasLocation" x="137.68115942028987" y="169.41964285714286"/>
         </tableViewCell>
     </objects>
     <resources>

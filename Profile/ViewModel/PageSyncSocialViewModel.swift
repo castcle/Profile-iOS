@@ -35,10 +35,11 @@ public final class PageSyncSocialViewModel {
     var pageRepository: PageRepository = PageRepositoryImpl()
     let tokenHelper: TokenHelper = TokenHelper()
     var state: State = .none
-//    var userInfo: UserInfo = UserInfo()
+    var userInfo: UserInfo = UserInfo()
     var syncDetail: SyncDetail = SyncDetail()
     var pageSocial: PageSocial = PageSocial()
     var syncSocialId: String = ""
+    var socialType: SocialType = .unknow
     
     enum State {
         case getUserInfo
@@ -49,46 +50,55 @@ public final class PageSyncSocialViewModel {
         case none
     }
     
-    public init(userInfo: UserInfo = UserInfo()) {
-//        self.userInfo = userInfo
-//        self.syncDetail = syncDetail
+    public init(userInfo: UserInfo = UserInfo(), socialType: SocialType = .unknow) {
+        self.userInfo = userInfo
+        self.socialType = socialType
         self.tokenHelper.delegate = self
-//        if !self.userInfo.castcleId.isEmpty {
-//            self.mapPageSocialRequest()
-//            self.getUserInfo()
-//        }
+        if !self.userInfo.castcleId.isEmpty {
+            self.mappingSyncDetail()
+            self.getUserInfo()
+        }
+    }
+    
+    private func mappingSyncDetail() {
+        if self.socialType == .facebook {
+            self.syncDetail = self.userInfo.syncSocial.facebook
+        } else if self.socialType == .twitter {
+            self.syncDetail = self.userInfo.syncSocial.twitter
+        }
+        self.mapPageSocialRequest()
     }
     
     private func mapPageSocialRequest() {
-//        self.syncSocialId = self.userInfo.syncSocial.id
-//        self.pageSocial.provider = SocialType(rawValue: self.userInfo.syncSocial.provider) ?? .unknow
-//        self.pageSocial.socialId = self.userInfo.syncSocial.socialId
-//        self.pageSocial.userName = self.userInfo.syncSocial.userName
-//        self.pageSocial.displayName = self.userInfo.syncSocial.displayName
-//        self.pageSocial.avatar = self.userInfo.syncSocial.avatar
+        self.syncSocialId = self.syncDetail.id
+        self.pageSocial.provider = self.syncDetail.provider
+        self.pageSocial.socialId = self.syncDetail.socialId
+        self.pageSocial.userName = self.syncDetail.userName
+        self.pageSocial.displayName = self.syncDetail.displayName
+        self.pageSocial.avatar = self.syncDetail.avatar
     }
     
     private func getUserInfo() {
         self.state = .getUserInfo
-//        self.userRepository.getUser(userId: self.userInfo.castcleId) { (success, response, isRefreshToken) in
-//            if success {
-//                do {
-//                    let rawJson = try response.mapJSON()
-//                    let json = JSON(rawJson)
-//                    self.userInfo = UserInfo(json: json)
-//                    self.mapPageSocialRequest()
-//                    self.didGetUserInfoFinish?()
-//                } catch {
-//                    self.didGetUserInfoFinish?()
-//                }
-//            } else {
-//                if isRefreshToken {
-//                    self.tokenHelper.refreshToken()
-//                } else {
-//                    self.didGetUserInfoFinish?()
-//                }
-//            }
-//        }
+        self.userRepository.getUser(userId: self.userInfo.castcleId) { (success, response, isRefreshToken) in
+            if success {
+                do {
+                    let rawJson = try response.mapJSON()
+                    let json = JSON(rawJson)
+                    self.userInfo = UserInfo(json: json)
+                    self.mappingSyncDetail()
+                    self.didGetUserInfoFinish?()
+                } catch {
+                    self.didGetUserInfoFinish?()
+                }
+            } else {
+                if isRefreshToken {
+                    self.tokenHelper.refreshToken()
+                } else {
+                    self.didGetUserInfoFinish?()
+                }
+            }
+        }
     }
     
     public func setAutoPost() {
