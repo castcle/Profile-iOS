@@ -79,8 +79,7 @@ class EditProfileViewModel {
                     do {
                         let rawJson = try response.mapJSON()
                         let json = JSON(rawJson)
-                        let userHelper = UserHelper()
-                        userHelper.updateLocalProfile(user: UserInfo(json: json))
+                        UserHelper.shared.updateLocalProfile(user: UserInfo(json: json))
                         self.delegate?.didUpdateInfoFinish(success: true)
                     } catch {}
                 }
@@ -105,7 +104,6 @@ class EditProfileViewModel {
                 do {
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
-                    let userHelper = UserHelper()
                     let user = UserInfo(json: json)
                     if isPage {
                         let pageRealm = self.realm.objects(Page.self).filter("castcleId == '\(user.castcleId)'").first
@@ -116,7 +114,7 @@ class EditProfileViewModel {
                             }
                         }
                     } else {
-                        userHelper.updateLocalProfile(user: user)
+                        UserHelper.shared.updateLocalProfile(user: user)
                     }
                     self.delegate?.didUpdateInfoFinish(success: true)
                 } catch {}
@@ -141,7 +139,6 @@ class EditProfileViewModel {
                 do {
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
-                    let userHelper = UserHelper()
                     let user = UserInfo(json: json)
                     if self.isPage {
                         let pageRealm = self.realm.objects(Page.self).filter("castcleId == '\(user.castcleId)'").first
@@ -152,7 +149,7 @@ class EditProfileViewModel {
                             }
                         }
                     } else {
-                        userHelper.updateLocalProfile(user: user)
+                        UserHelper.shared.updateLocalProfile(user: user)
                     }
                     self.delegate?.didUpdateInfoFinish(success: true)
                 } catch {}

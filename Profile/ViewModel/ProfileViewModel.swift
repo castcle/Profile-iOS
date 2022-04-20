@@ -104,8 +104,7 @@ public final class ProfileViewModel {
                 do {
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
-                    let userHelper = UserHelper()
-                    userHelper.updateLocalProfile(user: UserInfo(json: json))
+                    UserHelper.shared.updateLocalProfile(user: UserInfo(json: json))
                     self.didGetMeInfoFinish?()
                 } catch {}
             } else {

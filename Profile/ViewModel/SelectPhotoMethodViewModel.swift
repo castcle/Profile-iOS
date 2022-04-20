@@ -83,9 +83,8 @@ public class SelectPhotoMethodViewModel {
                     do {
                         let rawJson = try response.mapJSON()
                         let json = JSON(rawJson)
-                        let userHelper = UserHelper()
                         let user = UserInfo(json: json)
-                        userHelper.updateLocalProfile(user: user)
+                        UserHelper.shared.updateLocalProfile(user: user)
                         self.delegate?.didUpdateFinish(success: true)
                     } catch {}
                 }

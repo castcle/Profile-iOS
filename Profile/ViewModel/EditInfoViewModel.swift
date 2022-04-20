@@ -68,8 +68,7 @@ class EditInfoViewModel {
                 do {
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
-                    let userHelper = UserHelper()
-                    userHelper.updateLocalProfile(user: UserInfo(json: json))
+                    UserHelper.shared.updateLocalProfile(user: UserInfo(json: json))
                     self.delegate?.didGetInfoFinish(success: true)
                 } catch {
                     self.delegate?.didGetInfoFinish(success: false)
@@ -126,8 +125,7 @@ class EditInfoViewModel {
                     do {
                         let rawJson = try response.mapJSON()
                         let json = JSON(rawJson)
-                        let userHelper = UserHelper()
-                        userHelper.updateLocalProfile(user: UserInfo(json: json))
+                        UserHelper.shared.updateLocalProfile(user: UserInfo(json: json))
                         self.delegate?.didUpdateInfoFinish(success: true)
                     } catch {
                         self.delegate?.didUpdateInfoFinish(success: false)
