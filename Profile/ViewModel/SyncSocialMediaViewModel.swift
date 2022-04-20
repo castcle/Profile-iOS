@@ -44,19 +44,13 @@ public final class SyncSocialMediaViewModel {
     var isSyncTwitter: Bool = false
     var isSyncFacebook: Bool = false
     
-    enum State {
-        case getInfo
-        case syncSocial
-        case none
-    }
-    
     public init(castcleId: String) {
         self.tokenHelper.delegate = self
         self.castcleId = castcleId
     }
     
     func getInfo(duplicate: Bool) {
-        self.state = .getInfo
+        self.state = .getUserInfo
         self.duplicate = duplicate
         self.userRepository.getUser(userId: self.castcleId) { (success, response, isRefreshToken) in
             if success {
@@ -119,7 +113,7 @@ public final class SyncSocialMediaViewModel {
 
 extension SyncSocialMediaViewModel: TokenHelperDelegate {
     public func didRefreshTokenFinish() {
-        if self.state == .getInfo {
+        if self.state == .getUserInfo {
             self.getInfo(duplicate: self.duplicate)
         } else if self.state == .syncSocial {
             self.syncSocial()

@@ -41,14 +41,6 @@ class ProfileViewController: UIViewController {
     var profileViewModel = ProfileViewModel(profileType: .unknow, castcleId: "", displayName: "")
     var profileFeedViewModel = ProfileFeedViewModel(profileContentType: .unknow, profileType: .unknow, castcleId: "")
     
-    enum FeedCellType {
-        case activity
-        case header
-        case content
-        case quote
-        case footer
-    }
-    
     enum ProfileViewControllerSection: Int, CaseIterable {
         case header = 0
         case munu

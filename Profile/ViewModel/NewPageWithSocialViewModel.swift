@@ -43,12 +43,6 @@ public final class NewPageWithSocialViewModel {
     let tokenHelper: TokenHelper = TokenHelper()
     private let realm = try! Realm()
     
-    enum State {
-        case createPageWithSocial
-        case getPage
-        case none
-    }
-    
     public init() {
         self.tokenHelper.delegate = self
     }
@@ -57,11 +51,6 @@ public final class NewPageWithSocialViewModel {
         self.state = .createPageWithSocial
         self.pageRepository.createPageWithSocial(pageSocialRequest: self.pageSocialRequest) { (success, response, isRefreshToken) in
             if success {
-//                do {
-//                    let rawJson = try response.mapJSON()
-//                    let json = JSON(rawJson)
-//                    print(json)
-//                } catch {}
                 self.getAllMyPage()
             } else {
                 if isRefreshToken {
@@ -74,7 +63,7 @@ public final class NewPageWithSocialViewModel {
     }
     
     func getAllMyPage() {
-        self.state = .getPage
+        self.state = .getMyPage
         self.pageRepository.getMyPage() { (success, response, isRefreshToken) in
             if success {
                 self.state = .none
@@ -122,7 +111,7 @@ extension NewPageWithSocialViewModel: TokenHelperDelegate {
     public func didRefreshTokenFinish() {
         if self.state == .createPageWithSocial {
             self.createPageWithSocial()
-        } else if self.state == .getPage {
+        } else if self.state == .getMyPage {
             self.getAllMyPage()
         }
     }

@@ -38,11 +38,6 @@ public protocol SelectPhotoMethodViewModelDelegate {
     func didGetPageFinish()
 }
 
-public enum AvatarType {
-    case user
-    case page
-}
-
 public class SelectPhotoMethodViewModel {
     
     public var delegate: SelectPhotoMethodViewModelDelegate?
@@ -51,22 +46,15 @@ public class SelectPhotoMethodViewModel {
     var userRequest: UserRequest = UserRequest()
     let tokenHelper: TokenHelper = TokenHelper()
     var avatar: UIImage?
-    var avatarType: AvatarType
+    var authorType: AuthorType
     var state: State = .none
     var castcleId: String
     var isPage: Bool = false
     private let realm = try! Realm()
     
-    enum State {
-        case updateUserAvatar
-        case updatePageAvatar
-        case getMyPage
-        case none
-    }
-    
     //MARK: Input
-    public init(avatarType: AvatarType, castcleId: String = "") {
-        self.avatarType = avatarType
+    public init(authorType: AuthorType, castcleId: String = "") {
+        self.authorType = authorType
         self.castcleId = castcleId
         self.tokenHelper.delegate = self
     }

@@ -25,6 +25,7 @@
 //  Created by Castcle Co., Ltd. on 8/8/2564 BE.
 //
 
+import Core
 import Networking
 
 public class UserInfoViewModel {

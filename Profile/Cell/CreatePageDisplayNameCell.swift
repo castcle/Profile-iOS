@@ -218,6 +218,6 @@ extension CreatePageDisplayNameCell: CreatePageDisplayNameViewModelDelegate {
     
     func didGetAllPageFinish(castcleId: String) {
         self.hud.dismiss()
-        Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.photoMethod(SelectPhotoMethodViewModel(avatarType: .page, castcleId: castcleId))), animated: true)
+        Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.photoMethod(SelectPhotoMethodViewModel(authorType: .page, castcleId: castcleId))), animated: true)
     }
 }

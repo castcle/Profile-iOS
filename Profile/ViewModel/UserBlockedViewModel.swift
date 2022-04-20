@@ -41,11 +41,6 @@ public final class UserBlockedViewModel {
     let tokenHelper: TokenHelper = TokenHelper()
     var castcleId: String = ""
     
-    enum State {
-        case unblockUser
-        case none
-    }
-    
     public init() {
         self.tokenHelper.delegate = self
     }

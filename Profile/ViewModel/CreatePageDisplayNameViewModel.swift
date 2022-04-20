@@ -50,14 +50,6 @@ class CreatePageDisplayNameViewModel {
     let tokenHelper: TokenHelper = TokenHelper()
     private var state: State = .none
     private let realm = try! Realm()
-    
-    enum State {
-        case suggest
-        case check
-        case createPage
-        case getMyPage
-        case none
-    }
 
     //MARK: Input
     public init(authenRequest: AuthenRequest = AuthenRequest(), pageRequest: PageRequest = PageRequest(), authenticationRepository: AuthenticationRepository = AuthenticationRepositoryImpl()) {
@@ -68,7 +60,7 @@ class CreatePageDisplayNameViewModel {
     }
     
     public func suggestCastcleId() {
-        self.state = .suggest
+        self.state = .suggestCastcleId
         self.authenticationRepository.suggestCastcleId(authenRequest: self.authenRequest) { (success, response, isRefreshToken) in
             if success {
                 do {
@@ -87,7 +79,7 @@ class CreatePageDisplayNameViewModel {
     }
     
     public func checkCastcleIdExists() {
-        self.state = .check
+        self.state = .checkCastcleIdExists
         self.authenticationRepository.checkCastcleIdExists(authenRequest: self.authenRequest) { (success, response, isRefreshToken) in
             if success {
                 do {
@@ -169,9 +161,9 @@ class CreatePageDisplayNameViewModel {
 
 extension CreatePageDisplayNameViewModel: TokenHelperDelegate {
     func didRefreshTokenFinish() {
-        if self.state == .suggest {
+        if self.state == .suggestCastcleId {
             self.suggestCastcleId()
-        } else if self.state == .check {
+        } else if self.state == .checkCastcleIdExists {
             self.checkCastcleIdExists()
         } else if self.state == .createPage {
             self.createPage()

@@ -50,14 +50,6 @@ public final class ProfileHeaderViewModel {
     var castcleId: String = ""
     var isMyPage: Bool = false
     
-    enum State {
-        case followUser
-        case unfollowUser
-        case reportUser
-        case blockUser
-        case none
-    }
-    
     public init(profileType: ProfileType, userInfo: UserInfo) {
         self.profileType = profileType
         self.userInfo = userInfo

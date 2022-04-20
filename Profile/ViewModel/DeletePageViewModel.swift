@@ -46,12 +46,6 @@ public class DeletePageViewModel {
     private var state: State = .none
     var userInfo: UserInfo = UserInfo()
     private let realm = try! Realm()
-    
-    enum State {
-        case deletePage
-        case getMyPage
-        case none
-    }
 
     //MARK: Input
     public init(userInfo: UserInfo) {

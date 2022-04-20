@@ -44,12 +44,7 @@ public final class UserFollowViewModel {
     var userFollowRequest: UserFollowRequest = UserFollowRequest()
     var users: [UserInfo] = []
     var meta: Meta = Meta()
-    var state: State = .loading
-    
-    enum State {
-        case loading
-        case loaded
-    }
+    var state: LoadState = .loading
     
     public init(followType: FollowType = .none, castcleId: String = "") {
         self.followType = followType
@@ -79,8 +74,8 @@ public final class UserFollowViewModel {
                 do {
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
-                    let userData = (json[FeedShelfKey.payload.rawValue].arrayValue).map { UserInfo(json: $0) }
-                    self.meta = Meta(json: JSON(json[FeedShelfKey.meta.rawValue].dictionaryValue))
+                    let userData = (json[JsonKey.payload.rawValue].arrayValue).map { UserInfo(json: $0) }
+                    self.meta = Meta(json: JSON(json[JsonKey.meta.rawValue].dictionaryValue))
                     self.users.append(contentsOf: userData)
                     self.didLoadFollowUserFinish?()
                 } catch {
@@ -102,8 +97,8 @@ public final class UserFollowViewModel {
                 do {
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
-                    let userData = (json[FeedShelfKey.payload.rawValue].arrayValue).map { UserInfo(json: $0) }
-                    self.meta = Meta(json: JSON(json[FeedShelfKey.meta.rawValue].dictionaryValue))
+                    let userData = (json[JsonKey.payload.rawValue].arrayValue).map { UserInfo(json: $0) }
+                    self.meta = Meta(json: JSON(json[JsonKey.meta.rawValue].dictionaryValue))
                     self.users.append(contentsOf: userData)
                     self.didLoadFollowUserFinish?()
                 } catch {

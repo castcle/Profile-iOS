@@ -58,6 +58,6 @@ class WelcomeEditProfileViewController: UIViewController {
     }
     
     @IBAction func nextAction(_ sender: Any) {
-        Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.photoMethod(SelectPhotoMethodViewModel(avatarType: .user, castcleId: UserManager.shared.rawCastcleId))), animated: true)
+        Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.photoMethod(SelectPhotoMethodViewModel(authorType: .people, castcleId: UserManager.shared.rawCastcleId))), animated: true)
     }
 }

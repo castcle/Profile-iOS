@@ -26,6 +26,7 @@
 //
 
 import UIKit
+import Core
 import Networking
 import SwiftyJSON
 
@@ -48,13 +49,6 @@ class EditInfoViewModel {
     var isPage: Bool = false
     var state: State = .none
     
-    enum State {
-        case getMeInfo
-        case getUserInfo
-        case updateUserInfo
-        case none
-    }
-    
     public init(profileType: ProfileType = .unknow, userInfo: UserInfo = UserInfo()) {
         self.tokenHelper.delegate = self
         self.profileType = profileType
@@ -62,7 +56,7 @@ class EditInfoViewModel {
     }
     
     func getMeInfo() {
-        self.state = .getMeInfo
+        self.state = .getMe
         self.userRepository.getMe() { (success, response, isRefreshToken) in
             if success {
                 do {
@@ -106,6 +100,7 @@ class EditInfoViewModel {
     }
     
     public func updateProfile(isPage: Bool, castcleId: String) {
+        self.state = .updateUserInfo
         self.isPage = isPage
         self.castcleId = castcleId
         if let dob = self.dobDate {
@@ -146,7 +141,7 @@ extension EditInfoViewModel: TokenHelperDelegate {
     func didRefreshTokenFinish() {
         if self.state == .updateUserInfo {
             self.updateProfile(isPage: self.isPage, castcleId: self.castcleId)
-        } else if self.state == .getMeInfo {
+        } else if self.state == .getMe {
             self.getMeInfo()
         } else if self.state == .getUserInfo {
             self.getUserInfo()

@@ -25,15 +25,7 @@
 //  Created by Castcle Co., Ltd. on 6/8/2564 BE.
 //
 
-import Foundation
-
-public enum SocialLinkType: String {
-    case facebook = "Facebook"
-    case twitter = "Twitter"
-    case youtube = "Youtube"
-    case medium = "Medium"
-    case website = "Add website"
-}
+import Core
 
 public class SocialLink: NSObject {
     var socialLinkType: SocialLinkType = .website

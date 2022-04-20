@@ -41,15 +41,6 @@ public final class PageSyncSocialViewModel {
     var syncSocialId: String = ""
     var socialType: SocialType = .unknow
     
-    enum State {
-        case getUserInfo
-        case setAutoPost
-        case cancelAutoPost
-        case reconnectSyncSocial
-        case disconnectSyncSocial
-        case none
-    }
-    
     public init(userInfo: UserInfo = UserInfo(), socialType: SocialType = .unknow) {
         self.userInfo = userInfo
         self.socialType = socialType

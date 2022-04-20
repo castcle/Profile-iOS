@@ -30,12 +30,6 @@ import Networking
 import SwiftyJSON
 import RealmSwift
 
-public enum ProfileType {
-    case me
-    case user
-    case unknow
-}
-
 public final class ProfileViewModel {
     var userRepository: UserRepository = UserRepositoryImpl()
     var profileType: ProfileType = .unknow
@@ -51,12 +45,6 @@ public final class ProfileViewModel {
         case loading
         case loaded
         case error
-    }
-    
-    enum State {
-        case getMeInfo
-        case getUserInfo
-        case none
     }
     
     var isBlocked: Bool {
@@ -98,7 +86,7 @@ public final class ProfileViewModel {
     }
     
     private func getMeInfo() {
-        self.state = .getMeInfo
+        self.state = .getMe
         self.userRepository.getMe() { (success, response, isRefreshToken) in
             if success {
                 do {
@@ -144,7 +132,7 @@ public final class ProfileViewModel {
 
 extension ProfileViewModel: TokenHelperDelegate {
     public func didRefreshTokenFinish() {
-        if self.state == .getMeInfo {
+        if self.state == .getMe {
             self.getMeInfo()
         } else if self.state == .getUserInfo {
             self.getUserInfo()
