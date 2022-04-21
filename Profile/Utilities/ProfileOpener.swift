@@ -49,6 +49,7 @@ public enum ProfileScene {
     case pageSyncSocial(PageSyncSocialViewModel)
     case syncSocialMedia(SyncSocialMediaViewModel)
     case facebookPageList([FacebookPage])
+    case contactEmail(EditInfoViewModel)
 }
 
 public struct ProfileOpener {
@@ -138,6 +139,11 @@ public struct ProfileOpener {
             let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.facebookPageList) as? FacebookPageListViewController
             vc?.facebookPage = facebookPage
             return vc ?? FacebookPageListViewController()
+        case .contactEmail(let viewModel):
+            let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.profile, bundle: ConfigBundle.profile)
+            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.contactEmail) as? ContactEmailViewController
+            vc?.viewModel = viewModel
+            return vc ?? ContactEmailViewController()
         }
     }
     

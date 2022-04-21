@@ -62,6 +62,9 @@
 		B797240F27FAD15E00111F24 /* SyncSocialMediaViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B797240E27FAD15E00111F24 /* SyncSocialMediaViewModel.swift */; };
 		B797241227FAD6FC00111F24 /* SocialAccountTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B797241027FAD6FB00111F24 /* SocialAccountTableViewCell.xib */; };
 		B797241327FAD6FC00111F24 /* SocialAccountTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B797241127FAD6FC00111F24 /* SocialAccountTableViewCell.swift */; };
+		B7AC2308281142A80091CA21 /* ContactEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC2307281142A80091CA21 /* ContactEmailViewController.swift */; };
+		B7AC230B2811441F0091CA21 /* ContactEmailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC23092811441F0091CA21 /* ContactEmailTableViewCell.swift */; };
+		B7AC230C2811441F0091CA21 /* ContactEmailTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7AC230A2811441F0091CA21 /* ContactEmailTableViewCell.xib */; };
 		B7AC3BBE27A3D2BB00C02867 /* BlockedUserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC3BBC27A3D2BB00C02867 /* BlockedUserTableViewCell.swift */; };
 		B7AC3BBF27A3D2BB00C02867 /* BlockedUserTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7AC3BBD27A3D2BB00C02867 /* BlockedUserTableViewCell.xib */; };
 		B7AC3BC127A3EA2700C02867 /* UserBlockedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC3BC027A3EA2700C02867 /* UserBlockedViewModel.swift */; };
@@ -177,6 +180,9 @@
 		B797240E27FAD15E00111F24 /* SyncSocialMediaViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncSocialMediaViewModel.swift; sourceTree = "<group>"; };
 		B797241027FAD6FB00111F24 /* SocialAccountTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SocialAccountTableViewCell.xib; sourceTree = "<group>"; };
 		B797241127FAD6FC00111F24 /* SocialAccountTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialAccountTableViewCell.swift; sourceTree = "<group>"; };
+		B7AC2307281142A80091CA21 /* ContactEmailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactEmailViewController.swift; sourceTree = "<group>"; };
+		B7AC23092811441F0091CA21 /* ContactEmailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactEmailTableViewCell.swift; sourceTree = "<group>"; };
+		B7AC230A2811441F0091CA21 /* ContactEmailTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ContactEmailTableViewCell.xib; sourceTree = "<group>"; };
 		B7AC3BBC27A3D2BB00C02867 /* BlockedUserTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedUserTableViewCell.swift; sourceTree = "<group>"; };
 		B7AC3BBD27A3D2BB00C02867 /* BlockedUserTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BlockedUserTableViewCell.xib; sourceTree = "<group>"; };
 		B7AC3BC027A3EA2700C02867 /* UserBlockedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserBlockedViewModel.swift; sourceTree = "<group>"; };
@@ -399,6 +405,8 @@
 				B7AF661026F2E56400BDE9C4 /* CreatePageDisplayNameCell.xib */,
 				B7F63C29271DC3C7005856B2 /* ConfirmDeletePageTableViewCell.swift */,
 				B7F63C2A271DC3C7005856B2 /* ConfirmDeletePageTableViewCell.xib */,
+				B7AC23092811441F0091CA21 /* ContactEmailTableViewCell.swift */,
+				B7AC230A2811441F0091CA21 /* ContactEmailTableViewCell.xib */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -443,6 +451,7 @@
 				B7F63C25271D7CE1005856B2 /* DeletePageViewController.swift */,
 				B7F63C27271DC2BF005856B2 /* ConfirmDeletePageViewController.swift */,
 				B71B668827269EF500191A62 /* DeletePageSuccessViewController.swift */,
+				B7AC2307281142A80091CA21 /* ContactEmailViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -604,6 +613,7 @@
 				B7910E7926BBD6FD0097C94E /* Assets.xcassets in Resources */,
 				B7910E6F26BBD36A0097C94E /* Profile.storyboard in Resources */,
 				B753F5772782AB8D00D1AC92 /* ProfileHeaderTableViewCell.xib in Resources */,
+				B7AC230C2811441F0091CA21 /* ContactEmailTableViewCell.xib in Resources */,
 				B7910EB926BD2DA20097C94E /* Me.storyboard in Resources */,
 				B7910EA926BCE8F00097C94E /* AddSocialCell.xib in Resources */,
 				B7AC3BBF27A3D2BB00C02867 /* BlockedUserTableViewCell.xib in Resources */,
@@ -670,6 +680,7 @@
 				B7AF662D26F35B5900BDE9C4 /* AddLinkTableViewCell.swift in Sources */,
 				B797240D27FACFF900111F24 /* SyncSocialMediaViewController.swift in Sources */,
 				B7C098372727CFCD009ACE22 /* EditPageInfoTableViewCell.swift in Sources */,
+				B7AC230B2811441F0091CA21 /* ContactEmailTableViewCell.swift in Sources */,
 				B7AF661426F2E88B00BDE9C4 /* CreatePageDisplayNameSectionController.swift in Sources */,
 				B7AF662526F3447900BDE9C4 /* AboutTableViewCell.swift in Sources */,
 				B7AC3BC127A3EA2700C02867 /* UserBlockedViewModel.swift in Sources */,
@@ -677,6 +688,7 @@
 				B7586BE427856066009FEE29 /* ProfileHeaderSkeletonTableViewCell.swift in Sources */,
 				B7910E7226BBD52F0097C94E /* ProfileNibVars.swift in Sources */,
 				B7AF660926F24A2F00BDE9C4 /* WelcomeCreatePageViewController.swift in Sources */,
+				B7AC2308281142A80091CA21 /* ContactEmailViewController.swift in Sources */,
 				B7F63C26271D7CE1005856B2 /* DeletePageViewController.swift in Sources */,
 				B797241327FAD6FC00111F24 /* SocialAccountTableViewCell.swift in Sources */,
 				B7D4BC2227FF1BF6008ACD9F /* FacebookPageListViewController.swift in Sources */,

@@ -43,7 +43,6 @@ public class UserInfoViewController: UIViewController, UITableViewDelegate, UITa
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
         self.setupNavBar()
         self.configureTableView()

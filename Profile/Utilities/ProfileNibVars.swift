@@ -46,6 +46,7 @@ public struct ProfileNibVars {
         public static let pageSyncSocial = "PageSyncSocialViewController"
         public static let syncSocialMedia = "SyncSocialMediaViewController"
         public static let facebookPageList = "FacebookPageListViewController"
+        public static let contactEmail = "ContactEmailViewController"
     }
     
     // MARK: - View
@@ -78,6 +79,7 @@ public struct ProfileNibVars {
         public static let socialAccount = "SocialAccountTableViewCell"
         public static let facebookPage = "FacebookPageTableViewCell"
         public static let facebookPageEmpty = "FacebookPageEmptyTableViewCell"
+        public static let contactEmail = "ContactEmailTableViewCell"
     }
     
     // MARK: - CollectionViewCell

@@ -35,7 +35,7 @@ public protocol EditInfoViewModelDelegate {
     func didUpdateInfoFinish(success: Bool)
 }
 
-class EditInfoViewModel {
+public class EditInfoViewModel {
     public var delegate: EditInfoViewModelDelegate?
     var userRepository: UserRepository = UserRepositoryImpl()
     var userRequest: UserRequest = UserRequest()
@@ -138,7 +138,7 @@ class EditInfoViewModel {
 }
 
 extension EditInfoViewModel: TokenHelperDelegate {
-    func didRefreshTokenFinish() {
+    public func didRefreshTokenFinish() {
         if self.state == .updateUserInfo {
             self.updateProfile(isPage: self.isPage, castcleId: self.castcleId)
         } else if self.state == .getMe {
