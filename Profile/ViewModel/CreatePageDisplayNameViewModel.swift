@@ -141,8 +141,8 @@ class CreatePageDisplayNameViewModel {
                             pageTemp.cover = pageInfo.images.cover.fullHd
                             pageTemp.overview = pageInfo.overview
                             pageTemp.official = pageInfo.verified.official
-                            pageTemp.isSyncTwitter = (pageInfo.syncSocial.twitter.socialId.isEmpty ? false : true)
-                            pageTemp.isSyncFacebook = (pageInfo.syncSocial.facebook.socialId.isEmpty ? false : true)
+                            pageTemp.isSyncTwitter = !pageInfo.syncSocial.twitter.socialId.isEmpty
+                            pageTemp.isSyncFacebook = !pageInfo.syncSocial.facebook.socialId.isEmpty
                             self.realm.add(pageTemp, update: .modified)
                         }
                     }
