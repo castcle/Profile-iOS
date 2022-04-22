@@ -33,7 +33,7 @@ protocol ContactEmailTableViewCellDelegate {
     func didChangeEmail(_ contactEmailTableViewCell: ContactEmailTableViewCell, email: String)
 }
 
-class ContactEmailTableViewCell: UITableViewCell {
+class ContactEmailTableViewCell: UITableViewCell, UITextFieldDelegate {
 
     @IBOutlet var subtitleLabel: UILabel!
     @IBOutlet var emailView: UIView!
@@ -53,7 +53,7 @@ class ContactEmailTableViewCell: UITableViewCell {
         self.emailTextField.font = UIFont.asset(.regular, fontSize: .body)
         self.emailTextField.textColor = UIColor.Asset.white
         self.setupSaveButton(isActive: false)
-        self.emailTextField.tag = 0
+        self.emailTextField.delegate = self
         self.emailTextField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
     }
 
@@ -73,6 +73,11 @@ class ContactEmailTableViewCell: UITableViewCell {
         } else {
             return true
         }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+       textField.resignFirstResponder()
+       return true
     }
     
     @objc func textFieldDidChange(_ textField: UITextField) {
