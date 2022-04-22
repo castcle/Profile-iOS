@@ -47,6 +47,7 @@ public struct ProfileNibVars {
         public static let syncSocialMedia = "SyncSocialMediaViewController"
         public static let facebookPageList = "FacebookPageListViewController"
         public static let contactEmail = "ContactEmailViewController"
+        public static let contactPhone = "ContactPhoneViewController"
     }
     
     // MARK: - View
@@ -80,6 +81,10 @@ public struct ProfileNibVars {
         public static let facebookPage = "FacebookPageTableViewCell"
         public static let facebookPageEmpty = "FacebookPageEmptyTableViewCell"
         public static let contactEmail = "ContactEmailTableViewCell"
+        public static let contactPhone = "ContactPhoneTableViewCell"
+        public static let infoHeader = "InfoHeaderTableViewCell"
+        public static let infoNormal = "InfoNormalTableViewCell"
+        public static let infoWithIcon = "InfoWithIconTableViewCell"
     }
     
     // MARK: - CollectionViewCell

@@ -51,8 +51,7 @@ class EditProfileViewModel {
     private let realm = try! Realm()
 
     //MARK: Input
-    public init(userRequest: UserRequest = UserRequest()) {
-        self.userRequest = userRequest
+    public init() {
         self.tokenHelper.delegate = self
     }
     

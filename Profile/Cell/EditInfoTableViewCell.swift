@@ -158,7 +158,7 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         self.mediumIconView.capsule(color: UIColor.Asset.white)
         self.mediumIcon.image = UIImage.init(icon: .castcle(.medium), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.black)
         self.websiteIconView.capsule(color: UIColor.Asset.white)
-        self.websiteIcon.image = UIImage.init(icon: .castcle(.image), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.lightBlue)
+        self.websiteIcon.image = UIImage.init(icon: .castcle(.link), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.lightBlue)
 
         self.hud.textLabel.text = "Saving"
         self.overviewTextView.delegate = self

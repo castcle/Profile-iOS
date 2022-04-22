@@ -237,7 +237,7 @@ class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
             self.phoneLabel.text = "None"
         } else {
             self.phoneLabel.textColor = UIColor.Asset.lightBlue
-            self.phoneLabel.text = self.viewModel.userInfo.contact.phone
+            self.phoneLabel.text = "\(self.viewModel.userInfo.contact.countryCode.isEmpty ? "(+66)" : "(\(self.viewModel.userInfo.contact.countryCode)")) \(self.viewModel.userInfo.contact.phone)"
         }
     }
     
@@ -266,6 +266,9 @@ class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
     }
     
     @IBAction func updatePhoneAction(_ sender: Any) {
+        let vc = ProfileOpener.open(.contactPhone(EditInfoViewModel(profileType: self.viewModel.profileType, userInfo: self.viewModel.userInfo))) as? ContactPhoneViewController
+        vc?.delegate = self
+        Utility.currentViewController().navigationController?.pushViewController(vc ?? ContactPhoneViewController(), animated: true)
     }
     
     @IBAction func saveAction(_ sender: Any) {
@@ -489,5 +492,14 @@ extension EditPageInfoTableViewCell: ContactEmailViewControllerDelegate {
         self.viewModel.userInfo.contact.email = email
         self.emailLabel.textColor = UIColor.Asset.lightBlue
         self.emailLabel.text = self.viewModel.userInfo.contact.email
+    }
+}
+
+extension EditPageInfoTableViewCell: ContactPhoneViewControllerDelegate {
+    func didChangePhone(_ contactPhoneViewController: ContactPhoneViewController, phone: String, countryCode: String) {
+        self.viewModel.userInfo.contact.phone = phone
+        self.viewModel.userInfo.contact.countryCode = countryCode
+        self.phoneLabel.textColor = UIColor.Asset.lightBlue
+        self.phoneLabel.text = "\(self.viewModel.userInfo.contact.countryCode.isEmpty ? "(+66)" : "(\(self.viewModel.userInfo.contact.countryCode)")) \(self.viewModel.userInfo.contact.phone)"
     }
 }

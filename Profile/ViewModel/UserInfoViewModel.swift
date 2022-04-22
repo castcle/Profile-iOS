@@ -39,32 +39,22 @@ public class UserInfoViewModel {
         
         if !(self.userInfo.links.facebook.isEmpty) {
             self.socialLink.append(SocialLink(socialLinkType: .facebook, value: self.userInfo.links.facebook))
-        } else {
-            self.socialLink.append(SocialLink(socialLinkType: .facebook, value: "N/A"))
         }
         
         if !(self.userInfo.links.twitter.isEmpty) {
             self.socialLink.append(SocialLink(socialLinkType: .twitter, value: self.userInfo.links.twitter))
-        } else {
-            self.socialLink.append(SocialLink(socialLinkType: .twitter, value: "N/A"))
         }
         
         if !(self.userInfo.links.youtube.isEmpty) {
             self.socialLink.append(SocialLink(socialLinkType: .youtube, value: self.userInfo.links.youtube))
-        } else {
-            self.socialLink.append(SocialLink(socialLinkType: .youtube, value: "N/A"))
         }
         
         if !(self.userInfo.links.medium.isEmpty) {
             self.socialLink.append(SocialLink(socialLinkType: .medium, value: self.userInfo.links.medium))
-        } else {
-            self.socialLink.append(SocialLink(socialLinkType: .medium, value: "N/A"))
         }
         
         if !(self.userInfo.links.website.isEmpty) {
             self.socialLink.append(SocialLink(socialLinkType: .website, value: self.userInfo.links.website))
-        } else {
-            self.socialLink.append(SocialLink(socialLinkType: .website, value: "N/A"))
         }
     }
 }

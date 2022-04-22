@@ -36,6 +36,10 @@ public class UserInfoViewController: UIViewController, UITableViewDelegate, UITa
     
     enum UserInfoViewControllerSection: Int, CaseIterable {
         case info = 0
+        case birthdate
+        case email
+        case contactNumber
+        case headerLink
         case link
     }
     
@@ -65,10 +69,11 @@ public class UserInfoViewController: UIViewController, UITableViewDelegate, UITa
     func configureTableView() {
         self.tableView.delegate = self
         self.tableView.dataSource = self
-        
         self.tableView.register(UINib(nibName: ProfileNibVars.TableViewCell.meInfo, bundle: ConfigBundle.profile), forCellReuseIdentifier: ProfileNibVars.TableViewCell.meInfo)
         self.tableView.register(UINib(nibName: ProfileNibVars.TableViewCell.socialLink, bundle: ConfigBundle.profile), forCellReuseIdentifier: ProfileNibVars.TableViewCell.socialLink)
-        
+        self.tableView.register(UINib(nibName: ProfileNibVars.TableViewCell.infoHeader, bundle: ConfigBundle.profile), forCellReuseIdentifier: ProfileNibVars.TableViewCell.infoHeader)
+        self.tableView.register(UINib(nibName: ProfileNibVars.TableViewCell.infoNormal, bundle: ConfigBundle.profile), forCellReuseIdentifier: ProfileNibVars.TableViewCell.infoNormal)
+        self.tableView.register(UINib(nibName: ProfileNibVars.TableViewCell.infoWithIcon, bundle: ConfigBundle.profile), forCellReuseIdentifier: ProfileNibVars.TableViewCell.infoWithIcon)
         self.tableView.rowHeight = UITableView.automaticDimension
         self.tableView.estimatedRowHeight = 100
     }
@@ -80,6 +85,38 @@ public class UserInfoViewController: UIViewController, UITableViewDelegate, UITa
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
+        case UserInfoViewControllerSection.birthdate.rawValue:
+            if self.viewModel.userInfo.type == .page {
+                return 0
+            } else {
+                if self.viewModel.userInfo.dob.isEmpty {
+                    return 0
+                } else {
+                    return 1
+                }
+            }
+        case UserInfoViewControllerSection.email.rawValue:
+            if self.viewModel.userInfo.type == .people {
+                return 0
+            } else {
+                if self.viewModel.userInfo.contact.email.isEmpty {
+                    return 0
+                } else {
+                    return 1
+                }
+            }
+        case UserInfoViewControllerSection.contactNumber.rawValue:
+            if self.viewModel.userInfo.type == .people {
+                return 0
+            } else {
+                if self.viewModel.userInfo.contact.phone.isEmpty {
+                    return 0
+                } else {
+                    return 1
+                }
+            }
+        case UserInfoViewControllerSection.headerLink.rawValue:
+            return (self.viewModel.socialLink.isEmpty ? 0 : 1)
         case UserInfoViewControllerSection.link.rawValue:
             return self.viewModel.socialLink.count
         default:
@@ -94,6 +131,28 @@ public class UserInfoViewController: UIViewController, UITableViewDelegate, UITa
             cell?.backgroundColor = UIColor.clear
             cell?.configCell(userInfo: self.viewModel.userInfo)
             return cell ?? UserInfoTableViewCell()
+        case UserInfoViewControllerSection.birthdate.rawValue:
+            let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.infoNormal, for: indexPath as IndexPath) as? InfoNormalTableViewCell
+            let dobDate = Date.stringToDate(str: self.viewModel.userInfo.dob)
+            cell?.backgroundColor = UIColor.clear
+            cell?.configCell(title: "Birth date", detail: dobDate.dateToString())
+            return cell ?? InfoNormalTableViewCell()
+        case UserInfoViewControllerSection.email.rawValue:
+            let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.infoNormal, for: indexPath as IndexPath) as? InfoNormalTableViewCell
+            cell?.backgroundColor = UIColor.clear
+            cell?.configCell(title: "Email", detail: self.viewModel.userInfo.contact.email)
+            return cell ?? InfoNormalTableViewCell()
+        case UserInfoViewControllerSection.contactNumber.rawValue:
+            let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.infoNormal, for: indexPath as IndexPath) as? InfoNormalTableViewCell
+            let contactNumber = "(\(self.viewModel.userInfo.contact.countryCode.isEmpty ? "+66" : self.viewModel.userInfo.contact.countryCode)) \(self.viewModel.userInfo.contact.phone)"
+            cell?.backgroundColor = UIColor.clear
+            cell?.configCell(title: "Contact number", detail: contactNumber)
+            return cell ?? InfoNormalTableViewCell()
+        case UserInfoViewControllerSection.headerLink.rawValue:
+            let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.infoHeader, for: indexPath as IndexPath) as? InfoHeaderTableViewCell
+            cell?.backgroundColor = UIColor.clear
+            cell?.configCell(title: "Social media links")
+            return cell ?? InfoHeaderTableViewCell()
         case UserInfoViewControllerSection.link.rawValue:
             let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.socialLink, for: indexPath as IndexPath) as? SocialLinkTableViewCell
             cell?.backgroundColor = UIColor.clear

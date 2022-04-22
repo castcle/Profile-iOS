@@ -31,6 +31,7 @@ import Core
 class SocialLinkTableViewCell: UITableViewCell {
 
     @IBOutlet var socialView: UIView!
+    @IBOutlet var socialIconView: UIView!
     @IBOutlet var socialIcon: UIImageView!
     @IBOutlet var valueLabel: UILabel!
     
@@ -40,21 +41,26 @@ class SocialLinkTableViewCell: UITableViewCell {
             switch social.socialLinkType {
             case .facebook:
                 self.socialIcon.image = UIImage.init(icon: .castcle(.facebook), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.white)
+                self.socialIconView.capsule(color: UIColor.Asset.facebook)
             case .twitter:
                 self.socialIcon.image = UIImage.init(icon: .castcle(.twitter), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.white)
+                self.socialIconView.capsule(color: UIColor.Asset.twitter)
             case .youtube:
-                self.socialIcon.image = UIImage.init(icon: .castcle(.youtube), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.white)
+                self.socialIcon.image = UIImage.init(icon: .castcle(.youtube), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.denger)
+                self.socialIconView.capsule(color: UIColor.Asset.white)
+            case .medium:
+                self.socialIcon.image = UIImage.init(icon: .castcle(.medium), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.black)
+                self.socialIconView.capsule(color: UIColor.Asset.white)
             default:
-                self.socialIcon.image = UIImage.init(icon: .castcle(.link), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.white)
+                self.socialIcon.image = UIImage.init(icon: .castcle(.link), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.lightBlue)
+                self.socialIconView.capsule(color: UIColor.Asset.white)
             }
-            
             self.valueLabel.text = social.value
         }
     }
     
     override func awakeFromNib() {
         super.awakeFromNib()
-
         self.socialView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
         self.valueLabel.font = UIFont.asset(.regular, fontSize: .overline)
         self.valueLabel.textColor = UIColor.Asset.lightBlue

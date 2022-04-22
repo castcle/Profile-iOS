@@ -19,42 +19,51 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  ContactEmailTableViewCell.swift
+//  ContactPhoneTableViewCell.swift
 //  Profile
 //
-//  Created by Castcle Co., Ltd. on 21/4/2565 BE.
+//  Created by Castcle Co., Ltd. on 22/4/2565 BE.
 //
 
 import UIKit
 import Core
+import Component
 import JGProgressHUD
+import RealmSwift
 
-protocol ContactEmailTableViewCellDelegate {
-    func didChangeEmail(_ contactEmailTableViewCell: ContactEmailTableViewCell, email: String)
+protocol ContactPhoneTableViewCellDelegate {
+    func didChangePhone(_ ContactPhoneTableViewCell: ContactPhoneTableViewCell, phone: String, countryCode: String)
 }
 
-class ContactEmailTableViewCell: UITableViewCell {
+class ContactPhoneTableViewCell: UITableViewCell {
 
     @IBOutlet var subtitleLabel: UILabel!
-    @IBOutlet var emailView: UIView!
-    @IBOutlet var emailTextField: UITextField!
     @IBOutlet var saveButton: UIButton!
+    @IBOutlet var codeLabel: UILabel!
+    @IBOutlet var codeView: UIView!
+    @IBOutlet var mobileViewView: UIView!
+    @IBOutlet var mobileTextField: UITextField!
+    @IBOutlet var dropdownImage: UIImageView!
     
-    public var delegate: ContactEmailTableViewCellDelegate?
+    public var delegate: ContactPhoneTableViewCellDelegate?
     var viewModel = EditInfoViewModel()
     let hud = JGProgressHUD()
     
     override func awakeFromNib() {
         super.awakeFromNib()
         self.hud.textLabel.text = "Saving"
-        self.emailView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
         self.subtitleLabel.font = UIFont.asset(.regular, fontSize: .body)
         self.subtitleLabel.textColor = UIColor.Asset.white
-        self.emailTextField.font = UIFont.asset(.regular, fontSize: .body)
-        self.emailTextField.textColor = UIColor.Asset.white
         self.setupSaveButton(isActive: false)
-        self.emailTextField.tag = 0
-        self.emailTextField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
+        self.codeLabel.font = UIFont.asset(.regular, fontSize: .overline)
+        self.codeLabel.textColor = UIColor.Asset.white
+        self.mobileTextField.font = UIFont.asset(.regular, fontSize: .overline)
+        self.mobileTextField.textColor = UIColor.Asset.white
+        self.codeView.capsule(color: UIColor.Asset.darkGray)
+        self.mobileViewView.capsule(color: UIColor.Asset.darkGray)
+        
+        self.dropdownImage.image = UIImage.init(icon: .castcle(.dropDown), size: CGSize(width: 25, height: 25), textColor: UIColor.Asset.lightBlue)
+        self.mobileTextField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -63,20 +72,25 @@ class ContactEmailTableViewCell: UITableViewCell {
     
     func configCell(viewModel: EditInfoViewModel) {
         self.viewModel = viewModel
-        self.emailTextField.text = self.viewModel.userInfo.contact.email
+        self.mobileTextField.text = self.viewModel.userInfo.contact.phone
+        if !self.viewModel.userInfo.contact.countryCode.isEmpty {
+            let realm = try! Realm()
+            if let countryCode = realm.objects(CountryCode.self).filter("dialCode == '\(self.viewModel.userInfo.contact.countryCode)'").first {
+                self.codeLabel.text = "\(countryCode.dialCode) \(countryCode.name)"
+            }
+        } else {
+            self.viewModel.userRequest.payload.contact.countryCode = "+66"
+            self.codeLabel.text = "+66 TH"
+        }
         self.viewModel.delegate = self
     }
     
     private func isCanNext() -> Bool {
-        if self.emailTextField.text!.isEmpty {
+        if self.mobileTextField.text!.isEmpty {
             return false
         } else {
             return true
         }
-    }
-    
-    @objc func textFieldDidChange(_ textField: UITextField) {
-        self.setupSaveButton(isActive: self.isCanNext())
     }
     
     private func setupSaveButton(isActive: Bool) {
@@ -92,24 +106,48 @@ class ContactEmailTableViewCell: UITableViewCell {
         }
     }
     
+    @objc func textFieldDidChange(_ textField: UITextField) {
+        let mobileNumber = (textField.text ?? "").substringWithRange(range: 20)
+        if mobileNumber.isEmpty {
+            self.setupSaveButton(isActive: false)
+        } else {
+            self.setupSaveButton(isActive: true)
+        }
+        textField.text = mobileNumber
+    }
+    
+    @IBAction func selectContryCodeAction(_ sender: Any) {
+        let vc = ComponentOpener.open(.selectCode) as? SelectCodeViewController
+        vc?.delegate = self
+        Utility.currentViewController().navigationController?.pushViewController(vc ?? SelectCodeViewController(), animated: true)
+    }
+    
     @IBAction func nextAction(_ sender: Any) {
         self.endEditing(true)
         if self.isCanNext() {
             self.hud.show(in: Utility.currentViewController().view)
-            self.viewModel.userRequest.payload.contact.email = self.emailTextField.text!
+            self.viewModel.userRequest.payload.contact.phone = self.mobileTextField.text!
             self.viewModel.updateProfile(isPage: true, castcleId: self.viewModel.userInfo.castcleId)
         }
     }
 }
 
-extension ContactEmailTableViewCell: EditInfoViewModelDelegate {
+extension ContactPhoneTableViewCell: EditInfoViewModelDelegate {
     func didGetInfoFinish(success: Bool) {
         // Not use
     }
     
     func didUpdateInfoFinish(success: Bool) {
         self.hud.dismiss()
-        self.delegate?.didChangeEmail(self, email: self.viewModel.userRequest.payload.contact.email)
+        self.delegate?.didChangePhone(self, phone: self.viewModel.userRequest.payload.contact.phone, countryCode: self.viewModel.userRequest.payload.contact.countryCode)
         Utility.currentViewController().navigationController?.popViewController(animated: true)
+    }
+}
+
+extension ContactPhoneTableViewCell: SelectCodeViewControllerDelegate {
+    func didSelectCountryCode(_ view: SelectCodeViewController, countryCode: CountryCode) {
+        self.viewModel.userRequest.payload.contact.countryCode = countryCode.dialCode
+        self.codeLabel.text = "\(countryCode.dialCode) \(countryCode.name)"
+        self.setupSaveButton(isActive: self.isCanNext())
     }
 }
