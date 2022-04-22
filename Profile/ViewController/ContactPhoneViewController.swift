@@ -76,7 +76,7 @@ class ContactPhoneViewController: UIViewController, UITableViewDelegate, UITable
 }
 
 extension ContactPhoneViewController: ContactPhoneTableViewCellDelegate {
-    func didChangePhone(_ ContactPhoneTableViewCell: ContactPhoneTableViewCell, phone: String, countryCode: String) {
+    func didChangePhone(_ contactPhoneTableViewCell: ContactPhoneTableViewCell, phone: String, countryCode: String) {
         self.delegate?.didChangePhone(self, phone: phone, countryCode: countryCode)
     }
 }

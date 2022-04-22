@@ -32,7 +32,7 @@ import JGProgressHUD
 import RealmSwift
 
 protocol ContactPhoneTableViewCellDelegate {
-    func didChangePhone(_ ContactPhoneTableViewCell: ContactPhoneTableViewCell, phone: String, countryCode: String)
+    func didChangePhone(_ contactPhoneTableViewCell: ContactPhoneTableViewCell, phone: String, countryCode: String)
 }
 
 class ContactPhoneTableViewCell: UITableViewCell {
