@@ -43,7 +43,7 @@ class AboutInfoViewController: UIViewController {
         case submit
     }
     
-    var viewModel = AboutInfoViewModel(avatarType: .user, castcleId: UserManager.shared.rawCastcleId)
+    var viewModel = AboutInfoViewModel(authorType: .people, castcleId: UserManager.shared.rawCastcleId)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -90,7 +90,7 @@ class AboutInfoViewController: UIViewController {
     }
     
     private func updateIsSkip() {
-        if self.viewModel.avatarType == .page {
+        if self.viewModel.authorType == .page {
             if !self.viewModel.socialLinkShelf.socialLinks.isEmpty || !self.viewModel.overView.isEmpty {
                 self.viewModel.isSkip = false
             } else {
@@ -110,7 +110,7 @@ class AboutInfoViewController: UIViewController {
     }
     
     @objc private func leftButtonAction() {
-        if self.viewModel.avatarType == .user {
+        if self.viewModel.authorType == .people {
             Utility.currentViewController().navigationController?.popToRootViewController(animated: true)
         } else {
             let viewControllers: [UIViewController] = Utility.currentViewController().navigationController!.viewControllers as [UIViewController]
@@ -127,7 +127,7 @@ extension AboutInfoViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case AboutInfoViewControllerSection.dob.rawValue:
-            return (self.viewModel.avatarType == .page ? 0 : 1)
+            return (self.viewModel.authorType == .page ? 0 : 1)
         case AboutInfoViewControllerSection.social.rawValue:
             return self.viewModel.socialLinkShelf.socialLinks.count
         default:
@@ -190,7 +190,7 @@ extension AboutInfoViewController: DobTableViewCellDelegate {
 
 extension AboutInfoViewController: ComplateTableViewCellDelegate {
     func didDone(_ complateTableViewCell: ComplateTableViewCell, skip: Bool) {
-        if self.viewModel.avatarType == .user {
+        if self.viewModel.authorType == .people {
             if skip {
                 Utility.currentViewController().navigationController?.popToRootViewController(animated: true)
             } else {

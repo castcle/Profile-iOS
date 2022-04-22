@@ -49,23 +49,14 @@ class EditProfileViewModel {
     var isPage: Bool = false
     var userInfo: UserInfo = UserInfo()
     private let realm = try! Realm()
-    
-    enum State {
-        case updateProfile
-        case updateAvatar
-        case updateCover
-        case getInfo
-        case none
-    }
 
     //MARK: Input
-    public init(userRequest: UserRequest = UserRequest()) {
-        self.userRequest = userRequest
+    public init() {
         self.tokenHelper.delegate = self
     }
     
     public func updateProfile(isPage: Bool, castcleId: String) {
-        self.state = .updateProfile
+        self.state = .updateUserInfo
         self.isPage = isPage
         self.castcleId = castcleId
         if let dob = self.dobDate {
@@ -79,8 +70,7 @@ class EditProfileViewModel {
                     do {
                         let rawJson = try response.mapJSON()
                         let json = JSON(rawJson)
-                        let userHelper = UserHelper()
-                        userHelper.updateLocalProfile(user: UserInfo(json: json))
+                        UserHelper.shared.updateLocalProfile(user: UserInfo(json: json))
                         self.delegate?.didUpdateInfoFinish(success: true)
                     } catch {}
                 }
@@ -96,7 +86,7 @@ class EditProfileViewModel {
     
     public func updateAvatar(isPage: Bool, castcleId: String) {
         guard let image = self.avatar else { return }
-        self.state = .updateAvatar
+        self.state = .updateUserAvatar
         self.isPage = isPage
         self.castcleId = castcleId
         self.userRequest.payload.images.avatar = image.toBase64() ?? ""
@@ -105,7 +95,6 @@ class EditProfileViewModel {
                 do {
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
-                    let userHelper = UserHelper()
                     let user = UserInfo(json: json)
                     if isPage {
                         let pageRealm = self.realm.objects(Page.self).filter("castcleId == '\(user.castcleId)'").first
@@ -116,7 +105,7 @@ class EditProfileViewModel {
                             }
                         }
                     } else {
-                        userHelper.updateLocalProfile(user: user)
+                        UserHelper.shared.updateLocalProfile(user: user)
                     }
                     self.delegate?.didUpdateInfoFinish(success: true)
                 } catch {}
@@ -132,7 +121,7 @@ class EditProfileViewModel {
     
     public func updateCover(isPage: Bool, castcleId: String) {
         guard let image = self.cover else { return }
-        self.state = .updateCover
+        self.state = .updateUserCover
         self.isPage = isPage
         self.castcleId = castcleId
         self.userRequest.payload.images.cover = image.toBase64() ?? ""
@@ -141,7 +130,6 @@ class EditProfileViewModel {
                 do {
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
-                    let userHelper = UserHelper()
                     let user = UserInfo(json: json)
                     if self.isPage {
                         let pageRealm = self.realm.objects(Page.self).filter("castcleId == '\(user.castcleId)'").first
@@ -152,7 +140,7 @@ class EditProfileViewModel {
                             }
                         }
                     } else {
-                        userHelper.updateLocalProfile(user: user)
+                        UserHelper.shared.updateLocalProfile(user: user)
                     }
                     self.delegate?.didUpdateInfoFinish(success: true)
                 } catch {}
@@ -169,11 +157,11 @@ class EditProfileViewModel {
 
 extension EditProfileViewModel: TokenHelperDelegate {
     func didRefreshTokenFinish() {
-        if self.state == .updateProfile {
+        if self.state == .updateUserInfo {
             self.updateProfile(isPage: self.isPage, castcleId: self.castcleId)
-        } else if self.state == .updateAvatar {
+        } else if self.state == .updateUserAvatar {
             self.updateAvatar(isPage: self.isPage, castcleId: self.castcleId)
-        } else if self.state == .updateCover {
+        } else if self.state == .updateUserCover {
             self.updateCover(isPage: self.isPage, castcleId: self.castcleId)
         }
     }

@@ -46,12 +46,6 @@ public class DeletePageViewModel {
     private var state: State = .none
     var userInfo: UserInfo = UserInfo()
     private let realm = try! Realm()
-    
-    enum State {
-        case deletePage
-        case getMyPage
-        case none
-    }
 
     //MARK: Input
     public init(userInfo: UserInfo) {
@@ -89,7 +83,7 @@ public class DeletePageViewModel {
                     }
                     
                     pages.forEach { page in
-                        let pageInfo = PageInfo(json: page)
+                        let pageInfo = UserInfo(json: page)
                         try! self.realm.write {
                             let pageTemp = Page()
                             pageTemp.id = pageInfo.id
@@ -99,9 +93,8 @@ public class DeletePageViewModel {
                             pageTemp.cover = pageInfo.images.cover.fullHd
                             pageTemp.overview = pageInfo.overview
                             pageTemp.official = pageInfo.verified.official
-                            pageTemp.socialProvider = pageInfo.syncSocial.provider
-                            pageTemp.socialActive = pageInfo.syncSocial.active
-                            pageTemp.socialAutoPost = pageInfo.syncSocial.autoPost
+                            pageTemp.isSyncTwitter = !pageInfo.syncSocial.twitter.socialId.isEmpty
+                            pageTemp.isSyncFacebook = !pageInfo.syncSocial.facebook.socialId.isEmpty
                             self.realm.add(pageTemp, update: .modified)
                         }
                     }

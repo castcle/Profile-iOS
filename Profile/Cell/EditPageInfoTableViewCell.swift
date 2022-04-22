@@ -66,6 +66,13 @@ class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
     @IBOutlet var youtubeView: UIView!
     @IBOutlet var mediumView: UIView!
     @IBOutlet var websiteView: UIView!
+    @IBOutlet var pageInfoTitleLabel: UILabel!
+    @IBOutlet var emailTitleLabel: UILabel!
+    @IBOutlet var phoneTitleLabel: UILabel!
+    @IBOutlet var emailLabel: UILabel!
+    @IBOutlet var phoneLabel: UILabel!
+    @IBOutlet var emailIcon: UIImageView!
+    @IBOutlet var phoneIcon: UIImageView!
     
     @IBOutlet var facebookIconView: UIView!
     @IBOutlet var facebookIcon: UIImageView!
@@ -114,6 +121,18 @@ class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         self.overviewTextView.textColor = UIColor.Asset.white
         self.linkTitleLabel.font = UIFont.asset(.bold, fontSize: .body)
         self.linkTitleLabel.textColor = UIColor.Asset.white
+        self.pageInfoTitleLabel.textColor = UIColor.Asset.lightGray
+        self.pageInfoTitleLabel.font = UIFont.asset(.regular, fontSize: .overline)
+        self.emailTitleLabel.textColor = UIColor.Asset.white
+        self.emailTitleLabel.font = UIFont.asset(.regular, fontSize: .body)
+        self.phoneTitleLabel.textColor = UIColor.Asset.white
+        self.phoneTitleLabel.font = UIFont.asset(.regular, fontSize: .body)
+        self.emailLabel.textColor = UIColor.Asset.lightGray
+        self.emailLabel.font = UIFont.asset(.regular, fontSize: .body)
+        self.phoneLabel.textColor = UIColor.Asset.lightGray
+        self.phoneLabel.font = UIFont.asset(.regular, fontSize: .body)
+        self.emailIcon.image = UIImage.init(icon: .castcle(.next), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white)
+        self.phoneIcon.image = UIImage.init(icon: .castcle(.next), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white)
         
         self.castcleIdTextField.font = UIFont.asset(.regular, fontSize: .body)
         self.castcleIdTextField.textColor = UIColor.Asset.white
@@ -204,6 +223,22 @@ class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
             self.castcleIdNoticeLabel.text = "Once your Castcle ID has been changed, you can edit it again after 60 days."
             self.castcleIdTextField.isEnabled = false
         }
+        
+        if self.viewModel.userInfo.contact.email.isEmpty {
+            self.emailLabel.textColor = UIColor.Asset.lightGray
+            self.emailLabel.text = "None"
+        } else {
+            self.emailLabel.textColor = UIColor.Asset.lightBlue
+            self.emailLabel.text = self.viewModel.userInfo.contact.email
+        }
+        
+        if self.viewModel.userInfo.contact.phone.isEmpty {
+            self.phoneLabel.textColor = UIColor.Asset.lightGray
+            self.phoneLabel.text = "None"
+        } else {
+            self.phoneLabel.textColor = UIColor.Asset.lightBlue
+            self.phoneLabel.text = "\(self.viewModel.userInfo.contact.countryCode.isEmpty ? "(+66)" : "(\(self.viewModel.userInfo.contact.countryCode)")) \(self.viewModel.userInfo.contact.phone)"
+        }
     }
     
     private func disableUI(isActive: Bool) {
@@ -222,6 +257,18 @@ class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
             self.mediumTextField.isEnabled = false
             self.websiteTextField.isEnabled = false
         }
+    }
+    
+    @IBAction func updateEmailAction(_ sender: Any) {
+        let vc = ProfileOpener.open(.contactEmail(EditInfoViewModel(profileType: self.viewModel.profileType, userInfo: self.viewModel.userInfo))) as? ContactEmailViewController
+        vc?.delegate = self
+        Utility.currentViewController().navigationController?.pushViewController(vc ?? ContactEmailViewController(), animated: true)
+    }
+    
+    @IBAction func updatePhoneAction(_ sender: Any) {
+        let vc = ProfileOpener.open(.contactPhone(EditInfoViewModel(profileType: self.viewModel.profileType, userInfo: self.viewModel.userInfo))) as? ContactPhoneViewController
+        vc?.delegate = self
+        Utility.currentViewController().navigationController?.pushViewController(vc ?? ContactPhoneViewController(), animated: true)
     }
     
     @IBAction func saveAction(_ sender: Any) {
@@ -437,5 +484,22 @@ extension EditPageInfoTableViewCell: TOCropViewControllerDelegate {
                 self.viewModel.cover = coverCropImage
             }
         })
+    }
+}
+
+extension EditPageInfoTableViewCell: ContactEmailViewControllerDelegate {
+    func didChangeEmail(_ contactEmailViewController: ContactEmailViewController, email: String) {
+        self.viewModel.userInfo.contact.email = email
+        self.emailLabel.textColor = UIColor.Asset.lightBlue
+        self.emailLabel.text = self.viewModel.userInfo.contact.email
+    }
+}
+
+extension EditPageInfoTableViewCell: ContactPhoneViewControllerDelegate {
+    func didChangePhone(_ contactPhoneViewController: ContactPhoneViewController, phone: String, countryCode: String) {
+        self.viewModel.userInfo.contact.phone = phone
+        self.viewModel.userInfo.contact.countryCode = countryCode
+        self.phoneLabel.textColor = UIColor.Asset.lightBlue
+        self.phoneLabel.text = "\(self.viewModel.userInfo.contact.countryCode.isEmpty ? "(+66)" : "(\(self.viewModel.userInfo.contact.countryCode)")) \(self.viewModel.userInfo.contact.phone)"
     }
 }

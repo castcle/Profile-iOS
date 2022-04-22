@@ -44,23 +44,17 @@ public class AboutInfoViewModel {
     var userRequest: UserRequest = UserRequest()
     let tokenHelper: TokenHelper = TokenHelper()
     var isSkip: Bool = true
-    var avatarType: AvatarType
+    var authorType: AuthorType
     var overView: String = ""
     var dobDisplay: String = ""
     var dobDate: Date?
     var castcleId: String
     var isPage: Bool = false
     var state: State = .none
-    
-    enum State {
-        case updateUserInfo
-        case updatePageInfo
-        case none
-    }
 
     //MARK: Input
-    public init(avatarType: AvatarType, castcleId: String, userRequest: UserRequest = UserRequest()) {
-        self.avatarType = avatarType
+    public init(authorType: AuthorType, castcleId: String, userRequest: UserRequest = UserRequest()) {
+        self.authorType = authorType
         self.castcleId = castcleId
         self.userRequest = userRequest
         self.tokenHelper.delegate = self
@@ -122,8 +116,7 @@ public class AboutInfoViewModel {
                     do {
                         let rawJson = try response.mapJSON()
                         let json = JSON(rawJson)
-                        let userHelper = UserHelper()
-                        userHelper.updateLocalProfile(user: UserInfo(json: json))
+                        UserHelper.shared.updateLocalProfile(user: UserInfo(json: json))
                         self.delegate?.didUpdateUserInfoFinish(success: true)
                     } catch {}
                 }

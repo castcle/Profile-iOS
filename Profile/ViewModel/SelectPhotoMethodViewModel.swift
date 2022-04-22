@@ -38,11 +38,6 @@ public protocol SelectPhotoMethodViewModelDelegate {
     func didGetPageFinish()
 }
 
-public enum AvatarType {
-    case user
-    case page
-}
-
 public class SelectPhotoMethodViewModel {
     
     public var delegate: SelectPhotoMethodViewModelDelegate?
@@ -51,22 +46,15 @@ public class SelectPhotoMethodViewModel {
     var userRequest: UserRequest = UserRequest()
     let tokenHelper: TokenHelper = TokenHelper()
     var avatar: UIImage?
-    var avatarType: AvatarType
+    var authorType: AuthorType
     var state: State = .none
     var castcleId: String
     var isPage: Bool = false
     private let realm = try! Realm()
     
-    enum State {
-        case updateUserAvatar
-        case updatePageAvatar
-        case getMyPage
-        case none
-    }
-    
     //MARK: Input
-    public init(avatarType: AvatarType, castcleId: String = "") {
-        self.avatarType = avatarType
+    public init(authorType: AuthorType, castcleId: String = "") {
+        self.authorType = authorType
         self.castcleId = castcleId
         self.tokenHelper.delegate = self
     }
@@ -83,9 +71,8 @@ public class SelectPhotoMethodViewModel {
                     do {
                         let rawJson = try response.mapJSON()
                         let json = JSON(rawJson)
-                        let userHelper = UserHelper()
                         let user = UserInfo(json: json)
-                        userHelper.updateLocalProfile(user: user)
+                        UserHelper.shared.updateLocalProfile(user: user)
                         self.delegate?.didUpdateFinish(success: true)
                     } catch {}
                 }
@@ -114,7 +101,7 @@ public class SelectPhotoMethodViewModel {
                     }
                     
                     pages.forEach { page in
-                        let pageInfo = PageInfo(json: page)
+                        let pageInfo = UserInfo(json: page)
                         try! self.realm.write {
                             let pageTemp = Page()
                             pageTemp.id = pageInfo.id
@@ -124,9 +111,8 @@ public class SelectPhotoMethodViewModel {
                             pageTemp.cover = pageInfo.images.cover.fullHd
                             pageTemp.overview = pageInfo.overview
                             pageTemp.official = pageInfo.verified.official
-                            pageTemp.socialProvider = pageInfo.syncSocial.provider
-                            pageTemp.socialActive = pageInfo.syncSocial.active
-                            pageTemp.socialAutoPost = pageInfo.syncSocial.autoPost
+                            pageTemp.isSyncTwitter = !pageInfo.syncSocial.twitter.socialId.isEmpty
+                            pageTemp.isSyncFacebook = !pageInfo.syncSocial.facebook.socialId.isEmpty
                             self.realm.add(pageTemp, update: .modified)
                         }
                     }

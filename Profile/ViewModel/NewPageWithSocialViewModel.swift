@@ -43,12 +43,6 @@ public final class NewPageWithSocialViewModel {
     let tokenHelper: TokenHelper = TokenHelper()
     private let realm = try! Realm()
     
-    enum State {
-        case createPageWithSocial
-        case getPage
-        case none
-    }
-    
     public init() {
         self.tokenHelper.delegate = self
     }
@@ -57,11 +51,6 @@ public final class NewPageWithSocialViewModel {
         self.state = .createPageWithSocial
         self.pageRepository.createPageWithSocial(pageSocialRequest: self.pageSocialRequest) { (success, response, isRefreshToken) in
             if success {
-//                do {
-//                    let rawJson = try response.mapJSON()
-//                    let json = JSON(rawJson)
-//                    print(json)
-//                } catch {}
                 self.getAllMyPage()
             } else {
                 if isRefreshToken {
@@ -74,7 +63,7 @@ public final class NewPageWithSocialViewModel {
     }
     
     func getAllMyPage() {
-        self.state = .getPage
+        self.state = .getMyPage
         self.pageRepository.getMyPage() { (success, response, isRefreshToken) in
             if success {
                 self.state = .none
@@ -88,7 +77,7 @@ public final class NewPageWithSocialViewModel {
                     }
                     
                     pages.forEach { page in
-                        let pageInfo = PageInfo(json: page)
+                        let pageInfo = UserInfo(json: page)
                         try! self.realm.write {
                             let pageTemp = Page()
                             pageTemp.id = pageInfo.id
@@ -98,9 +87,8 @@ public final class NewPageWithSocialViewModel {
                             pageTemp.cover = pageInfo.images.cover.fullHd
                             pageTemp.overview = pageInfo.overview
                             pageTemp.official = pageInfo.verified.official
-                            pageTemp.socialProvider = pageInfo.syncSocial.provider
-                            pageTemp.socialActive = pageInfo.syncSocial.active
-                            pageTemp.socialAutoPost = pageInfo.syncSocial.autoPost
+                            pageTemp.isSyncTwitter = !pageInfo.syncSocial.twitter.socialId.isEmpty
+                            pageTemp.isSyncFacebook = !pageInfo.syncSocial.facebook.socialId.isEmpty
                             self.realm.add(pageTemp, update: .modified)
                         }
                     }
@@ -123,7 +111,7 @@ extension NewPageWithSocialViewModel: TokenHelperDelegate {
     public func didRefreshTokenFinish() {
         if self.state == .createPageWithSocial {
             self.createPageWithSocial()
-        } else if self.state == .getPage {
+        } else if self.state == .getMyPage {
             self.getAllMyPage()
         }
     }

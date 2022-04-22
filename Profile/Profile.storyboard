@@ -645,6 +645,66 @@
             </objects>
             <point key="canvasLocation" x="2246" y="2265"/>
         </scene>
+        <!--Contact Email View Controller-->
+        <scene sceneID="PnU-f7-QN0">
+            <objects>
+                <viewController storyboardIdentifier="ContactEmailViewController" id="XUb-OL-zgX" customClass="ContactEmailViewController" customModule="Profile" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="0Ob-yd-U5a">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="ctA-Rb-Jnw">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="K6k-Lg-9wd"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="ctA-Rb-Jnw" secondAttribute="bottom" id="GYK-Nj-034"/>
+                            <constraint firstItem="ctA-Rb-Jnw" firstAttribute="top" secondItem="K6k-Lg-9wd" secondAttribute="top" id="MuO-Rf-vEc"/>
+                            <constraint firstItem="K6k-Lg-9wd" firstAttribute="trailing" secondItem="ctA-Rb-Jnw" secondAttribute="trailing" id="OAj-fB-J7j"/>
+                            <constraint firstItem="ctA-Rb-Jnw" firstAttribute="leading" secondItem="K6k-Lg-9wd" secondAttribute="leading" id="wsQ-Dm-Izh"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="ctA-Rb-Jnw" id="y3T-YG-Oxp"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7ga-0x-vXN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="139" y="2960"/>
+        </scene>
+        <!--Contact Phone View Controller-->
+        <scene sceneID="d2I-IH-f1H">
+            <objects>
+                <viewController storyboardIdentifier="ContactPhoneViewController" id="yTD-t3-ihg" customClass="ContactPhoneViewController" customModule="Profile" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Fsj-bf-nP9">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="deb-B1-PjX">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="jKb-qi-Z1X"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="deb-B1-PjX" secondAttribute="bottom" id="0aZ-0m-mp6"/>
+                            <constraint firstItem="deb-B1-PjX" firstAttribute="top" secondItem="jKb-qi-Z1X" secondAttribute="top" id="NrU-4e-bVP"/>
+                            <constraint firstItem="deb-B1-PjX" firstAttribute="leading" secondItem="jKb-qi-Z1X" secondAttribute="leading" id="ddn-Pe-pmD"/>
+                            <constraint firstItem="jKb-qi-Z1X" firstAttribute="trailing" secondItem="deb-B1-PjX" secondAttribute="trailing" id="shD-3g-RYE"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="deb-B1-PjX" id="qpa-OT-oBf"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sxZ-6V-NNo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="827" y="2960"/>
+        </scene>
     </scenes>
     <resources>
         <image name="create-your-page" width="311" height="311"/>

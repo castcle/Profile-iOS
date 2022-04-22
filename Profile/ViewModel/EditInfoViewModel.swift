@@ -26,6 +26,7 @@
 //
 
 import UIKit
+import Core
 import Networking
 import SwiftyJSON
 
@@ -34,7 +35,7 @@ public protocol EditInfoViewModelDelegate {
     func didUpdateInfoFinish(success: Bool)
 }
 
-class EditInfoViewModel {
+public class EditInfoViewModel {
     public var delegate: EditInfoViewModelDelegate?
     var userRepository: UserRepository = UserRepositoryImpl()
     var userRequest: UserRequest = UserRequest()
@@ -48,13 +49,6 @@ class EditInfoViewModel {
     var isPage: Bool = false
     var state: State = .none
     
-    enum State {
-        case getMeInfo
-        case getUserInfo
-        case updateUserInfo
-        case none
-    }
-    
     public init(profileType: ProfileType = .unknow, userInfo: UserInfo = UserInfo()) {
         self.tokenHelper.delegate = self
         self.profileType = profileType
@@ -62,14 +56,13 @@ class EditInfoViewModel {
     }
     
     func getMeInfo() {
-        self.state = .getMeInfo
+        self.state = .getMe
         self.userRepository.getMe() { (success, response, isRefreshToken) in
             if success {
                 do {
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
-                    let userHelper = UserHelper()
-                    userHelper.updateLocalProfile(user: UserInfo(json: json))
+                    UserHelper.shared.updateLocalProfile(user: UserInfo(json: json))
                     self.delegate?.didGetInfoFinish(success: true)
                 } catch {
                     self.delegate?.didGetInfoFinish(success: false)
@@ -86,7 +79,7 @@ class EditInfoViewModel {
     
     func getUserInfo() {
         self.state = .getUserInfo
-        self.userRepository.getUser(userId: self.castcleId) { (success, response, isRefreshToken) in
+        self.userRepository.getUser(userId: self.userInfo.castcleId) { (success, response, isRefreshToken) in
             if success {
                 do {
                     let rawJson = try response.mapJSON()
@@ -107,6 +100,7 @@ class EditInfoViewModel {
     }
     
     public func updateProfile(isPage: Bool, castcleId: String) {
+        self.state = .updateUserInfo
         self.isPage = isPage
         self.castcleId = castcleId
         if let dob = self.dobDate {
@@ -126,8 +120,7 @@ class EditInfoViewModel {
                     do {
                         let rawJson = try response.mapJSON()
                         let json = JSON(rawJson)
-                        let userHelper = UserHelper()
-                        userHelper.updateLocalProfile(user: UserInfo(json: json))
+                        UserHelper.shared.updateLocalProfile(user: UserInfo(json: json))
                         self.delegate?.didUpdateInfoFinish(success: true)
                     } catch {
                         self.delegate?.didUpdateInfoFinish(success: false)
@@ -145,10 +138,10 @@ class EditInfoViewModel {
 }
 
 extension EditInfoViewModel: TokenHelperDelegate {
-    func didRefreshTokenFinish() {
+    public func didRefreshTokenFinish() {
         if self.state == .updateUserInfo {
             self.updateProfile(isPage: self.isPage, castcleId: self.castcleId)
-        } else if self.state == .getMeInfo {
+        } else if self.state == .getMe {
             self.getMeInfo()
         } else if self.state == .getUserInfo {
             self.getUserInfo()

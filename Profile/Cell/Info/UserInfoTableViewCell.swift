@@ -35,11 +35,6 @@ class UserInfoTableViewCell: UITableViewCell {
     @IBOutlet var profileImage: UIImageView!
     @IBOutlet var displayNameLabel: UILabel!
     @IBOutlet var userIdLabel: UILabel!
-    @IBOutlet var bioTitleLabel: UILabel!
-    @IBOutlet var bioLabel: UILabel!
-    @IBOutlet var birthdayTitleLabel: UILabel!
-    @IBOutlet var birthdayLabel: UILabel!
-    @IBOutlet var linkTitleLabel: UILabel!
     
     var userInfo: UserInfo = UserInfo()
     
@@ -49,16 +44,6 @@ class UserInfoTableViewCell: UITableViewCell {
         self.displayNameLabel.textColor = UIColor.Asset.white
         self.userIdLabel.font = UIFont.asset(.regular, fontSize: .overline)
         self.userIdLabel.textColor = UIColor.Asset.white
-        self.bioTitleLabel.font = UIFont.asset(.regular, fontSize: .body)
-        self.bioTitleLabel.textColor = UIColor.Asset.lightBlue
-        self.bioLabel.font = UIFont.asset(.regular, fontSize: .overline)
-        self.bioLabel.textColor = UIColor.Asset.white
-        self.birthdayTitleLabel.font = UIFont.asset(.regular, fontSize: .body)
-        self.birthdayTitleLabel.textColor = UIColor.Asset.lightBlue
-        self.birthdayLabel.font = UIFont.asset(.regular, fontSize: .overline)
-        self.birthdayLabel.textColor = UIColor.Asset.white
-        self.linkTitleLabel.font = UIFont.asset(.regular, fontSize: .body)
-        self.linkTitleLabel.textColor = UIColor.Asset.lightBlue
         self.profileImage.circle(color: UIColor.Asset.white)
     }
 
@@ -74,12 +59,5 @@ class UserInfoTableViewCell: UITableViewCell {
         self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
         self.displayNameLabel.text = self.userInfo.displayName
         self.userIdLabel.text = "@\(self.userInfo.castcleId)"
-        self.bioLabel.text = ((self.userInfo.overview.isEmpty) ? "N/A" : self.userInfo.overview)
-        if self.userInfo.dob.isEmpty {
-            let dobDate = Date.stringToDate(str: self.userInfo.dob)
-            self.birthdayLabel.text = dobDate.dateToString()
-        } else {
-            self.birthdayLabel.text = "N/A"
-        }
     }
 }
