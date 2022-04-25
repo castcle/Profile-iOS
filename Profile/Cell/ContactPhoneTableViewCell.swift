@@ -35,7 +35,7 @@ protocol ContactPhoneTableViewCellDelegate {
     func didChangePhone(_ contactPhoneTableViewCell: ContactPhoneTableViewCell, phone: String, countryCode: String)
 }
 
-class ContactPhoneTableViewCell: UITableViewCell {
+class ContactPhoneTableViewCell: UITableViewCell, UITextFieldDelegate {
 
     @IBOutlet var subtitleLabel: UILabel!
     @IBOutlet var saveButton: UIButton!
@@ -63,6 +63,7 @@ class ContactPhoneTableViewCell: UITableViewCell {
         self.mobileViewView.capsule(color: UIColor.Asset.darkGray)
         
         self.dropdownImage.image = UIImage.init(icon: .castcle(.dropDown), size: CGSize(width: 25, height: 25), textColor: UIColor.Asset.lightBlue)
+        self.mobileTextField.delegate = self
         self.mobileTextField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
     }
 
@@ -76,7 +77,7 @@ class ContactPhoneTableViewCell: UITableViewCell {
         if !self.viewModel.userInfo.contact.countryCode.isEmpty {
             let realm = try! Realm()
             if let countryCode = realm.objects(CountryCode.self).filter("dialCode == '\(self.viewModel.userInfo.contact.countryCode)'").first {
-                self.codeLabel.text = "\(countryCode.dialCode) \(countryCode.name)"
+                self.codeLabel.text = "\(countryCode.dialCode) \(countryCode.code)"
             }
         } else {
             self.viewModel.userRequest.payload.contact.countryCode = "+66"
@@ -104,6 +105,11 @@ class ContactPhoneTableViewCell: UITableViewCell {
             self.saveButton.setBackgroundImage(UIColor.Asset.darkGraphiteBlue.toImage(), for: .normal)
             self.saveButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.black)
         }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+       textField.resignFirstResponder()
+       return true
     }
     
     @objc func textFieldDidChange(_ textField: UITextField) {
@@ -147,7 +153,7 @@ extension ContactPhoneTableViewCell: EditInfoViewModelDelegate {
 extension ContactPhoneTableViewCell: SelectCodeViewControllerDelegate {
     func didSelectCountryCode(_ view: SelectCodeViewController, countryCode: CountryCode) {
         self.viewModel.userRequest.payload.contact.countryCode = countryCode.dialCode
-        self.codeLabel.text = "\(countryCode.dialCode) \(countryCode.name)"
+        self.codeLabel.text = "\(countryCode.dialCode) \(countryCode.code)"
         self.setupSaveButton(isActive: self.isCanNext())
     }
 }

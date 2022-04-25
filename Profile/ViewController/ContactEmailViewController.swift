@@ -42,6 +42,7 @@ class ContactEmailViewController: UIViewController, UITableViewDelegate, UITable
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
+        self.hideKeyboardWhenTapped()
         self.setupNavBar()
         self.configureTableView()
     }
