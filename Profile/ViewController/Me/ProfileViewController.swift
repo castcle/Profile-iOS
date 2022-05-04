@@ -450,7 +450,7 @@ extension ProfileViewController: HeaderTableViewCellDelegate {
 
 extension ProfileViewController: FooterTableViewCellDelegate {
     func didTabComment(_ footerTableViewCell: FooterTableViewCell, content: Content) {
-        Utility.currentViewController().navigationController?.pushViewController(ComponentOpener.open(.comment(CommentViewModel(content: content))), animated: true)
+        Utility.currentViewController().navigationController?.pushViewController(ComponentOpener.open(.comment(CommentViewModel(contentId: content.id))), animated: true)
     }
     
     func didTabQuoteCast(_ footerTableViewCell: FooterTableViewCell, content: Content, page: Page) {
