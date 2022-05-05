@@ -30,7 +30,6 @@ import Networking
 import Kingfisher
 
 protocol PageSyncSocialTableViewCellDelegate {
-    func didConnect(_ pageSyncSocialTableViewCell: PageSyncSocialTableViewCell, isActive: Bool)
     func didAutoPost(_ pageSyncSocialTableViewCell: PageSyncSocialTableViewCell, isAutoPost: Bool)
 }
 
@@ -55,42 +54,8 @@ class PageSyncSocialTableViewCell: UITableViewCell {
     @IBOutlet var line01View: UIView!
     @IBOutlet var line02View: UIView!
     
-    @IBOutlet var actionTitleLabel: UILabel!
-    @IBOutlet var actionDetailLabel: UILabel!
-    @IBOutlet var actionButton: UIButton!
-    
     public var delegate: PageSyncSocialTableViewCellDelegate?
-    var userInfo: UserInfo = UserInfo()
-    
-    private var icon: UIImage {
-        switch self.userInfo.syncSocial.provider {
-        case "facebook":
-            return UIImage.init(icon: .castcle(.facebook), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.white)
-        case "twitter":
-            return UIImage.init(icon: .castcle(.twitter), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.white)
-        case "google":
-            return UIImage.Asset.googleLogo
-        case "apple":
-            return UIImage.init(icon: .castcle(.apple), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.white)
-        default:
-            return UIImage()
-        }
-    }
-    
-    private var color: UIColor {
-        switch self.userInfo.syncSocial.provider {
-        case "facebook":
-            return UIColor.Asset.facebook
-        case "twitter":
-            return UIColor.Asset.twitter
-        case "google":
-            return UIColor.Asset.white
-        case "apple":
-            return UIColor.Asset.apple
-        default:
-            return UIColor.clear
-        }
-    }
+    var syncDetail: SyncDetail = SyncDetail()
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -121,13 +86,6 @@ class PageSyncSocialTableViewCell: UITableViewCell {
         self.noticeLabel.textColor = UIColor.Asset.gray
         self.line01View.backgroundColor = UIColor.Asset.black
         self.line02View.backgroundColor = UIColor.Asset.black
-        
-        self.actionTitleLabel.font = UIFont.asset(.regular, fontSize: .body)
-        self.actionTitleLabel.textColor = UIColor.Asset.white
-        self.actionDetailLabel.font = UIFont.asset(.regular, fontSize: .overline)
-        self.actionDetailLabel.textColor = UIColor.Asset.white
-        self.actionButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .overline)
-        self.actionButton.setTitleColor(UIColor.Asset.white, for: .normal)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -142,50 +100,30 @@ class PageSyncSocialTableViewCell: UITableViewCell {
         }
     }
     
-    func configCell(userInfo: UserInfo) {
-        self.userInfo = userInfo
+    func configCell(displayName: String, castcleId: String, avatar: String, syncDetail: SyncDetail) {
+        self.syncDetail = syncDetail
         
-        self.sicialIconView.capsule(color: self.color, borderWidth: 2, borderColor: UIColor.Asset.black)
+        self.sicialIconView.capsule(color: self.syncDetail.provider.color, borderWidth: 2, borderColor: UIColor.Asset.black)
         self.castcleIconView.capsule(color: UIColor.Asset.black, borderWidth: 2, borderColor: UIColor.Asset.black)
-        self.socialIcon.image = self.icon
+        self.socialIcon.image = self.syncDetail.provider.icon
         self.castcleIcon.image = UIImage.init(icon: .castcle(.logo), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.white)
         
-        let castcleAvatarUrl = URL(string: self.userInfo.images.avatar.thumbnail)
+        let castcleAvatarUrl = URL(string: avatar)
         self.castcleAvatarImage.kf.setImage(with: castcleAvatarUrl, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
-        self.castcleNameLabel.text = self.userInfo.displayName
-        self.castcleIdLabel.text = "@\(self.userInfo.castcleId)"
+        self.castcleNameLabel.text = displayName
+        self.castcleIdLabel.text = "@\(castcleId)"
         
-        let socialAvatarUrl = URL(string: self.userInfo.syncSocial.avatar)
+        let socialAvatarUrl = URL(string: self.syncDetail.avatar)
         self.socialAvatarImage.kf.setImage(with: socialAvatarUrl, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
-        self.socialNameLabel.text = self.userInfo.syncSocial.displayName
-        self.socialIdLabel.text = self.userInfo.syncSocial.userName.isEmpty ? "" : "@\(self.userInfo.syncSocial.userName)"
+        self.socialNameLabel.text = self.syncDetail.displayName
+        self.socialIdLabel.text = self.syncDetail.userName.isEmpty ? "" : "@\(self.syncDetail.userName)"
         
-        if self.userInfo.syncSocial.autoPost {
+        if self.syncDetail.autoPost {
             self.autoPostSwitch.setOn(true, animated: false)
         } else {
             self.autoPostSwitch.setOn(false, animated: false)
         }
         
-        self.noticeLabel.text = "Your post on \(self.userInfo.syncSocial.provider.capitalized) will automatically cast on Castcle."
-        self.updateButton()
-    }
-    
-    private func updateButton() {
-        if self.userInfo.syncSocial.active {
-            self.actionTitleLabel.text = "Do You want to disconnect from \(self.userInfo.syncSocial.provider.capitalized)? "
-            self.actionDetailLabel.text = "Disconnect sync does not affect any of the information you have posted, and it will not affect your account.  You can reconnect it at any time"
-            self.actionButton.setTitle("Disconnect", for: .normal)
-            self.actionButton.capsule(color: UIColor.Asset.denger, borderWidth: 1, borderColor: UIColor.Asset.denger)
-        } else {
-            self.actionTitleLabel.text = "Do you wish to reconnect with \(self.userInfo.syncSocial.provider.capitalized)?"
-            self.actionDetailLabel.text = " By reconnecting your social media account, you will be able to automatically cast on Castcle."
-            self.actionButton.setTitle("Reconnect", for: .normal)
-            self.actionButton.capsule(color: UIColor.Asset.lightBlue, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
-        }
-    }
-    
-    @IBAction func syncAction(_ sender: Any) {
-        self.userInfo.syncSocial.active.toggle()
-        self.delegate?.didConnect(self, isActive: self.userInfo.syncSocial.active)
+        self.noticeLabel.text = "Your post on \(self.syncDetail.provider.display) will automatically cast on Castcle."
     }
 }

@@ -41,14 +41,6 @@ class ProfileViewController: UIViewController {
     var profileViewModel = ProfileViewModel(profileType: .unknow, castcleId: "", displayName: "")
     var profileFeedViewModel = ProfileFeedViewModel(profileContentType: .unknow, profileType: .unknow, castcleId: "")
     
-    enum FeedCellType {
-        case activity
-        case header
-        case content
-        case quote
-        case footer
-    }
-    
     enum ProfileViewControllerSection: Int, CaseIterable {
         case header = 0
         case munu
@@ -458,7 +450,7 @@ extension ProfileViewController: HeaderTableViewCellDelegate {
 
 extension ProfileViewController: FooterTableViewCellDelegate {
     func didTabComment(_ footerTableViewCell: FooterTableViewCell, content: Content) {
-        Utility.currentViewController().navigationController?.pushViewController(ComponentOpener.open(.comment(CommentViewModel(content: content))), animated: true)
+        Utility.currentViewController().navigationController?.pushViewController(ComponentOpener.open(.comment(CommentViewModel(contentId: content.id))), animated: true)
     }
     
     func didTabQuoteCast(_ footerTableViewCell: FooterTableViewCell, content: Content, page: Page) {

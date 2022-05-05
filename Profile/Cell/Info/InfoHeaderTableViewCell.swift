@@ -19,22 +19,30 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  SocialLink.swift
+//  InfoHeaderTableViewCell.swift
 //  Profile
 //
-//  Created by Castcle Co., Ltd. on 6/8/2564 BE.
+//  Created by Castcle Co., Ltd. on 22/4/2565 BE.
 //
 
+import UIKit
 import Core
 
-public class SocialLink: NSObject {
-    var socialLinkType: SocialLinkType = .website
-    var value: String = ""
+class InfoHeaderTableViewCell: UITableViewCell {
+
+    @IBOutlet var titleLabel: UILabel!
     
-    public override init() { }
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.titleLabel.font = UIFont.asset(.regular, fontSize: .body)
+        self.titleLabel.textColor = UIColor.Asset.white
+    }
+
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+    }
     
-    public init(socialLinkType: SocialLinkType, value: String) {
-        self.socialLinkType = socialLinkType
-        self.value = value
+    func configCell(title: String) {
+        self.titleLabel.text = title
     }
 }

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="318" id="KGk-i7-Jjw" customClass="ContactEmailTableViewCell" customModule="Profile" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="318"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="318"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This email will be linked to your page. Once confirmed, users will be able to see your Page’s contact information." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GbY-hP-nOO">
+                        <rect key="frame" x="20" y="20" width="280" height="58"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a5m-PG-WWv">
+                        <rect key="frame" x="20" y="238" width="280" height="50"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="50" id="Jgh-2I-fII"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                        <state key="normal" title="Save"/>
+                        <connections>
+                            <action selector="nextAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="JrL-JL-eha"/>
+                        </connections>
+                    </button>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QL8-Pf-A2Y">
+                        <rect key="frame" x="20" y="108" width="280" height="60"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="a4m-tx-syk">
+                                <rect key="frame" x="15" y="10" width="250" height="40"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="60" id="C1C-CZ-OMC"/>
+                            <constraint firstItem="a4m-tx-syk" firstAttribute="leading" secondItem="QL8-Pf-A2Y" secondAttribute="leading" constant="15" id="FTO-9b-rCx"/>
+                            <constraint firstItem="a4m-tx-syk" firstAttribute="top" secondItem="QL8-Pf-A2Y" secondAttribute="top" constant="10" id="TdU-rp-piO"/>
+                            <constraint firstAttribute="trailing" secondItem="a4m-tx-syk" secondAttribute="trailing" constant="15" id="ZIs-F2-PVf"/>
+                            <constraint firstAttribute="bottom" secondItem="a4m-tx-syk" secondAttribute="bottom" constant="10" id="fyA-2r-PbF"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="GbY-hP-nOO" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="31x-IE-YPY"/>
+                    <constraint firstItem="GbY-hP-nOO" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="20" id="Eel-T4-9kh"/>
+                    <constraint firstAttribute="bottom" secondItem="a5m-PG-WWv" secondAttribute="bottom" constant="30" id="PzF-VR-9mO"/>
+                    <constraint firstItem="QL8-Pf-A2Y" firstAttribute="top" secondItem="GbY-hP-nOO" secondAttribute="bottom" constant="30" id="W3b-9d-kRC"/>
+                    <constraint firstItem="QL8-Pf-A2Y" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="cO2-3r-CFC"/>
+                    <constraint firstAttribute="trailing" secondItem="QL8-Pf-A2Y" secondAttribute="trailing" constant="20" id="drp-Zo-Id9"/>
+                    <constraint firstItem="a5m-PG-WWv" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="ioQ-MN-85U"/>
+                    <constraint firstItem="a5m-PG-WWv" firstAttribute="top" secondItem="QL8-Pf-A2Y" secondAttribute="bottom" constant="70" id="uVx-NR-enP"/>
+                    <constraint firstAttribute="trailing" secondItem="GbY-hP-nOO" secondAttribute="trailing" constant="20" id="xRB-Ez-ngl"/>
+                    <constraint firstAttribute="trailing" secondItem="a5m-PG-WWv" secondAttribute="trailing" constant="20" id="zxq-iC-HKB"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="emailTextField" destination="a4m-tx-syk" id="UHa-dS-KwU"/>
+                <outlet property="emailView" destination="QL8-Pf-A2Y" id="Kbf-9i-6l3"/>
+                <outlet property="saveButton" destination="a5m-PG-WWv" id="Gj2-AL-G4z"/>
+                <outlet property="subtitleLabel" destination="GbY-hP-nOO" id="9rb-Of-1dc"/>
+            </connections>
+            <point key="canvasLocation" x="137.68115942028987" y="231.69642857142856"/>
+        </tableViewCell>
+    </objects>
+    <designables>
+        <designable name="a4m-tx-syk">
+            <size key="intrinsicContentSize" width="34.5" height="18.5"/>
+        </designable>
+    </designables>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

@@ -42,7 +42,7 @@ class SelectPhotoMethodViewController: UIViewController {
     @IBOutlet var cameraRollButton: UIButton!
     @IBOutlet var takePhotoButton: UIButton!
     
-    var viewModel = SelectPhotoMethodViewModel(avatarType: .user)
+    var viewModel = SelectPhotoMethodViewModel(authorType: .people)
     let hud = JGProgressHUD()
     
     override func viewDidLoad() {
@@ -78,7 +78,7 @@ class SelectPhotoMethodViewController: UIViewController {
     }
     
     func setupNavBar() {
-        if self.viewModel.avatarType == .page {
+        if self.viewModel.authorType == .page {
             self.customNavigationBar(.primary, title: "", textColor: UIColor.Asset.white)
             
             let leftIcon = NavBarButtonType.back.barButton
@@ -104,7 +104,7 @@ class SelectPhotoMethodViewController: UIViewController {
     }
     
     @objc private func leftButtonAction() {
-        if self.viewModel.avatarType == .user {
+        if self.viewModel.authorType == .people {
             Utility.currentViewController().navigationController?.popViewController(animated: true)
         } else {
             let viewControllers: [UIViewController] = Utility.currentViewController().navigationController!.viewControllers as [UIViewController]
@@ -113,7 +113,7 @@ class SelectPhotoMethodViewController: UIViewController {
     }
     
     @objc private func skipAction() {
-        Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.about(AboutInfoViewModel(avatarType: self.viewModel.avatarType, castcleId: self.viewModel.castcleId, userRequest: self.viewModel.userRequest))), animated: true)
+        Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.about(AboutInfoViewModel(authorType: self.viewModel.authorType, castcleId: self.viewModel.castcleId, userRequest: self.viewModel.userRequest))), animated: true)
     }
     
     @IBAction func cameraRollAction(_ sender: Any) {
@@ -236,7 +236,7 @@ extension SelectPhotoMethodViewController: TOCropViewControllerDelegate {
         cropViewController.dismiss(animated: true, completion: {
             self.viewModel.avatar = image.resizeImage(targetSize: CGSize.init(width: 500, height: 500))
             self.hud.show(in: self.view)
-            if self.viewModel.avatarType == .page {
+            if self.viewModel.authorType == .page {
                 self.viewModel.updateUserAvatar(isPage: true)
             } else {
                 self.viewModel.updateUserAvatar(isPage: false)
@@ -256,13 +256,13 @@ extension SelectPhotoMethodViewController: SelectPhotoMethodViewModelDelegate {
         } else {
             self.hud.dismiss()
             if success {
-                Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.about(AboutInfoViewModel(avatarType: self.viewModel.avatarType, castcleId: self.viewModel.castcleId))), animated: true)
+                Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.about(AboutInfoViewModel(authorType: self.viewModel.authorType, castcleId: self.viewModel.castcleId))), animated: true)
             }
         }
     }
     
     func didGetPageFinish() {
         self.hud.dismiss()
-        Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.about(AboutInfoViewModel(avatarType: self.viewModel.avatarType, castcleId: self.viewModel.castcleId, userRequest: self.viewModel.userRequest))), animated: true)
+        Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.about(AboutInfoViewModel(authorType: self.viewModel.authorType, castcleId: self.viewModel.castcleId, userRequest: self.viewModel.userRequest))), animated: true)
     }
 }

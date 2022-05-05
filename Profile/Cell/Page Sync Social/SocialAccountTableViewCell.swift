@@ -37,14 +37,12 @@ class SocialAccountTableViewCell: UITableViewCell {
     @IBOutlet var socialView: UIView!
     @IBOutlet var socialImage: UIImageView!
     
-    private var userInfo: UserInfo = UserInfo()
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         self.titleLabel.font = UIFont.asset(.regular, fontSize: .body)
         self.titleLabel.textColor = UIColor.Asset.white
         self.displayLabel.font = UIFont.asset(.regular, fontSize: .body)
-        self.displayLabel.textColor = UIColor.Asset.gray
+        self.displayLabel.textColor = UIColor.Asset.lightBlue
         self.nextImage.image = UIImage.init(icon: .castcle(.next), size: CGSize(width: 25, height: 25), textColor: UIColor.Asset.white)
     }
 
@@ -52,39 +50,15 @@ class SocialAccountTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
-    func configCell(socialType: SocialType, userInfo: UserInfo) {
-        self.userInfo = userInfo
+    func configCell(socialType: SocialType, isSync: Bool) {
         self.titleLabel.text = socialType.display
-        if socialType == .facebook {
-            self.socialView.capsule(color: UIColor.Asset.facebook)
-            self.socialImage.image = UIImage.init(icon: .castcle(.facebook), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.white)
-        } else if socialType == .twitter {
-            self.socialView.capsule(color: UIColor.Asset.twitter)
-            self.socialImage.image = UIImage.init(icon: .castcle(.twitter), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.white)
-        } else {
-            self.socialView.capsule(color: .clear)
-            self.socialImage.image = UIImage()
-        }
+        self.socialView.capsule(color: socialType.color)
+        self.socialImage.image = socialType.icon
         
-//        if socialUser.socialId.isEmpty {
+        if isSync {
+            self.displayLabel.text = "Synced"
+        } else {
             self.displayLabel.text = ""
-//            self.displayLabel.textColor = UIColor.Asset.gray
-//            self.nextImage.isHidden = false
-//        } else {
-//            self.displayLabel.text = "Linked"
-//            self.displayLabel.textColor = UIColor.Asset.lightBlue
-//            self.nextImage.isHidden = true
-//        }
+        }
     }
-    
-//    private func isSyncProvider(socialType: SocialType) -> Bool {
-//        if socialType == .facebook {
-//            for i in 0..<self.userInfo.syncSocial
-//        } else if socialType == .twitter {
-//            
-//        } else {
-//            return false
-//        }
-//    }
-    
 }

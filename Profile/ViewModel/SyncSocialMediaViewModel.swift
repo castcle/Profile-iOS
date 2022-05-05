@@ -41,12 +41,8 @@ public final class SyncSocialMediaViewModel {
     var socialType: SocialType = .unknow
     private var duplicate: Bool = false
     var state: State = .none
-    
-    enum State {
-        case getInfo
-        case syncSocial
-        case none
-    }
+    var isSyncTwitter: Bool = false
+    var isSyncFacebook: Bool = false
     
     public init(castcleId: String) {
         self.tokenHelper.delegate = self
@@ -54,7 +50,7 @@ public final class SyncSocialMediaViewModel {
     }
     
     func getInfo(duplicate: Bool) {
-        self.state = .getInfo
+        self.state = .getUserInfo
         self.duplicate = duplicate
         self.userRepository.getUser(userId: self.castcleId) { (success, response, isRefreshToken) in
             if success {
@@ -62,6 +58,16 @@ public final class SyncSocialMediaViewModel {
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
                     self.userInfo = UserInfo(json: json)
+                    if !self.userInfo.syncSocial.twitter.socialId.isEmpty {
+                        self.isSyncTwitter = true
+                    } else {
+                        self.isSyncTwitter = false
+                    }
+                    if !self.userInfo.syncSocial.facebook.socialId.isEmpty {
+                        self.isSyncFacebook = true
+                    } else {
+                        self.isSyncFacebook = false
+                    }
                     if duplicate {
                         self.didDuplicate?()
                     } else {
@@ -107,7 +113,7 @@ public final class SyncSocialMediaViewModel {
 
 extension SyncSocialMediaViewModel: TokenHelperDelegate {
     public func didRefreshTokenFinish() {
-        if self.state == .getInfo {
+        if self.state == .getUserInfo {
             self.getInfo(duplicate: self.duplicate)
         } else if self.state == .syncSocial {
             self.syncSocial()

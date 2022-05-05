@@ -50,14 +50,6 @@ class CreatePageDisplayNameViewModel {
     let tokenHelper: TokenHelper = TokenHelper()
     private var state: State = .none
     private let realm = try! Realm()
-    
-    enum State {
-        case suggest
-        case check
-        case createPage
-        case getMyPage
-        case none
-    }
 
     //MARK: Input
     public init(authenRequest: AuthenRequest = AuthenRequest(), pageRequest: PageRequest = PageRequest(), authenticationRepository: AuthenticationRepository = AuthenticationRepositoryImpl()) {
@@ -68,7 +60,7 @@ class CreatePageDisplayNameViewModel {
     }
     
     public func suggestCastcleId() {
-        self.state = .suggest
+        self.state = .suggestCastcleId
         self.authenticationRepository.suggestCastcleId(authenRequest: self.authenRequest) { (success, response, isRefreshToken) in
             if success {
                 do {
@@ -87,8 +79,8 @@ class CreatePageDisplayNameViewModel {
     }
     
     public func checkCastcleIdExists() {
-        self.state = .check
-        self.authenticationRepository.checkCastcleIdExists(authenRequest: self.authenRequest) { (success, response, isRefreshToken) in
+        self.state = .checkCastcleIdExists
+        self.authenticationRepository.checkCastcleId(authenRequest: self.authenRequest) { (success, response, isRefreshToken) in
             if success {
                 do {
                     let rawJson = try response.mapJSON()
@@ -139,7 +131,7 @@ class CreatePageDisplayNameViewModel {
                     }
                     
                     pages.forEach { page in
-                        let pageInfo = PageInfo(json: page)
+                        let pageInfo = UserInfo(json: page)
                         try! self.realm.write {
                             let pageTemp = Page()
                             pageTemp.id = pageInfo.id
@@ -149,9 +141,8 @@ class CreatePageDisplayNameViewModel {
                             pageTemp.cover = pageInfo.images.cover.fullHd
                             pageTemp.overview = pageInfo.overview
                             pageTemp.official = pageInfo.verified.official
-                            pageTemp.socialProvider = pageInfo.syncSocial.provider
-                            pageTemp.socialActive = pageInfo.syncSocial.active
-                            pageTemp.socialAutoPost = pageInfo.syncSocial.autoPost
+                            pageTemp.isSyncTwitter = !pageInfo.syncSocial.twitter.socialId.isEmpty
+                            pageTemp.isSyncFacebook = !pageInfo.syncSocial.facebook.socialId.isEmpty
                             self.realm.add(pageTemp, update: .modified)
                         }
                     }
@@ -170,9 +161,9 @@ class CreatePageDisplayNameViewModel {
 
 extension CreatePageDisplayNameViewModel: TokenHelperDelegate {
     func didRefreshTokenFinish() {
-        if self.state == .suggest {
+        if self.state == .suggestCastcleId {
             self.suggestCastcleId()
-        } else if self.state == .check {
+        } else if self.state == .checkCastcleIdExists {
             self.checkCastcleIdExists()
         } else if self.state == .createPage {
             self.createPage()
