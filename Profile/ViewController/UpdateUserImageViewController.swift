@@ -32,6 +32,7 @@ import Defaults
 class UpdateUserImageViewController: UIViewController {
 
     @IBOutlet var tableView: UITableView!
+    private var isProcess: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,7 +62,9 @@ class UpdateUserImageViewController: UIViewController {
     }
     
     @objc private func skipAction() {
-        Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.updateUserInfo), animated: true)
+        if !self.isProcess {
+            Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.updateUserInfo), animated: true)
+        }
     }
     
     func configureTableView() {
@@ -85,6 +88,13 @@ extension UpdateUserImageViewController: UITableViewDelegate, UITableViewDataSou
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.updateUserImage, for: indexPath as IndexPath) as? UpdateUserImageTableViewCell
         cell?.backgroundColor = UIColor.clear
+        cell?.delegate = self
         return cell ?? UpdateUserImageTableViewCell()
+    }
+}
+
+extension UpdateUserImageViewController: UpdateUserImageTableViewCellDelegate {
+    func didUpdateImage(isProcess: Bool) {
+        self.isProcess = isProcess
     }
 }

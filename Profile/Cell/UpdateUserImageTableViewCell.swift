@@ -34,6 +34,10 @@ import JGProgressHUD
 import TOCropViewController
 import TLPhotoPicker
 
+public protocol UpdateUserImageTableViewCellDelegate {
+    func didUpdateImage(isProcess: Bool)
+}
+
 class UpdateUserImageTableViewCell: UITableViewCell {
 
     @IBOutlet var coverImage: UIImageView!
@@ -46,6 +50,7 @@ class UpdateUserImageTableViewCell: UITableViewCell {
     @IBOutlet var subTitleLabel: UILabel!
     @IBOutlet var saveButton: UIButton!
     
+    public var delegate: UpdateUserImageTableViewCellDelegate?
     let viewModel = UpdateUserImageViewModel()
     let hud = JGProgressHUD()
     private var updateImageType: UpdateImageType = .none
@@ -93,6 +98,7 @@ class UpdateUserImageTableViewCell: UITableViewCell {
     }
     
     @IBAction func saveAction(_ sender: Any) {
+        self.delegate?.didUpdateImage(isProcess: true)
         if self.viewModel.avatar != nil || self.viewModel.cover != nil {
             self.hud.show(in: Utility.currentViewController().view)
             self.viewModel.updateProfile()
@@ -226,6 +232,8 @@ extension UpdateUserImageTableViewCell: UpdateUserImageViewModelDelegate {
         self.hud.dismiss()
         if success {
             Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.updateUserInfo), animated: true)
+        } else {
+            self.delegate?.didUpdateImage(isProcess: false)
         }
     }
 }

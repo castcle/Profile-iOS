@@ -30,6 +30,10 @@ import Core
 import Component
 import JGProgressHUD
 
+public protocol UpdateUserInfoTableViewCellDelegate {
+    func didUpdateInfo(isProcess: Bool)
+}
+
 class UpdateUserInfoTableViewCell: UITableViewCell, UITextViewDelegate {
 
     @IBOutlet var titleLabel: UILabel!
@@ -64,6 +68,7 @@ class UpdateUserInfoTableViewCell: UITableViewCell, UITextViewDelegate {
     @IBOutlet var selectDateButton: UIButton!
     @IBOutlet var saveButton: UIButton!
     
+    public var delegate: UpdateUserInfoTableViewCellDelegate?
     let viewModel = UpdateUserInfoViewModel()
     let hud = JGProgressHUD()
     private var dobDate: Date? = nil
@@ -135,6 +140,7 @@ class UpdateUserInfoTableViewCell: UITableViewCell, UITextViewDelegate {
     
     @IBAction func saveAction(_ sender: Any) {
         self.hud.show(in: Utility.currentViewController().view)
+        self.delegate?.didUpdateInfo(isProcess: true)
         self.viewModel.userRequest.payload.overview = self.overviewTextView.text ?? ""
         self.viewModel.userRequest.payload.links.facebook = (self.facebookTextField.text! == "https://" ? "" : self.facebookTextField.text!)
         self.viewModel.userRequest.payload.links.twitter = (self.twitterTextField.text! == "https://" ? "" : self.twitterTextField.text!)
@@ -157,6 +163,8 @@ extension UpdateUserInfoTableViewCell: UpdateUserInfoViewModelDelegate {
         self.hud.dismiss()
         if success {
             Utility.currentViewController().view.window!.rootViewController?.dismiss(animated: true, completion: nil)
+        } else {
+            self.delegate?.didUpdateInfo(isProcess: false)
         }
     }
 }

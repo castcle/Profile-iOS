@@ -32,6 +32,7 @@ import Defaults
 class UpdateUserInfoViewController: UIViewController {
 
     @IBOutlet var tableView: UITableView!
+    private var isProcess: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,7 +62,9 @@ class UpdateUserInfoViewController: UIViewController {
     }
     
     @objc private func skipAction() {
-        Utility.currentViewController().view.window!.rootViewController?.dismiss(animated: true, completion: nil)
+        if !self.isProcess {
+            Utility.currentViewController().view.window!.rootViewController?.dismiss(animated: true, completion: nil)
+        }
     }
     
     func configureTableView() {
@@ -85,6 +88,13 @@ extension UpdateUserInfoViewController: UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.UpdateUserInfo, for: indexPath as IndexPath) as? UpdateUserInfoTableViewCell
         cell?.backgroundColor = UIColor.clear
+        cell?.delegate = self
         return cell ?? UpdateUserInfoTableViewCell()
+    }
+}
+
+extension UpdateUserInfoViewController: UpdateUserInfoTableViewCellDelegate {
+    func didUpdateInfo(isProcess: Bool) {
+        self.isProcess = isProcess
     }
 }
