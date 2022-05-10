@@ -31,13 +31,14 @@ import Networking
 import Defaults
 
 public enum ProfileScene {
-    case welcome
     case photoMethod(SelectPhotoMethodViewModel)
     case about(AboutInfoViewModel)
     case addLink
     case userInfo(UserInfoViewModel)
     case editInfo(ProfileType, UserInfo)
     case action
+    case updateUserImage
+    case updateUserInfo
     case welcomeCreatePage
     case createPage
     case deletePage(DeletePageViewModel)
@@ -56,10 +57,6 @@ public enum ProfileScene {
 public struct ProfileOpener {
     public static func open(_ profileScene: ProfileScene) -> UIViewController {
         switch profileScene {
-        case .welcome:
-            let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.profile, bundle: ConfigBundle.profile)
-            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.welcome)
-            return vc
         case .photoMethod(let viewModel):
             let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.profile, bundle: ConfigBundle.profile)
             let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.photoMethod) as? SelectPhotoMethodViewController
@@ -87,6 +84,14 @@ public struct ProfileOpener {
         case .action:
             let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.me, bundle: ConfigBundle.profile)
             let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.action)
+            return vc
+        case .updateUserImage:
+            let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.profile, bundle: ConfigBundle.profile)
+            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.updateUserImage)
+            return vc
+        case .updateUserInfo:
+            let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.profile, bundle: ConfigBundle.profile)
+            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.updateUserInfo)
             return vc
         case .welcomeCreatePage:
             let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.profile, bundle: ConfigBundle.profile)
