@@ -68,7 +68,6 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
     @IBOutlet var mediumView: UIView!
     @IBOutlet var websiteView: UIView!
     @IBOutlet var arrowImage: UIImageView!
-    
     @IBOutlet var facebookIconView: UIView!
     @IBOutlet var facebookIcon: UIImageView!
     @IBOutlet var twitterIconView: UIView!
@@ -79,7 +78,6 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
     @IBOutlet var mediumIcon: UIImageView!
     @IBOutlet var websiteIconView: UIView!
     @IBOutlet var websiteIcon: UIImageView!
-    
     @IBOutlet var selectDateButton: UIButton!
     @IBOutlet var saveButton: UIButton!
     
@@ -87,12 +85,6 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
     let hud = JGProgressHUD()
     private var dobDate: Date? = nil
     private var updateImageType: UpdateImageType = .none
-    
-    enum UpdateImageType {
-        case none
-        case avatar
-        case cover
-    }
     
     override func awakeFromNib() {
         super.awakeFromNib()

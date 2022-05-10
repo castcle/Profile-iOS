@@ -91,12 +91,6 @@ class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
     let hud = JGProgressHUD()
     private var updateImageType: UpdateImageType = .none
     
-    enum UpdateImageType {
-        case none
-        case avatar
-        case cover
-    }
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         self.profileImage.circle(color: UIColor.Asset.white)

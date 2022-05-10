@@ -28,13 +28,14 @@
 public struct ProfileNibVars {
     // MARK: - View Controller
     public struct ViewController {
-        public static let welcome = "WelcomeEditProfileViewController"
         public static let photoMethod = "SelectPhotoMethodViewController"
         public static let about = "AboutInfoViewController"
         public static let addLink = "AddSocialViewController"
         public static let userInfo = "UserInfoViewController"
         public static let editInfo = "EditInfoViewController"
         public static let action = "ProfileActionViewController"
+        public static let updateUserImage = "UpdateUserImageViewController"
+        public static let updateUserInfo = "UpdateUserInfoViewController"
         public static let welcomeCreatePage = "WelcomeCreatePageViewController"
         public static let createPage = "PageDisplayNameViewController"
         public static let deletePage = "DeletePageViewController"
@@ -85,6 +86,8 @@ public struct ProfileNibVars {
         public static let infoHeader = "InfoHeaderTableViewCell"
         public static let infoNormal = "InfoNormalTableViewCell"
         public static let infoWithIcon = "InfoWithIconTableViewCell"
+        public static let updateUserImage = "UpdateUserImageTableViewCell"
+        public static let UpdateUserInfo = "UpdateUserInfoTableViewCell"
     }
     
     // MARK: - CollectionViewCell

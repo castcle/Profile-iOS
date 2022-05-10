@@ -66,8 +66,8 @@ class CreatePageDisplayNameViewModel {
                 do {
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
-                    let payload = JSON(json[AuthenticationApiKey.payload.rawValue].dictionaryValue)
-                    let suggestCastcleId = payload[AuthenticationApiKey.suggestCastcleId.rawValue].stringValue
+                    let payload = JSON(json[JsonKey.payload.rawValue].dictionaryValue)
+                    let suggestCastcleId = payload[JsonKey.suggestCastcleId.rawValue].stringValue
                     self.delegate?.didSuggestCastcleIdFinish(suggestCastcleId: suggestCastcleId)
                 } catch {}
             } else {
@@ -85,8 +85,8 @@ class CreatePageDisplayNameViewModel {
                 do {
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
-                    let payload = JSON(json[AuthenticationApiKey.payload.rawValue].dictionaryValue)
-                    let exist = payload[AuthenticationApiKey.exist.rawValue].boolValue
+                    let payload = JSON(json[JsonKey.payload.rawValue].dictionaryValue)
+                    let exist = payload[JsonKey.exist.rawValue].boolValue
                     self.isCastcleIdExist = exist
                     self.delegate?.didCheckCastcleIdExistsFinish()
                 } catch {}
@@ -124,7 +124,7 @@ class CreatePageDisplayNameViewModel {
                 do {
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
-                    let pages = json[AuthenticationApiKey.payload.rawValue].arrayValue
+                    let pages = json[JsonKey.payload.rawValue].arrayValue
                     let pageRealm = self.realm.objects(Page.self)
                     try! self.realm.write {
                         self.realm.delete(pageRealm)

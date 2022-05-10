@@ -70,12 +70,6 @@ class ProfileHeaderTableViewCell: UITableViewCell {
     private let editProfileViewModel = EditProfileViewModel()
     private var updateImageType: UpdateImageType = .none
     
-    enum UpdateImageType {
-        case none
-        case avatar
-        case cover
-    }
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         self.displayNameLabel.font = UIFont.asset(.regular, fontSize: .h4)

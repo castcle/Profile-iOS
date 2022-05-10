@@ -44,7 +44,6 @@
 		B7910E6F26BBD36A0097C94E /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7910E6E26BBD36A0097C94E /* Profile.storyboard */; };
 		B7910E7226BBD52F0097C94E /* ProfileNibVars.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910E7126BBD52F0097C94E /* ProfileNibVars.swift */; };
 		B7910E7426BBD5480097C94E /* ProfileOpener.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910E7326BBD5480097C94E /* ProfileOpener.swift */; };
-		B7910E7626BBD68D0097C94E /* WelcomeEditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910E7526BBD68D0097C94E /* WelcomeEditProfileViewController.swift */; };
 		B7910E7926BBD6FD0097C94E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B7910E7826BBD6FD0097C94E /* Assets.xcassets */; };
 		B7910E7B26BBD9CE0097C94E /* Component.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7910E7A26BBD9CE0097C94E /* Component.framework */; };
 		B7910E8126BBE32E0097C94E /* SelectPhotoMethodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910E8026BBE32E0097C94E /* SelectPhotoMethodViewController.swift */; };
@@ -111,6 +110,14 @@
 		B7D4BC2627FF1D4C008ACD9F /* FacebookPageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7D4BC2427FF1D4C008ACD9F /* FacebookPageTableViewCell.xib */; };
 		B7D4BC2927FF1D67008ACD9F /* FacebookPageEmptyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7D4BC2727FF1D67008ACD9F /* FacebookPageEmptyTableViewCell.swift */; };
 		B7D4BC2A27FF1D67008ACD9F /* FacebookPageEmptyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7D4BC2827FF1D67008ACD9F /* FacebookPageEmptyTableViewCell.xib */; };
+		B7F0D2FB2829257700BA9764 /* UpdateUserImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F0D2FA2829257700BA9764 /* UpdateUserImageViewController.swift */; };
+		B7F0D2FE282A67E900BA9764 /* UpdateUserImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F0D2FC282A67E900BA9764 /* UpdateUserImageTableViewCell.swift */; };
+		B7F0D2FF282A67E900BA9764 /* UpdateUserImageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7F0D2FD282A67E900BA9764 /* UpdateUserImageTableViewCell.xib */; };
+		B7F0D301282A6D8000BA9764 /* UpdateUserImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F0D300282A6D8000BA9764 /* UpdateUserImageViewModel.swift */; };
+		B7F0D303282ACD3100BA9764 /* UpdateUserInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F0D302282ACD3100BA9764 /* UpdateUserInfoViewController.swift */; };
+		B7F0D306282ACE8600BA9764 /* UpdateUserInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F0D304282ACE8600BA9764 /* UpdateUserInfoTableViewCell.swift */; };
+		B7F0D307282ACE8600BA9764 /* UpdateUserInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7F0D305282ACE8600BA9764 /* UpdateUserInfoTableViewCell.xib */; };
+		B7F0D309282AD5B100BA9764 /* UpdateUserInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F0D308282AD5B000BA9764 /* UpdateUserInfoViewModel.swift */; };
 		B7F63C26271D7CE1005856B2 /* DeletePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F63C25271D7CE1005856B2 /* DeletePageViewController.swift */; };
 		B7F63C28271DC2BF005856B2 /* ConfirmDeletePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F63C27271DC2BF005856B2 /* ConfirmDeletePageViewController.swift */; };
 		B7F63C2B271DC3C7005856B2 /* ConfirmDeletePageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F63C29271DC3C7005856B2 /* ConfirmDeletePageTableViewCell.swift */; };
@@ -171,7 +178,6 @@
 		B7910E6E26BBD36A0097C94E /* Profile.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
 		B7910E7126BBD52F0097C94E /* ProfileNibVars.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileNibVars.swift; sourceTree = "<group>"; };
 		B7910E7326BBD5480097C94E /* ProfileOpener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileOpener.swift; sourceTree = "<group>"; };
-		B7910E7526BBD68D0097C94E /* WelcomeEditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeEditProfileViewController.swift; sourceTree = "<group>"; };
 		B7910E7826BBD6FD0097C94E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B7910E7A26BBD9CE0097C94E /* Component.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Component.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7910E8026BBE32E0097C94E /* SelectPhotoMethodViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPhotoMethodViewController.swift; sourceTree = "<group>"; };
@@ -238,6 +244,14 @@
 		B7D4BC2427FF1D4C008ACD9F /* FacebookPageTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FacebookPageTableViewCell.xib; sourceTree = "<group>"; };
 		B7D4BC2727FF1D67008ACD9F /* FacebookPageEmptyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookPageEmptyTableViewCell.swift; sourceTree = "<group>"; };
 		B7D4BC2827FF1D67008ACD9F /* FacebookPageEmptyTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FacebookPageEmptyTableViewCell.xib; sourceTree = "<group>"; };
+		B7F0D2FA2829257700BA9764 /* UpdateUserImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateUserImageViewController.swift; sourceTree = "<group>"; };
+		B7F0D2FC282A67E900BA9764 /* UpdateUserImageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateUserImageTableViewCell.swift; sourceTree = "<group>"; };
+		B7F0D2FD282A67E900BA9764 /* UpdateUserImageTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UpdateUserImageTableViewCell.xib; sourceTree = "<group>"; };
+		B7F0D300282A6D8000BA9764 /* UpdateUserImageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateUserImageViewModel.swift; sourceTree = "<group>"; };
+		B7F0D302282ACD3100BA9764 /* UpdateUserInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateUserInfoViewController.swift; sourceTree = "<group>"; };
+		B7F0D304282ACE8600BA9764 /* UpdateUserInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateUserInfoTableViewCell.swift; sourceTree = "<group>"; };
+		B7F0D305282ACE8600BA9764 /* UpdateUserInfoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UpdateUserInfoTableViewCell.xib; sourceTree = "<group>"; };
+		B7F0D308282AD5B000BA9764 /* UpdateUserInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateUserInfoViewModel.swift; sourceTree = "<group>"; };
 		B7F63C25271D7CE1005856B2 /* DeletePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletePageViewController.swift; sourceTree = "<group>"; };
 		B7F63C27271DC2BF005856B2 /* ConfirmDeletePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmDeletePageViewController.swift; sourceTree = "<group>"; };
 		B7F63C29271DC3C7005856B2 /* ConfirmDeletePageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmDeletePageTableViewCell.swift; sourceTree = "<group>"; };
@@ -441,6 +455,10 @@
 				B7AC230A2811441F0091CA21 /* ContactEmailTableViewCell.xib */,
 				B715F5622812609F004687EA /* ContactPhoneTableViewCell.swift */,
 				B715F5632812609F004687EA /* ContactPhoneTableViewCell.xib */,
+				B7F0D2FC282A67E900BA9764 /* UpdateUserImageTableViewCell.swift */,
+				B7F0D2FD282A67E900BA9764 /* UpdateUserImageTableViewCell.xib */,
+				B7F0D304282ACE8600BA9764 /* UpdateUserInfoTableViewCell.swift */,
+				B7F0D305282ACE8600BA9764 /* UpdateUserInfoTableViewCell.xib */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -463,6 +481,8 @@
 				B7FB347427D8B64E00C3C6A3 /* PageSyncSocialViewModel.swift */,
 				B72AB84A27E82A8F007421D4 /* EditInfoViewModel.swift */,
 				B797240E27FAD15E00111F24 /* SyncSocialMediaViewModel.swift */,
+				B7F0D300282A6D8000BA9764 /* UpdateUserImageViewModel.swift */,
+				B7F0D308282AD5B000BA9764 /* UpdateUserInfoViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -473,7 +493,8 @@
 				B786902F27CCA7740029EDFE /* User Follow */,
 				B7C46D8D27A12CBE0031179E /* Page Sync Social */,
 				B7189ADF26EF595D00CB9719 /* Me */,
-				B7910E7526BBD68D0097C94E /* WelcomeEditProfileViewController.swift */,
+				B7F0D2FA2829257700BA9764 /* UpdateUserImageViewController.swift */,
+				B7F0D302282ACD3100BA9764 /* UpdateUserInfoViewController.swift */,
 				B7910E8026BBE32E0097C94E /* SelectPhotoMethodViewController.swift */,
 				B7910E8426BC529F0097C94E /* AboutInfoViewController.swift */,
 				B7910EA226BCE5420097C94E /* AddSocialViewController.swift */,
@@ -626,6 +647,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B7F0D307282ACE8600BA9764 /* UpdateUserInfoTableViewCell.xib in Resources */,
 				B7F63C2C271DC3C7005856B2 /* ConfirmDeletePageTableViewCell.xib in Resources */,
 				B7910EC926BF06050097C94E /* UserInfoTableViewCell.xib in Resources */,
 				B715F57528129C23004687EA /* InfoWithIconTableViewCell.xib in Resources */,
@@ -638,6 +660,7 @@
 				B7AF662626F3447900BDE9C4 /* AboutTableViewCell.xib in Resources */,
 				B7FB347927D8B7F000C3C6A3 /* PageSyncSocialTableViewCell.xib in Resources */,
 				B753F57D2782D1AB00D1AC92 /* FeedHeaderTableViewCell.xib in Resources */,
+				B7F0D2FF282A67E900BA9764 /* UpdateUserImageTableViewCell.xib in Resources */,
 				B7AC3BC527A3EF9900C02867 /* HeaderBlockedTableViewCell.xib in Resources */,
 				B7AF661226F2E56400BDE9C4 /* CreatePageDisplayNameCell.xib in Resources */,
 				B7AF663226F35E0E00BDE9C4 /* SocialTableViewCell.xib in Resources */,
@@ -719,7 +742,9 @@
 				B7D4BC2527FF1D4C008ACD9F /* FacebookPageTableViewCell.swift in Sources */,
 				B7FB347527D8B64E00C3C6A3 /* PageSyncSocialViewModel.swift in Sources */,
 				B7AF662D26F35B5900BDE9C4 /* AddLinkTableViewCell.swift in Sources */,
+				B7F0D303282ACD3100BA9764 /* UpdateUserInfoViewController.swift in Sources */,
 				B797240D27FACFF900111F24 /* SyncSocialMediaViewController.swift in Sources */,
+				B7F0D306282ACE8600BA9764 /* UpdateUserInfoTableViewCell.swift in Sources */,
 				B7C098372727CFCD009ACE22 /* EditPageInfoTableViewCell.swift in Sources */,
 				B7AC230B2811441F0091CA21 /* ContactEmailTableViewCell.swift in Sources */,
 				B7AF661426F2E88B00BDE9C4 /* CreatePageDisplayNameSectionController.swift in Sources */,
@@ -733,10 +758,12 @@
 				B7F63C26271D7CE1005856B2 /* DeletePageViewController.swift in Sources */,
 				B797241327FAD6FC00111F24 /* SocialAccountTableViewCell.swift in Sources */,
 				B7D4BC2227FF1BF6008ACD9F /* FacebookPageListViewController.swift in Sources */,
+				B7F0D2FE282A67E900BA9764 /* UpdateUserImageTableViewCell.swift in Sources */,
 				B7910E8126BBE32E0097C94E /* SelectPhotoMethodViewController.swift in Sources */,
 				B7AF662126F3303300BDE9C4 /* SelectPhotoMethodViewModel.swift in Sources */,
 				B7910EA126BCDC410097C94E /* SocialLink.swift in Sources */,
 				B7910EA526BCE83D0097C94E /* AddSocialSectionController.swift in Sources */,
+				B7F0D309282AD5B100BA9764 /* UpdateUserInfoViewModel.swift in Sources */,
 				B786903327CCA7D40029EDFE /* UserFollowViewModel.swift in Sources */,
 				B7910E7426BBD5480097C94E /* ProfileOpener.swift in Sources */,
 				B7B7C20A2786E6DA00DD488A /* ProfilePostTableViewCell.swift in Sources */,
@@ -745,6 +772,7 @@
 				B7910ED726C0340B0097C94E /* ProfileActionViewController.swift in Sources */,
 				B7AF663526F360F500BDE9C4 /* ComplateTableViewCell.swift in Sources */,
 				B76CE4A227E1CEC300CCA693 /* UserNotFoundTableViewCell.swift in Sources */,
+				B7F0D2FB2829257700BA9764 /* UpdateUserImageViewController.swift in Sources */,
 				B7C46D9327A135730031179E /* NewPageWithSocialTableViewCell.swift in Sources */,
 				B71B668B2726A57A00191A62 /* DeletePageViewModel.swift in Sources */,
 				B7910E9F26BCDBEF0097C94E /* SocialLinkShelf.swift in Sources */,
@@ -752,9 +780,9 @@
 				B7910ED226C00A550097C94E /* EditInfoTableViewCell.swift in Sources */,
 				B7203DD027845237005401FB /* ProfileFeedViewModel.swift in Sources */,
 				B7910E8526BC52A00097C94E /* AboutInfoViewController.swift in Sources */,
-				B7910E7626BBD68D0097C94E /* WelcomeEditProfileViewController.swift in Sources */,
 				B715F57028129C0C004687EA /* InfoNormalTableViewCell.swift in Sources */,
 				B753F5722782A50000D1AC92 /* ProfileViewModel.swift in Sources */,
+				B7F0D301282A6D8000BA9764 /* UpdateUserImageViewModel.swift in Sources */,
 				B7910E9D26BCDAC40097C94E /* AboutInfoViewModel.swift in Sources */,
 				B715F57428129C23004687EA /* InfoWithIconTableViewCell.swift in Sources */,
 				B7C46D9027A12D2E0031179E /* NewPageWithSocialViewController.swift in Sources */,

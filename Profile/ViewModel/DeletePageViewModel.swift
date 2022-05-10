@@ -76,7 +76,7 @@ public class DeletePageViewModel {
                 do {
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
-                    let pages = json[AuthenticationApiKey.payload.rawValue].arrayValue
+                    let pages = json[JsonKey.payload.rawValue].arrayValue
                     let pageRealm = self.realm.objects(Page.self)
                     try! self.realm.write {
                         self.realm.delete(pageRealm)
