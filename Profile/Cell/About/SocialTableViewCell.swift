@@ -41,7 +41,7 @@ class SocialTableViewCell: UITableViewCell {
             self.valueTextField.textColor = UIColor.Asset.white
         }
     }
-    
+
     var socialLink: SocialLink? {
         didSet {
             guard let socialLink = self.socialLink else { return }
@@ -49,7 +49,7 @@ class SocialTableViewCell: UITableViewCell {
             self.valueTextField.text = socialLink.value
         }
     }
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         self.valueView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)

@@ -31,31 +31,30 @@ import Networking
 import SwiftyJSON
 import RealmSwift
 
-public protocol DeletePageViewModelDelegate {
+public protocol DeletePageViewModelDelegate: AnyObject {
     func didDeletePageFinish(success: Bool)
     func didGetAllPageFinish()
 }
 
 public class DeletePageViewModel {
-    
+
     public var delegate: DeletePageViewModelDelegate?
-    
+
     var pageRepository: PageRepository = PageRepositoryImpl()
     var pageRequest: PageRequest = PageRequest()
     let tokenHelper: TokenHelper = TokenHelper()
     private var state: State = .none
     var userInfo: UserInfo = UserInfo()
-    private let realm = try! Realm()
 
-    //MARK: Input
+    // MARK: - Input
     public init(userInfo: UserInfo) {
         self.userInfo = userInfo
         self.tokenHelper.delegate = self
     }
-    
+
     public func deletePage() {
         self.state = .deletePage
-        self.pageRepository.deletePage(pageId: self.userInfo.castcleId, pageRequest: self.pageRequest) { (success, response, isRefreshToken) in
+        self.pageRepository.deletePage(pageId: self.userInfo.castcleId, pageRequest: self.pageRequest) { (success, _, isRefreshToken) in
             if success {
                 self.delegate?.didDeletePageFinish(success: true)
             } else {
@@ -67,24 +66,24 @@ public class DeletePageViewModel {
             }
         }
     }
-    
+
     func getAllMyPage() {
         self.state = .getMyPage
-        self.pageRepository.getMyPage() { (success, response, isRefreshToken) in
+        self.pageRepository.getMyPage { (success, response, isRefreshToken) in
             if success {
                 self.state = .none
                 do {
+                    let realm = try Realm()
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
                     let pages = json[JsonKey.payload.rawValue].arrayValue
-                    let pageRealm = self.realm.objects(Page.self)
-                    try! self.realm.write {
-                        self.realm.delete(pageRealm)
+                    let pageRealm = realm.objects(Page.self)
+                    try realm.write {
+                        realm.delete(pageRealm)
                     }
-                    
-                    pages.forEach { page in
-                        let pageInfo = UserInfo(json: page)
-                        try! self.realm.write {
+                    try realm.write {
+                        pages.forEach { page in
+                            let pageInfo = UserInfo(json: page)
                             let pageTemp = Page()
                             pageTemp.id = pageInfo.id
                             pageTemp.castcleId = pageInfo.castcleId
@@ -95,7 +94,7 @@ public class DeletePageViewModel {
                             pageTemp.official = pageInfo.verified.official
                             pageTemp.isSyncTwitter = !pageInfo.syncSocial.twitter.socialId.isEmpty
                             pageTemp.isSyncFacebook = !pageInfo.syncSocial.facebook.socialId.isEmpty
-                            self.realm.add(pageTemp, update: .modified)
+                            realm.add(pageTemp, update: .modified)
                         }
                     }
                     self.delegate?.didGetAllPageFinish()

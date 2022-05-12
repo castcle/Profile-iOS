@@ -59,108 +59,108 @@ public struct ProfileOpener {
         switch profileScene {
         case .photoMethod(let viewModel):
             let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.profile, bundle: ConfigBundle.profile)
-            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.photoMethod) as? SelectPhotoMethodViewController
-            vc?.viewModel = viewModel
-            return vc ?? SelectPhotoMethodViewController()
+            let viewController = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.photoMethod) as? SelectPhotoMethodViewController
+            viewController?.viewModel = viewModel
+            return viewController ?? SelectPhotoMethodViewController()
         case .about(let viewModel):
             let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.profile, bundle: ConfigBundle.profile)
-            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.about) as? AboutInfoViewController
-            vc?.viewModel = viewModel
-            return vc ?? AboutInfoViewController()
+            let viewController = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.about) as? AboutInfoViewController
+            viewController?.viewModel = viewModel
+            return viewController ?? AboutInfoViewController()
         case .addLink:
             let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.profile, bundle: ConfigBundle.profile)
-            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.addLink)
-            return vc
+            let viewController = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.addLink)
+            return viewController
         case .userInfo(let viewModel):
-            let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.me, bundle: ConfigBundle.profile)
-            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.userInfo) as? UserInfoViewController
-            vc?.viewModel = viewModel
-            return vc ?? UserInfoViewController()
+            let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.mine, bundle: ConfigBundle.profile)
+            let viewController = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.userInfo) as? UserInfoViewController
+            viewController?.viewModel = viewModel
+            return viewController ?? UserInfoViewController()
         case .editInfo(let profileType, let userInfo):
-            let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.me, bundle: ConfigBundle.profile)
-            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.editInfo) as? EditInfoViewController
-            vc?.viewModel = EditInfoViewModel(profileType: profileType, userInfo: userInfo)
-            return vc ?? EditInfoViewController()
+            let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.mine, bundle: ConfigBundle.profile)
+            let viewController = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.editInfo) as? EditInfoViewController
+            viewController?.viewModel = EditInfoViewModel(profileType: profileType, userInfo: userInfo)
+            return viewController ?? EditInfoViewController()
         case .action:
-            let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.me, bundle: ConfigBundle.profile)
-            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.action)
-            return vc
+            let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.mine, bundle: ConfigBundle.profile)
+            let viewController = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.action)
+            return viewController
         case .updateUserImage:
             let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.profile, bundle: ConfigBundle.profile)
-            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.updateUserImage)
-            return vc
+            let viewController = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.updateUserImage)
+            return viewController
         case .updateUserInfo:
             let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.profile, bundle: ConfigBundle.profile)
-            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.updateUserInfo)
-            return vc
+            let viewController = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.updateUserInfo)
+            return viewController
         case .welcomeCreatePage:
             let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.profile, bundle: ConfigBundle.profile)
-            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.welcomeCreatePage)
-            return vc
+            let viewController = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.welcomeCreatePage)
+            return viewController
         case .createPage:
             let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.profile, bundle: ConfigBundle.profile)
-            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.createPage)
-            return vc
+            let viewController = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.createPage)
+            return viewController
         case .deletePage(let viewModel):
             let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.profile, bundle: ConfigBundle.profile)
-            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.deletePage) as? DeletePageViewController
-            vc?.viewModel = viewModel
-            return vc ?? DeletePageViewController()
+            let viewController = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.deletePage) as? DeletePageViewController
+            viewController?.viewModel = viewModel
+            return viewController ?? DeletePageViewController()
         case .confirmDeletePage(let viewModel):
             let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.profile, bundle: ConfigBundle.profile)
-            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.confirmDeletePage) as? ConfirmDeletePageViewController
-            vc?.viewModel = viewModel
-            return vc ?? ConfirmDeletePageViewController()
+            let viewController = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.confirmDeletePage) as? ConfirmDeletePageViewController
+            viewController?.viewModel = viewModel
+            return viewController ?? ConfirmDeletePageViewController()
         case .deletePageSuccess:
             let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.profile, bundle: ConfigBundle.profile)
-            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.deletePageSuccess)
-            return vc
+            let viewController = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.deletePageSuccess)
+            return viewController
         case .profile(let profileViewModel, let profileFeedViewModel):
-            let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.me, bundle: ConfigBundle.profile)
-            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.profile) as? ProfileViewController
-            vc?.profileViewModel = profileViewModel
-            vc?.profileFeedViewModel = profileFeedViewModel
-            return vc ?? ProfileViewController()
+            let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.mine, bundle: ConfigBundle.profile)
+            let viewController = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.profile) as? ProfileViewController
+            viewController?.profileViewModel = profileViewModel
+            viewController?.profileFeedViewModel = profileFeedViewModel
+            return viewController ?? ProfileViewController()
         case .newPageWithSocial:
             let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.profile, bundle: ConfigBundle.profile)
-            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.newPageWithSocial) as? NewPageWithSocialViewController
-            return vc ?? NewPageWithSocialViewController()
+            let viewController = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.newPageWithSocial) as? NewPageWithSocialViewController
+            return viewController ?? NewPageWithSocialViewController()
         case .userFollow(let viewModel):
             let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.profile, bundle: ConfigBundle.profile)
-            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.userFollow) as? UserFollowViewController
-            vc?.viewModel = viewModel
-            return vc ?? UserFollowViewController()
+            let viewController = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.userFollow) as? UserFollowViewController
+            viewController?.viewModel = viewModel
+            return viewController ?? UserFollowViewController()
         case .pageSyncSocial(let viewModel):
             let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.profile, bundle: ConfigBundle.profile)
-            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.pageSyncSocial) as? PageSyncSocialViewController
-            vc?.viewModel = viewModel
-            return vc ?? PageSyncSocialViewController()
+            let viewController = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.pageSyncSocial) as? PageSyncSocialViewController
+            viewController?.viewModel = viewModel
+            return viewController ?? PageSyncSocialViewController()
         case .syncSocialMedia(let viewModel):
             let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.profile, bundle: ConfigBundle.profile)
-            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.syncSocialMedia) as? SyncSocialMediaViewController
-            vc?.viewModel = viewModel
-            return vc ?? SyncSocialMediaViewController()
+            let viewController = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.syncSocialMedia) as? SyncSocialMediaViewController
+            viewController?.viewModel = viewModel
+            return viewController ?? SyncSocialMediaViewController()
         case .facebookPageList(let facebookPage):
             let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.profile, bundle: ConfigBundle.profile)
-            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.facebookPageList) as? FacebookPageListViewController
-            vc?.facebookPage = facebookPage
-            return vc ?? FacebookPageListViewController()
+            let viewController = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.facebookPageList) as? FacebookPageListViewController
+            viewController?.facebookPage = facebookPage
+            return viewController ?? FacebookPageListViewController()
         case .contactEmail(let viewModel):
             let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.profile, bundle: ConfigBundle.profile)
-            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.contactEmail) as? ContactEmailViewController
-            vc?.viewModel = viewModel
-            return vc ?? ContactEmailViewController()
+            let viewController = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.contactEmail) as? ContactEmailViewController
+            viewController?.viewModel = viewModel
+            return viewController ?? ContactEmailViewController()
         case .contactPhone(let viewModel):
             let storyboard: UIStoryboard = UIStoryboard(name: ProfileNibVars.Storyboard.profile, bundle: ConfigBundle.profile)
-            let vc = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.contactPhone) as? ContactPhoneViewController
-            vc?.viewModel = viewModel
-            return vc ?? ContactPhoneViewController()
+            let viewController = storyboard.instantiateViewController(withIdentifier: ProfileNibVars.ViewController.contactPhone) as? ContactPhoneViewController
+            viewController?.viewModel = viewModel
+            return viewController ?? ContactPhoneViewController()
         }
     }
-    
+
     public static func openProfileDetail(_ castcleId: String, displayName: String) {
         if castcleId == UserManager.shared.rawCastcleId {
-            Utility.currentViewController().navigationController?.pushViewController(self.open(.profile(ProfileViewModel(profileType: .me, castcleId: castcleId, displayName: ""), ProfileFeedViewModel(profileContentType: .all, profileType: .me, castcleId: ""))), animated: true)
+            Utility.currentViewController().navigationController?.pushViewController(self.open(.profile(ProfileViewModel(profileType: .mine, castcleId: castcleId, displayName: ""), ProfileFeedViewModel(profileContentType: .all, profileType: .mine, castcleId: ""))), animated: true)
         } else {
             Utility.currentViewController().navigationController?.pushViewController(self.open(.profile(ProfileViewModel(profileType: .user, castcleId: castcleId, displayName: displayName), ProfileFeedViewModel(profileContentType: .all, profileType: .user, castcleId: castcleId))), animated: true)
         }

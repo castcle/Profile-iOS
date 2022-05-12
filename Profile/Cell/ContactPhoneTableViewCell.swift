@@ -31,7 +31,7 @@ import Component
 import JGProgressHUD
 import RealmSwift
 
-protocol ContactPhoneTableViewCellDelegate {
+protocol ContactPhoneTableViewCellDelegate: AnyObject {
     func didChangePhone(_ contactPhoneTableViewCell: ContactPhoneTableViewCell, phone: String, countryCode: String)
 }
 
@@ -44,11 +44,11 @@ class ContactPhoneTableViewCell: UITableViewCell, UITextFieldDelegate {
     @IBOutlet var mobileViewView: UIView!
     @IBOutlet var mobileTextField: UITextField!
     @IBOutlet var dropdownImage: UIImageView!
-    
+
     public var delegate: ContactPhoneTableViewCellDelegate?
     var viewModel = EditInfoViewModel()
     let hud = JGProgressHUD()
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         self.hud.textLabel.text = "Saving"
@@ -61,7 +61,6 @@ class ContactPhoneTableViewCell: UITableViewCell, UITextFieldDelegate {
         self.mobileTextField.textColor = UIColor.Asset.white
         self.codeView.capsule(color: UIColor.Asset.darkGray)
         self.mobileViewView.capsule(color: UIColor.Asset.darkGray)
-        
         self.dropdownImage.image = UIImage.init(icon: .castcle(.dropDown), size: CGSize(width: 25, height: 25), textColor: UIColor.Asset.lightBlue)
         self.mobileTextField.delegate = self
         self.mobileTextField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
@@ -70,22 +69,24 @@ class ContactPhoneTableViewCell: UITableViewCell, UITextFieldDelegate {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
-    
+
     func configCell(viewModel: EditInfoViewModel) {
         self.viewModel = viewModel
         self.mobileTextField.text = self.viewModel.userInfo.contact.phone
         if !self.viewModel.userInfo.contact.countryCode.isEmpty {
-            let realm = try! Realm()
-            if let countryCode = realm.objects(CountryCode.self).filter("dialCode == '\(self.viewModel.userInfo.contact.countryCode)'").first {
-                self.codeLabel.text = "\(countryCode.dialCode) \(countryCode.code)"
-            }
+            do {
+                let realm = try Realm()
+                if let countryCode = realm.objects(CountryCode.self).filter("dialCode == '\(self.viewModel.userInfo.contact.countryCode)'").first {
+                    self.codeLabel.text = "\(countryCode.dialCode) \(countryCode.code)"
+                }
+            } catch {}
         } else {
             self.viewModel.userRequest.payload.contact.countryCode = "+66"
             self.codeLabel.text = "+66 TH"
         }
         self.viewModel.delegate = self
     }
-    
+
     private func isCanNext() -> Bool {
         if self.mobileTextField.text!.isEmpty {
             return false
@@ -93,9 +94,9 @@ class ContactPhoneTableViewCell: UITableViewCell, UITextFieldDelegate {
             return true
         }
     }
-    
+
     private func setupSaveButton(isActive: Bool) {
-        self.saveButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .h4)
+        self.saveButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .head4)
         if isActive {
             self.saveButton.setTitleColor(UIColor.Asset.white, for: .normal)
             self.saveButton.setBackgroundImage(UIColor.Asset.lightBlue.toImage(), for: .normal)
@@ -106,12 +107,12 @@ class ContactPhoneTableViewCell: UITableViewCell, UITextFieldDelegate {
             self.saveButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.black)
         }
     }
-    
+
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
        textField.resignFirstResponder()
        return true
     }
-    
+
     @objc func textFieldDidChange(_ textField: UITextField) {
         let mobileNumber = (textField.text ?? "").substringWithRange(range: 20)
         if mobileNumber.isEmpty {
@@ -121,13 +122,13 @@ class ContactPhoneTableViewCell: UITableViewCell, UITextFieldDelegate {
         }
         textField.text = mobileNumber
     }
-    
+
     @IBAction func selectContryCodeAction(_ sender: Any) {
-        let vc = ComponentOpener.open(.selectCode) as? SelectCodeViewController
-        vc?.delegate = self
-        Utility.currentViewController().navigationController?.pushViewController(vc ?? SelectCodeViewController(), animated: true)
+        let viewController = ComponentOpener.open(.selectCode) as? SelectCodeViewController
+        viewController?.delegate = self
+        Utility.currentViewController().navigationController?.pushViewController(viewController ?? SelectCodeViewController(), animated: true)
     }
-    
+
     @IBAction func nextAction(_ sender: Any) {
         self.endEditing(true)
         if self.isCanNext() {
@@ -142,7 +143,7 @@ extension ContactPhoneTableViewCell: EditInfoViewModelDelegate {
     func didGetInfoFinish(success: Bool) {
         // Not use
     }
-    
+
     func didUpdateInfoFinish(success: Bool) {
         self.hud.dismiss()
         self.delegate?.didChangePhone(self, phone: self.viewModel.userRequest.payload.contact.phone, countryCode: self.viewModel.userRequest.payload.contact.countryCode)

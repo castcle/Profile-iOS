@@ -30,7 +30,7 @@ import Core
 import Component
 import JVFloatLabeledTextField
 
-protocol DobTableViewCellDelegate {
+protocol DobTableViewCellDelegate: AnyObject {
     func didUpdateData(_ dobTableViewCell: DobTableViewCell, date: Date, displayDate: String)
 }
 
@@ -49,9 +49,9 @@ class DobTableViewCell: UITableViewCell {
     }
     @IBOutlet var arrowImage: UIImageView!
     @IBOutlet var birthdayView: UIView!
-    
+
     var delegate: DobTableViewCellDelegate?
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         self.birthdayView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
@@ -62,16 +62,16 @@ class DobTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
-    
+
     func configCell() {
-        self.birthdayLabel.text = Localization.updateInfo.birthday.text
-        self.birthdayTextField.placeholder = Localization.updateInfo.date.text
+        self.birthdayLabel.text = Localization.UpdateInfo.birthday.text
+        self.birthdayTextField.placeholder = Localization.UpdateInfo.date.text
     }
-    
+
     @IBAction func selectDateAction(_ sender: Any) {
-        let vc = ComponentOpener.open(.datePicker) as? DatePickerViewController
-        vc?.delegate = self
-        Utility.currentViewController().presentPanModal(vc ?? DatePickerViewController())
+        let viewController = ComponentOpener.open(.datePicker) as? DatePickerViewController
+        viewController?.delegate = self
+        Utility.currentViewController().presentPanModal(viewController ?? DatePickerViewController())
     }
 }
 

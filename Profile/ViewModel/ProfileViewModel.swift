@@ -40,13 +40,13 @@ public final class ProfileViewModel {
     var loadState: LoadState = .loading
     var isMyPage: Bool = false
     var state: State = .none
-    
+
     enum LoadState {
         case loading
         case loaded
         case error
     }
-    
+
     var isBlocked: Bool {
         if self.profileType == .user {
             return self.userInfo.blocked
@@ -54,7 +54,7 @@ public final class ProfileViewModel {
             return false
         }
     }
-    
+
     var castcleIdBlock: String {
         if self.profileType == .user {
             return self.userInfo.castcleId
@@ -62,32 +62,34 @@ public final class ProfileViewModel {
             return ""
         }
     }
-    
+
     public init(profileType: ProfileType, castcleId: String, displayName: String) {
         self.profileType = profileType
         self.castcleId = castcleId
         self.displayName = displayName
-        let realm = try! Realm()
-        if realm.objects(Page.self).filter("castcleId = '\(castcleId)'").first != nil {
-            self.isMyPage = true
-        } else {
-            self.isMyPage = false
-        }
+        do {
+            let realm = try Realm()
+            if realm.objects(Page.self).filter("castcleId = '\(castcleId)'").first != nil {
+                self.isMyPage = true
+            } else {
+                self.isMyPage = false
+            }
+        } catch {}
         self.tokenHelper.delegate = self
         self.getProfile()
     }
-    
+
     func getProfile() {
-        if self.profileType == .me {
+        if self.profileType == .mine {
             self.getMeInfo()
         } else if self.profileType == .user {
             self.getUserInfo()
         }
     }
-    
+
     private func getMeInfo() {
         self.state = .getMe
-        self.userRepository.getMe() { (success, response, isRefreshToken) in
+        self.userRepository.getMe { (success, response, isRefreshToken) in
             if success {
                 do {
                     let rawJson = try response.mapJSON()
@@ -102,7 +104,7 @@ public final class ProfileViewModel {
             }
         }
     }
-    
+
     private func getUserInfo() {
         self.state = .getUserInfo
         self.userRepository.getUser(userId: self.castcleId) { (success, response, isRefreshToken) in
@@ -124,10 +126,10 @@ public final class ProfileViewModel {
             }
         }
     }
-    
-    var didGetMeInfoFinish: (() -> ())?
-    var didGetUserInfoFinish: (() -> ())?
-    var didGetUserInfoFalse: (() -> ())?
+
+    var didGetMeInfoFinish: (() -> Void)?
+    var didGetUserInfoFinish: (() -> Void)?
+    var didGetUserInfoFalse: (() -> Void)?
 }
 
 extension ProfileViewModel: TokenHelperDelegate {

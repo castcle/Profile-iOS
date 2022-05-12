@@ -34,7 +34,7 @@ class FacebookPageTableViewCell: UITableViewCell {
     @IBOutlet weak var userAvatarImage: UIImageView!
     @IBOutlet weak var userDisplayNameLabel: UILabel!
     @IBOutlet weak var lineView: UIView!
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         self.userAvatarImage.circle(color: UIColor.Asset.white)
@@ -46,7 +46,7 @@ class FacebookPageTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
-    
+
     public func configCell(page: FacebookPage) {
         let userAvatar = URL(string: page.avatar)
         self.userAvatarImage.kf.setImage(with: userAvatar, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])

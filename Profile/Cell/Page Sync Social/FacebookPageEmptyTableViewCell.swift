@@ -32,7 +32,7 @@ class FacebookPageEmptyTableViewCell: UITableViewCell {
 
     @IBOutlet var emptyTitleLabel: UILabel!
     @IBOutlet var emptyDetailLabel: UILabel!
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         self.emptyTitleLabel.font = UIFont.asset(.regular, fontSize: .body)

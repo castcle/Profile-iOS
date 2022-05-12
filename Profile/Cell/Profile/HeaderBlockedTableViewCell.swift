@@ -35,10 +35,10 @@ class HeaderBlockedTableViewCell: UITableViewCell {
     @IBOutlet var profileImage: UIImageView!
     @IBOutlet var displayNameLabel: UILabel!
     @IBOutlet var userIdLabel: UILabel!
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.displayNameLabel.font = UIFont.asset(.regular, fontSize: .h4)
+        self.displayNameLabel.font = UIFont.asset(.regular, fontSize: .head4)
         self.displayNameLabel.textColor = UIColor.Asset.white
         self.userIdLabel.font = UIFont.asset(.regular, fontSize: .overline)
         self.userIdLabel.textColor = UIColor.Asset.gray
@@ -48,7 +48,7 @@ class HeaderBlockedTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
-    
+
     func configCell(userInfo: UserInfo) {
         let urlProfile = URL(string: userInfo.images.avatar.thumbnail)
         let urlCover = URL(string: userInfo.images.cover.large)

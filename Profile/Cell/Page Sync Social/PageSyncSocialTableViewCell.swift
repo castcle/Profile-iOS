@@ -29,7 +29,7 @@ import UIKit
 import Networking
 import Kingfisher
 
-protocol PageSyncSocialTableViewCellDelegate {
+protocol PageSyncSocialTableViewCellDelegate: AnyObject {
     func didAutoPost(_ pageSyncSocialTableViewCell: PageSyncSocialTableViewCell, isAutoPost: Bool)
 }
 
@@ -46,17 +46,16 @@ class PageSyncSocialTableViewCell: UITableViewCell {
     @IBOutlet var castcleIconView: UIView!
     @IBOutlet var castcleIcon: UIImageView!
     @IBOutlet var connectIcon: UIImageView!
-    
     @IBOutlet var autoPostSwitch: UISwitch!
     @IBOutlet var autoPostIcon: UIImageView!
     @IBOutlet var autoPostLabel: UILabel!
     @IBOutlet var noticeLabel: UILabel!
     @IBOutlet var line01View: UIView!
     @IBOutlet var line02View: UIView!
-    
+
     public var delegate: PageSyncSocialTableViewCellDelegate?
     var syncDetail: SyncDetail = SyncDetail()
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         self.socialNameLabel.font = UIFont.asset(.regular, fontSize: .overline)
@@ -67,15 +66,13 @@ class PageSyncSocialTableViewCell: UITableViewCell {
         self.castcleNameLabel.textColor = UIColor.Asset.white
         self.castcleIdLabel.font = UIFont.asset(.regular, fontSize: .overline)
         self.castcleIdLabel.textColor = UIColor.Asset.lightGray
-        
         self.socialAvatarImage.circle(color: UIColor.Asset.white)
         self.socialAvatarImage.image = UIImage.Asset.userPlaceholder
         self.castcleAvatarImage.circle(color: UIColor.Asset.white)
         self.castcleAvatarImage.image = UIImage.Asset.userPlaceholder
-        
         self.connectIcon.image = UIImage.init(icon: .castcle(.bindLink), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.white)
         self.autoPostIcon.image = UIImage.init(icon: .castcle(.autoPost), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.white)
-        
+
         self.autoPostSwitch.tintColor = UIColor.Asset.darkGray
         self.autoPostSwitch.onTintColor = UIColor.Asset.lightBlue
         self.autoPostSwitch.thumbTintColor = UIColor.Asset.white
@@ -91,7 +88,7 @@ class PageSyncSocialTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
-    
+
     @objc func switchValueDidChange(_ sender: UISwitch) {
         if sender.isOn {
             self.delegate?.didAutoPost(self, isAutoPost: true)
@@ -99,31 +96,30 @@ class PageSyncSocialTableViewCell: UITableViewCell {
             self.delegate?.didAutoPost(self, isAutoPost: false)
         }
     }
-    
+
     func configCell(displayName: String, castcleId: String, avatar: String, syncDetail: SyncDetail) {
         self.syncDetail = syncDetail
-        
         self.sicialIconView.capsule(color: self.syncDetail.provider.color, borderWidth: 2, borderColor: UIColor.Asset.black)
         self.castcleIconView.capsule(color: UIColor.Asset.black, borderWidth: 2, borderColor: UIColor.Asset.black)
         self.socialIcon.image = self.syncDetail.provider.icon
         self.castcleIcon.image = UIImage.init(icon: .castcle(.logo), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.white)
-        
+
         let castcleAvatarUrl = URL(string: avatar)
         self.castcleAvatarImage.kf.setImage(with: castcleAvatarUrl, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
         self.castcleNameLabel.text = displayName
         self.castcleIdLabel.text = "@\(castcleId)"
-        
+
         let socialAvatarUrl = URL(string: self.syncDetail.avatar)
         self.socialAvatarImage.kf.setImage(with: socialAvatarUrl, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
         self.socialNameLabel.text = self.syncDetail.displayName
         self.socialIdLabel.text = self.syncDetail.userName.isEmpty ? "" : "@\(self.syncDetail.userName)"
-        
+
         if self.syncDetail.autoPost {
             self.autoPostSwitch.setOn(true, animated: false)
         } else {
             self.autoPostSwitch.setOn(false, animated: false)
         }
-        
+
         self.noticeLabel.text = "Your post on \(self.syncDetail.provider.display) will automatically cast on Castcle."
     }
 }

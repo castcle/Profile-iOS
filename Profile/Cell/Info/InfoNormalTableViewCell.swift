@@ -32,7 +32,7 @@ class InfoNormalTableViewCell: UITableViewCell {
 
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var detailLabel: UILabel!
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         self.titleLabel.font = UIFont.asset(.regular, fontSize: .body)
@@ -44,7 +44,7 @@ class InfoNormalTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
-    
+
     func configCell(title: String, detail: String) {
         self.titleLabel.text = title
         self.detailLabel.text = detail

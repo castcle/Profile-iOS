@@ -37,17 +37,17 @@ class PageDisplayNameViewController: UIViewController {
         view.backgroundColor = UIColor.Asset.darkGraphiteBlue
         return view
     }()
-    
+
     lazy var adapter: ListAdapter = {
         return ListAdapter(updater: ListAdapterUpdater(), viewController: self, workingRangeSize: 0)
     }()
-    
+
     enum CreateDisplayNameType: Int {
         case displayName = 0
     }
-    
+
     var viewModel = CreatePageDisplayNameViewModel()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
@@ -61,17 +61,17 @@ class PageDisplayNameViewController: UIViewController {
         self.adapter.collectionView = self.collectionView
         self.adapter.dataSource = self
     }
-    
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         self.collectionView.frame = view.bounds
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         Defaults[.screenId] = ""
     }
-    
+
     func setupNavBar() {
         self.customNavigationBar(.secondary, title: "")
     }
@@ -83,13 +83,13 @@ extension PageDisplayNameViewController: ListAdapterDataSource {
         let items: [ListDiffable] = [CreateDisplayNameType.displayName.rawValue] as [ListDiffable]
         return items
     }
-    
+
     func listAdapter(_ listAdapter: ListAdapter, sectionControllerFor object: Any) -> ListSectionController {
         let section = CreatePageDisplayNameSectionController()
         section.viewModel = self.viewModel
         return section
     }
-    
+
     func emptyView(for listAdapter: ListAdapter) -> UIView? {
         return nil
     }

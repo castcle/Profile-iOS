@@ -29,7 +29,7 @@ import Core
 import Networking
 import SwiftyJSON
 
-public protocol UpdateUserInfoViewModelDelegate {
+public protocol UpdateUserInfoViewModelDelegate: AnyObject {
     func didUpdateInfoFinish(success: Bool)
 }
 
@@ -38,16 +38,15 @@ public class UpdateUserInfoViewModel {
     var userRepository: UserRepository = UserRepositoryImpl()
     var userRequest: UserRequest = UserRequest()
     let tokenHelper: TokenHelper = TokenHelper()
-    var dobDate: Date? = nil
+    var dobDate: Date?
     var state: State = .none
-    
+
     public init() {
         self.tokenHelper.delegate = self
     }
-    
+
     public func updateProfile() {
         self.state = .updateUserInfo
-        
         if let dob = self.dobDate {
             self.userRequest.payload.dob = dob.dateToStringSever()
         }

@@ -33,13 +33,13 @@ import SwiftyJSON
 import Defaults
 import RealmSwift
 
-public protocol SelectPhotoMethodViewModelDelegate {
+public protocol SelectPhotoMethodViewModelDelegate: AnyObject {
     func didUpdateFinish(success: Bool)
     func didGetPageFinish()
 }
 
 public class SelectPhotoMethodViewModel {
-    
+
     public var delegate: SelectPhotoMethodViewModelDelegate?
     var userRepository: UserRepository = UserRepositoryImpl()
     var pageRepository: PageRepository = PageRepositoryImpl()
@@ -50,15 +50,14 @@ public class SelectPhotoMethodViewModel {
     var state: State = .none
     var castcleId: String
     var isPage: Bool = false
-    private let realm = try! Realm()
-    
-    //MARK: Input
+
+    // MARK: - Input
     public init(authorType: AuthorType, castcleId: String = "") {
         self.authorType = authorType
         self.castcleId = castcleId
         self.tokenHelper.delegate = self
     }
-    
+
     public func updateUserAvatar(isPage: Bool) {
         guard let image = self.avatar else { return }
         self.state = .updateUserAvatar
@@ -85,24 +84,24 @@ public class SelectPhotoMethodViewModel {
             }
         }
     }
-    
+
     func getMyPage() {
         self.state = .getMyPage
-        self.pageRepository.getMyPage() { (success, response, isRefreshToken) in
+        self.pageRepository.getMyPage { (success, response, isRefreshToken) in
             if success {
                 self.state = .none
                 do {
+                    let realm = try Realm()
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
                     let pages = json[JsonKey.payload.rawValue].arrayValue
-                    let pageRealm = self.realm.objects(Page.self)
-                    try! self.realm.write {
-                        self.realm.delete(pageRealm)
+                    let pageRealm = realm.objects(Page.self)
+                    try realm.write {
+                        realm.delete(pageRealm)
                     }
-                    
-                    pages.forEach { page in
-                        let pageInfo = UserInfo(json: page)
-                        try! self.realm.write {
+                    try realm.write {
+                        pages.forEach { page in
+                            let pageInfo = UserInfo(json: page)
                             let pageTemp = Page()
                             pageTemp.id = pageInfo.id
                             pageTemp.castcleId = pageInfo.castcleId
@@ -113,7 +112,7 @@ public class SelectPhotoMethodViewModel {
                             pageTemp.official = pageInfo.verified.official
                             pageTemp.isSyncTwitter = !pageInfo.syncSocial.twitter.socialId.isEmpty
                             pageTemp.isSyncFacebook = !pageInfo.syncSocial.facebook.socialId.isEmpty
-                            self.realm.add(pageTemp, update: .modified)
+                            realm.add(pageTemp, update: .modified)
                         }
                     }
                     self.delegate?.didGetPageFinish()

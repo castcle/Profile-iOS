@@ -33,49 +33,49 @@ import JGProgressHUD
 class PageSyncSocialViewController: UIViewController {
 
     @IBOutlet var tableView: UITableView!
-    
+
     var viewModel = PageSyncSocialViewModel()
     let hud = JGProgressHUD()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
         self.setupNavBar()
         self.configureTableView()
         self.hud.show(in: self.view)
-        
+
         self.viewModel.didGetUserInfoFinish = {
             self.hud.dismiss()
             self.tableView.reloadData()
         }
-        
+
         self.viewModel.didSetAutoPostFinish = {
             self.hud.dismiss()
         }
-        
+
         self.viewModel.didCancelAutoPostFinish = {
             self.hud.dismiss()
         }
-        
+
         self.viewModel.didReconnectSyncSocialFinish = {
             self.hud.dismiss()
         }
-        
+
         self.viewModel.didDisconnectSyncSocialFinish = {
             self.hud.dismiss()
         }
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         Defaults[.screenId] = ""
         self.hud.textLabel.text = "Loading"
     }
-    
+
     func setupNavBar() {
         self.customNavigationBar(.secondary, title: "Sync with \(self.viewModel.socialType.display)")
     }
-    
+
     func configureTableView() {
         self.tableView.delegate = self
         self.tableView.dataSource = self
@@ -89,11 +89,11 @@ extension PageSyncSocialViewController: UITableViewDelegate, UITableViewDataSour
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.pageSyncSocial, for: indexPath as IndexPath) as? PageSyncSocialTableViewCell
         cell?.backgroundColor = UIColor.clear

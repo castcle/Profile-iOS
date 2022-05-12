@@ -29,26 +29,26 @@ import Core
 import Networking
 import SwiftyJSON
 
-public protocol UserBlockedViewModelDelegate {
+public protocol UserBlockedViewModelDelegate: AnyObject {
     func didUnblocked()
 }
 
 public final class UserBlockedViewModel {
-   
+
     public var delegate: UserBlockedViewModelDelegate?
     var reportRepository: ReportRepository = ReportRepositoryImpl()
     var state: State = .none
     let tokenHelper: TokenHelper = TokenHelper()
     var castcleId: String = ""
-    
+
     public init() {
         self.tokenHelper.delegate = self
     }
-    
+
     func unblockUser(castcleId: String) {
         self.state = .unblockUser
         self.castcleId = castcleId
-        self.reportRepository.unblockUser(userId: UserManager.shared.rawCastcleId, targetCastcleId: self.castcleId) { (success, response, isRefreshToken) in
+        self.reportRepository.unblockUser(userId: UserManager.shared.rawCastcleId, targetCastcleId: self.castcleId) { (success, _, isRefreshToken) in
             if success {
                 self.delegate?.didUnblocked()
             } else {

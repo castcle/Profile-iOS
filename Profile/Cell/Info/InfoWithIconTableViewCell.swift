@@ -32,7 +32,7 @@ class InfoWithIconTableViewCell: UITableViewCell {
     @IBOutlet var icon: UIImageView!
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var detailLabel: UILabel!
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         self.titleLabel.font = UIFont.asset(.regular, fontSize: .body)
@@ -44,7 +44,7 @@ class InfoWithIconTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
-    
+
     func configCell(icon: UIImage, title: String, detail: String) {
         self.icon.image = icon
         self.titleLabel.text = title

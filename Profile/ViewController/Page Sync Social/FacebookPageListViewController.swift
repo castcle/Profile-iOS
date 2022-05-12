@@ -29,28 +29,28 @@ import UIKit
 import Core
 import Networking
 
-protocol FacebookPageListViewControllerDelegate {
+protocol FacebookPageListViewControllerDelegate: AnyObject {
     func didSelectFacebookPage(_ facebookPageListViewController: FacebookPageListViewController, page: FacebookPage)
 }
 
 class FacebookPageListViewController: UIViewController {
 
     @IBOutlet var tableView: UITableView!
-    
+
     public var delegate: FacebookPageListViewControllerDelegate?
     var facebookPage: [FacebookPage] = []
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
         self.setupNavBar()
         self.configureTableView()
     }
-    
+
     func setupNavBar() {
         self.customNavigationBar(.secondary, title: "Facebook Pages")
     }
-    
+
     func configureTableView() {
         self.tableView.delegate = self
         self.tableView.dataSource = self
@@ -65,11 +65,11 @@ extension FacebookPageListViewController: UITableViewDelegate, UITableViewDataSo
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return (self.facebookPage.isEmpty ? 1 : self.facebookPage.count)
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if self.facebookPage.isEmpty {
             let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.facebookPageEmpty, for: indexPath as IndexPath) as? FacebookPageEmptyTableViewCell
@@ -82,7 +82,7 @@ extension FacebookPageListViewController: UITableViewDelegate, UITableViewDataSo
             return cell ?? FacebookPageTableViewCell()
         }
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if !self.facebookPage.isEmpty {
             self.navigationController?.popViewController(animated: true)

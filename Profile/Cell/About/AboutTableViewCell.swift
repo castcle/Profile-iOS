@@ -28,7 +28,7 @@
 import UIKit
 import Core
 
-protocol AboutTableViewCellDelegate {
+protocol AboutTableViewCellDelegate: AnyObject {
     func didUpdateData(_ aboutTableViewCell: AboutTableViewCell, overview: String)
 }
 
@@ -38,9 +38,9 @@ class AboutTableViewCell: UITableViewCell, UITextViewDelegate {
     @IBOutlet var overviewLabel: UILabel!
     @IBOutlet var overviewTextView: UITextView!
     @IBOutlet var aboutView: UIView!
-    
+
     var delegate: AboutTableViewCellDelegate?
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         self.aboutView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
@@ -48,7 +48,7 @@ class AboutTableViewCell: UITableViewCell, UITextViewDelegate {
         self.headlineLabel.textColor = UIColor.Asset.white
         self.overviewLabel.font = UIFont.asset(.regular, fontSize: .body)
         self.overviewLabel.textColor = UIColor.Asset.white
-        
+
         self.overviewTextView.delegate = self
         self.overviewTextView.font = UIFont.asset(.regular, fontSize: .body)
         self.overviewTextView.textColor = UIColor.Asset.white
@@ -59,17 +59,17 @@ class AboutTableViewCell: UITableViewCell, UITextViewDelegate {
     }
 
     func configCell() {
-        self.headlineLabel.text = Localization.updateInfo.headline.text
-        self.overviewLabel.text = Localization.updateInfo.overview.text
-        self.overviewTextView.placeholder = Localization.updateInfo.overviewPlaceholder.text
+        self.headlineLabel.text = Localization.UpdateInfo.headline.text
+        self.overviewLabel.text = Localization.UpdateInfo.overview.text
+        self.overviewTextView.placeholder = Localization.UpdateInfo.overviewPlaceholder.text
     }
-    
+
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
         let numberOfChars = newText.count
         return numberOfChars < 161
     }
-    
+
     func textViewDidChange(_ textView: UITextView) {
         self.delegate?.didUpdateData(self, overview: textView.text)
     }

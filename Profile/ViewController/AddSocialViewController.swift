@@ -37,21 +37,19 @@ class AddSocialViewController: UIViewController {
         view.backgroundColor = UIColor.Asset.darkGraphiteBlue
         return view
     }()
-    
+
     lazy var adapter: ListAdapter = {
         return ListAdapter(updater: ListAdapterUpdater(), viewController: self, workingRangeSize: 0)
     }()
-    
+
     enum AddSocialType: Int {
         case social = 0
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-
         self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
         self.hideKeyboardWhenTapped()
-        
         self.collectionView.alwaysBounceVertical = true
         self.collectionView.showsHorizontalScrollIndicator = false
         self.collectionView.showsVerticalScrollIndicator = false
@@ -60,33 +58,32 @@ class AddSocialViewController: UIViewController {
         self.adapter.collectionView = self.collectionView
         self.adapter.dataSource = self
     }
-    
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         self.collectionView.frame = view.bounds
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         Defaults[.screenId] = ""
         self.setupNavBar()
     }
-    
+
     func setupNavBar() {
-        self.customNavigationBar(.secondary, title: Localization.addSocial.title.text)
-        
+        self.customNavigationBar(.secondary, title: Localization.AddSocial.title.text)
         var rightButton: [UIBarButtonItem] = []
-        
+
         let icon = UIButton()
-        icon.setTitle(Localization.addSocial.apply.text, for: .normal)
-        icon.titleLabel?.font = UIFont.asset(.bold, fontSize: .h4)
+        icon.setTitle(Localization.AddSocial.apply.text, for: .normal)
+        icon.titleLabel?.font = UIFont.asset(.bold, fontSize: .head4)
         icon.setTitleColor(UIColor.Asset.lightBlue, for: .normal)
         icon.addTarget(self, action: #selector(applyAction), for: .touchUpInside)
         rightButton.append(UIBarButtonItem(customView: icon))
 
         self.navigationItem.rightBarButtonItems = rightButton
     }
-    
+
     @objc private func applyAction() {
         self.view.endEditing(true)
         self.navigationController?.popViewController(animated: true)
@@ -99,11 +96,11 @@ extension AddSocialViewController: ListAdapterDataSource {
         let items: [ListDiffable] = [AddSocialType.social.rawValue] as [ListDiffable]
         return items
     }
-    
+
     func listAdapter(_ listAdapter: ListAdapter, sectionControllerFor object: Any) -> ListSectionController {
         return AddSocialSectionController()
     }
-    
+
     func emptyView(for listAdapter: ListAdapter) -> UIView? {
         return nil
     }

@@ -29,30 +29,29 @@ import Core
 import Networking
 
 public class UserInfoViewModel {
-    
+
     var profileType: ProfileType = .unknow
     var userInfo: UserInfo = UserInfo()
     var socialLink: [SocialLink] = []
-    
+
     init(userInfo: UserInfo) {
         self.userInfo = userInfo
-        
         if !(self.userInfo.links.facebook.isEmpty) {
             self.socialLink.append(SocialLink(socialLinkType: .facebook, value: self.userInfo.links.facebook))
         }
-        
+
         if !(self.userInfo.links.twitter.isEmpty) {
             self.socialLink.append(SocialLink(socialLinkType: .twitter, value: self.userInfo.links.twitter))
         }
-        
+
         if !(self.userInfo.links.youtube.isEmpty) {
             self.socialLink.append(SocialLink(socialLinkType: .youtube, value: self.userInfo.links.youtube))
         }
-        
+
         if !(self.userInfo.links.medium.isEmpty) {
             self.socialLink.append(SocialLink(socialLinkType: .medium, value: self.userInfo.links.medium))
         }
-        
+
         if !(self.userInfo.links.website.isEmpty) {
             self.socialLink.append(SocialLink(socialLinkType: .website, value: self.userInfo.links.website))
         }

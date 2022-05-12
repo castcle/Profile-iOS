@@ -32,7 +32,7 @@ import SkeletonView
 class ProfileHeaderSkeletonTableViewCell: UITableViewCell {
 
     @IBOutlet var headerSkeletonView: UIView!
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         DispatchQueue.main.async {

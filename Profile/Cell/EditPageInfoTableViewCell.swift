@@ -73,7 +73,6 @@ class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
     @IBOutlet var phoneLabel: UILabel!
     @IBOutlet var emailIcon: UIImageView!
     @IBOutlet var phoneIcon: UIImageView!
-    
     @IBOutlet var facebookIconView: UIView!
     @IBOutlet var facebookIcon: UIImageView!
     @IBOutlet var twitterIconView: UIView!
@@ -84,13 +83,12 @@ class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
     @IBOutlet var mediumIcon: UIImageView!
     @IBOutlet var websiteIconView: UIView!
     @IBOutlet var websiteIcon: UIImageView!
-    
     @IBOutlet var saveButton: UIButton!
-    
+
     let viewModel = EditInfoViewModel()
     let hud = JGProgressHUD()
     private var updateImageType: UpdateImageType = .none
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         self.profileImage.circle(color: UIColor.Asset.white)
@@ -100,7 +98,7 @@ class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         self.editCoverButton.setImage(UIImage.init(icon: .castcle(.camera), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white).withRenderingMode(.alwaysOriginal), for: .normal)
         self.editCoverButton.setBackgroundImage(UIColor.Asset.gray.toImage(), for: .normal)
         self.editCoverButton.capsule()
-        
+
         self.castcleIdLabel.font = UIFont.asset(.bold, fontSize: .body)
         self.castcleIdLabel.textColor = UIColor.Asset.white
         self.castcleIdNoticeLabel.font = UIFont.asset(.regular, fontSize: .overline)
@@ -127,7 +125,6 @@ class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         self.phoneLabel.font = UIFont.asset(.regular, fontSize: .body)
         self.emailIcon.image = UIImage.init(icon: .castcle(.next), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white)
         self.phoneIcon.image = UIImage.init(icon: .castcle(.next), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white)
-        
         self.castcleIdTextField.font = UIFont.asset(.regular, fontSize: .body)
         self.castcleIdTextField.textColor = UIColor.Asset.white
         self.displayNameTextField.font = UIFont.asset(.regular, fontSize: .body)
@@ -142,7 +139,6 @@ class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         self.mediumTextField.textColor = UIColor.Asset.white
         self.websiteTextField.font = UIFont.asset(.regular, fontSize: .body)
         self.websiteTextField.textColor = UIColor.Asset.white
-        
         self.castcleIdView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
         self.displayNameView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
         self.aboutView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
@@ -151,7 +147,7 @@ class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         self.youtubeView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
         self.mediumView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
         self.websiteView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
-        
+
         self.facebookIconView.capsule(color: UIColor.Asset.facebook)
         self.facebookIcon.image = UIImage.init(icon: .castcle(.facebook), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.white)
         self.twitterIconView.capsule(color: UIColor.Asset.twitter)
@@ -167,7 +163,7 @@ class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         self.overviewTextView.delegate = self
         self.overviewTextView.placeholder = "Write something to introduce yourself!"
         self.saveButton.setTitle("Save", for: .normal)
-        self.saveButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .h4)
+        self.saveButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .head4)
         self.saveButton.setTitleColor(UIColor.Asset.white, for: .normal)
         self.saveButton.capsule(color: UIColor.Asset.lightBlue, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
         self.viewModel.delegate = self
@@ -176,13 +172,13 @@ class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
-    
+
     func configCell(userInfo: UserInfo) {
         self.viewModel.userInfo = userInfo
         self.mappingData()
         self.updateUI()
     }
-    
+
     private func mappingData() {
         self.overviewTextView.text = self.viewModel.userInfo.overview
         self.facebookTextField.text = (self.viewModel.userInfo.links.facebook.isEmpty ? "https://" : self.viewModel.userInfo.links.facebook)
@@ -191,7 +187,7 @@ class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         self.mediumTextField.text = (self.viewModel.userInfo.links.medium.isEmpty ? "https://" : self.viewModel.userInfo.links.medium)
         self.websiteTextField.text = (self.viewModel.userInfo.links.website.isEmpty ? "https://" : self.viewModel.userInfo.links.website)
     }
-    
+
     private func updateUI() {
         if let avatar = self.viewModel.avatar {
             self.profileImage.image = avatar
@@ -199,17 +195,16 @@ class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
             let url = URL(string: self.viewModel.userInfo.images.avatar.thumbnail)
             self.profileImage.kf.setImage(with: url, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
         }
-        
+
         if let cover = self.viewModel.cover {
             self.coverImage.image = cover
         } else {
             let url = URL(string: self.viewModel.userInfo.images.cover.fullHd)
             self.coverImage.kf.setImage(with: url, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.35))])
         }
-        
+
         self.castcleIdTextField.text = self.viewModel.userInfo.castcleId
         self.displayNameTextField.text = self.viewModel.userInfo.displayName
-        
         if self.viewModel.userInfo.canUpdateCastcleId {
             self.castcleIdNoticeLabel.text = ""
             self.castcleIdTextField.isEnabled = true
@@ -217,7 +212,7 @@ class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
             self.castcleIdNoticeLabel.text = "Once your Castcle ID has been changed, you can edit it again after 60 days."
             self.castcleIdTextField.isEnabled = false
         }
-        
+
         if self.viewModel.userInfo.contact.email.isEmpty {
             self.emailLabel.textColor = UIColor.Asset.lightGray
             self.emailLabel.text = "None"
@@ -225,7 +220,7 @@ class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
             self.emailLabel.textColor = UIColor.Asset.lightBlue
             self.emailLabel.text = self.viewModel.userInfo.contact.email
         }
-        
+
         if self.viewModel.userInfo.contact.phone.isEmpty {
             self.phoneLabel.textColor = UIColor.Asset.lightGray
             self.phoneLabel.text = "None"
@@ -234,7 +229,7 @@ class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
             self.phoneLabel.text = "\(self.viewModel.userInfo.contact.countryCode.isEmpty ? "(+66)" : "(\(self.viewModel.userInfo.contact.countryCode)")) \(self.viewModel.userInfo.contact.phone)"
         }
     }
-    
+
     private func disableUI(isActive: Bool) {
         if isActive {
             self.overviewTextView.isEditable = true
@@ -252,31 +247,31 @@ class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
             self.websiteTextField.isEnabled = false
         }
     }
-    
+
     @IBAction func updateEmailAction(_ sender: Any) {
-        let vc = ProfileOpener.open(.contactEmail(EditInfoViewModel(profileType: self.viewModel.profileType, userInfo: self.viewModel.userInfo))) as? ContactEmailViewController
-        vc?.delegate = self
-        Utility.currentViewController().navigationController?.pushViewController(vc ?? ContactEmailViewController(), animated: true)
+        let viewController = ProfileOpener.open(.contactEmail(EditInfoViewModel(profileType: self.viewModel.profileType, userInfo: self.viewModel.userInfo))) as? ContactEmailViewController
+        viewController?.delegate = self
+        Utility.currentViewController().navigationController?.pushViewController(viewController ?? ContactEmailViewController(), animated: true)
     }
-    
+
     @IBAction func updatePhoneAction(_ sender: Any) {
-        let vc = ProfileOpener.open(.contactPhone(EditInfoViewModel(profileType: self.viewModel.profileType, userInfo: self.viewModel.userInfo))) as? ContactPhoneViewController
-        vc?.delegate = self
-        Utility.currentViewController().navigationController?.pushViewController(vc ?? ContactPhoneViewController(), animated: true)
+        let viewController = ProfileOpener.open(.contactPhone(EditInfoViewModel(profileType: self.viewModel.profileType, userInfo: self.viewModel.userInfo))) as? ContactPhoneViewController
+        viewController?.delegate = self
+        Utility.currentViewController().navigationController?.pushViewController(viewController ?? ContactPhoneViewController(), animated: true)
     }
-    
+
     @IBAction func saveAction(_ sender: Any) {
         self.hud.show(in: Utility.currentViewController().view)
         self.disableUI(isActive: false)
-        
+
         if (self.castcleIdTextField.text!).trimmingCharacters(in: .whitespacesAndNewlines) != self.viewModel.userInfo.castcleId {
             self.viewModel.userRequest.payload.castcleId = (self.castcleIdTextField.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
         }
-        
+
         if (self.displayNameTextField.text!).trimmingCharacters(in: .whitespacesAndNewlines) != self.viewModel.userInfo.displayName {
             self.viewModel.userRequest.payload.displayName = (self.displayNameTextField.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
         }
-        
+
         self.viewModel.userRequest.payload.overview = self.overviewTextView.text ?? ""
         self.viewModel.userRequest.payload.links.facebook = (self.facebookTextField.text! == "https://" ? "" : self.facebookTextField.text!)
         self.viewModel.userRequest.payload.links.twitter = (self.twitterTextField.text! == "https://" ? "" : self.twitterTextField.text!)
@@ -285,17 +280,17 @@ class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         self.viewModel.userRequest.payload.links.website = (self.websiteTextField.text! == "https://" ? "" : self.websiteTextField.text!)
         self.viewModel.updateProfile(isPage: true, castcleId: self.viewModel.userInfo.castcleId)
     }
-    
+
     @IBAction func editCoverAction(_ sender: Any) {
         self.updateImageType = .cover
         self.selectImageSource()
     }
-    
+
     @IBAction func editProfileImageAction(_ sender: Any) {
         self.updateImageType = .avatar
         self.selectImageSource()
     }
-    
+
     private func selectImageSource() {
         let actionSheet = CCActionSheet()
         let albumButton = CCAction(title: "Choose from Camera Roll", image: UIImage.init(icon: .castcle(.image), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
@@ -306,11 +301,10 @@ class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
             actionSheet.dismissActionSheet()
             self.selectTakePhoto()
         }
-        
         actionSheet.addActions([albumButton, cameraButton])
         Utility.currentViewController().present(actionSheet, animated: true, completion: nil)
     }
-    
+
     private func selectCameraRoll() {
         let photosPickerViewController = TLPhotosPickerViewController()
         photosPickerViewController.delegate = self
@@ -320,14 +314,13 @@ class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         photosPickerViewController.navigationBar.isTranslucent = false
         photosPickerViewController.titleLabel.font = UIFont.asset(.regular, fontSize: .overline)
         photosPickerViewController.subTitleLabel.font = UIFont.asset(.regular, fontSize: .small)
-        
         photosPickerViewController.doneButton.setTitleTextAttributes([
-            NSAttributedString.Key.font : UIFont.asset(.bold, fontSize: .h4),
-            NSAttributedString.Key.foregroundColor : UIColor.Asset.lightBlue
+            NSAttributedString.Key.font: UIFont.asset(.bold, fontSize: .head4),
+            NSAttributedString.Key.foregroundColor: UIColor.Asset.lightBlue
         ], for: .normal)
         photosPickerViewController.cancelButton.setTitleTextAttributes([
-            NSAttributedString.Key.font : UIFont.asset(.regular, fontSize: .body),
-            NSAttributedString.Key.foregroundColor : UIColor.Asset.lightBlue
+            NSAttributedString.Key.font: UIFont.asset(.regular, fontSize: .body),
+            NSAttributedString.Key.foregroundColor: UIColor.Asset.lightBlue
         ], for: .normal)
 
         var configure = TLPhotosPickerConfigure()
@@ -342,60 +335,58 @@ class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         configure.allowedVideoRecording = false
         configure.selectedColor = UIColor.Asset.lightBlue
         photosPickerViewController.configure = configure
-
         Utility.currentViewController().present(photosPickerViewController, animated: true, completion: nil)
     }
-    
+
     private func selectTakePhoto() {
         self.showCameraIfAuthorized()
     }
-     
-     private func showCameraIfAuthorized() {
-         let cameraAuthorization = AVCaptureDevice.authorizationStatus(for: .video)
-         switch cameraAuthorization {
-         case .authorized:
-             self.showCamera()
-         case .notDetermined:
-             AVCaptureDevice.requestAccess(for: .video, completionHandler: { [weak self] (authorized) in
-                 DispatchQueue.main.async { [weak self] in
-                     if authorized {
-                         self?.showCamera()
-                     } else {
-                         self?.handleDeniedCameraAuthorization()
-                     }
-                 }
-             })
-         case .restricted, .denied:
-             self.handleDeniedCameraAuthorization()
-         @unknown default:
-             break
-         }
-     }
-     
-     private func showCamera() {
-         let picker = UIImagePickerController()
-         picker.sourceType = .camera
-         var mediaTypes: [String] = []
-         mediaTypes.append(kUTTypeImage as String)
-         
-         guard mediaTypes.count > 0 else {
-             return
-         }
-         picker.cameraDevice = .rear
-         picker.mediaTypes = mediaTypes
-         picker.allowsEditing = false
-         picker.delegate = self
-         Utility.currentViewController().present(picker, animated: true, completion: nil)
-     }
-     
-     private func handleDeniedCameraAuthorization() {
-         DispatchQueue.main.async {
-             let alert = UIAlertController(title: "Error", message: "Denied camera permissions granted", preferredStyle: .alert)
-             alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-             Utility.currentViewController().present(alert, animated: true, completion: nil)
-         }
-     }
-    
+
+    private func showCameraIfAuthorized() {
+        let cameraAuthorization = AVCaptureDevice.authorizationStatus(for: .video)
+        switch cameraAuthorization {
+        case .authorized:
+            self.showCamera()
+        case .notDetermined:
+            AVCaptureDevice.requestAccess(for: .video, completionHandler: { [weak self] (authorized) in
+                DispatchQueue.main.async { [weak self] in
+                    if authorized {
+                        self?.showCamera()
+                    } else {
+                        self?.handleDeniedCameraAuthorization()
+                    }
+                }
+            })
+        case .restricted, .denied:
+            self.handleDeniedCameraAuthorization()
+        @unknown default:
+            break
+        }
+    }
+
+    private func showCamera() {
+        let picker = UIImagePickerController()
+        picker.sourceType = .camera
+        var mediaTypes: [String] = []
+        mediaTypes.append(kUTTypeImage as String)
+        guard mediaTypes.count > 0 else {
+            return
+        }
+        picker.cameraDevice = .rear
+        picker.mediaTypes = mediaTypes
+        picker.allowsEditing = false
+        picker.delegate = self
+        Utility.currentViewController().present(picker, animated: true, completion: nil)
+    }
+
+    private func handleDeniedCameraAuthorization() {
+        DispatchQueue.main.async {
+            let alert = UIAlertController(title: "Error", message: "Denied camera permissions granted", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+            Utility.currentViewController().present(alert, animated: true, completion: nil)
+        }
+    }
+
     private func presentCropViewController(image: UIImage, updateImageType: UpdateImageType) {
         if updateImageType == .avatar {
             let cropController = TOCropViewController(croppingStyle: .circular, image: image)
@@ -417,7 +408,7 @@ extension EditPageInfoTableViewCell: EditInfoViewModelDelegate {
     func didGetInfoFinish(success: Bool) {
         // Not use
     }
-    
+
     func didUpdateInfoFinish(success: Bool) {
         self.hud.dismiss()
         if success {
@@ -446,9 +437,8 @@ extension EditPageInfoTableViewCell: TLPhotosPickerViewControllerDelegate {
 }
 
 extension EditPageInfoTableViewCell: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    open func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    open func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         guard let image = (info[UIImagePickerController.InfoKey.originalImage] as? UIImage) else { return }
-
         picker.dismiss(animated: true, completion: {
             if self.updateImageType == .avatar {
                 self.presentCropViewController(image: image, updateImageType: .avatar)
@@ -469,7 +459,7 @@ extension EditPageInfoTableViewCell: TOCropViewControllerDelegate {
             }
         })
     }
-    
+
     func cropViewController(_ cropViewController: TOCropViewController, didCropTo image: UIImage, with cropRect: CGRect, angle: Int) {
         cropViewController.dismiss(animated: true, completion: {
             if self.updateImageType == .cover {

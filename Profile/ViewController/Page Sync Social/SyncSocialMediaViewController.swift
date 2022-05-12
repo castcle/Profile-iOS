@@ -39,38 +39,38 @@ import Defaults
 class SyncSocialMediaViewController: UIViewController {
 
     @IBOutlet var tableView: UITableView!
-    
+
     var viewModel = SyncSocialMediaViewModel(castcleId: "")
     var swifter: Swifter!
     var accToken: Credential.OAuthAccessToken?
     let hud = JGProgressHUD()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
         self.setupNavBar()
         self.configureTableView()
-        
+
         self.viewModel.didGetUserInfoFinish = {
             self.tableView.reloadData()
             self.hud.dismiss()
         }
-        
+
         self.viewModel.didDuplicate = {
             self.hud.dismiss()
             Utility.currentViewController().present(ComponentOpener.open(.acceptSyncSocialPopup(AcceptSyncSocialPopupViewModel(socialType: self.viewModel.socialType, pageSocial: self.viewModel.pageSocial, userInfo: self.viewModel.userInfo))), animated: true)
         }
-        
+
         self.viewModel.didError = {
             self.hud.dismiss()
         }
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         Defaults[.screenId] = ""
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if !self.viewModel.castcleId.isEmpty {
@@ -79,11 +79,11 @@ class SyncSocialMediaViewController: UIViewController {
             self.viewModel.getInfo(duplicate: false)
         }
     }
-    
+
     func setupNavBar() {
         self.customNavigationBar(.secondary, title: "Sync Social Media")
     }
-    
+
     func configureTableView() {
         self.tableView.delegate = self
         self.tableView.dataSource = self
@@ -91,10 +91,10 @@ class SyncSocialMediaViewController: UIViewController {
         self.tableView.rowHeight = UITableView.automaticDimension
         self.tableView.estimatedRowHeight = 100
     }
-    
+
     func syncFacebook() {
         let loginManager = LoginManager()
-        if let _ = AccessToken.current {
+        if AccessToken.current != nil {
             loginManager.logOut()
         }
         loginManager.logIn(permissions: ["public_profile", "email", "pages_show_list", "pages_manage_metadata"], from: self) { (result, error) in
@@ -110,10 +110,10 @@ class SyncSocialMediaViewController: UIViewController {
             self.getPages()
         }
     }
-    
+
     func syncTwitter() {
         self.swifter = Swifter(consumerKey: TwitterConstants.key, consumerSecret: TwitterConstants.secretKey)
-        self.swifter.authorize(withProvider: self, callbackURL: URL(string: TwitterConstants.callbackUrl)!) { accessToken, response in
+        self.swifter.authorize(withProvider: self, callbackURL: URL(string: TwitterConstants.callbackUrl)!) { accessToken, _ in
             self.hud.textLabel.text = "Syncing"
             self.hud.show(in: self.view)
             self.accToken = accessToken
@@ -122,15 +122,15 @@ class SyncSocialMediaViewController: UIViewController {
             print("ERROR: \(error.localizedDescription)")
         }
     }
-    
+
     func getPages() {
-        if let _ = AccessToken.current {
+        if AccessToken.current != nil {
             var request: GraphRequest?
             let accessToken = AccessToken.current?.tokenString
             let userId = AccessToken.current?.userID ?? ""
-            let params = ["access_token" : accessToken ?? ""]
+            let params = ["access_token": accessToken ?? ""]
             request = GraphRequest(graphPath: "/\(userId)/accounts?fields=name,about,username,access_token,cover", parameters: params, httpMethod: .get)
-            request?.start() { (connection, result, error) in
+            request?.start { (_, result, error) in
                 self.hud.dismiss()
                 guard error == nil else {
                     print(error!.localizedDescription)
@@ -138,9 +138,9 @@ class SyncSocialMediaViewController: UIViewController {
                 }
                 let json = JSON.init(result ?? "")
                 self.viewModel.facebookPage = (json["data"].array ?? []).map { FacebookPage(json: $0) }
-                let vc = ProfileOpener.open(.facebookPageList(self.viewModel.facebookPage)) as? FacebookPageListViewController
-                vc?.delegate = self
-                Utility.currentViewController().navigationController?.pushViewController(vc ?? FacebookPageListViewController(), animated: true)
+                let viewController = ProfileOpener.open(.facebookPageList(self.viewModel.facebookPage)) as? FacebookPageListViewController
+                viewController?.delegate = self
+                Utility.currentViewController().navigationController?.pushViewController(viewController ?? FacebookPageListViewController(), animated: true)
             }
         }
     }
@@ -150,11 +150,11 @@ extension SyncSocialMediaViewController: UITableViewDelegate, UITableViewDataSou
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.viewModel.socials.count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.socialAccount, for: indexPath as IndexPath) as? SocialAccountTableViewCell
         cell?.backgroundColor = UIColor.clear
@@ -167,7 +167,7 @@ extension SyncSocialMediaViewController: UITableViewDelegate, UITableViewDataSou
         }
         return cell ?? SocialAccountTableViewCell()
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if self.viewModel.socials[indexPath.row] == .facebook {
             if self.viewModel.isSyncFacebook {
@@ -205,19 +205,16 @@ extension SyncSocialMediaViewController: SFSafariViewControllerDelegate, ASWebAu
             pageSocial.overview = twitterDescription
             pageSocial.avatar = twitterProfilePic
             pageSocial.cover = twitterCover
-            
+
             self.viewModel.pageSocial = pageSocial
             self.viewModel.syncSocial()
-        }) { error in
-            self.hud.dismiss()
-            print("ERROR: \(error.localizedDescription)")
-        }
+        })
     }
-    
+
     public func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
         controller.dismiss(animated: true, completion: nil)
     }
-    
+
     public func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
         return self.view.window!
     }
@@ -234,7 +231,7 @@ extension SyncSocialMediaViewController: FacebookPageListViewControllerDelegate 
         pageSocial.avatar = page.avatar
         pageSocial.cover = page.cover
         pageSocial.authToken = page.accessToken
-        
+
         self.hud.textLabel.text = "Syncing"
         self.hud.show(in: self.view)
         self.viewModel.pageSocial = pageSocial

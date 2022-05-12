@@ -31,13 +31,13 @@ import Networking
 import Defaults
 import SwiftyJSON
 
-protocol AboutInfoViewModelDelegate {
+protocol AboutInfoViewModelDelegate: AnyObject {
     func didUpdateUserInfoFinish(success: Bool)
 }
 
 public class AboutInfoViewModel {
-   
-    //MARK: Private
+
+    // MARK: - Private
     var delegate: AboutInfoViewModelDelegate?
     var socialLinkShelf: SocialLinkShelf = SocialLinkShelf()
     var userRepository: UserRepository = UserRepositoryImpl()
@@ -52,14 +52,14 @@ public class AboutInfoViewModel {
     var isPage: Bool = false
     var state: State = .none
 
-    //MARK: Input
+    // MARK: - Input
     public init(authorType: AuthorType, castcleId: String, userRequest: UserRequest = UserRequest()) {
         self.authorType = authorType
         self.castcleId = castcleId
         self.userRequest = userRequest
         self.tokenHelper.delegate = self
     }
-    
+
     func clearData() {
         Defaults[.facebook] = ""
         Defaults[.twitter] = ""
@@ -68,46 +68,40 @@ public class AboutInfoViewModel {
         Defaults[.website] = ""
         self.socialLinkShelf.socialLinks = []
     }
-    
+
     func mappingData() {
         self.socialLinkShelf.socialLinks = []
         if !Defaults[.facebook].isEmpty {
             self.socialLinkShelf.socialLinks.append(SocialLink(socialLinkType: .facebook, value: Defaults[.facebook]))
         }
-        
         if !Defaults[.twitter].isEmpty {
             self.socialLinkShelf.socialLinks.append(SocialLink(socialLinkType: .twitter, value: Defaults[.twitter]))
         }
-        
         if !Defaults[.youtube].isEmpty {
             self.socialLinkShelf.socialLinks.append(SocialLink(socialLinkType: .youtube, value: Defaults[.youtube]))
         }
-        
         if !Defaults[.medium].isEmpty {
             self.socialLinkShelf.socialLinks.append(SocialLink(socialLinkType: .medium, value: Defaults[.medium]))
         }
-        
         if !Defaults[.website].isEmpty {
             self.socialLinkShelf.socialLinks.append(SocialLink(socialLinkType: .website, value: Defaults[.website]))
         }
-
         self.didMappingFinish?()
     }
-    
+
     public func updateUserInfo(isPage: Bool) {
         self.state = .updateUserInfo
         self.isPage = isPage
         if let dob = self.dobDate {
             self.userRequest.payload.dob = dob.dateToStringSever()
         }
-        
         self.userRequest.payload.overview = self.overView
         self.userRequest.payload.links.facebook = Defaults[.facebook]
         self.userRequest.payload.links.twitter = Defaults[.twitter]
         self.userRequest.payload.links.youtube = Defaults[.youtube]
         self.userRequest.payload.links.medium = Defaults[.medium]
         self.userRequest.payload.links.website = Defaults[.website]
-        
+
         self.userRepository.updateInfo(userId: self.castcleId, userRequest: self.userRequest) { (success, response, isRefreshToken) in
             if success {
                 if isPage {
@@ -120,7 +114,6 @@ public class AboutInfoViewModel {
                         self.delegate?.didUpdateUserInfoFinish(success: true)
                     } catch {}
                 }
-                
             } else {
                 if isRefreshToken {
                     self.tokenHelper.refreshToken()
@@ -130,9 +123,9 @@ public class AboutInfoViewModel {
             }
         }
     }
-    
-    //MARK: Output
-    var didMappingFinish: (() -> ())?
+
+    // MARK: - Output
+    var didMappingFinish: (() -> Void)?
 }
 
 extension AboutInfoViewModel: TokenHelperDelegate {

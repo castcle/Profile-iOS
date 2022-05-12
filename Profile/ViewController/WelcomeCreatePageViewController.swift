@@ -33,7 +33,7 @@ class WelcomeCreatePageViewController: UIViewController {
 
     @IBOutlet var welcomeLabel: UILabel!
     @IBOutlet var nextButton: UIButton!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
@@ -48,14 +48,14 @@ class WelcomeCreatePageViewController: UIViewController {
         super.viewWillAppear(animated)
         Defaults[.screenId] = ""
         self.setupNavBar()
-        self.welcomeLabel.text = Localization.createPage.headline.text
-        self.nextButton.setTitle(Localization.createPage.button.text, for: .normal)
+        self.welcomeLabel.text = Localization.CreatePage.headline.text
+        self.nextButton.setTitle(Localization.CreatePage.button.text, for: .normal)
     }
-    
+
     func setupNavBar() {
-        self.customNavigationBar(.secondary, title: Localization.createPage.title.text)
+        self.customNavigationBar(.secondary, title: Localization.CreatePage.title.text)
     }
-    
+
     @IBAction func nextAction(_ sender: Any) {
         Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.createPage), animated: true)
     }

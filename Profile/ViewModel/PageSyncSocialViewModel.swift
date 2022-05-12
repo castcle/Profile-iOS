@@ -30,7 +30,7 @@ import Networking
 import SwiftyJSON
 
 public final class PageSyncSocialViewModel {
-   
+
     var userRepository: UserRepository = UserRepositoryImpl()
     var pageRepository: PageRepository = PageRepositoryImpl()
     let tokenHelper: TokenHelper = TokenHelper()
@@ -40,7 +40,7 @@ public final class PageSyncSocialViewModel {
     var pageSocial: PageSocial = PageSocial()
     var syncSocialId: String = ""
     var socialType: SocialType = .unknow
-    
+
     public init(userInfo: UserInfo = UserInfo(), socialType: SocialType = .unknow) {
         self.userInfo = userInfo
         self.socialType = socialType
@@ -50,7 +50,7 @@ public final class PageSyncSocialViewModel {
             self.getUserInfo()
         }
     }
-    
+
     private func mappingSyncDetail() {
         if self.socialType == .facebook {
             self.syncDetail = self.userInfo.syncSocial.facebook
@@ -59,7 +59,7 @@ public final class PageSyncSocialViewModel {
         }
         self.mapPageSocialRequest()
     }
-    
+
     private func mapPageSocialRequest() {
         self.syncSocialId = self.syncDetail.id
         self.pageSocial.provider = self.syncDetail.provider
@@ -68,7 +68,7 @@ public final class PageSyncSocialViewModel {
         self.pageSocial.displayName = self.syncDetail.displayName
         self.pageSocial.avatar = self.syncDetail.avatar
     }
-    
+
     private func getUserInfo() {
         self.state = .getUserInfo
         self.userRepository.getUser(userId: self.userInfo.castcleId) { (success, response, isRefreshToken) in
@@ -91,10 +91,10 @@ public final class PageSyncSocialViewModel {
             }
         }
     }
-    
+
     public func setAutoPost() {
         self.state = .setAutoPost
-        self.pageRepository.setAutoPost(syncSocialId: self.syncSocialId) { (success, response, isRefreshToken) in
+        self.pageRepository.setAutoPost(syncSocialId: self.syncSocialId) { (success, _, isRefreshToken) in
             if success {
                 self.didSetAutoPostFinish?()
             } else {
@@ -106,10 +106,10 @@ public final class PageSyncSocialViewModel {
             }
         }
     }
-    
+
     public func cancelAutoPost() {
         self.state = .cancelAutoPost
-        self.pageRepository.cancelAutoPost(syncSocialId: self.syncSocialId) { (success, response, isRefreshToken) in
+        self.pageRepository.cancelAutoPost(syncSocialId: self.syncSocialId) { (success, _, isRefreshToken) in
             if success {
                 self.didCancelAutoPostFinish?()
             } else {
@@ -121,10 +121,10 @@ public final class PageSyncSocialViewModel {
             }
         }
     }
-    
+
     public func reconnectSyncSocial() {
         self.state = .reconnectSyncSocial
-        self.pageRepository.reconnectSyncSocial(syncSocialId: self.syncSocialId, pageSocial: self.pageSocial) { (success, response, isRefreshToken) in
+        self.pageRepository.reconnectSyncSocial(syncSocialId: self.syncSocialId, pageSocial: self.pageSocial) { (success, _, isRefreshToken) in
             if success {
                 self.didReconnectSyncSocialFinish?()
             } else {
@@ -136,10 +136,10 @@ public final class PageSyncSocialViewModel {
             }
         }
     }
-    
+
     public func disconnectSyncSocial() {
         self.state = .disconnectSyncSocial
-        self.pageRepository.disconnectSyncSocial(syncSocialId: self.syncSocialId) { (success, response, isRefreshToken) in
+        self.pageRepository.disconnectSyncSocial(syncSocialId: self.syncSocialId) { (success, _, isRefreshToken) in
             if success {
                 self.didDisconnectSyncSocialFinish?()
             } else {
@@ -151,12 +151,12 @@ public final class PageSyncSocialViewModel {
             }
         }
     }
-    
-    var didGetUserInfoFinish: (() -> ())?
-    var didSetAutoPostFinish: (() -> ())?
-    var didCancelAutoPostFinish: (() -> ())?
-    var didReconnectSyncSocialFinish: (() -> ())?
-    var didDisconnectSyncSocialFinish: (() -> ())?
+
+    var didGetUserInfoFinish: (() -> Void)?
+    var didSetAutoPostFinish: (() -> Void)?
+    var didCancelAutoPostFinish: (() -> Void)?
+    var didReconnectSyncSocialFinish: (() -> Void)?
+    var didDisconnectSyncSocialFinish: (() -> Void)?
 }
 
 extension PageSyncSocialViewModel: TokenHelperDelegate {

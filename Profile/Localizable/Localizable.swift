@@ -28,13 +28,13 @@
 import Core
 
 extension Localization {
-    
+
     // MARK: - Create Page
-    public enum createPage {
+    public enum CreatePage {
         case title
         case headline
         case button
-        
+
         public var text: String {
             switch self {
             case .title:
@@ -48,12 +48,12 @@ extension Localization {
     }
 
     // MARK: - Create Page Display Name
-    public enum createPageName {
+    public enum CreatePageName {
         case headline
         case description
         case displayName
         case button
-        
+
         public var text: String {
             switch self {
             case .headline:
@@ -69,13 +69,13 @@ extension Localization {
     }
 
     // MARK: - Choose Profile Image
-    public enum chooseProfileImage {
+    public enum ChooseProfileImage {
         case skip
         case headline
         case description
         case cameraRoll
         case takePhoto
-        
+
         public var text: String {
             switch self {
             case .skip:
@@ -93,7 +93,7 @@ extension Localization {
     }
 
     // MARK: - Update info
-    public enum updateInfo {
+    public enum UpdateInfo {
         case headline
         case overview
         case overviewPlaceholder
@@ -103,7 +103,7 @@ extension Localization {
         case done
         case birthday
         case date
-        
+
         public var text: String {
             switch self {
             case .headline:
@@ -129,7 +129,7 @@ extension Localization {
     }
 
     // MARK: - Add Social
-    public enum addSocial {
+    public enum AddSocial {
         case title
         case apply
         case description
@@ -138,7 +138,7 @@ extension Localization {
         case youtube
         case medium
         case website
-        
+
         public var text: String {
             switch self {
             case .title:
@@ -160,16 +160,16 @@ extension Localization {
             }
         }
     }
-    
+
     // MARK: - Delete page
-    public enum deletePage {
+    public enum DeletePage {
         case title
         case subTitle
         case detail
         case page
         case comfirmNotice
         case button
-        
+
         public var text: String {
             switch self {
             case .title:
@@ -187,16 +187,16 @@ extension Localization {
             }
         }
     }
-         
+
     // MARK: - Delete page confirm
-    public enum deletePageConfirm {
+    public enum DeletePageConfirm {
         case title
         case subTitle
         case subDetail
         case page
         case password
         case next
-        
+
         public var text: String {
             switch self {
             case .title:
@@ -214,12 +214,12 @@ extension Localization {
             }
         }
     }
-        
+
     // MARK: - Delete page success
-    public enum deletePageSuccess {
+    public enum DeletePageSuccess {
         case title
         case backToMenu
-        
+
         public var text: String {
             switch self {
             case .title:

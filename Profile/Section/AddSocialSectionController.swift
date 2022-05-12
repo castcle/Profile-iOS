@@ -40,14 +40,14 @@ extension AddSocialSectionController {
     override func numberOfItems() -> Int {
         return 1
     }
-    
+
     override func sizeForItem(at index: Int) -> CGSize {
         guard let context = collectionContext else {
             return .zero
         }
         return AddSocialCell.cellSize(width: context.containerSize.width)
     }
-    
+
     override func cellForItem(at index: Int) -> UICollectionViewCell {
         let cell = collectionContext?.dequeueReusableCell(withNibName: ProfileNibVars.CollectionViewCell.addSocial, bundle: ConfigBundle.profile, for: self, at: index) ?? AddSocialCell()
         cell.backgroundColor = UIColor.clear

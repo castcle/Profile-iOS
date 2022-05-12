@@ -32,7 +32,7 @@ class AddLinkTableViewCell: UITableViewCell {
 
     @IBOutlet var linkLabel: UILabel!
     @IBOutlet var addSocialButton: UIButton!
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         self.addSocialButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .body)
@@ -45,12 +45,12 @@ class AddLinkTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
-    
+
     func configCell() {
-        self.linkLabel.text = Localization.updateInfo.links.text
-        self.addSocialButton.setTitle(Localization.updateInfo.addSocial.text, for: .normal)
+        self.linkLabel.text = Localization.UpdateInfo.links.text
+        self.addSocialButton.setTitle(Localization.UpdateInfo.addSocial.text, for: .normal)
     }
-    
+
     @IBAction func addSocialAction(_ sender: Any) {
         Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.addLink), animated: true)
     }

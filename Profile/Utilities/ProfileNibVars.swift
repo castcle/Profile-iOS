@@ -50,13 +50,13 @@ public struct ProfileNibVars {
         public static let contactEmail = "ContactEmailViewController"
         public static let contactPhone = "ContactPhoneViewController"
     }
-    
+
     // MARK: - View
     public struct Storyboard {
         public static let profile = "Profile"
-        public static let me = "Me"
+        public static let mine = "Me"
     }
-    
+
     // MARK: - TableViewCell
     public struct TableViewCell {
         public static let meInfo = "UserInfoTableViewCell"
@@ -89,7 +89,7 @@ public struct ProfileNibVars {
         public static let updateUserImage = "UpdateUserImageTableViewCell"
         public static let UpdateUserInfo = "UpdateUserInfoTableViewCell"
     }
-    
+
     // MARK: - CollectionViewCell
     public struct CollectionViewCell {
         public static let addSocial = "AddSocialCell"

@@ -31,7 +31,7 @@ import Core
 class InfoHeaderTableViewCell: UITableViewCell {
 
     @IBOutlet var titleLabel: UILabel!
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         self.titleLabel.font = UIFont.asset(.regular, fontSize: .body)
@@ -41,7 +41,7 @@ class InfoHeaderTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
-    
+
     func configCell(title: String) {
         self.titleLabel.text = title
     }

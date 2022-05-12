@@ -28,17 +28,17 @@
 import UIKit
 import Core
 
-protocol ContactEmailViewControllerDelegate {
+protocol ContactEmailViewControllerDelegate: AnyObject {
     func didChangeEmail(_ contactEmailViewController: ContactEmailViewController, email: String)
 }
 
 class ContactEmailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet var tableView: UITableView!
-    
+
     public var delegate: ContactEmailViewControllerDelegate?
     var viewModel = EditInfoViewModel()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
@@ -46,11 +46,11 @@ class ContactEmailViewController: UIViewController, UITableViewDelegate, UITable
         self.setupNavBar()
         self.configureTableView()
     }
-    
+
     func setupNavBar() {
         self.customNavigationBar(.secondary, title: "Email")
     }
-    
+
     func configureTableView() {
         self.tableView.delegate = self
         self.tableView.dataSource = self
@@ -58,15 +58,15 @@ class ContactEmailViewController: UIViewController, UITableViewDelegate, UITable
         self.tableView.rowHeight = UITableView.automaticDimension
         self.tableView.estimatedRowHeight = 100
     }
-    
+
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.contactEmail, for: indexPath as IndexPath) as? ContactEmailTableViewCell
         cell?.backgroundColor = UIColor.clear

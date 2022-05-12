@@ -29,14 +29,8 @@ import Core
 import Networking
 import SwiftyJSON
 
-public enum FollowType {
-    case following
-    case follower
-    case none
-}
-
 public final class UserFollowViewModel {
-   
+
     var userRepository: UserRepository = UserRepositoryImpl()
     let tokenHelper: TokenHelper = TokenHelper()
     var castcleId: String = ""
@@ -45,7 +39,7 @@ public final class UserFollowViewModel {
     var users: [UserInfo] = []
     var meta: Meta = Meta()
     var state: LoadState = .loading
-    
+
     public init(followType: FollowType = .none, castcleId: String = "") {
         self.followType = followType
         self.castcleId = castcleId
@@ -53,13 +47,13 @@ public final class UserFollowViewModel {
         self.userFollowRequest.maxResults = 25
         self.loadData()
     }
-    
+
     public func reloadData() {
         self.users = []
         self.meta = Meta()
         self.loadData()
     }
-    
+
     func loadData() {
         if self.followType == .follower && !self.castcleId.isEmpty {
             self.getFollower()
@@ -67,7 +61,7 @@ public final class UserFollowViewModel {
             self.getFollowing()
         }
     }
-    
+
     private func getFollower() {
         self.userRepository.getUserFollower(userId: self.castcleId, userFollowRequest: self.userFollowRequest) { (success, response, isRefreshToken) in
             if success {
@@ -90,7 +84,7 @@ public final class UserFollowViewModel {
             }
         }
     }
-    
+
     private func getFollowing() {
         self.userRepository.getUserFollowing(userId: self.castcleId, userFollowRequest: self.userFollowRequest) { (success, response, isRefreshToken) in
             if success {
@@ -113,8 +107,8 @@ public final class UserFollowViewModel {
             }
         }
     }
-    
-    var didLoadFollowUserFinish: (() -> ())?
+
+    var didLoadFollowUserFinish: (() -> Void)?
 }
 
 extension UserFollowViewModel: TokenHelperDelegate {

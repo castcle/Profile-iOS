@@ -30,7 +30,7 @@ import Core
 import Component
 import JGProgressHUD
 
-public protocol UpdateUserInfoTableViewCellDelegate {
+public protocol UpdateUserInfoTableViewCellDelegate: AnyObject {
     func didUpdateInfo(isProcess: Bool)
 }
 
@@ -67,16 +67,16 @@ class UpdateUserInfoTableViewCell: UITableViewCell, UITextViewDelegate {
     @IBOutlet var websiteIcon: UIImageView!
     @IBOutlet var selectDateButton: UIButton!
     @IBOutlet var saveButton: UIButton!
-    
+
     public var delegate: UpdateUserInfoTableViewCellDelegate?
     let viewModel = UpdateUserInfoViewModel()
     let hud = JGProgressHUD()
-    private var dobDate: Date? = nil
+    private var dobDate: Date?
     private var updateImageType: UpdateImageType = .none
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.titleLabel.font = UIFont.asset(.regular, fontSize: .h4)
+        self.titleLabel.font = UIFont.asset(.regular, fontSize: .head4)
         self.titleLabel.textColor = UIColor.Asset.white
         self.subTitleLabel.font = UIFont.asset(.regular, fontSize: .body)
         self.subTitleLabel.textColor = UIColor.Asset.white
@@ -121,7 +121,7 @@ class UpdateUserInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         self.hud.textLabel.text = "Saving"
         self.overviewTextView.delegate = self
         self.overviewTextView.placeholder = "Write something to introduce yourself!"
-        self.saveButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .h4)
+        self.saveButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .head4)
         self.saveButton.setTitleColor(UIColor.Asset.white, for: .normal)
         self.saveButton.capsule(color: UIColor.Asset.lightBlue, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
         self.viewModel.delegate = self
@@ -130,14 +130,14 @@ class UpdateUserInfoTableViewCell: UITableViewCell, UITextViewDelegate {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
-    
+
     @IBAction func selectDateAction(_ sender: Any) {
-        let vc = ComponentOpener.open(.datePicker) as? DatePickerViewController
-        vc?.initDate = self.dobDate
-        vc?.delegate = self
-        Utility.currentViewController().presentPanModal(vc ?? DatePickerViewController())
+        let viewController = ComponentOpener.open(.datePicker) as? DatePickerViewController
+        viewController?.initDate = self.dobDate
+        viewController?.delegate = self
+        Utility.currentViewController().presentPanModal(viewController ?? DatePickerViewController())
     }
-    
+
     @IBAction func saveAction(_ sender: Any) {
         self.hud.show(in: Utility.currentViewController().view)
         self.delegate?.didUpdateInfo(isProcess: true)

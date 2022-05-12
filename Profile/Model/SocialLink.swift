@@ -30,9 +30,9 @@ import Core
 public class SocialLink: NSObject {
     var socialLinkType: SocialLinkType = .website
     var value: String = ""
-    
+
     public override init() { }
-    
+
     public init(socialLinkType: SocialLinkType, value: String) {
         self.socialLinkType = socialLinkType
         self.value = value

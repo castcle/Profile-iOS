@@ -30,7 +30,7 @@ import Networking
 import SwiftyJSON
 
 public final class SyncSocialMediaViewModel {
-    
+
     private let userRepository: UserRepository = UserRepositoryImpl()
     var pageSocial: PageSocial = PageSocial()
     let socials: [SocialType] = [.facebook, .twitter]
@@ -43,12 +43,12 @@ public final class SyncSocialMediaViewModel {
     var state: State = .none
     var isSyncTwitter: Bool = false
     var isSyncFacebook: Bool = false
-    
+
     public init(castcleId: String) {
         self.tokenHelper.delegate = self
         self.castcleId = castcleId
     }
-    
+
     func getInfo(duplicate: Bool) {
         self.state = .getUserInfo
         self.duplicate = duplicate
@@ -85,7 +85,7 @@ public final class SyncSocialMediaViewModel {
             }
         }
     }
-    
+
     func syncSocial() {
         self.state = .syncSocial
         self.userRepository.syncSocial(userId: self.userInfo.castcleId, pageSocial: self.pageSocial) { (success, response, isRefreshToken) in
@@ -105,10 +105,10 @@ public final class SyncSocialMediaViewModel {
             }
         }
     }
-    
-    var didGetUserInfoFinish: (() -> ())?
-    var didDuplicate: (() -> ())?
-    var didError: (() -> ())?
+
+    var didGetUserInfoFinish: (() -> Void)?
+    var didDuplicate: (() -> Void)?
+    var didError: (() -> Void)?
 }
 
 extension SyncSocialMediaViewModel: TokenHelperDelegate {

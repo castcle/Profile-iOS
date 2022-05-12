@@ -27,6 +27,6 @@
 
 class SocialLinkShelf: NSObject {
     var socialLinks: [SocialLink] = []
-    
+
     override init() { }
 }

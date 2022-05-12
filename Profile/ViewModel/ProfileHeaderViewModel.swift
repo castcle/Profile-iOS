@@ -31,12 +31,12 @@ import Networking
 import SwiftyJSON
 import RealmSwift
 
-public protocol ProfileHeaderViewModelDelegate {
+public protocol ProfileHeaderViewModelDelegate: AnyObject {
     func didBlocked()
 }
 
 public final class ProfileHeaderViewModel {
-   
+
     public var delegate: ProfileHeaderViewModelDelegate?
     var userRepository: UserRepository = UserRepositoryImpl()
     var reportRepository: ReportRepository = ReportRepositoryImpl()
@@ -49,28 +49,30 @@ public final class ProfileHeaderViewModel {
     private var reportRequest: ReportRequest = ReportRequest()
     var castcleId: String = ""
     var isMyPage: Bool = false
-    
+
     public init(profileType: ProfileType, userInfo: UserInfo) {
         self.profileType = profileType
         self.userInfo = userInfo
         self.isFollow = self.userInfo.followed
         if self.userInfo.type == .page {
-            let realm = try! Realm()
-            if realm.objects(Page.self).filter("castcleId = '\(self.userInfo.castcleId)'").first != nil {
-                self.isMyPage = true
-            } else {
-                self.isMyPage = false
-            }
+            do {
+                let realm = try Realm()
+                if realm.objects(Page.self).filter("castcleId = '\(self.userInfo.castcleId)'").first != nil {
+                    self.isMyPage = true
+                } else {
+                    self.isMyPage = false
+                }
+            } catch {}
         } else {
             self.isMyPage = false
         }
         self.tokenHelper.delegate = self
     }
-    
+
     func followUser() {
         self.state = .followUser
         self.userRequest.targetCastcleId = self.userInfo.castcleId
-        self.userRepository.follow(userRequest: self.userRequest) { (success, response, isRefreshToken) in
+        self.userRepository.follow(userRequest: self.userRequest) { (success, _, isRefreshToken) in
             if !success {
                 if isRefreshToken {
                     self.tokenHelper.refreshToken()
@@ -78,11 +80,11 @@ public final class ProfileHeaderViewModel {
             }
         }
     }
-    
+
     func unfollowUser() {
         self.state = .unfollowUser
         self.userRequest.targetCastcleId = self.userInfo.castcleId
-        self.userRepository.unfollow(targetCastcleId: self.userRequest.targetCastcleId) { (success, response, isRefreshToken) in
+        self.userRepository.unfollow(targetCastcleId: self.userRequest.targetCastcleId) { (success, _, isRefreshToken) in
             if !success {
                 if isRefreshToken {
                     self.tokenHelper.refreshToken()
@@ -90,12 +92,12 @@ public final class ProfileHeaderViewModel {
             }
         }
     }
-    
+
     func reportUser(castcleId: String) {
         self.state = .reportUser
         self.castcleId = castcleId
         self.reportRequest.targetCastcleId = self.castcleId
-        self.reportRepository.reportUser(userId: UserManager.shared.rawCastcleId, reportRequest: self.reportRequest) { (success, response, isRefreshToken) in
+        self.reportRepository.reportUser(userId: UserManager.shared.rawCastcleId, reportRequest: self.reportRequest) { (success, _, isRefreshToken) in
             if success {
                 Utility.currentViewController().navigationController?.pushViewController(ComponentOpener.open(.reportSuccess(false, self.castcleId)), animated: true)
             } else {
@@ -105,12 +107,12 @@ public final class ProfileHeaderViewModel {
             }
         }
     }
-    
+
     func blockUser(castcleId: String) {
         self.state = .blockUser
         self.castcleId = castcleId
         self.reportRequest.targetCastcleId = self.castcleId
-        self.reportRepository.blockUser(userId: UserManager.shared.rawCastcleId, reportRequest: self.reportRequest) { (success, response, isRefreshToken) in
+        self.reportRepository.blockUser(userId: UserManager.shared.rawCastcleId, reportRequest: self.reportRequest) { (success, _, isRefreshToken) in
             if success {
                 self.delegate?.didBlocked()
             } else {

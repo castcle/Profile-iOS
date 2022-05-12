@@ -31,30 +31,29 @@ import Networking
 import SwiftyJSON
 import RealmSwift
 
-public protocol EditProfileViewModelDelegate {
+public protocol EditProfileViewModelDelegate: AnyObject {
     func didUpdateInfoFinish(success: Bool)
 }
 
 class EditProfileViewModel {
-    
+
     public var delegate: EditProfileViewModelDelegate?
     var userRepository: UserRepository = UserRepositoryImpl()
     var userRequest: UserRequest = UserRequest()
     let tokenHelper: TokenHelper = TokenHelper()
     private var state: State = .none
-    var avatar: UIImage? = nil
-    var cover: UIImage? = nil
-    var dobDate: Date? = nil
+    var avatar: UIImage?
+    var cover: UIImage?
+    var dobDate: Date?
     var castcleId: String = ""
     var isPage: Bool = false
     var userInfo: UserInfo = UserInfo()
-    private let realm = try! Realm()
 
-    //MARK: Input
+    // MARK: - Input
     public init() {
         self.tokenHelper.delegate = self
     }
-    
+
     public func updateProfile(isPage: Bool, castcleId: String) {
         self.state = .updateUserInfo
         self.isPage = isPage
@@ -83,7 +82,7 @@ class EditProfileViewModel {
             }
         }
     }
-    
+
     public func updateAvatar(isPage: Bool, castcleId: String) {
         guard let image = self.avatar else { return }
         self.state = .updateUserAvatar
@@ -93,15 +92,16 @@ class EditProfileViewModel {
         self.userRepository.updateAvatar(userId: self.castcleId, userRequest: self.userRequest) { (success, response, isRefreshToken) in
             if success {
                 do {
+                    let realm = try Realm()
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
                     let user = UserInfo(json: json)
                     if isPage {
-                        let pageRealm = self.realm.objects(Page.self).filter("castcleId == '\(user.castcleId)'").first
+                        let pageRealm = realm.objects(Page.self).filter("castcleId == '\(user.castcleId)'").first
                         if let page = pageRealm {
-                            try! self.realm.write {
+                            try realm.write {
                                 page.avatar = user.images.avatar.thumbnail
-                                self.realm.add(page, update: .modified)
+                                realm.add(page, update: .modified)
                             }
                         }
                     } else {
@@ -118,7 +118,7 @@ class EditProfileViewModel {
             }
         }
     }
-    
+
     public func updateCover(isPage: Bool, castcleId: String) {
         guard let image = self.cover else { return }
         self.state = .updateUserCover
@@ -128,15 +128,16 @@ class EditProfileViewModel {
         self.userRepository.updateCover(userId: self.castcleId, userRequest: self.userRequest) { (success, response, isRefreshToken) in
             if success {
                 do {
+                    let realm = try Realm()
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
                     let user = UserInfo(json: json)
                     if self.isPage {
-                        let pageRealm = self.realm.objects(Page.self).filter("castcleId == '\(user.castcleId)'").first
+                        let pageRealm = realm.objects(Page.self).filter("castcleId == '\(user.castcleId)'").first
                         if let page = pageRealm {
-                            try! self.realm.write {
+                            try realm.write {
                                 page.cover = user.images.cover.fullHd
-                                self.realm.add(page, update: .modified)
+                                realm.add(page, update: .modified)
                             }
                         }
                     } else {

@@ -28,39 +28,39 @@
 import UIKit
 import Core
 
-protocol ComplateTableViewCellDelegate {
+protocol ComplateTableViewCellDelegate: AnyObject {
     func didDone(_ complateTableViewCell: ComplateTableViewCell, skip: Bool)
 }
 
 class ComplateTableViewCell: UITableViewCell {
 
     @IBOutlet var complateButton: UIButton!
-    
+
     var delegate: ComplateTableViewCellDelegate?
     var isSkip: Bool = false
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.complateButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .h4)
+        self.complateButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .head4)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
-    
+
     func configCell(isSkip: Bool) {
         self.isSkip = isSkip
         if isSkip {
-            self.complateButton.setTitle(Localization.updateInfo.skip.text, for: .normal)
+            self.complateButton.setTitle(Localization.UpdateInfo.skip.text, for: .normal)
             self.complateButton.setTitleColor(UIColor.Asset.lightBlue, for: .normal)
             self.complateButton.capsule(color: UIColor.Asset.darkGraphiteBlue, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
         } else {
-            self.complateButton.setTitle(Localization.updateInfo.done.text, for: .normal)
+            self.complateButton.setTitle(Localization.UpdateInfo.done.text, for: .normal)
             self.complateButton.setTitleColor(UIColor.Asset.white, for: .normal)
             self.complateButton.capsule(color: UIColor.Asset.lightBlue, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
         }
     }
-    
+
     @IBAction func complateAction(_ sender: Any) {
         if self.isSkip {
             self.delegate?.didDone(self, skip: true)

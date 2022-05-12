@@ -32,9 +32,9 @@ import IGListKit
 import Defaults
 
 class AboutInfoViewController: UIViewController {
-    
+
     @IBOutlet var tableView: UITableView!
-    
+
     enum AboutInfoViewControllerSection: Int, CaseIterable {
         case overview = 0
         case dob
@@ -42,53 +42,50 @@ class AboutInfoViewController: UIViewController {
         case social
         case submit
     }
-    
+
     var viewModel = AboutInfoViewModel(authorType: .people, castcleId: UserManager.shared.rawCastcleId)
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-
         self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
         self.hideKeyboardWhenTapped()
         self.setupNavBar()
         self.configureTableView()
-        
+
         self.viewModel.clearData()
         self.viewModel.didMappingFinish = {
             self.updateIsSkip()
             self.tableView.reloadData()
         }
-        
+
         self.viewModel.delegate = self
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.viewModel.mappingData()
         Defaults[.screenId] = ""
     }
-    
+
     func setupNavBar() {
         self.customNavigationBar(.primary, title: "", textColor: UIColor.Asset.white)
         let leftIcon = NavBarButtonType.back.barButton
         leftIcon.addTarget(self, action: #selector(leftButtonAction), for: .touchUpInside)
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: leftIcon)
     }
-    
+
     func configureTableView() {
         self.tableView.delegate = self
         self.tableView.dataSource = self
-        
         self.tableView.register(UINib(nibName: ProfileNibVars.TableViewCell.about, bundle: ConfigBundle.profile), forCellReuseIdentifier: ProfileNibVars.TableViewCell.about)
         self.tableView.register(UINib(nibName: ProfileNibVars.TableViewCell.dob, bundle: ConfigBundle.profile), forCellReuseIdentifier: ProfileNibVars.TableViewCell.dob)
         self.tableView.register(UINib(nibName: ProfileNibVars.TableViewCell.addLink, bundle: ConfigBundle.profile), forCellReuseIdentifier: ProfileNibVars.TableViewCell.addLink)
         self.tableView.register(UINib(nibName: ProfileNibVars.TableViewCell.social, bundle: ConfigBundle.profile), forCellReuseIdentifier: ProfileNibVars.TableViewCell.social)
         self.tableView.register(UINib(nibName: ProfileNibVars.TableViewCell.complate, bundle: ConfigBundle.profile), forCellReuseIdentifier: ProfileNibVars.TableViewCell.complate)
-        
         self.tableView.rowHeight = UITableView.automaticDimension
         self.tableView.estimatedRowHeight = 100
     }
-    
+
     private func updateIsSkip() {
         if self.viewModel.authorType == .page {
             if !self.viewModel.socialLinkShelf.socialLinks.isEmpty || !self.viewModel.overView.isEmpty {
@@ -104,11 +101,11 @@ class AboutInfoViewController: UIViewController {
             }
         }
     }
-    
+
     private func reloadButton() {
         self.tableView.reloadSections(IndexSet(integer: AboutInfoViewControllerSection.submit.rawValue), with: .none)
     }
-    
+
     @objc private func leftButtonAction() {
         if self.viewModel.authorType == .people {
             Utility.currentViewController().navigationController?.popToRootViewController(animated: true)
@@ -123,7 +120,7 @@ extension AboutInfoViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return AboutInfoViewControllerSection.allCases.count
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case AboutInfoViewControllerSection.dob.rawValue:
@@ -134,7 +131,7 @@ extension AboutInfoViewController: UITableViewDelegate, UITableViewDataSource {
             return 1
         }
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case AboutInfoViewControllerSection.overview.rawValue:

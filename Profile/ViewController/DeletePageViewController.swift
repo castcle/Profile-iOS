@@ -42,9 +42,9 @@ class DeletePageViewController: UIViewController {
     @IBOutlet var deleteButton: UIButton!
     @IBOutlet var line1View: UIView!
     @IBOutlet var line2View: UIView!
-    
+
     var viewModel = DeletePageViewModel(userInfo: UserInfo())
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
@@ -64,27 +64,26 @@ class DeletePageViewController: UIViewController {
         self.deleteButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .body)
         self.deleteButton.setTitleColor(UIColor.Asset.white, for: .normal)
         self.deleteButton.capsule(color: UIColor.Asset.lightBlue, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
-        
         let url = URL(string: self.viewModel.userInfo.images.avatar.thumbnail)
         self.avatarImage.kf.setImage(with: url, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
         self.displayNameLabel.text = self.viewModel.userInfo.displayName
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         Defaults[.screenId] = ""
         self.setupNavBar()
-        self.headlineLabel.text = Localization.deletePage.subTitle.text
-        self.subtitleLabel.text = Localization.deletePage.detail.text
-        self.confirmLabel.text = Localization.deletePage.comfirmNotice.text
-        self.pageLabel.text = Localization.deletePage.page.text
-        self.deleteButton.setTitle(Localization.deletePage.button.text, for: .normal)
+        self.headlineLabel.text = Localization.DeletePage.subTitle.text
+        self.subtitleLabel.text = Localization.DeletePage.detail.text
+        self.confirmLabel.text = Localization.DeletePage.comfirmNotice.text
+        self.pageLabel.text = Localization.DeletePage.page.text
+        self.deleteButton.setTitle(Localization.DeletePage.button.text, for: .normal)
     }
-    
+
     func setupNavBar() {
-        self.customNavigationBar(.secondary, title: Localization.deletePage.title.text)
+        self.customNavigationBar(.secondary, title: Localization.DeletePage.title.text)
     }
-    
+
     @IBAction func deleteAction(_ sender: Any) {
         Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.confirmDeletePage(DeletePageViewModel(userInfo: self.viewModel.userInfo))), animated: true)
     }

@@ -34,7 +34,7 @@ class SocialLinkTableViewCell: UITableViewCell {
     @IBOutlet var socialIconView: UIView!
     @IBOutlet var socialIcon: UIImageView!
     @IBOutlet var valueLabel: UILabel!
-    
+
     var socialLink: SocialLink? {
         didSet {
             guard let social = self.socialLink else { return }
@@ -58,7 +58,7 @@ class SocialLinkTableViewCell: UITableViewCell {
             self.valueLabel.text = social.value
         }
     }
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         self.socialView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)

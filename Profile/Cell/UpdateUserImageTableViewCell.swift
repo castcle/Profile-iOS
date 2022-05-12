@@ -34,7 +34,7 @@ import JGProgressHUD
 import TOCropViewController
 import TLPhotoPicker
 
-public protocol UpdateUserImageTableViewCellDelegate {
+public protocol UpdateUserImageTableViewCellDelegate: AnyObject {
     func didUpdateImage(isProcess: Bool)
 }
 
@@ -49,12 +49,12 @@ class UpdateUserImageTableViewCell: UITableViewCell {
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var subTitleLabel: UILabel!
     @IBOutlet var saveButton: UIButton!
-    
+
     public var delegate: UpdateUserImageTableViewCellDelegate?
     let viewModel = UpdateUserImageViewModel()
     let hud = JGProgressHUD()
     private var updateImageType: UpdateImageType = .none
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         self.coverImage.image = UIImage.Asset.placeholder
@@ -75,7 +75,7 @@ class UpdateUserImageTableViewCell: UITableViewCell {
         self.subTitleLabel.font = UIFont.asset(.bold, fontSize: .body)
         self.subTitleLabel.textColor = UIColor.Asset.white
         self.hud.textLabel.text = "Saving"
-        self.saveButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .h4)
+        self.saveButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .head4)
         self.saveButton.setTitleColor(UIColor.Asset.white, for: .normal)
         self.saveButton.capsule(color: UIColor.Asset.lightBlue, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
         self.viewModel.delegate = self
@@ -86,17 +86,17 @@ class UpdateUserImageTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
-    
+
     @IBAction func editCoverAction(_ sender: Any) {
         self.updateImageType = .cover
         self.selectImageSource()
     }
-    
+
     @IBAction func editProfileImageAction(_ sender: Any) {
         self.updateImageType = .avatar
         self.selectImageSource()
     }
-    
+
     @IBAction func saveAction(_ sender: Any) {
         self.delegate?.didUpdateImage(isProcess: true)
         if self.viewModel.avatar != nil || self.viewModel.cover != nil {
@@ -106,7 +106,7 @@ class UpdateUserImageTableViewCell: UITableViewCell {
             Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.updateUserInfo), animated: true)
         }
     }
-    
+
     private func selectImageSource() {
         let actionSheet = CCActionSheet()
         let albumButton = CCAction(title: "Choose from Camera Roll", image: UIImage.init(icon: .castcle(.image), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
@@ -121,11 +121,10 @@ class UpdateUserImageTableViewCell: UITableViewCell {
                 self.selectTakePhoto()
             }
         }
-        
         actionSheet.addActions([albumButton, cameraButton])
         Utility.currentViewController().present(actionSheet, animated: true, completion: nil)
     }
-    
+
     private func selectCameraRoll() {
         let photosPickerViewController = TLPhotosPickerViewController()
         photosPickerViewController.delegate = self
@@ -135,14 +134,13 @@ class UpdateUserImageTableViewCell: UITableViewCell {
         photosPickerViewController.navigationBar.isTranslucent = false
         photosPickerViewController.titleLabel.font = UIFont.asset(.regular, fontSize: .overline)
         photosPickerViewController.subTitleLabel.font = UIFont.asset(.regular, fontSize: .small)
-        
         photosPickerViewController.doneButton.setTitleTextAttributes([
-            NSAttributedString.Key.font : UIFont.asset(.bold, fontSize: .h4),
-            NSAttributedString.Key.foregroundColor : UIColor.Asset.lightBlue
+            NSAttributedString.Key.font: UIFont.asset(.bold, fontSize: .head4),
+            NSAttributedString.Key.foregroundColor: UIColor.Asset.lightBlue
         ], for: .normal)
         photosPickerViewController.cancelButton.setTitleTextAttributes([
-            NSAttributedString.Key.font : UIFont.asset(.regular, fontSize: .body),
-            NSAttributedString.Key.foregroundColor : UIColor.Asset.lightBlue
+            NSAttributedString.Key.font: UIFont.asset(.regular, fontSize: .body),
+            NSAttributedString.Key.foregroundColor: UIColor.Asset.lightBlue
         ], for: .normal)
 
         var configure = TLPhotosPickerConfigure()
@@ -159,57 +157,56 @@ class UpdateUserImageTableViewCell: UITableViewCell {
         photosPickerViewController.configure = configure
         Utility.currentViewController().present(photosPickerViewController, animated: true, completion: nil)
     }
-    
+
     private func selectTakePhoto() {
         self.showCameraIfAuthorized()
     }
-     
-     private func showCameraIfAuthorized() {
-         let cameraAuthorization = AVCaptureDevice.authorizationStatus(for: .video)
-         switch cameraAuthorization {
-         case .authorized:
-             self.showCamera()
-         case .notDetermined:
-             AVCaptureDevice.requestAccess(for: .video, completionHandler: { [weak self] (authorized) in
-                 DispatchQueue.main.async { [weak self] in
-                     if authorized {
-                         self?.showCamera()
-                     } else {
-                         self?.handleDeniedCameraAuthorization()
-                     }
-                 }
-             })
-         case .restricted, .denied:
-             self.handleDeniedCameraAuthorization()
-         @unknown default:
-             break
-         }
-     }
-     
-     private func showCamera() {
-         let picker = UIImagePickerController()
-         picker.sourceType = .camera
-         var mediaTypes: [String] = []
-         mediaTypes.append(kUTTypeImage as String)
-         
-         guard mediaTypes.count > 0 else {
-             return
-         }
-         picker.cameraDevice = .rear
-         picker.mediaTypes = mediaTypes
-         picker.allowsEditing = false
-         picker.delegate = self
-         Utility.currentViewController().present(picker, animated: true, completion: nil)
-     }
-     
-     private func handleDeniedCameraAuthorization() {
-         DispatchQueue.main.async {
-             let alert = UIAlertController(title: "Error", message: "Denied camera permissions granted", preferredStyle: .alert)
-             alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-             Utility.currentViewController().present(alert, animated: true, completion: nil)
-         }
-     }
-    
+
+    private func showCameraIfAuthorized() {
+        let cameraAuthorization = AVCaptureDevice.authorizationStatus(for: .video)
+        switch cameraAuthorization {
+        case .authorized:
+            self.showCamera()
+        case .notDetermined:
+            AVCaptureDevice.requestAccess(for: .video, completionHandler: { [weak self] (authorized) in
+                DispatchQueue.main.async { [weak self] in
+                    if authorized {
+                        self?.showCamera()
+                    } else {
+                        self?.handleDeniedCameraAuthorization()
+                    }
+                }
+            })
+        case .restricted, .denied:
+            self.handleDeniedCameraAuthorization()
+        @unknown default:
+            break
+        }
+    }
+
+    private func showCamera() {
+        let picker = UIImagePickerController()
+        picker.sourceType = .camera
+        var mediaTypes: [String] = []
+        mediaTypes.append(kUTTypeImage as String)
+        guard mediaTypes.count > 0 else {
+            return
+        }
+        picker.cameraDevice = .rear
+        picker.mediaTypes = mediaTypes
+        picker.allowsEditing = false
+        picker.delegate = self
+        Utility.currentViewController().present(picker, animated: true, completion: nil)
+    }
+
+    private func handleDeniedCameraAuthorization() {
+        DispatchQueue.main.async {
+            let alert = UIAlertController(title: "Error", message: "Denied camera permissions granted", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+            Utility.currentViewController().present(alert, animated: true, completion: nil)
+        }
+    }
+
     private func presentCropViewController(image: UIImage, updateImageType: UpdateImageType) {
         if updateImageType == .avatar {
             let cropController = TOCropViewController(croppingStyle: .circular, image: image)
@@ -256,9 +253,8 @@ extension UpdateUserImageTableViewCell: TLPhotosPickerViewControllerDelegate {
 }
 
 extension UpdateUserImageTableViewCell: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    open func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    open func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         guard let image = (info[UIImagePickerController.InfoKey.originalImage] as? UIImage) else { return }
-
         picker.dismiss(animated: true, completion: {
             if self.updateImageType == .avatar {
                 self.presentCropViewController(image: image, updateImageType: .avatar)
@@ -279,7 +275,7 @@ extension UpdateUserImageTableViewCell: TOCropViewControllerDelegate {
             }
         })
     }
-    
+
     func cropViewController(_ cropViewController: TOCropViewController, didCropTo image: UIImage, with cropRect: CGRect, angle: Int) {
         cropViewController.dismiss(animated: true, completion: {
             if self.updateImageType == .cover {

@@ -29,7 +29,7 @@ import UIKit
 import Core
 import ActiveLabel
 
-protocol BlockedUserTableViewCellDelegate {
+protocol BlockedUserTableViewCellDelegate: AnyObject {
     func didUnblocked(_ blockedUserTableViewCell: BlockedUserTableViewCell)
 }
 
@@ -38,11 +38,11 @@ class BlockedUserTableViewCell: UITableViewCell {
     @IBOutlet var titleLabel: ActiveLabel!
     @IBOutlet var subTitleLabel: UILabel!
     @IBOutlet var unblockButton: UIButton!
-    
+
     public var delegate: BlockedUserTableViewCellDelegate?
     private var viewModel = UserBlockedViewModel()
     private var castcleId: String = ""
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         self.subTitleLabel.font = UIFont.asset(.regular, fontSize: .body)
@@ -55,7 +55,7 @@ class BlockedUserTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
-    
+
     func configCell(castcleId: String) {
         self.viewModel.delegate = self
         self.castcleId = castcleId
@@ -66,12 +66,11 @@ class BlockedUserTableViewCell: UITableViewCell {
             label.enabledTypes = [.mention]
             label.mentionColor = UIColor.Asset.lightBlue
         }
-        
         self.titleLabel.text = "@\(self.castcleId) is blocked"
         self.subTitleLabel.text = "Do you wish to view @\(self.castcleId) casts?\nConsidering unblock @\(self.castcleId)"
         self.unblockButton.setTitle("Unblocked", for: .normal)
     }
-    
+
     @IBAction func unblockAction(_ sender: Any) {
         self.viewModel.unblockUser(castcleId: self.castcleId)
     }

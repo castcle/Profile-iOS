@@ -33,7 +33,7 @@ class UpdateUserImageViewController: UIViewController {
 
     @IBOutlet var tableView: UITableView!
     private var isProcess: Bool = false
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
@@ -42,31 +42,31 @@ class UpdateUserImageViewController: UIViewController {
         self.hideKeyboardWhenTapped()
         self.configureTableView()
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         Defaults[.screenId] = ""
     }
-    
+
     func setupNavBar() {
         self.customNavigationBar(.primary, title: "New User Profile")
-        
+
         var rightButton: [UIBarButtonItem] = []
         let icon = UIButton()
-        icon.setTitle(Localization.chooseProfileImage.skip.text, for: .normal)
+        icon.setTitle(Localization.ChooseProfileImage.skip.text, for: .normal)
         icon.titleLabel?.font = UIFont.asset(.regular, fontSize: .body)
         icon.setTitleColor(UIColor.Asset.lightBlue, for: .normal)
         icon.addTarget(self, action: #selector(skipAction), for: .touchUpInside)
         rightButton.append(UIBarButtonItem(customView: icon))
         self.navigationItem.rightBarButtonItems = rightButton
     }
-    
+
     @objc private func skipAction() {
         if !self.isProcess {
             Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.updateUserInfo), animated: true)
         }
     }
-    
+
     func configureTableView() {
         self.tableView.delegate = self
         self.tableView.dataSource = self
@@ -80,11 +80,11 @@ extension UpdateUserImageViewController: UITableViewDelegate, UITableViewDataSou
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.updateUserImage, for: indexPath as IndexPath) as? UpdateUserImageTableViewCell
         cell?.backgroundColor = UIColor.clear

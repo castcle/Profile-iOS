@@ -35,47 +35,47 @@ import Defaults
 class UserFollowViewController: UIViewController {
 
     @IBOutlet var tableView: UITableView!
-    
+
     var viewModel = UserFollowViewModel()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
         self.configureTableView()
-        
+
         self.viewModel.didLoadFollowUserFinish = {
             self.tableView.isScrollEnabled = true
             self.viewModel.state = .loaded
-            self.tableView.cr.endHeaderRefresh()
-            self.tableView.cr.endLoadingMore()
+            self.tableView.coreRefresh.endHeaderRefresh()
+            self.tableView.coreRefresh.endLoadingMore()
             UIView.transition(with: self.view, duration: 0.35, options: .transitionCrossDissolve, animations: {
                 self.tableView.reloadData()
             })
         }
-        
-        self.tableView.cr.addHeadRefresh(animator: FastAnimator()) { [weak self] in
+
+        self.tableView.coreRefresh.addHeadRefresh(animator: FastAnimator()) { [weak self] in
             guard let self = self else { return }
-            self.tableView.cr.resetNoMore()
+            self.tableView.coreRefresh.resetNoMore()
             self.viewModel.reloadData()
         }
-        
-        self.tableView.cr.addFootRefresh(animator: NormalFooterAnimator()) { [weak self] in
+
+        self.tableView.coreRefresh.addFootRefresh(animator: NormalFooterAnimator()) { [weak self] in
             guard let self = self else { return }
             if self.viewModel.meta.resultCount < self.viewModel.userFollowRequest.maxResults {
-                self.tableView.cr.noticeNoMoreData()
+                self.tableView.coreRefresh.noticeNoMoreData()
             } else {
                 self.viewModel.userFollowRequest.untilId = self.viewModel.meta.oldestId
                 self.viewModel.loadData()
             }
         }
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.setupNavBar()
         Defaults[.screenId] = ""
     }
-    
+
     func setupNavBar() {
         if self.viewModel.followType == .follower {
             self.customNavigationBar(.secondary, title: "Followers")
@@ -83,7 +83,7 @@ class UserFollowViewController: UIViewController {
             self.customNavigationBar(.secondary, title: "Following")
         }
     }
-    
+
     func configureTableView() {
         self.tableView.isScrollEnabled = false
         self.tableView.delegate = self
@@ -103,11 +103,11 @@ extension UserFollowViewController: UITableViewDelegate, UITableViewDataSource {
             return self.viewModel.users.count
         }
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if self.viewModel.state == .loading {
             let cell = tableView.dequeueReusableCell(withIdentifier: ComponentNibVars.TableViewCell.skeletonUser, for: indexPath as IndexPath) as? SkeletonUserTableViewCell
@@ -122,11 +122,11 @@ extension UserFollowViewController: UITableViewDelegate, UITableViewDataSource {
             return cell ?? UserToFollowTableViewCell()
         }
     }
-    
+
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 2
     }
-    
+
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let footerView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: tableView.frame.width, height: 2))
         footerView.backgroundColor = UIColor.clear
@@ -136,11 +136,11 @@ extension UserFollowViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension UserFollowViewController: UserToFollowTableViewCellDelegate {
     func didTabProfile(_ userToFollowTableViewCell: UserToFollowTableViewCell, author: Author) {
-        ProfileOpener.openProfileDetail(author.castcleId, displayName:author.displayName)
+        ProfileOpener.openProfileDetail(author.castcleId, displayName: author.displayName)
     }
-    
+
     func didAuthen(_ userToFollowTableViewCell: UserToFollowTableViewCell) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1 ) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             NotificationCenter.default.post(name: .openSignInDelegate, object: nil, userInfo: nil)
         }
     }

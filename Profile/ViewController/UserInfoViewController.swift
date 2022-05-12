@@ -33,7 +33,7 @@ import Defaults
 public class UserInfoViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet var tableView: UITableView!
-    
+
     enum UserInfoViewControllerSection: Int, CaseIterable {
         case info = 0
         case birthdate
@@ -42,30 +42,30 @@ public class UserInfoViewController: UIViewController, UITableViewDelegate, UITa
         case headerLink
         case link
     }
-    
+
     var viewModel = UserInfoViewModel(userInfo: UserInfo())
-    
+
     public override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
         self.setupNavBar()
         self.configureTableView()
     }
-    
+
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         Defaults[.screenId] = ScreenId.viewProfile.rawValue
     }
-    
+
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         EngagementHelper().sendCastcleAnalytic(event: .onScreenView, screen: .viewProfile)
     }
-    
+
     func setupNavBar() {
         self.customNavigationBar(.secondary, title: self.viewModel.userInfo.displayName)
     }
-    
+
     func configureTableView() {
         self.tableView.delegate = self
         self.tableView.dataSource = self
@@ -77,12 +77,11 @@ public class UserInfoViewController: UIViewController, UITableViewDelegate, UITa
         self.tableView.rowHeight = UITableView.automaticDimension
         self.tableView.estimatedRowHeight = 100
     }
-    
-    
+
     public func numberOfSections(in tableView: UITableView) -> Int {
         return UserInfoViewControllerSection.allCases.count
     }
-    
+
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case UserInfoViewControllerSection.birthdate.rawValue:
@@ -123,7 +122,7 @@ public class UserInfoViewController: UIViewController, UITableViewDelegate, UITa
             return 1
         }
     }
-    
+
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case UserInfoViewControllerSection.info.rawValue:

@@ -38,12 +38,12 @@ import JGProgressHUD
 class NewPageWithSocialViewController: UIViewController {
 
     @IBOutlet var tableView: UITableView!
-    
+
     var swifter: Swifter!
     var accToken: Credential.OAuthAccessToken?
     let hud = JGProgressHUD()
     var viewModel = NewPageWithSocialViewModel()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
@@ -52,16 +52,16 @@ class NewPageWithSocialViewController: UIViewController {
         self.hud.textLabel.text = "Creating"
         self.viewModel.delegate = self
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         Defaults[.screenId] = ""
     }
-    
+
     func setupNavBar() {
         self.customNavigationBar(.secondary, title: "New Page")
     }
-    
+
     func configureTableView() {
         self.tableView.delegate = self
         self.tableView.dataSource = self
@@ -69,15 +69,15 @@ class NewPageWithSocialViewController: UIViewController {
         self.tableView.rowHeight = UITableView.automaticDimension
         self.tableView.estimatedRowHeight = 100
     }
-    
+
     func getPages() {
-        if let _ = AccessToken.current {
+        if AccessToken.current != nil {
             var request: GraphRequest?
             let accessToken = AccessToken.current?.tokenString
             let userId = AccessToken.current?.userID ?? ""
-            let params = ["access_token" : accessToken ?? ""]
+            let params = ["access_token": accessToken ?? ""]
             request = GraphRequest(graphPath: "/\(userId)/accounts?fields=name,about,username,access_token,cover", parameters: params, httpMethod: .get)
-            request?.start() { (connection, result, error) in
+            request?.start { (_, result, error) in
                 guard error == nil else {
                     self.hud.dismiss()
                     print(error!.localizedDescription)
@@ -108,11 +108,11 @@ extension NewPageWithSocialViewController: UITableViewDelegate, UITableViewDataS
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.newPageWithSocial, for: indexPath as IndexPath) as? NewPageWithSocialTableViewCell
         cell?.backgroundColor = UIColor.clear
@@ -125,7 +125,7 @@ extension NewPageWithSocialViewController: UITableViewDelegate, UITableViewDataS
 extension NewPageWithSocialViewController: NewPageWithSocialTableViewCellDelegate {
     func didSyncFacebook(_ newPageWithSocialTableViewCell: NewPageWithSocialTableViewCell) {
         let loginManager = LoginManager()
-        if let _ = AccessToken.current {
+        if AccessToken.current != nil {
             loginManager.logOut()
         }
         loginManager.logIn(permissions: ["public_profile", "email", "pages_show_list", "pages_manage_metadata"], from: self) { (result, error) in
@@ -141,10 +141,10 @@ extension NewPageWithSocialViewController: NewPageWithSocialTableViewCellDelegat
             self.getPages()
         }
     }
-    
+
     func didSyncTwitter(_ newPageWithSocialTableViewCell: NewPageWithSocialTableViewCell) {
         self.swifter = Swifter(consumerKey: TwitterConstants.key, consumerSecret: TwitterConstants.secretKey)
-        self.swifter.authorize(withProvider: self, callbackURL: URL(string: TwitterConstants.callbackUrl)!) { accessToken, response in
+        self.swifter.authorize(withProvider: self, callbackURL: URL(string: TwitterConstants.callbackUrl)!) { accessToken, _ in
             self.hud.show(in: self.view)
             self.accToken = accessToken
             self.getUserProfile()
@@ -174,16 +174,13 @@ extension NewPageWithSocialViewController: SFSafariViewControllerDelegate, ASWeb
             pageSocial.cover = twitterCover
             self.viewModel.pageSocialRequest.payload.append(pageSocial)
             self.viewModel.createPageWithSocial()
-        }) { error in
-            self.hud.dismiss()
-            print("ERROR: \(error.localizedDescription)")
-        }
+        })
     }
-    
+
     public func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
         controller.dismiss(animated: true, completion: nil)
     }
-    
+
     public func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
         return self.view.window!
     }

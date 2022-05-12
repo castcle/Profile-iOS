@@ -35,14 +35,12 @@ public class ProfileActionViewController: UIViewController {
     @IBOutlet var shareImage: UIImageView!
     @IBOutlet var seeFollowToppicLabel: UILabel!
     @IBOutlet var shareLabel: UILabel!
-    
+
     var maxHeight = (UIScreen.main.bounds.height - 220)
-    
+
     public override func viewDidLoad() {
         super.viewDidLoad()
-
         self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
-        
         self.seeFollowToppicImage.image = UIImage.init(icon: .castcle(.seeFollowingTopics), size: CGSize(width: 25, height: 25), textColor: UIColor.Asset.white)
         self.shareImage.image = UIImage.init(icon: .castcle(.share), size: CGSize(width: 25, height: 25), textColor: UIColor.Asset.white)
         self.seeFollowToppicLabel.font = UIFont.asset(.bold, fontSize: .body)
@@ -50,11 +48,11 @@ public class ProfileActionViewController: UIViewController {
         self.shareLabel.font = UIFont.asset(.bold, fontSize: .body)
         self.shareLabel.textColor = UIColor.Asset.white
     }
-    
+
     @IBAction func seeFollowToppicAction(_ sender: Any) {
         self.dismiss(animated: true)
     }
-    
+
     @IBAction func shareAction(_ sender: Any) {
         self.dismiss(animated: true)
     }

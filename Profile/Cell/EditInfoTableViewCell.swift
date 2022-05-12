@@ -80,12 +80,12 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
     @IBOutlet var websiteIcon: UIImageView!
     @IBOutlet var selectDateButton: UIButton!
     @IBOutlet var saveButton: UIButton!
-    
+
     let viewModel = EditInfoViewModel()
     let hud = JGProgressHUD()
-    private var dobDate: Date? = nil
+    private var dobDate: Date?
     private var updateImageType: UpdateImageType = .none
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         self.profileImage.circle(color: UIColor.Asset.white)
@@ -95,7 +95,6 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         self.editCoverButton.setImage(UIImage.init(icon: .castcle(.camera), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white).withRenderingMode(.alwaysOriginal), for: .normal)
         self.editCoverButton.setBackgroundImage(UIColor.Asset.gray.toImage(), for: .normal)
         self.editCoverButton.capsule()
-        
         self.castcleIdLabel.font = UIFont.asset(.bold, fontSize: .body)
         self.castcleIdLabel.textColor = UIColor.Asset.white
         self.castcleIdNoticeLabel.font = UIFont.asset(.regular, fontSize: .overline)
@@ -114,7 +113,6 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         self.birthdayLabel.textColor = UIColor.Asset.lightBlue
         self.linkTitleLabel.font = UIFont.asset(.bold, fontSize: .body)
         self.linkTitleLabel.textColor = UIColor.Asset.white
-        
         self.castcleIdTextField.font = UIFont.asset(.regular, fontSize: .body)
         self.castcleIdTextField.textColor = UIColor.Asset.white
         self.displayNameTextField.font = UIFont.asset(.regular, fontSize: .body)
@@ -129,7 +127,7 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         self.mediumTextField.textColor = UIColor.Asset.white
         self.websiteTextField.font = UIFont.asset(.regular, fontSize: .body)
         self.websiteTextField.textColor = UIColor.Asset.white
-        
+
         self.castcleIdView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
         self.displayNameView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
         self.aboutView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
@@ -138,9 +136,7 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         self.youtubeView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
         self.mediumView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
         self.websiteView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
-        
         self.arrowImage.image = UIImage.init(icon: .castcle(.next), size: CGSize(width: 25, height: 25), textColor: UIColor.Asset.white)
-        
         self.facebookIconView.capsule(color: UIColor.Asset.facebook)
         self.facebookIcon.image = UIImage.init(icon: .castcle(.facebook), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.white)
         self.twitterIconView.capsule(color: UIColor.Asset.twitter)
@@ -156,7 +152,7 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         self.overviewTextView.delegate = self
         self.overviewTextView.placeholder = "Write something to introduce yourself!"
         self.saveButton.setTitle("Save", for: .normal)
-        self.saveButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .h4)
+        self.saveButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .head4)
         self.saveButton.setTitleColor(UIColor.Asset.white, for: .normal)
         self.saveButton.capsule(color: UIColor.Asset.lightBlue, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
         self.viewModel.delegate = self
@@ -165,11 +161,11 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
-    
+
     func configCell() {
         self.updateUI()
     }
-    
+
     private func updateUI() {
         if let avatar = self.viewModel.avatar {
             self.profileImage.image = avatar
@@ -177,18 +173,18 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
             let url = URL(string: UserManager.shared.avatar)
             self.profileImage.kf.setImage(with: url, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
         }
-        
+
         if let cover = self.viewModel.cover {
             self.coverImage.image = cover
         } else {
             let url = URL(string: UserManager.shared.cover)
             self.coverImage.kf.setImage(with: url, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.35))])
         }
-        
+
         self.castcleIdTextField.text = UserManager.shared.rawCastcleId
         self.displayNameTextField.text = UserManager.shared.displayName
         self.overviewTextView.text = UserManager.shared.overview
-        
+
         if UserManager.shared.canUpdateCastcleId {
             self.castcleIdNoticeLabel.text = ""
             self.castcleIdTextField.isEnabled = true
@@ -196,21 +192,21 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
             self.castcleIdNoticeLabel.text = "Once your Castcle ID has been changed, you can edit it again after 60 days."
             self.castcleIdTextField.isEnabled = false
         }
-        
+
         self.dobDate = (UserManager.shared.dob == "" ? nil : (Date.stringToDate(str: UserManager.shared.dob)))
         if let dob = self.dobDate {
             self.birthdayLabel.text = dob.dateToString()
         } else {
             self.birthdayLabel.text = "N/A"
         }
-        
+
         self.facebookTextField.text = (UserManager.shared.facebookLink.isEmpty ? "https://" : UserManager.shared.facebookLink)
         self.twitterTextField.text = (UserManager.shared.twitterLink.isEmpty ? "https://" : UserManager.shared.twitterLink)
         self.youtubeTextField.text = (UserManager.shared.youtubeLink.isEmpty ? "https://" : UserManager.shared.youtubeLink)
         self.mediumTextField.text = (UserManager.shared.mediumLink.isEmpty ? "https://" : UserManager.shared.mediumLink)
         self.websiteTextField.text = (UserManager.shared.websiteLink.isEmpty ? "https://" : UserManager.shared.websiteLink)
     }
-    
+
     private func disableUI(isActive: Bool) {
         if isActive {
             self.overviewTextView.isEditable = true
@@ -230,26 +226,25 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
             self.websiteTextField.isEnabled = false
         }
     }
-    
+
     @IBAction func selectDateAction(_ sender: Any) {
-        let vc = ComponentOpener.open(.datePicker) as? DatePickerViewController
-        vc?.initDate = self.dobDate
-        vc?.delegate = self
-        Utility.currentViewController().presentPanModal(vc ?? DatePickerViewController())
+        let viewController = ComponentOpener.open(.datePicker) as? DatePickerViewController
+        viewController?.initDate = self.dobDate
+        viewController?.delegate = self
+        Utility.currentViewController().presentPanModal(viewController ?? DatePickerViewController())
     }
-    
+
     @IBAction func saveAction(_ sender: Any) {
         self.hud.show(in: Utility.currentViewController().view)
         self.disableUI(isActive: false)
-        
         if (self.castcleIdTextField.text!).trimmingCharacters(in: .whitespacesAndNewlines) != UserManager.shared.rawCastcleId {
             self.viewModel.userRequest.payload.castcleId = (self.castcleIdTextField.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
         }
-        
+
         if (self.displayNameTextField.text!).trimmingCharacters(in: .whitespacesAndNewlines) != UserManager.shared.displayName {
             self.viewModel.userRequest.payload.displayName = (self.displayNameTextField.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
         }
-        
+
         self.viewModel.userRequest.payload.overview = self.overviewTextView.text ?? ""
         self.viewModel.userRequest.payload.links.facebook = (self.facebookTextField.text! == "https://" ? "" : self.facebookTextField.text!)
         self.viewModel.userRequest.payload.links.twitter = (self.twitterTextField.text! == "https://" ? "" : self.twitterTextField.text!)
@@ -258,17 +253,17 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         self.viewModel.userRequest.payload.links.website = (self.websiteTextField.text! == "https://" ? "" : self.websiteTextField.text!)
         self.viewModel.updateProfile(isPage: false, castcleId: UserManager.shared.rawCastcleId)
     }
-    
+
     @IBAction func editCoverAction(_ sender: Any) {
         self.updateImageType = .cover
         self.selectImageSource()
     }
-    
+
     @IBAction func editProfileImageAction(_ sender: Any) {
         self.updateImageType = .avatar
         self.selectImageSource()
     }
-    
+
     private func selectImageSource() {
         let actionSheet = CCActionSheet()
         let albumButton = CCAction(title: "Choose from Camera Roll", image: UIImage.init(icon: .castcle(.image), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
@@ -279,11 +274,11 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
             actionSheet.dismissActionSheet()
             self.selectTakePhoto()
         }
-        
+
         actionSheet.addActions([albumButton, cameraButton])
         Utility.currentViewController().present(actionSheet, animated: true, completion: nil)
     }
-    
+
     private func selectCameraRoll() {
         let photosPickerViewController = TLPhotosPickerViewController()
         photosPickerViewController.delegate = self
@@ -293,14 +288,13 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         photosPickerViewController.navigationBar.isTranslucent = false
         photosPickerViewController.titleLabel.font = UIFont.asset(.regular, fontSize: .overline)
         photosPickerViewController.subTitleLabel.font = UIFont.asset(.regular, fontSize: .small)
-        
         photosPickerViewController.doneButton.setTitleTextAttributes([
-            NSAttributedString.Key.font : UIFont.asset(.bold, fontSize: .h4),
-            NSAttributedString.Key.foregroundColor : UIColor.Asset.lightBlue
+            NSAttributedString.Key.font: UIFont.asset(.bold, fontSize: .head4),
+            NSAttributedString.Key.foregroundColor: UIColor.Asset.lightBlue
         ], for: .normal)
         photosPickerViewController.cancelButton.setTitleTextAttributes([
-            NSAttributedString.Key.font : UIFont.asset(.regular, fontSize: .body),
-            NSAttributedString.Key.foregroundColor : UIColor.Asset.lightBlue
+            NSAttributedString.Key.font: UIFont.asset(.regular, fontSize: .body),
+            NSAttributedString.Key.foregroundColor: UIColor.Asset.lightBlue
         ], for: .normal)
 
         var configure = TLPhotosPickerConfigure()
@@ -315,60 +309,58 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         configure.allowedVideoRecording = false
         configure.selectedColor = UIColor.Asset.lightBlue
         photosPickerViewController.configure = configure
-
         Utility.currentViewController().present(photosPickerViewController, animated: true, completion: nil)
     }
-    
+
     private func selectTakePhoto() {
         self.showCameraIfAuthorized()
     }
-     
-     private func showCameraIfAuthorized() {
-         let cameraAuthorization = AVCaptureDevice.authorizationStatus(for: .video)
-         switch cameraAuthorization {
-         case .authorized:
-             self.showCamera()
-         case .notDetermined:
-             AVCaptureDevice.requestAccess(for: .video, completionHandler: { [weak self] (authorized) in
-                 DispatchQueue.main.async { [weak self] in
-                     if authorized {
-                         self?.showCamera()
-                     } else {
-                         self?.handleDeniedCameraAuthorization()
-                     }
-                 }
-             })
-         case .restricted, .denied:
-             self.handleDeniedCameraAuthorization()
-         @unknown default:
-             break
-         }
-     }
-     
-     private func showCamera() {
-         let picker = UIImagePickerController()
-         picker.sourceType = .camera
-         var mediaTypes: [String] = []
-         mediaTypes.append(kUTTypeImage as String)
-         
-         guard mediaTypes.count > 0 else {
-             return
-         }
-         picker.cameraDevice = .rear
-         picker.mediaTypes = mediaTypes
-         picker.allowsEditing = false
-         picker.delegate = self
-         Utility.currentViewController().present(picker, animated: true, completion: nil)
-     }
-     
-     private func handleDeniedCameraAuthorization() {
-         DispatchQueue.main.async {
-             let alert = UIAlertController(title: "Error", message: "Denied camera permissions granted", preferredStyle: .alert)
-             alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-             Utility.currentViewController().present(alert, animated: true, completion: nil)
-         }
-     }
-    
+
+    private func showCameraIfAuthorized() {
+        let cameraAuthorization = AVCaptureDevice.authorizationStatus(for: .video)
+        switch cameraAuthorization {
+        case .authorized:
+            self.showCamera()
+        case .notDetermined:
+            AVCaptureDevice.requestAccess(for: .video, completionHandler: { [weak self] (authorized) in
+                DispatchQueue.main.async { [weak self] in
+                    if authorized {
+                        self?.showCamera()
+                    } else {
+                        self?.handleDeniedCameraAuthorization()
+                    }
+                }
+            })
+        case .restricted, .denied:
+            self.handleDeniedCameraAuthorization()
+        @unknown default:
+            break
+        }
+    }
+
+    private func showCamera() {
+        let picker = UIImagePickerController()
+        picker.sourceType = .camera
+        var mediaTypes: [String] = []
+        mediaTypes.append(kUTTypeImage as String)
+        guard mediaTypes.count > 0 else {
+            return
+        }
+        picker.cameraDevice = .rear
+        picker.mediaTypes = mediaTypes
+        picker.allowsEditing = false
+        picker.delegate = self
+        Utility.currentViewController().present(picker, animated: true, completion: nil)
+    }
+
+    private func handleDeniedCameraAuthorization() {
+        DispatchQueue.main.async {
+            let alert = UIAlertController(title: "Error", message: "Denied camera permissions granted", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+            Utility.currentViewController().present(alert, animated: true, completion: nil)
+        }
+    }
+
     private func presentCropViewController(image: UIImage, updateImageType: UpdateImageType) {
         if updateImageType == .avatar {
             let cropController = TOCropViewController(croppingStyle: .circular, image: image)
@@ -397,7 +389,7 @@ extension EditInfoTableViewCell: EditInfoViewModelDelegate {
     func didGetInfoFinish(success: Bool) {
         // Not use
     }
-    
+
     func didUpdateInfoFinish(success: Bool) {
         self.hud.dismiss()
         if success {
@@ -426,9 +418,8 @@ extension EditInfoTableViewCell: TLPhotosPickerViewControllerDelegate {
 }
 
 extension EditInfoTableViewCell: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    open func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    open func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         guard let image = (info[UIImagePickerController.InfoKey.originalImage] as? UIImage) else { return }
-
         picker.dismiss(animated: true, completion: {
             if self.updateImageType == .avatar {
                 self.presentCropViewController(image: image, updateImageType: .avatar)
@@ -449,7 +440,7 @@ extension EditInfoTableViewCell: TOCropViewControllerDelegate {
             }
         })
     }
-    
+
     func cropViewController(_ cropViewController: TOCropViewController, didCropTo image: UIImage, with cropRect: CGRect, angle: Int) {
         cropViewController.dismiss(animated: true, completion: {
             if self.updateImageType == .cover {

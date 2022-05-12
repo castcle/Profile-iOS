@@ -35,12 +35,12 @@ class UserInfoTableViewCell: UITableViewCell {
     @IBOutlet var profileImage: UIImageView!
     @IBOutlet var displayNameLabel: UILabel!
     @IBOutlet var userIdLabel: UILabel!
-    
+
     var userInfo: UserInfo = UserInfo()
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.displayNameLabel.font = UIFont.asset(.regular, fontSize: .h4)
+        self.displayNameLabel.font = UIFont.asset(.regular, fontSize: .head4)
         self.displayNameLabel.textColor = UIColor.Asset.white
         self.userIdLabel.font = UIFont.asset(.regular, fontSize: .overline)
         self.userIdLabel.textColor = UIColor.Asset.white
@@ -50,7 +50,7 @@ class UserInfoTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
-    
+
     func configCell(userInfo: UserInfo) {
         self.userInfo = userInfo
         let urlCover = URL(string: self.userInfo.images.cover.fullHd)

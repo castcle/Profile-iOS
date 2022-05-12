@@ -28,7 +28,7 @@
 import UIKit
 import Core
 
-protocol NewPageWithSocialTableViewCellDelegate {
+protocol NewPageWithSocialTableViewCellDelegate: AnyObject {
     func didSyncFacebook(_ newPageWithSocialTableViewCell: NewPageWithSocialTableViewCell)
     func didSyncTwitter(_ newPageWithSocialTableViewCell: NewPageWithSocialTableViewCell)
 }
@@ -44,12 +44,12 @@ class NewPageWithSocialTableViewCell: UITableViewCell {
     @IBOutlet var facebookImage: UIImageView!
     @IBOutlet var twitterImage: UIImageView!
     @IBOutlet var createPageNormalButton: UIButton!
-    
+
     public var delegate: NewPageWithSocialTableViewCellDelegate?
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.titleLabel.font = UIFont.asset(.bold, fontSize: .h4)
+        self.titleLabel.font = UIFont.asset(.bold, fontSize: .head4)
         self.titleLabel.textColor = UIColor.Asset.white
         self.subTitleLabel.font = UIFont.asset(.light, fontSize: .body)
         self.subTitleLabel.textColor = UIColor.Asset.white
@@ -68,7 +68,7 @@ class NewPageWithSocialTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
-    
+
     func configCell() {
         self.titleLabel.text = "Sync your social media page"
         self.subTitleLabel.text = "Syncing your Castcle page with your social media account allows you to Cast your posts from another platform seamlessly"
@@ -76,15 +76,15 @@ class NewPageWithSocialTableViewCell: UITableViewCell {
         self.twitterLabel.text = "Sync your page with Twitter"
         self.createPageNormalButton.setTitle("+ Create new page", for: .normal)
     }
-    
+
     @IBAction func facebookAction(_ sender: Any) {
         self.delegate?.didSyncFacebook(self)
     }
-    
+
     @IBAction func twitterAction(_ sender: Any) {
         self.delegate?.didSyncTwitter(self)
     }
-    
+
     @IBAction func createPageNormalAction(_ sender: Any) {
         Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.welcomeCreatePage), animated: true)
     }

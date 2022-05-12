@@ -35,10 +35,10 @@ import JGProgressHUD
 class EditInfoViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet var tableView: UITableView!
-    
+
     var viewModel = EditInfoViewModel()
     let hud = JGProgressHUD()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
@@ -46,7 +46,7 @@ class EditInfoViewController: UIViewController, UITableViewDelegate, UITableView
         self.setupNavBar()
         self.configureTableView()
         self.viewModel.delegate = self
-        if self.viewModel.profileType == .me {
+        if self.viewModel.profileType == .mine {
             self.hud.show(in: self.view)
             self.viewModel.getMeInfo()
         } else if self.viewModel.profileType == .user {
@@ -54,22 +54,22 @@ class EditInfoViewController: UIViewController, UITableViewDelegate, UITableView
             self.viewModel.getUserInfo()
         }
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         Defaults[.screenId] = ScreenId.viewProfile.rawValue
         self.hud.textLabel.text = "Loading"
     }
-    
+
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         EngagementHelper().sendCastcleAnalytic(event: .onScreenView, screen: .viewProfile)
     }
-    
+
     func setupNavBar() {
         self.customNavigationBar(.secondary, title: "Edit Profile")
     }
-    
+
     func configureTableView() {
         self.tableView.delegate = self
         self.tableView.dataSource = self
@@ -78,17 +78,17 @@ class EditInfoViewController: UIViewController, UITableViewDelegate, UITableView
         self.tableView.rowHeight = UITableView.automaticDimension
         self.tableView.estimatedRowHeight = 100
     }
-    
+
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if self.viewModel.profileType == .me {
+        if self.viewModel.profileType == .mine {
             let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.editInfo, for: indexPath as IndexPath) as? EditInfoTableViewCell
             cell?.backgroundColor = UIColor.clear
             cell?.configCell()
@@ -107,7 +107,7 @@ extension EditInfoViewController: EditInfoViewModelDelegate {
         self.hud.dismiss()
         self.tableView.reloadData()
     }
-    
+
     func didUpdateInfoFinish(success: Bool) {
         // Not use
     }

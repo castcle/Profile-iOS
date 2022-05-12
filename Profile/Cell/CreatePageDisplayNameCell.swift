@@ -41,10 +41,10 @@ class CreatePageDisplayNameCell: UICollectionViewCell, UITextFieldDelegate {
     @IBOutlet var idTextField: UITextField!
     @IBOutlet var checkImage: UIImageView!
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
-    
+
     private var viewModel = CreatePageDisplayNameViewModel()
     let hud = JGProgressHUD()
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         self.hud.textLabel.text = "Creating"
@@ -52,20 +52,17 @@ class CreatePageDisplayNameCell: UICollectionViewCell, UITextFieldDelegate {
         self.castcleIdPasswordView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
         self.headlineLabel.font = UIFont.asset(.regular, fontSize: .title)
         self.headlineLabel.textColor = UIColor.Asset.white
-        self.subTitleLabel.font = UIFont.asset(.regular, fontSize: .h4)
+        self.subTitleLabel.font = UIFont.asset(.regular, fontSize: .head4)
         self.subTitleLabel.textColor = UIColor.Asset.white
         self.setupNextButton(isActive: false)
-        
         self.activityIndicator.color = UIColor.Asset.lightBlue
         self.activityIndicator.isHidden = true
         self.checkImage.isHidden = true
         self.checkImage.tintColor = UIColor.Asset.denger
-        
         self.displayNameTextfield.font = UIFont.asset(.regular, fontSize: .body)
         self.displayNameTextfield.textColor = UIColor.Asset.white
         self.idTextField.font = UIFont.asset(.regular, fontSize: .body)
         self.idTextField.textColor = UIColor.Asset.white
-        
         self.displayNameTextfield.delegate = self
         self.displayNameTextfield.tag = 0
         self.idTextField.delegate = self
@@ -76,21 +73,20 @@ class CreatePageDisplayNameCell: UICollectionViewCell, UITextFieldDelegate {
     func configCell(viewModel: CreatePageDisplayNameViewModel) {
         self.viewModel = viewModel
         self.viewModel.delegate = self
-        self.headlineLabel.text = Localization.createPageName.headline.text
-        self.subTitleLabel.text = Localization.createPageName.description.text
-        self.displayNameTextfield.placeholder = Localization.createPageName.displayName.text
-        self.nextButton.setTitle(Localization.createPageName.button.text, for: .normal)
+        self.headlineLabel.text = Localization.CreatePageName.headline.text
+        self.subTitleLabel.text = Localization.CreatePageName.description.text
+        self.displayNameTextfield.placeholder = Localization.CreatePageName.displayName.text
+        self.nextButton.setTitle(Localization.CreatePageName.button.text, for: .normal)
     }
-    
+
     private func castcleId(displayCastcleId: String) -> String {
         return displayCastcleId.replacingOccurrences(of: "@", with: "")
     }
-    
+
     private func updateUI() {
         self.idTextField.isEnabled = true
         self.activityIndicator.isHidden = true
         self.activityIndicator.stopAnimating()
-
         if self.viewModel.isCastcleIdExist {
             self.setupNextButton(isActive: false)
             self.checkImage.isHidden = false
@@ -107,10 +103,9 @@ class CreatePageDisplayNameCell: UICollectionViewCell, UITextFieldDelegate {
             self.idTextField.textColor = UIColor.Asset.white
         }
     }
-    
+
     private func setupNextButton(isActive: Bool) {
-        self.nextButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .h4)
-        
+        self.nextButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .head4)
         if isActive {
             self.nextButton.setTitleColor(UIColor.Asset.white, for: .normal)
             self.nextButton.setBackgroundImage(UIColor.Asset.lightBlue.toImage(), for: .normal)
@@ -121,7 +116,7 @@ class CreatePageDisplayNameCell: UICollectionViewCell, UITextFieldDelegate {
             self.nextButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.black)
         }
     }
-    
+
     @objc func textFieldDidChange(_ textField: UITextField) {
         if textField.tag == 1 {
             let displayCastcleId = textField.text ?? ""
@@ -133,26 +128,24 @@ class CreatePageDisplayNameCell: UICollectionViewCell, UITextFieldDelegate {
             }
         }
     }
-    
+
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
-    
+
     func textFieldDidBeginEditing(_ textField: UITextField) {
         self.setupNextButton(isActive: false)
-        
         if textField.tag == 1 {
             self.checkImage.isHidden = true
             self.idTextField.textColor = UIColor.Asset.white
         }
     }
-    
+
     func textFieldDidEndEditing(_ textField: UITextField) {
         if textField.tag == 0 {
             let displayName = textField.text ?? ""
             self.viewModel.authenRequest.payload.displayName = displayName
-            
             if !self.viewModel.authenRequest.payload.displayName.isEmpty && !self.viewModel.isCastcleIdExist {
                 self.setupNextButton(isActive: true)
             } else if !self.viewModel.authenRequest.payload.displayName.isEmpty && self.viewModel.isCastcleIdExist {
@@ -180,11 +173,11 @@ class CreatePageDisplayNameCell: UICollectionViewCell, UITextFieldDelegate {
             }
         }
     }
-    
+
     static func cellSize(width: CGFloat) -> CGSize {
         return CGSize(width: width, height: 650)
     }
-    
+
     @IBAction func nextAction(_ sender: Any) {
         self.endEditing(true)
         if !self.displayNameTextfield.text!.isEmpty && !self.viewModel.isCastcleIdExist {
@@ -203,11 +196,11 @@ extension CreatePageDisplayNameCell: CreatePageDisplayNameViewModelDelegate {
         self.idTextField.text = "@\(suggestCastcleId)"
         self.updateUI()
     }
-    
+
     func didCheckCastcleIdExistsFinish() {
         self.updateUI()
     }
-    
+
     func didCreatePageFinish(success: Bool, castcleId: String) {
         if success {
             self.viewModel.getAllMyPage(castcleId: castcleId)
@@ -215,7 +208,7 @@ extension CreatePageDisplayNameCell: CreatePageDisplayNameViewModelDelegate {
             self.hud.dismiss()
         }
     }
-    
+
     func didGetAllPageFinish(castcleId: String) {
         self.hud.dismiss()
         Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.photoMethod(SelectPhotoMethodViewModel(authorType: .page, castcleId: castcleId))), animated: true)

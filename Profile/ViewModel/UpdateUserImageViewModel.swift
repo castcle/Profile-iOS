@@ -30,7 +30,7 @@ import Core
 import Networking
 import SwiftyJSON
 
-public protocol UpdateUserImageViewModelDelegate {
+public protocol UpdateUserImageViewModelDelegate: AnyObject {
     func didUpdateInfoFinish(success: Bool)
 }
 
@@ -39,14 +39,14 @@ public class UpdateUserImageViewModel {
     var userRepository: UserRepository = UserRepositoryImpl()
     var userRequest: UserRequest = UserRequest()
     let tokenHelper: TokenHelper = TokenHelper()
-    var avatar: UIImage? = nil
-    var cover: UIImage? = nil
+    var avatar: UIImage?
+    var cover: UIImage?
     var state: State = .none
-    
+
     public init() {
         self.tokenHelper.delegate = self
     }
-    
+
     public func updateProfile() {
         self.state = .updateUserInfo
         if let avatarImage = self.avatar {

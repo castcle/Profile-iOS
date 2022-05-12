@@ -36,7 +36,7 @@ import ActiveLabel
 import TLPhotoPicker
 import TOCropViewController
 
-protocol ProfileHeaderTableViewCellDelegate {
+protocol ProfileHeaderTableViewCellDelegate: AnyObject {
     func didUpdateProfileSuccess(_ profileHeaderTableViewCell: ProfileHeaderTableViewCell)
     func didAuthen(_ profileHeaderTableViewCell: ProfileHeaderTableViewCell)
     func didBlocked(_ profileHeaderTableViewCell: ProfileHeaderTableViewCell)
@@ -56,7 +56,6 @@ class ProfileHeaderTableViewCell: UITableViewCell {
     @IBOutlet var viewProfileButton: UIButton!
     @IBOutlet var followButton: UIButton!
     @IBOutlet var followLabel: ActiveLabel!
-    
     @IBOutlet var coverLoadView: UIView!
     @IBOutlet var coverBackgroundView: UIView!
     @IBOutlet var coverIndicator: NVActivityIndicatorView!
@@ -64,15 +63,15 @@ class ProfileHeaderTableViewCell: UITableViewCell {
     @IBOutlet var avatarLoadView: UIView!
     @IBOutlet var avatarBackgroundView: UIView!
     @IBOutlet var avatarIndicator: NVActivityIndicatorView!
-    
+
     public var delegate: ProfileHeaderTableViewCellDelegate?
     private var viewModel = ProfileHeaderViewModel(profileType: .unknow, userInfo: UserInfo())
     private let editProfileViewModel = EditProfileViewModel()
     private var updateImageType: UpdateImageType = .none
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.displayNameLabel.font = UIFont.asset(.regular, fontSize: .h4)
+        self.displayNameLabel.font = UIFont.asset(.regular, fontSize: .head4)
         self.displayNameLabel.textColor = UIColor.Asset.white
         self.userIdLabel.font = UIFont.asset(.regular, fontSize: .overline)
         self.userIdLabel.textColor = UIColor.Asset.gray
@@ -80,7 +79,6 @@ class ProfileHeaderTableViewCell: UITableViewCell {
         self.bioLabel.textColor = UIColor.Asset.white
         self.uploadCoverLabel.font = UIFont.asset(.regular, fontSize: .overline)
         self.uploadCoverLabel.textColor = UIColor.Asset.white
-        
         self.profileImage.circle(color: UIColor.Asset.white)
         self.avatarLoadView.capsule(borderWidth: 2.0, borderColor: UIColor.Asset.white)
         self.editProfileImageButton.setImage(UIImage.init(icon: .castcle(.camera), size: CGSize(width: 15, height: 15), textColor: UIColor.Asset.darkGraphiteBlue).withRenderingMode(.alwaysOriginal), for: .normal)
@@ -94,48 +92,45 @@ class ProfileHeaderTableViewCell: UITableViewCell {
         self.editProfileButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .overline)
         self.editProfileButton.setTitleColor(UIColor.Asset.lightBlue, for: .normal)
         self.editProfileButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
-        
         self.viewProfileButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .overline)
         self.viewProfileButton.setTitleColor(UIColor.Asset.lightBlue, for: .normal)
         self.viewProfileButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
-        
         self.coverBackgroundView.backgroundColor = UIColor.Asset.darkGray
         self.avatarBackgroundView.backgroundColor = UIColor.Asset.darkGray
         self.coverLoadView.isHidden = true
         self.avatarLoadView.isHidden = true
         self.coverIndicator.type = .ballBeat
         self.avatarIndicator.type = .ballBeat
-        
         self.editProfileViewModel.delegate = self
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
-    
+
     func configCell(viewModel: ProfileHeaderViewModel) {
         self.viewModel = viewModel
         self.updateProfileUI()
         self.viewModel.delegate = self
         self.followUI()
     }
-    
+
     @IBAction func editCoverAction(_ sender: Any) {
-        if self.viewModel.profileType == .me || self.viewModel.isMyPage {
+        if self.viewModel.profileType == .mine || self.viewModel.isMyPage {
             self.updateImageType = .cover
             self.selectImageSource()
         }
     }
-    
+
     @IBAction func editProfileImageAction(_ sender: Any) {
-        if self.viewModel.profileType == .me || self.viewModel.isMyPage {
+        if self.viewModel.profileType == .mine || self.viewModel.isMyPage {
             self.updateImageType = .avatar
             self.selectImageSource()
         }
     }
-    
+
     @IBAction func moreAction(_ sender: Any) {
-        if self.viewModel.isMyPage || self.viewModel.profileType == .me {
+        if self.viewModel.isMyPage || self.viewModel.profileType == .mine {
             let castcleId: String = (self.viewModel.isMyPage ? self.viewModel.userInfo.castcleId : UserManager.shared.rawCastcleId)
             let actionSheet = CCActionSheet()
             if self.viewModel.isMyPage {
@@ -147,7 +142,6 @@ class ProfileHeaderTableViewCell: UITableViewCell {
                 }
                 actionSheet.addActions([deleteButton])
             }
-            
 //            let shareButton = CCAction(title: "Share", image: UIImage.init(icon: .castcle(.share), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
 //                actionSheet.dismissActionSheet()
 //            }
@@ -159,7 +153,7 @@ class ProfileHeaderTableViewCell: UITableViewCell {
             }
             actionSheet.addActions([syncButton])
             Utility.currentViewController().present(actionSheet, animated: true, completion: nil)
-        } else if !self.viewModel.isMyPage && self.viewModel.profileType != .me {
+        } else if !self.viewModel.isMyPage && self.viewModel.profileType != .mine {
             let actionSheet = CCActionSheet()
             let castcleId: String = self.viewModel.userInfo.castcleId
             let reportButton = CCAction(title: "Report @\(castcleId)", image: UIImage.init(icon: .castcle(.report), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
@@ -182,17 +176,17 @@ class ProfileHeaderTableViewCell: UITableViewCell {
             Utility.currentViewController().present(actionSheet, animated: true, completion: nil)
         }
     }
-    
+
     @IBAction func editProfileAction(_ sender: Any) {
-        if self.viewModel.profileType == .me || self.viewModel.isMyPage {
+        if self.viewModel.profileType == .mine || self.viewModel.isMyPage {
             Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.editInfo(self.viewModel.profileType, self.viewModel.userInfo)), animated: true)
         }
     }
-    
+
     @IBAction func viewProfileAction(_ sender: Any) {
         Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.userInfo(UserInfoViewModel(userInfo: self.viewModel.userInfo))), animated: true)
     }
-    
+
     @IBAction func followAction(_ sender: Any) {
         if UserManager.shared.isLogin {
             if self.viewModel.isFollow {
@@ -210,14 +204,14 @@ class ProfileHeaderTableViewCell: UITableViewCell {
 
 extension ProfileHeaderTableViewCell {
     private func updateProfileUI() {
-        if self.viewModel.profileType == .me {
+        if self.viewModel.profileType == .mine {
             if let avatar = self.editProfileViewModel.avatar {
                 self.profileImage.image = avatar
             } else {
                 let url = URL(string: UserManager.shared.avatar)
                 self.profileImage.kf.setImage(with: url, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
             }
-            
+
             if let cover = self.editProfileViewModel.cover {
                 self.coverImage.image = cover
             } else {
@@ -233,7 +227,7 @@ extension ProfileHeaderTableViewCell {
                 } else {
                     self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
                 }
-                
+
                 if let cover = self.editProfileViewModel.cover {
                     self.coverImage.image = cover
                 } else {
@@ -244,30 +238,30 @@ extension ProfileHeaderTableViewCell {
                 self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.35))])
             }
         }
-        
-        if self.viewModel.profileType == .me {
+
+        if self.viewModel.profileType == .mine {
             self.displayNameLabel.text = UserManager.shared.displayName
             self.userIdLabel.text = UserManager.shared.castcleId
-            
+
             self.followLabel.customize { label in
                 label.font = UIFont.asset(.regular, fontSize: .body)
                 label.numberOfLines = 1
                 label.textColor = UIColor.Asset.gray
-                
+
                 let followingType = ActiveType.custom(pattern: "\(UserManager.shared.following) Following")
                 let followerType = ActiveType.custom(pattern: "\(UserManager.shared.followers) Followers")
-                
+
                 label.enabledTypes = [followingType, followerType]
                 label.customColor[followingType] = UIColor.Asset.white
                 label.customSelectedColor[followingType] = UIColor.Asset.gray
                 label.customColor[followerType] = UIColor.Asset.white
                 label.customSelectedColor[followerType] = UIColor.Asset.gray
-                
-                label.handleCustomTap(for: followingType) { element in
+
+                label.handleCustomTap(for: followingType) { _ in
                     Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.userFollow(UserFollowViewModel(followType: .following, castcleId: UserManager.shared.rawCastcleId))), animated: true)
                 }
 
-                label.handleCustomTap(for: followerType) { element in
+                label.handleCustomTap(for: followerType) { _ in
                     Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.userFollow(UserFollowViewModel(followType: .follower, castcleId: UserManager.shared.rawCastcleId))), animated: true)
                 }
             }
@@ -277,26 +271,21 @@ extension ProfileHeaderTableViewCell {
         } else {
             self.displayNameLabel.text = self.viewModel.userInfo.displayName
             self.userIdLabel.text = "@\(self.viewModel.userInfo.castcleId)"
-            
             self.followLabel.customize { label in
                 label.font = UIFont.asset(.regular, fontSize: .body)
                 label.numberOfLines = 1
                 label.textColor = UIColor.Asset.gray
-                
                 let followingType = ActiveType.custom(pattern: "\(self.viewModel.userInfo.following.count) Following")
                 let followerType = ActiveType.custom(pattern: "\(self.viewModel.userInfo.followers.count) Followers")
-                
                 label.enabledTypes = [followingType, followerType]
                 label.customColor[followingType] = UIColor.Asset.white
                 label.customSelectedColor[followingType] = UIColor.Asset.gray
                 label.customColor[followerType] = UIColor.Asset.white
                 label.customSelectedColor[followerType] = UIColor.Asset.gray
-                
-                label.handleCustomTap(for: followingType) { element in
+                label.handleCustomTap(for: followingType) { _ in
                     Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.userFollow(UserFollowViewModel(followType: .following, castcleId: self.viewModel.userInfo.castcleId))), animated: true)
                 }
-
-                label.handleCustomTap(for: followerType) { element in
+                label.handleCustomTap(for: followerType) { _ in
                     Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.userFollow(UserFollowViewModel(followType: .follower, castcleId: self.viewModel.userInfo.castcleId))), animated: true)
                 }
             }
@@ -310,8 +299,8 @@ extension ProfileHeaderTableViewCell {
                 self.viewProfileButton.setTitle("View Profile", for: .normal)
             }
         }
-        
-        if self.viewModel.profileType == .me || self.viewModel.isMyPage {
+
+        if self.viewModel.profileType == .mine || self.viewModel.isMyPage {
             self.editCoverButton.isHidden = false
             self.editProfileButton.isHidden = false
             self.editProfileImageButton.isHidden = false
@@ -325,7 +314,7 @@ extension ProfileHeaderTableViewCell {
             self.followButton.isHidden = false
         }
     }
-    
+
     private func followUI() {
         if self.viewModel.isFollow == true {
             self.followButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .overline)
@@ -339,7 +328,7 @@ extension ProfileHeaderTableViewCell {
             self.followButton.setIcon(prefixText: "     Follow     ", prefixTextColor: UIColor.Asset.lightBlue, icon: .castcle(.checkmark), iconColor: UIColor.Asset.darkGray, postfixText: "", postfixTextColor: UIColor.Asset.white, forState: .normal, textSize: 14, iconSize: 0)
         }
     }
-    
+
     private func selectImageSource() {
         let actionSheet = CCActionSheet()
         let albumButton = CCAction(title: "Choose from Camera Roll", image: UIImage.init(icon: .castcle(.image), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
@@ -350,11 +339,10 @@ extension ProfileHeaderTableViewCell {
             actionSheet.dismissActionSheet()
             self.selectTakePhoto()
         }
-        
         actionSheet.addActions([albumButton, cameraButton])
         Utility.currentViewController().present(actionSheet, animated: true, completion: nil)
     }
-    
+
     private func selectCameraRoll() {
         let photosPickerViewController = TLPhotosPickerViewController()
         photosPickerViewController.delegate = self
@@ -364,14 +352,13 @@ extension ProfileHeaderTableViewCell {
         photosPickerViewController.navigationBar.isTranslucent = false
         photosPickerViewController.titleLabel.font = UIFont.asset(.regular, fontSize: .overline)
         photosPickerViewController.subTitleLabel.font = UIFont.asset(.regular, fontSize: .small)
-        
         photosPickerViewController.doneButton.setTitleTextAttributes([
-            NSAttributedString.Key.font : UIFont.asset(.bold, fontSize: .h4),
-            NSAttributedString.Key.foregroundColor : UIColor.Asset.lightBlue
+            NSAttributedString.Key.font: UIFont.asset(.bold, fontSize: .head4),
+            NSAttributedString.Key.foregroundColor: UIColor.Asset.lightBlue
         ], for: .normal)
         photosPickerViewController.cancelButton.setTitleTextAttributes([
-            NSAttributedString.Key.font : UIFont.asset(.regular, fontSize: .body),
-            NSAttributedString.Key.foregroundColor : UIColor.Asset.lightBlue
+            NSAttributedString.Key.font: UIFont.asset(.regular, fontSize: .body),
+            NSAttributedString.Key.foregroundColor: UIColor.Asset.lightBlue
         ], for: .normal)
 
         var configure = TLPhotosPickerConfigure()
@@ -386,60 +373,58 @@ extension ProfileHeaderTableViewCell {
         configure.allowedVideoRecording = false
         configure.selectedColor = UIColor.Asset.lightBlue
         photosPickerViewController.configure = configure
-
         Utility.currentViewController().present(photosPickerViewController, animated: true, completion: nil)
     }
-    
+
     private func selectTakePhoto() {
         self.showCameraIfAuthorized()
     }
-     
-     private func showCameraIfAuthorized() {
-         let cameraAuthorization = AVCaptureDevice.authorizationStatus(for: .video)
-         switch cameraAuthorization {
-         case .authorized:
-             self.showCamera()
-         case .notDetermined:
-             AVCaptureDevice.requestAccess(for: .video, completionHandler: { [weak self] (authorized) in
-                 DispatchQueue.main.async { [weak self] in
-                     if authorized {
-                         self?.showCamera()
-                     } else {
-                         self?.handleDeniedCameraAuthorization()
-                     }
-                 }
-             })
-         case .restricted, .denied:
-             self.handleDeniedCameraAuthorization()
-         @unknown default:
-             break
-         }
-     }
-     
-     private func showCamera() {
-         let picker = UIImagePickerController()
-         picker.sourceType = .camera
-         var mediaTypes: [String] = []
-         mediaTypes.append(kUTTypeImage as String)
-         
-         guard mediaTypes.count > 0 else {
-             return
-         }
-         picker.cameraDevice = .rear
-         picker.mediaTypes = mediaTypes
-         picker.allowsEditing = false
-         picker.delegate = self
-         Utility.currentViewController().present(picker, animated: true, completion: nil)
-     }
-     
-     private func handleDeniedCameraAuthorization() {
-         DispatchQueue.main.async {
-             let alert = UIAlertController(title: "Error", message: "Denied camera permissions granted", preferredStyle: .alert)
-             alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-             Utility.currentViewController().present(alert, animated: true, completion: nil)
-         }
-     }
-    
+
+    private func showCameraIfAuthorized() {
+        let cameraAuthorization = AVCaptureDevice.authorizationStatus(for: .video)
+        switch cameraAuthorization {
+        case .authorized:
+            self.showCamera()
+        case .notDetermined:
+            AVCaptureDevice.requestAccess(for: .video, completionHandler: { [weak self] (authorized) in
+                DispatchQueue.main.async { [weak self] in
+                    if authorized {
+                        self?.showCamera()
+                    } else {
+                        self?.handleDeniedCameraAuthorization()
+                    }
+                }
+            })
+        case .restricted, .denied:
+            self.handleDeniedCameraAuthorization()
+        @unknown default:
+            break
+        }
+    }
+
+    private func showCamera() {
+        let picker = UIImagePickerController()
+        picker.sourceType = .camera
+        var mediaTypes: [String] = []
+        mediaTypes.append(kUTTypeImage as String)
+        guard mediaTypes.count > 0 else {
+            return
+        }
+        picker.cameraDevice = .rear
+        picker.mediaTypes = mediaTypes
+        picker.allowsEditing = false
+        picker.delegate = self
+        Utility.currentViewController().present(picker, animated: true, completion: nil)
+    }
+
+    private func handleDeniedCameraAuthorization() {
+        DispatchQueue.main.async {
+            let alert = UIAlertController(title: "Error", message: "Denied camera permissions granted", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+            Utility.currentViewController().present(alert, animated: true, completion: nil)
+        }
+    }
+
     private func presentCropViewController(image: UIImage, updateImageType: UpdateImageType) {
         if updateImageType == .avatar {
             let cropController = TOCropViewController(croppingStyle: .circular, image: image)
@@ -475,7 +460,7 @@ extension ProfileHeaderTableViewCell: TLPhotosPickerViewControllerDelegate {
 }
 
 extension ProfileHeaderTableViewCell: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    open func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    open func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         guard let image = (info[UIImagePickerController.InfoKey.originalImage] as? UIImage) else { return }
 
         picker.dismiss(animated: true, completion: {
@@ -495,7 +480,7 @@ extension ProfileHeaderTableViewCell: TOCropViewControllerDelegate {
                 let avatarCropImage = image.resizeImage(targetSize: CGSize.init(width: 200, height: 200))
                 self.profileImage.image = avatarCropImage
                 self.editProfileViewModel.avatar = avatarCropImage
-                if self.viewModel.profileType == .me {
+                if self.viewModel.profileType == .mine {
                     self.avatarLoadView.isHidden = false
                     self.avatarIndicator.startAnimating()
                     self.editProfileViewModel.updateAvatar(isPage: false, castcleId: UserManager.shared.rawCastcleId)
@@ -507,14 +492,14 @@ extension ProfileHeaderTableViewCell: TOCropViewControllerDelegate {
             }
         })
     }
-    
+
     func cropViewController(_ cropViewController: TOCropViewController, didCropTo image: UIImage, with cropRect: CGRect, angle: Int) {
         cropViewController.dismiss(animated: true, completion: {
             if self.updateImageType == .cover {
                 let coverCropImage = image.resizeImage(targetSize: CGSize.init(width: 640, height: 480))
                 self.coverImage.image = coverCropImage
                 self.editProfileViewModel.cover = coverCropImage
-                if self.viewModel.profileType == .me {
+                if self.viewModel.profileType == .mine {
                     self.coverLoadView.isHidden = false
                     self.coverIndicator.startAnimating()
                     self.editProfileViewModel.updateCover(isPage: false, castcleId: UserManager.shared.rawCastcleId)
@@ -550,7 +535,7 @@ extension ProfileHeaderTableViewCell: EditProfileViewModelDelegate {
                 self.avatarIndicator.stopAnimating()
                 self.coverIndicator.stopAnimating()
                 if self.updateImageType == .avatar {
-                    if self.viewModel.profileType == .me {
+                    if self.viewModel.profileType == .mine {
                         self.delegate?.didUpdateProfileSuccess(self)
                     }
                     self.updateImageType = .none

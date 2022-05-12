@@ -41,55 +41,50 @@ class SelectPhotoMethodViewController: UIViewController {
     @IBOutlet var subTitleLabel: UILabel!
     @IBOutlet var cameraRollButton: UIButton!
     @IBOutlet var takePhotoButton: UIButton!
-    
+
     var viewModel = SelectPhotoMethodViewModel(authorType: .people)
     let hud = JGProgressHUD()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
         self.headlineLabel.font = UIFont.asset(.regular, fontSize: .title)
         self.headlineLabel.textColor = UIColor.Asset.white
-        self.subTitleLabel.font = UIFont.asset(.regular, fontSize: .h4)
+        self.subTitleLabel.font = UIFont.asset(.regular, fontSize: .head4)
         self.subTitleLabel.textColor = UIColor.Asset.white
-        
-        self.cameraRollButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .h4)
+        self.cameraRollButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .head4)
         self.cameraRollButton.setTitleColor(UIColor.Asset.lightBlue, for: .normal)
         self.cameraRollButton.setBackgroundImage(UIColor.Asset.darkGraphiteBlue.toImage(), for: .normal)
         self.cameraRollButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
-        self.takePhotoButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .h4)
+        self.takePhotoButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .head4)
         self.takePhotoButton.setTitleColor(UIColor.Asset.white, for: .normal)
         self.takePhotoButton.setBackgroundImage(UIColor.Asset.lightBlue.toImage(), for: .normal)
         self.takePhotoButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.clear)
-        
         self.viewModel.delegate = self
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         Defaults[.screenId] = ""
         self.hud.textLabel.text = "Saving"
-        
         self.setupNavBar()
-        self.headlineLabel.text = Localization.chooseProfileImage.headline.text
-        self.subTitleLabel.text = Localization.chooseProfileImage.description.text
-        self.cameraRollButton.setTitle(Localization.chooseProfileImage.cameraRoll.text, for: .normal)
-        self.takePhotoButton.setTitle(Localization.chooseProfileImage.takePhoto.text, for: .normal)
+        self.headlineLabel.text = Localization.ChooseProfileImage.headline.text
+        self.subTitleLabel.text = Localization.ChooseProfileImage.description.text
+        self.cameraRollButton.setTitle(Localization.ChooseProfileImage.cameraRoll.text, for: .normal)
+        self.takePhotoButton.setTitle(Localization.ChooseProfileImage.takePhoto.text, for: .normal)
     }
-    
+
     func setupNavBar() {
         if self.viewModel.authorType == .page {
             self.customNavigationBar(.primary, title: "", textColor: UIColor.Asset.white)
-            
             let leftIcon = NavBarButtonType.back.barButton
             leftIcon.addTarget(self, action: #selector(leftButtonAction), for: .touchUpInside)
             self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: leftIcon)
-            
+
             var rightButton: [UIBarButtonItem] = []
-            
             let icon = UIButton()
-            icon.setTitle(Localization.chooseProfileImage.skip.text, for: .normal)
-            icon.titleLabel?.font = UIFont.asset(.bold, fontSize: .h4)
+            icon.setTitle(Localization.ChooseProfileImage.skip.text, for: .normal)
+            icon.titleLabel?.font = UIFont.asset(.bold, fontSize: .head4)
             icon.setTitleColor(UIColor.Asset.lightBlue, for: .normal)
             icon.addTarget(self, action: #selector(skipAction), for: .touchUpInside)
             rightButton.append(UIBarButtonItem(customView: icon))
@@ -102,7 +97,7 @@ class SelectPhotoMethodViewController: UIViewController {
             self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: leftIcon)
         }
     }
-    
+
     @objc private func leftButtonAction() {
         if self.viewModel.authorType == .people {
             Utility.currentViewController().navigationController?.popViewController(animated: true)
@@ -111,11 +106,11 @@ class SelectPhotoMethodViewController: UIViewController {
             Utility.currentViewController().navigationController!.popToViewController(viewControllers[viewControllers.count - 5], animated: true)
         }
     }
-    
+
     @objc private func skipAction() {
         Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.about(AboutInfoViewModel(authorType: self.viewModel.authorType, castcleId: self.viewModel.castcleId, userRequest: self.viewModel.userRequest))), animated: true)
     }
-    
+
     @IBAction func cameraRollAction(_ sender: Any) {
         let photosPickerViewController = TLPhotosPickerViewController()
         photosPickerViewController.delegate = self
@@ -125,16 +120,14 @@ class SelectPhotoMethodViewController: UIViewController {
         photosPickerViewController.navigationBar.isTranslucent = false
         photosPickerViewController.titleLabel.font = UIFont.asset(.regular, fontSize: .overline)
         photosPickerViewController.subTitleLabel.font = UIFont.asset(.regular, fontSize: .small)
-        
         photosPickerViewController.doneButton.setTitleTextAttributes([
-            NSAttributedString.Key.font : UIFont.asset(.bold, fontSize: .h4),
-            NSAttributedString.Key.foregroundColor : UIColor.Asset.lightBlue
+            NSAttributedString.Key.font: UIFont.asset(.bold, fontSize: .head4),
+            NSAttributedString.Key.foregroundColor: UIColor.Asset.lightBlue
         ], for: .normal)
         photosPickerViewController.cancelButton.setTitleTextAttributes([
-            NSAttributedString.Key.font : UIFont.asset(.regular, fontSize: .body),
-            NSAttributedString.Key.foregroundColor : UIColor.Asset.lightBlue
+            NSAttributedString.Key.font: UIFont.asset(.regular, fontSize: .body),
+            NSAttributedString.Key.foregroundColor: UIColor.Asset.lightBlue
         ], for: .normal)
-
         var configure = TLPhotosPickerConfigure()
         configure.numberOfColumn = 3
         configure.singleSelectedMode = true
@@ -147,14 +140,13 @@ class SelectPhotoMethodViewController: UIViewController {
         configure.allowedVideoRecording = false
         configure.selectedColor = UIColor.Asset.lightBlue
         photosPickerViewController.configure = configure
-
         Utility.currentViewController().present(photosPickerViewController, animated: true, completion: nil)
     }
-    
+
     @IBAction func takePhotoAction(_ sender: Any) {
         self.showCameraIfAuthorized()
     }
-    
+
     private func showCameraIfAuthorized() {
         let cameraAuthorization = AVCaptureDevice.authorizationStatus(for: .video)
         switch cameraAuthorization {
@@ -176,13 +168,12 @@ class SelectPhotoMethodViewController: UIViewController {
             break
         }
     }
-    
+
     private func showCamera() {
         let picker = UIImagePickerController()
         picker.sourceType = .camera
         var mediaTypes: [String] = []
         mediaTypes.append(kUTTypeImage as String)
-        
         guard mediaTypes.count > 0 else {
             return
         }
@@ -192,7 +183,7 @@ class SelectPhotoMethodViewController: UIViewController {
         picker.delegate = self
         self.present(picker, animated: true, completion: nil)
     }
-    
+
     private func handleDeniedCameraAuthorization() {
         DispatchQueue.main.async {
             let alert = UIAlertController(title: "", message: "Denied camera permissions granted", preferredStyle: .alert)
@@ -200,7 +191,7 @@ class SelectPhotoMethodViewController: UIViewController {
             Utility.currentViewController().present(alert, animated: true, completion: nil)
         }
     }
-    
+
     private func presentCropViewController(image: UIImage) {
         let cropController = TOCropViewController(croppingStyle: .circular, image: image)
         cropController.delegate = self
@@ -222,9 +213,8 @@ extension SelectPhotoMethodViewController: TLPhotosPickerViewControllerDelegate 
 }
 
 extension SelectPhotoMethodViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    open func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    open func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         guard let image = (info[UIImagePickerController.InfoKey.originalImage] as? UIImage) else { return }
-        
         picker.dismiss(animated: true, completion: {
             self.presentCropViewController(image: image)
         })
@@ -260,7 +250,7 @@ extension SelectPhotoMethodViewController: SelectPhotoMethodViewModelDelegate {
             }
         }
     }
-    
+
     func didGetPageFinish() {
         self.hud.dismiss()
         Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.about(AboutInfoViewModel(authorType: self.viewModel.authorType, castcleId: self.viewModel.castcleId, userRequest: self.viewModel.userRequest))), animated: true)

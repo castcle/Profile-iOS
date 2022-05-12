@@ -30,7 +30,7 @@ import Core
 import Networking
 import SwiftyJSON
 
-public protocol EditInfoViewModelDelegate {
+public protocol EditInfoViewModelDelegate: AnyObject {
     func didGetInfoFinish(success: Bool)
     func didUpdateInfoFinish(success: Bool)
 }
@@ -42,22 +42,22 @@ public class EditInfoViewModel {
     let tokenHelper: TokenHelper = TokenHelper()
     var profileType: ProfileType = .unknow
     var userInfo: UserInfo = UserInfo()
-    var avatar: UIImage? = nil
-    var cover: UIImage? = nil
-    var dobDate: Date? = nil
+    var avatar: UIImage?
+    var cover: UIImage?
+    var dobDate: Date?
     var castcleId: String = ""
     var isPage: Bool = false
     var state: State = .none
-    
+
     public init(profileType: ProfileType = .unknow, userInfo: UserInfo = UserInfo()) {
         self.tokenHelper.delegate = self
         self.profileType = profileType
         self.userInfo = userInfo
     }
-    
+
     func getMeInfo() {
         self.state = .getMe
-        self.userRepository.getMe() { (success, response, isRefreshToken) in
+        self.userRepository.getMe { (success, response, isRefreshToken) in
             if success {
                 do {
                     let rawJson = try response.mapJSON()
@@ -76,7 +76,7 @@ public class EditInfoViewModel {
             }
         }
     }
-    
+
     func getUserInfo() {
         self.state = .getUserInfo
         self.userRepository.getUser(userId: self.userInfo.castcleId) { (success, response, isRefreshToken) in
@@ -98,7 +98,7 @@ public class EditInfoViewModel {
             }
         }
     }
-    
+
     public func updateProfile(isPage: Bool, castcleId: String) {
         self.state = .updateUserInfo
         self.isPage = isPage

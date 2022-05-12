@@ -88,10 +88,10 @@ class AddSocialCell: UICollectionViewCell {
             self.websiteTextField.textColor = UIColor.Asset.white
         }
     }
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
-        
+
         self.facebookView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
         self.twitterView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
         self.youtubeView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
@@ -99,7 +99,7 @@ class AddSocialCell: UICollectionViewCell {
         self.websiteView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
         self.titleLabel.font = UIFont.asset(.regular, fontSize: .body)
         self.titleLabel.textColor = UIColor.Asset.white
-        
+
         self.facebookTextField.tag = 0
         self.facebookTextField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
         self.twitterTextField.tag = 1
@@ -110,25 +110,25 @@ class AddSocialCell: UICollectionViewCell {
         self.mediumTextField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
         self.websiteTextField.tag = 4
         self.websiteTextField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
-        
+
         self.facebookTextField.text = (Defaults[.facebook].isEmpty ? "https://" : Defaults[.facebook])
         self.twitterTextField.text = (Defaults[.twitter].isEmpty ? "https://" : Defaults[.twitter])
         self.youtubeTextField.text = (Defaults[.youtube].isEmpty ? "https://" : Defaults[.youtube])
         self.mediumTextField.text = (Defaults[.medium].isEmpty ? "https://" : Defaults[.medium])
         self.websiteTextField.text = (Defaults[.website].isEmpty ? "https://" : Defaults[.website])
-        
-        self.titleLabel.text = Localization.addSocial.description.text
-        self.facebookTextField.placeholder = Localization.addSocial.facebook.text
-        self.twitterTextField.placeholder = Localization.addSocial.twitter.text
-        self.youtubeTextField.placeholder = Localization.addSocial.youtube.text
-        self.mediumTextField.placeholder = Localization.addSocial.medium.text
-        self.websiteTextField.placeholder = Localization.addSocial.website.text
+
+        self.titleLabel.text = Localization.AddSocial.description.text
+        self.facebookTextField.placeholder = Localization.AddSocial.facebook.text
+        self.twitterTextField.placeholder = Localization.AddSocial.twitter.text
+        self.youtubeTextField.placeholder = Localization.AddSocial.youtube.text
+        self.mediumTextField.placeholder = Localization.AddSocial.medium.text
+        self.websiteTextField.placeholder = Localization.AddSocial.website.text
     }
-    
+
     static func cellSize(width: CGFloat) -> CGSize {
         return CGSize(width: width, height: 490)
     }
-    
+
     @objc func textFieldDidChange(_ textField: UITextField) {
         if textField.tag == 0 {
             Defaults[.facebook] = (textField.text! == "https://" ? "" : textField.text!)

@@ -33,44 +33,42 @@ import Defaults
 class ConfirmDeletePageViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet var tableView: UITableView!
-    
+
     var viewModel = DeletePageViewModel(userInfo: UserInfo())
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
         self.hideKeyboardWhenTapped()
         self.configureTableView()
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         Defaults[.screenId] = ""
         self.setupNavBar()
     }
-    
+
     func setupNavBar() {
-        self.customNavigationBar(.secondary, title: Localization.deletePageConfirm.title.text)
+        self.customNavigationBar(.secondary, title: Localization.DeletePageConfirm.title.text)
     }
-    
+
     func configureTableView() {
         self.tableView.delegate = self
         self.tableView.dataSource = self
-        
         self.tableView.register(UINib(nibName: ProfileNibVars.TableViewCell.confirmDeletePage, bundle: ConfigBundle.profile), forCellReuseIdentifier: ProfileNibVars.TableViewCell.confirmDeletePage)
-        
         self.tableView.rowHeight = UITableView.automaticDimension
         self.tableView.estimatedRowHeight = 100
     }
-    
+
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.confirmDeletePage, for: indexPath as IndexPath) as? ConfirmDeletePageTableViewCell
         cell?.backgroundColor = UIColor.clear

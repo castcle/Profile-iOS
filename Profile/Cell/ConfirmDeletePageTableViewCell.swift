@@ -44,10 +44,10 @@ class ConfirmDeletePageTableViewCell: UITableViewCell {
     @IBOutlet var passwordTextField: JVFloatLabeledTextField!
     @IBOutlet var showPasswordButton: UIButton!
     @IBOutlet var nextButton: UIButton!
-    
+
     var viewModel = DeletePageViewModel(userInfo: UserInfo())
     let hud = JGProgressHUD()
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         self.hud.textLabel.text = "Deleting"
@@ -64,18 +64,16 @@ class ConfirmDeletePageTableViewCell: UITableViewCell {
         self.line1View.backgroundColor = UIColor.Asset.black
         self.line2View.backgroundColor = UIColor.Asset.black
         self.showPasswordButton.setImage(UIImage.init(icon: .castcle(.show), size: CGSize(width: 25, height: 25), textColor: UIColor.Asset.white).withRenderingMode(.alwaysOriginal), for: .normal)
-        
         self.setupNextButton(isActive: false)
         self.passwordTextField.tag = 0
         self.passwordTextField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
-        
         self.viewModel.delegate = self
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
-    
+
     private func isCanNext() -> Bool {
         if self.passwordTextField.text!.isEmpty {
             return false
@@ -83,35 +81,33 @@ class ConfirmDeletePageTableViewCell: UITableViewCell {
             return true
         }
     }
-    
+
     @objc func textFieldDidChange(_ textField: UITextField) {
         self.setupNextButton(isActive: self.isCanNext())
     }
-    
+
     func configCell(userInfo: UserInfo) {
         self.viewModel.userInfo = userInfo
         self.passwordTextField.font = UIFont.asset(.regular, fontSize: .body)
-        self.passwordTextField.placeholder = Localization.deletePageConfirm.password.text
+        self.passwordTextField.placeholder = Localization.DeletePageConfirm.password.text
         self.passwordTextField.placeholderColor = UIColor.Asset.gray
         self.passwordTextField.floatingLabelTextColor = UIColor.Asset.gray
         self.passwordTextField.floatingLabelActiveTextColor = UIColor.Asset.gray
         self.passwordTextField.floatingLabelFont = UIFont.asset(.regular, fontSize: .small)
         self.passwordTextField.textColor = UIColor.Asset.white
         self.passwordTextField.isSecureTextEntry = true
-        
+
         let url = URL(string: self.viewModel.userInfo.images.avatar.thumbnail)
         self.avatarImage.kf.setImage(with: url, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
         self.displayNameLabel.text = self.viewModel.userInfo.displayName
-        
-        self.headlineLabel.text = Localization.deletePageConfirm.subTitle.text
-        self.subtitleLabel.text = Localization.deletePageConfirm.subDetail.text
-        self.pageLabel.text = Localization.deletePageConfirm.page.text
-        self.nextButton.setTitle(Localization.deletePageConfirm.next.text, for: .normal)
+        self.headlineLabel.text = Localization.DeletePageConfirm.subTitle.text
+        self.subtitleLabel.text = Localization.DeletePageConfirm.subDetail.text
+        self.pageLabel.text = Localization.DeletePageConfirm.page.text
+        self.nextButton.setTitle(Localization.DeletePageConfirm.next.text, for: .normal)
     }
-    
+
     private func setupNextButton(isActive: Bool) {
-        self.nextButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .h4)
-        
+        self.nextButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .head4)
         if isActive {
             self.nextButton.setTitleColor(UIColor.Asset.white, for: .normal)
             self.nextButton.setBackgroundImage(UIColor.Asset.lightBlue.toImage(), for: .normal)
@@ -122,7 +118,7 @@ class ConfirmDeletePageTableViewCell: UITableViewCell {
             self.nextButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.black)
         }
     }
-    
+
     @IBAction func showPasswordAction(_ sender: Any) {
         self.passwordTextField.isSecureTextEntry.toggle()
         if self.passwordTextField.isSecureTextEntry {
@@ -131,7 +127,7 @@ class ConfirmDeletePageTableViewCell: UITableViewCell {
             self.showPasswordButton.setImage(UIImage.init(icon: .castcle(.show), size: CGSize(width: 25, height: 25), textColor: UIColor.Asset.lightBlue).withRenderingMode(.alwaysOriginal), for: .normal)
         }
     }
-    
+
     @IBAction func nextAction(_ sender: Any) {
         self.endEditing(true)
         if self.isCanNext() {
@@ -150,7 +146,7 @@ extension ConfirmDeletePageTableViewCell: DeletePageViewModelDelegate {
             self.hud.dismiss()
         }
     }
-    
+
     func didGetAllPageFinish() {
         self.hud.dismiss()
         Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.deletePageSuccess), animated: true)

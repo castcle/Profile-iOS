@@ -29,9 +29,9 @@ import Core
 import IGListKit
 
 class CreatePageDisplayNameSectionController: ListSectionController {
-    
+
     var viewModel = CreatePageDisplayNameViewModel()
-    
+
     override init() {
         super.init()
         inset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
@@ -43,14 +43,14 @@ extension CreatePageDisplayNameSectionController {
     override func numberOfItems() -> Int {
         return 1
     }
-    
+
     override func sizeForItem(at index: Int) -> CGSize {
         guard let context = collectionContext else {
             return .zero
         }
         return CreatePageDisplayNameCell.cellSize(width: context.containerSize.width)
     }
-    
+
     override func cellForItem(at index: Int) -> UICollectionViewCell {
         let cell = collectionContext?.dequeueReusableCell(withNibName: ProfileNibVars.CollectionViewCell.pageDisplayName, bundle: ConfigBundle.profile, for: self, at: index) as? CreatePageDisplayNameCell
         cell?.backgroundColor = UIColor.clear

@@ -30,26 +30,25 @@ import Networking
 import SwiftyJSON
 import RealmSwift
 
-public protocol NewPageWithSocialViewModelDelegate {
+public protocol NewPageWithSocialViewModelDelegate: AnyObject {
     func didCreatedPage(success: Bool)
 }
 
 public final class NewPageWithSocialViewModel {
-   
+
     public var delegate: NewPageWithSocialViewModelDelegate?
     private var pageRepository: PageRepository = PageRepositoryImpl()
     var pageSocialRequest: PageSocialRequest = PageSocialRequest()
     var state: State = .none
     let tokenHelper: TokenHelper = TokenHelper()
-    private let realm = try! Realm()
-    
+
     public init() {
         self.tokenHelper.delegate = self
     }
-    
+
     func createPageWithSocial() {
         self.state = .createPageWithSocial
-        self.pageRepository.createPageWithSocial(pageSocialRequest: self.pageSocialRequest) { (success, response, isRefreshToken) in
+        self.pageRepository.createPageWithSocial(pageSocialRequest: self.pageSocialRequest) { (success, _, isRefreshToken) in
             if success {
                 self.getAllMyPage()
             } else {
@@ -61,24 +60,24 @@ public final class NewPageWithSocialViewModel {
             }
         }
     }
-    
+
     func getAllMyPage() {
         self.state = .getMyPage
-        self.pageRepository.getMyPage() { (success, response, isRefreshToken) in
+        self.pageRepository.getMyPage { (success, response, isRefreshToken) in
             if success {
                 self.state = .none
                 do {
+                    let realm = try Realm()
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
                     let pages = json[JsonKey.payload.rawValue].arrayValue
-                    let pageRealm = self.realm.objects(Page.self)
-                    try! self.realm.write {
-                        self.realm.delete(pageRealm)
+                    let pageRealm = realm.objects(Page.self)
+                    try realm.write {
+                        realm.delete(pageRealm)
                     }
-                    
-                    pages.forEach { page in
-                        let pageInfo = UserInfo(json: page)
-                        try! self.realm.write {
+                    try realm.write {
+                        pages.forEach { page in
+                            let pageInfo = UserInfo(json: page)
                             let pageTemp = Page()
                             pageTemp.id = pageInfo.id
                             pageTemp.castcleId = pageInfo.castcleId
@@ -89,7 +88,7 @@ public final class NewPageWithSocialViewModel {
                             pageTemp.official = pageInfo.verified.official
                             pageTemp.isSyncTwitter = !pageInfo.syncSocial.twitter.socialId.isEmpty
                             pageTemp.isSyncFacebook = !pageInfo.syncSocial.facebook.socialId.isEmpty
-                            self.realm.add(pageTemp, update: .modified)
+                            realm.add(pageTemp, update: .modified)
                         }
                     }
                     self.delegate?.didCreatedPage(success: true)

@@ -36,7 +36,7 @@ class SocialAccountTableViewCell: UITableViewCell {
     @IBOutlet var nextImage: UIImageView!
     @IBOutlet var socialView: UIView!
     @IBOutlet var socialImage: UIImageView!
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         self.titleLabel.font = UIFont.asset(.regular, fontSize: .body)
@@ -49,12 +49,11 @@ class SocialAccountTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
-    
+
     func configCell(socialType: SocialType, isSync: Bool) {
         self.titleLabel.text = socialType.display
         self.socialView.capsule(color: socialType.color)
         self.socialImage.image = socialType.icon
-        
         if isSync {
             self.displayLabel.text = "Synced"
         } else {
