@@ -66,13 +66,13 @@ class UpdateUserImageTableViewCell: UITableViewCell {
         self.editCoverButton.setImage(UIImage.init(icon: .castcle(.camera), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white).withRenderingMode(.alwaysOriginal), for: .normal)
         self.editCoverButton.setBackgroundImage(UIColor.Asset.gray.toImage(), for: .normal)
         self.editCoverButton.capsule()
-        self.displayNameLabel.font = UIFont.asset(.bold, fontSize: .overline)
+        self.displayNameLabel.font = UIFont.asset(.regular, fontSize: .overline)
         self.displayNameLabel.textColor = UIColor.Asset.white
-        self.castcleIdLabel.font = UIFont.asset(.bold, fontSize: .overline)
+        self.castcleIdLabel.font = UIFont.asset(.regular, fontSize: .overline)
         self.castcleIdLabel.textColor = UIColor.Asset.lightGray
         self.titleLabel.font = UIFont.asset(.bold, fontSize: .body)
         self.titleLabel.textColor = UIColor.Asset.white
-        self.subTitleLabel.font = UIFont.asset(.bold, fontSize: .body)
+        self.subTitleLabel.font = UIFont.asset(.regular, fontSize: .body)
         self.subTitleLabel.textColor = UIColor.Asset.white
         self.hud.textLabel.text = "Saving"
         self.saveButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .head4)

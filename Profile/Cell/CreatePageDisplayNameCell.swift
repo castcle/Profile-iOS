@@ -145,10 +145,10 @@ class CreatePageDisplayNameCell: UICollectionViewCell, UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         if textField.tag == 0 {
             let displayName = textField.text ?? ""
-            self.viewModel.authenRequest.payload.displayName = displayName
-            if !self.viewModel.authenRequest.payload.displayName.isEmpty && !self.viewModel.isCastcleIdExist {
+            self.viewModel.authenRequest.displayName = displayName
+            if !self.viewModel.authenRequest.displayName.isEmpty && !self.viewModel.isCastcleIdExist {
                 self.setupNextButton(isActive: true)
-            } else if !self.viewModel.authenRequest.payload.displayName.isEmpty && self.viewModel.isCastcleIdExist {
+            } else if !self.viewModel.authenRequest.displayName.isEmpty && self.viewModel.isCastcleIdExist {
                 self.idTextField.isEnabled = false
                 self.activityIndicator.isHidden = false
                 self.checkImage.isHidden = true
@@ -168,7 +168,7 @@ class CreatePageDisplayNameCell: UICollectionViewCell, UITextFieldDelegate {
                 self.activityIndicator.isHidden = false
                 self.checkImage.isHidden = true
                 self.activityIndicator.startAnimating()
-                self.viewModel.authenRequest.payload.castcleId = self.castcleId(displayCastcleId: textField.text!)
+                self.viewModel.authenRequest.castcleId = self.castcleId(displayCastcleId: textField.text!)
                 self.viewModel.checkCastcleIdExists()
             }
         }
@@ -182,8 +182,8 @@ class CreatePageDisplayNameCell: UICollectionViewCell, UITextFieldDelegate {
         self.endEditing(true)
         if !self.displayNameTextfield.text!.isEmpty && !self.viewModel.isCastcleIdExist {
             self.hud.show(in: Utility.currentViewController().view)
-            self.viewModel.pageRequest.castcleId = self.viewModel.authenRequest.payload.castcleId
-            self.viewModel.pageRequest.displayName = self.viewModel.authenRequest.payload.displayName
+            self.viewModel.pageRequest.castcleId = self.viewModel.authenRequest.castcleId
+            self.viewModel.pageRequest.displayName = self.viewModel.authenRequest.displayName
             self.viewModel.createPage()
         }
     }
@@ -191,7 +191,7 @@ class CreatePageDisplayNameCell: UICollectionViewCell, UITextFieldDelegate {
 
 extension CreatePageDisplayNameCell: CreatePageDisplayNameViewModelDelegate {
     func didSuggestCastcleIdFinish(suggestCastcleId: String) {
-        self.viewModel.authenRequest.payload.castcleId = suggestCastcleId
+        self.viewModel.authenRequest.castcleId = suggestCastcleId
         self.viewModel.isCastcleIdExist = false
         self.idTextField.text = "@\(suggestCastcleId)"
         self.updateUI()
