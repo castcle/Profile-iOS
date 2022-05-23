@@ -27,8 +27,8 @@
 
 import UIKit
 import Core
-import Post
 import Networking
+import Component
 
 class ProfilePostTableViewCell: UITableViewCell {
 
