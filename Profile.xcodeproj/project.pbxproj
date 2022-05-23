@@ -101,7 +101,6 @@
 		B7B7C20B2786E6DA00DD488A /* ProfilePostTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7B7C2092786E6DA00DD488A /* ProfilePostTableViewCell.xib */; };
 		B7C098362727CFCD009ACE22 /* EditPageInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7C098342727CFCD009ACE22 /* EditPageInfoTableViewCell.xib */; };
 		B7C098372727CFCD009ACE22 /* EditPageInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C098352727CFCD009ACE22 /* EditPageInfoTableViewCell.swift */; };
-		B7C2525626CA077A00ACBB84 /* Post.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7C2525526CA077A00ACBB84 /* Post.framework */; };
 		B7C46D9027A12D2E0031179E /* NewPageWithSocialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C46D8F27A12D2E0031179E /* NewPageWithSocialViewController.swift */; };
 		B7C46D9327A135730031179E /* NewPageWithSocialTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C46D9127A135730031179E /* NewPageWithSocialTableViewCell.swift */; };
 		B7C46D9427A135730031179E /* NewPageWithSocialTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7C46D9227A135730031179E /* NewPageWithSocialTableViewCell.xib */; };
@@ -274,7 +273,6 @@
 				B7910E7B26BBD9CE0097C94E /* Component.framework in Frameworks */,
 				03CA6756D414568EB134E431 /* Pods_Profile.framework in Frameworks */,
 				B7910DF026AFCD920097C94E /* Core.framework in Frameworks */,
-				B7C2525626CA077A00ACBB84 /* Post.framework in Frameworks */,
 				B7AF661E26F32E7000BDE9C4 /* Authen.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
