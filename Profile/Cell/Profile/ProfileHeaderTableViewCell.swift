@@ -134,7 +134,7 @@ class ProfileHeaderTableViewCell: UITableViewCell {
             let castcleId: String = (self.viewModel.isMyPage ? self.viewModel.userInfo.castcleId : UserManager.shared.rawCastcleId)
             let actionSheet = CCActionSheet()
             if self.viewModel.isMyPage {
-                let deleteButton = CCAction(title: "Delete page", image: UIImage.init(icon: .castcle(.deleteOne), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
+                let deleteButton = CCAction(title: "Delete page", image: UIImage.init(icon: .castcle(.deleteOne), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .normal) {
                     actionSheet.dismissActionSheet()
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                         Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.deletePage(DeletePageViewModel(userInfo: self.viewModel.userInfo))), animated: true)
@@ -145,7 +145,7 @@ class ProfileHeaderTableViewCell: UITableViewCell {
 //            let shareButton = CCAction(title: "Share", image: UIImage.init(icon: .castcle(.share), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
 //                actionSheet.dismissActionSheet()
 //            }
-            let syncButton = CCAction(title: "Sync social media", image: UIImage.init(icon: .castcle(.bindLink), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
+            let syncButton = CCAction(title: "Sync social media", image: UIImage.init(icon: .castcle(.bindLink), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .normal) {
                 actionSheet.dismissActionSheet()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.syncSocialMedia(SyncSocialMediaViewModel(castcleId: castcleId))), animated: true)
@@ -156,7 +156,7 @@ class ProfileHeaderTableViewCell: UITableViewCell {
         } else if !self.viewModel.isMyPage && self.viewModel.profileType != .mine {
             let actionSheet = CCActionSheet()
             let castcleId: String = self.viewModel.userInfo.castcleId
-            let reportButton = CCAction(title: "Report @\(castcleId)", image: UIImage.init(icon: .castcle(.report), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
+            let reportButton = CCAction(title: "Report @\(castcleId)", image: UIImage.init(icon: .castcle(.report), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .normal) {
                 actionSheet.dismissActionSheet()
                 if UserManager.shared.isLogin {
                     self.viewModel.reportUser(castcleId: castcleId)
@@ -164,7 +164,7 @@ class ProfileHeaderTableViewCell: UITableViewCell {
                     self.delegate?.didAuthen(self)
                 }
             }
-            let blockButton = CCAction(title: "Block @\(castcleId)", image: UIImage.init(icon: .castcle(.block), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
+            let blockButton = CCAction(title: "Block @\(castcleId)", image: UIImage.init(icon: .castcle(.block), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .normal) {
                 actionSheet.dismissActionSheet()
                 if UserManager.shared.isLogin {
                     self.viewModel.blockUser(castcleId: castcleId)
@@ -331,11 +331,11 @@ extension ProfileHeaderTableViewCell {
 
     private func selectImageSource() {
         let actionSheet = CCActionSheet()
-        let albumButton = CCAction(title: "Choose from Camera Roll", image: UIImage.init(icon: .castcle(.image), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
+        let albumButton = CCAction(title: "Choose from Camera Roll", image: UIImage.init(icon: .castcle(.image), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .normal) {
             actionSheet.dismissActionSheet()
             self.selectCameraRoll()
         }
-        let cameraButton = CCAction(title: "Take Photo", image: UIImage.init(icon: .castcle(.camera), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
+        let cameraButton = CCAction(title: "Take Photo", image: UIImage.init(icon: .castcle(.camera), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .normal) {
             actionSheet.dismissActionSheet()
             self.selectTakePhoto()
         }
