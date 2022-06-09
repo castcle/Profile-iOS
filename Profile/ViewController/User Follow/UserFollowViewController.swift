@@ -48,6 +48,9 @@ class UserFollowViewController: UIViewController {
             self.viewModel.state = .loaded
             self.tableView.coreRefresh.endHeaderRefresh()
             self.tableView.coreRefresh.endLoadingMore()
+            if self.viewModel.meta.resultCount < self.viewModel.userFollowRequest.maxResults {
+                self.tableView.coreRefresh.noticeNoMoreData()
+            }
             UIView.transition(with: self.view, duration: 0.35, options: .transitionCrossDissolve, animations: {
                 self.tableView.reloadData()
             })

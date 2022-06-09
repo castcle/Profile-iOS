@@ -498,6 +498,9 @@ extension ProfileViewController: BlockedUserTableViewCellDelegate {
 extension ProfileViewController: ProfileFeedViewModelDelegate {
     func didGetContentFinish(success: Bool) {
         if success {
+            if self.profileViewModel.isBlocked || !self.profileFeedViewModel.feedCanLoad {
+                self.tableView.coreRefresh.noticeNoMoreData()
+            }
             self.tableView.coreRefresh.endLoadingMore()
             self.tableView.reloadData()
         }
