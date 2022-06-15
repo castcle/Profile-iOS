@@ -70,6 +70,8 @@
 		B797240F27FAD15E00111F24 /* SyncSocialMediaViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B797240E27FAD15E00111F24 /* SyncSocialMediaViewModel.swift */; };
 		B797241227FAD6FC00111F24 /* SocialAccountTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B797241027FAD6FB00111F24 /* SocialAccountTableViewCell.xib */; };
 		B797241327FAD6FC00111F24 /* SocialAccountTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B797241127FAD6FC00111F24 /* SocialAccountTableViewCell.swift */; };
+		B79F2B0C2859966700B82989 /* PageHeaderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B79F2B0A2859966700B82989 /* PageHeaderTableViewCell.xib */; };
+		B79F2B0D2859966700B82989 /* PageHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79F2B0B2859966700B82989 /* PageHeaderTableViewCell.swift */; };
 		B7AC2308281142A80091CA21 /* ContactEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC2307281142A80091CA21 /* ContactEmailViewController.swift */; };
 		B7AC230B2811441F0091CA21 /* ContactEmailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC23092811441F0091CA21 /* ContactEmailTableViewCell.swift */; };
 		B7AC230C2811441F0091CA21 /* ContactEmailTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7AC230A2811441F0091CA21 /* ContactEmailTableViewCell.xib */; };
@@ -203,6 +205,8 @@
 		B797240E27FAD15E00111F24 /* SyncSocialMediaViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncSocialMediaViewModel.swift; sourceTree = "<group>"; };
 		B797241027FAD6FB00111F24 /* SocialAccountTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SocialAccountTableViewCell.xib; sourceTree = "<group>"; };
 		B797241127FAD6FC00111F24 /* SocialAccountTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialAccountTableViewCell.swift; sourceTree = "<group>"; };
+		B79F2B0A2859966700B82989 /* PageHeaderTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PageHeaderTableViewCell.xib; sourceTree = "<group>"; };
+		B79F2B0B2859966700B82989 /* PageHeaderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageHeaderTableViewCell.swift; sourceTree = "<group>"; };
 		B7AC2307281142A80091CA21 /* ContactEmailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactEmailViewController.swift; sourceTree = "<group>"; };
 		B7AC23092811441F0091CA21 /* ContactEmailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactEmailTableViewCell.swift; sourceTree = "<group>"; };
 		B7AC230A2811441F0091CA21 /* ContactEmailTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ContactEmailTableViewCell.xib; sourceTree = "<group>"; };
@@ -333,8 +337,7 @@
 		B753F5732782AB5300D1AC92 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				B753F5742782AB8D00D1AC92 /* ProfileHeaderTableViewCell.swift */,
-				B753F5752782AB8D00D1AC92 /* ProfileHeaderTableViewCell.xib */,
+				B79F2B092859934700B82989 /* Profile Header */,
 				B753F57A2782D1AB00D1AC92 /* FeedHeaderTableViewCell.swift */,
 				B753F57B2782D1AB00D1AC92 /* FeedHeaderTableViewCell.xib */,
 				B7586BE227856066009FEE29 /* ProfileHeaderSkeletonTableViewCell.swift */,
@@ -510,6 +513,17 @@
 			path = ViewController;
 			sourceTree = "<group>";
 		};
+		B79F2B092859934700B82989 /* Profile Header */ = {
+			isa = PBXGroup;
+			children = (
+				B753F5742782AB8D00D1AC92 /* ProfileHeaderTableViewCell.swift */,
+				B753F5752782AB8D00D1AC92 /* ProfileHeaderTableViewCell.xib */,
+				B79F2B0B2859966700B82989 /* PageHeaderTableViewCell.swift */,
+				B79F2B0A2859966700B82989 /* PageHeaderTableViewCell.xib */,
+			);
+			path = "Profile Header";
+			sourceTree = "<group>";
+		};
 		B7AF662226F3444300BDE9C4 /* About */ = {
 			isa = PBXGroup;
 			children = (
@@ -658,6 +672,7 @@
 				B7AF662626F3447900BDE9C4 /* AboutTableViewCell.xib in Resources */,
 				B7FB347927D8B7F000C3C6A3 /* PageSyncSocialTableViewCell.xib in Resources */,
 				B753F57D2782D1AB00D1AC92 /* FeedHeaderTableViewCell.xib in Resources */,
+				B79F2B0C2859966700B82989 /* PageHeaderTableViewCell.xib in Resources */,
 				B7F0D2FF282A67E900BA9764 /* UpdateUserImageTableViewCell.xib in Resources */,
 				B7AC3BC527A3EF9900C02867 /* HeaderBlockedTableViewCell.xib in Resources */,
 				B7AF661226F2E56400BDE9C4 /* CreatePageDisplayNameCell.xib in Resources */,
@@ -788,6 +803,7 @@
 				B7AF660726F07DA400BDE9C4 /* EditProfileViewModel.swift in Sources */,
 				B7F63C28271DC2BF005856B2 /* ConfirmDeletePageViewController.swift in Sources */,
 				B7FFF3EF277EE67400BB0C33 /* ProfileViewController.swift in Sources */,
+				B79F2B0D2859966700B82989 /* PageHeaderTableViewCell.swift in Sources */,
 				B715F5642812609F004687EA /* ContactPhoneTableViewCell.swift in Sources */,
 				B7167F9227AD018700067DBD /* NewPageWithSocialViewModel.swift in Sources */,
 				B7FB347327D8B37E00C3C6A3 /* PageSyncSocialViewController.swift in Sources */,

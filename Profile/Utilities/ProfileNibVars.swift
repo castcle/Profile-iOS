@@ -70,6 +70,7 @@ public struct ProfileNibVars {
         public static let complate = "ComplateTableViewCell"
         public static let confirmDeletePage = "ConfirmDeletePageTableViewCell"
         public static let profileHeader = "ProfileHeaderTableViewCell"
+        public static let pageHeader = "PageHeaderTableViewCell"
         public static let feedHeader = "FeedHeaderTableViewCell"
         public static let profileHeaderSkeleton = "ProfileHeaderSkeletonTableViewCell"
         public static let profilePost = "ProfilePostTableViewCell"

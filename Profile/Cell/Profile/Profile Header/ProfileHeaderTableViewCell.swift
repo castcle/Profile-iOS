@@ -116,35 +116,23 @@ class ProfileHeaderTableViewCell: UITableViewCell {
     }
 
     @IBAction func editCoverAction(_ sender: Any) {
-        if self.viewModel.profileType == .mine || self.viewModel.isMyPage {
+        if self.viewModel.profileType == .mine {
             self.updateImageType = .cover
             self.selectImageSource()
         }
     }
 
     @IBAction func editProfileImageAction(_ sender: Any) {
-        if self.viewModel.profileType == .mine || self.viewModel.isMyPage {
+        if self.viewModel.profileType == .mine {
             self.updateImageType = .avatar
             self.selectImageSource()
         }
     }
 
     @IBAction func moreAction(_ sender: Any) {
-        if self.viewModel.isMyPage || self.viewModel.profileType == .mine {
-            let castcleId: String = (self.viewModel.isMyPage ? self.viewModel.userInfo.castcleId : UserManager.shared.rawCastcleId)
+        if self.viewModel.profileType == .mine {
+            let castcleId: String = UserManager.shared.rawCastcleId
             let actionSheet = CCActionSheet()
-            if self.viewModel.isMyPage {
-                let deleteButton = CCAction(title: "Delete page", image: UIImage.init(icon: .castcle(.deleteOne), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .normal) {
-                    actionSheet.dismissActionSheet()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.deletePage(DeletePageViewModel(userInfo: self.viewModel.userInfo))), animated: true)
-                    }
-                }
-                actionSheet.addActions([deleteButton])
-            }
-//            let shareButton = CCAction(title: "Share", image: UIImage.init(icon: .castcle(.share), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
-//                actionSheet.dismissActionSheet()
-//            }
             let syncButton = CCAction(title: "Sync social media", image: UIImage.init(icon: .castcle(.bindLink), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .normal) {
                 actionSheet.dismissActionSheet()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -153,7 +141,7 @@ class ProfileHeaderTableViewCell: UITableViewCell {
             }
             actionSheet.addActions([syncButton])
             Utility.currentViewController().present(actionSheet, animated: true, completion: nil)
-        } else if !self.viewModel.isMyPage && self.viewModel.profileType != .mine {
+        } else {
             let actionSheet = CCActionSheet()
             let castcleId: String = self.viewModel.userInfo.castcleId
             let reportButton = CCAction(title: "Report @\(castcleId)", image: UIImage.init(icon: .castcle(.report), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .normal) {
@@ -178,7 +166,7 @@ class ProfileHeaderTableViewCell: UITableViewCell {
     }
 
     @IBAction func editProfileAction(_ sender: Any) {
-        if self.viewModel.profileType == .mine || self.viewModel.isMyPage {
+        if self.viewModel.profileType == .mine {
             Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.editInfo(self.viewModel.profileType, self.viewModel.userInfo)), animated: true)
         }
     }
@@ -221,22 +209,8 @@ extension ProfileHeaderTableViewCell {
         } else {
             let urlProfile = URL(string: self.viewModel.userInfo.images.avatar.thumbnail)
             let urlCover = URL(string: self.viewModel.userInfo.images.cover.fullHd)
-            if self.viewModel.isMyPage {
-                if let avatar = self.editProfileViewModel.avatar {
-                    self.profileImage.image = avatar
-                } else {
-                    self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
-                }
-
-                if let cover = self.editProfileViewModel.cover {
-                    self.coverImage.image = cover
-                } else {
-                    self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.35))])
-                }
-            } else {
-                self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
-                self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.35))])
-            }
+            self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
+            self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.35))])
         }
 
         if self.viewModel.profileType == .mine {
@@ -291,16 +265,10 @@ extension ProfileHeaderTableViewCell {
             }
             self.followLabel.text = "\(self.viewModel.userInfo.following.count) Following   \(self.viewModel.userInfo.followers.count) Followers"
             self.bioLabel.text = self.viewModel.userInfo.overview
-            if self.viewModel.isMyPage {
-                self.editProfileButton.setTitle("Edit Page", for: .normal)
-            } else if self.viewModel.userInfo.type == .page {
-                self.viewProfileButton.setTitle("View Page", for: .normal)
-            } else {
-                self.viewProfileButton.setTitle("View Profile", for: .normal)
-            }
+            self.viewProfileButton.setTitle("View Profile", for: .normal)
         }
 
-        if self.viewModel.profileType == .mine || self.viewModel.isMyPage {
+        if self.viewModel.profileType == .mine {
             self.editCoverButton.isHidden = false
             self.editProfileButton.isHidden = false
             self.editProfileImageButton.isHidden = false
@@ -480,15 +448,9 @@ extension ProfileHeaderTableViewCell: TOCropViewControllerDelegate {
                 let avatarCropImage = image.resizeImage(targetSize: CGSize.init(width: 200, height: 200))
                 self.profileImage.image = avatarCropImage
                 self.editProfileViewModel.avatar = avatarCropImage
-                if self.viewModel.profileType == .mine {
-                    self.avatarLoadView.isHidden = false
-                    self.avatarIndicator.startAnimating()
-                    self.editProfileViewModel.updateAvatar(isPage: false, castcleId: UserManager.shared.rawCastcleId)
-                } else if self.viewModel.isMyPage {
-                    self.avatarLoadView.isHidden = false
-                    self.avatarIndicator.startAnimating()
-                    self.editProfileViewModel.updateAvatar(isPage: true, castcleId: self.viewModel.userInfo.castcleId)
-                }
+                self.avatarLoadView.isHidden = false
+                self.avatarIndicator.startAnimating()
+                self.editProfileViewModel.updateAvatar(isPage: false, castcleId: UserManager.shared.rawCastcleId)
             }
         })
     }
@@ -499,15 +461,9 @@ extension ProfileHeaderTableViewCell: TOCropViewControllerDelegate {
                 let coverCropImage = image.resizeImage(targetSize: CGSize.init(width: 640, height: 480))
                 self.coverImage.image = coverCropImage
                 self.editProfileViewModel.cover = coverCropImage
-                if self.viewModel.profileType == .mine {
-                    self.coverLoadView.isHidden = false
-                    self.coverIndicator.startAnimating()
-                    self.editProfileViewModel.updateCover(isPage: false, castcleId: UserManager.shared.rawCastcleId)
-                } else if self.viewModel.isMyPage {
-                    self.coverLoadView.isHidden = false
-                    self.coverIndicator.startAnimating()
-                    self.editProfileViewModel.updateCover(isPage: true, castcleId: self.viewModel.userInfo.castcleId)
-                }
+                self.coverLoadView.isHidden = false
+                self.coverIndicator.startAnimating()
+                self.editProfileViewModel.updateCover(isPage: false, castcleId: UserManager.shared.rawCastcleId)
             }
         })
     }
@@ -515,31 +471,14 @@ extension ProfileHeaderTableViewCell: TOCropViewControllerDelegate {
 
 extension ProfileHeaderTableViewCell: EditProfileViewModelDelegate {
     func didUpdateInfoFinish(success: Bool) {
-        if self.viewModel.isMyPage {
-            if success {
-                self.avatarLoadView.isHidden = true
-                self.coverLoadView.isHidden = true
-                self.avatarIndicator.stopAnimating()
-                self.coverIndicator.stopAnimating()
-                if self.updateImageType == .avatar {
-                    if self.viewModel.isMyPage {
-                        self.delegate?.didUpdateProfileSuccess(self)
-                    }
-                    self.updateImageType = .none
-                }
-            }
-        } else {
-            if success {
-                self.avatarLoadView.isHidden = true
-                self.coverLoadView.isHidden = true
-                self.avatarIndicator.stopAnimating()
-                self.coverIndicator.stopAnimating()
-                if self.updateImageType == .avatar {
-                    if self.viewModel.profileType == .mine {
-                        self.delegate?.didUpdateProfileSuccess(self)
-                    }
-                    self.updateImageType = .none
-                }
+        if success {
+            self.avatarLoadView.isHidden = true
+            self.coverLoadView.isHidden = true
+            self.avatarIndicator.stopAnimating()
+            self.coverIndicator.stopAnimating()
+            if self.updateImageType == .avatar {
+                self.delegate?.didUpdateProfileSuccess(self)
+                self.updateImageType = .none
             }
         }
     }

@@ -146,6 +146,7 @@ class ProfileViewController: UIViewController {
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.register(UINib(nibName: ProfileNibVars.TableViewCell.profileHeader, bundle: ConfigBundle.profile), forCellReuseIdentifier: ProfileNibVars.TableViewCell.profileHeader)
+        self.tableView.register(UINib(nibName: ProfileNibVars.TableViewCell.pageHeader, bundle: ConfigBundle.profile), forCellReuseIdentifier: ProfileNibVars.TableViewCell.pageHeader)
         self.tableView.register(UINib(nibName: ProfileNibVars.TableViewCell.feedHeader, bundle: ConfigBundle.profile), forCellReuseIdentifier: ProfileNibVars.TableViewCell.feedHeader)
         self.tableView.register(UINib(nibName: ProfileNibVars.TableViewCell.profileHeaderSkeleton, bundle: ConfigBundle.profile), forCellReuseIdentifier: ProfileNibVars.TableViewCell.profileHeaderSkeleton)
         self.tableView.register(UINib(nibName: ProfileNibVars.TableViewCell.profilePost, bundle: ConfigBundle.profile), forCellReuseIdentifier: ProfileNibVars.TableViewCell.profilePost)
@@ -232,11 +233,19 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
                         cell?.configCell(userInfo: self.profileViewModel.userInfo)
                         return cell ?? HeaderBlockedTableViewCell()
                     } else {
-                        let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.profileHeader, for: indexPath as IndexPath) as? ProfileHeaderTableViewCell
-                        cell?.delegate = self
-                        cell?.backgroundColor = UIColor.Asset.darkGray
-                        cell?.configCell(viewModel: ProfileHeaderViewModel(profileType: self.profileViewModel.profileType, userInfo: self.profileViewModel.userInfo))
-                        return cell ?? ProfileHeaderTableViewCell()
+                        if self.profileViewModel.userInfo.type == .people {
+                            let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.profileHeader, for: indexPath as IndexPath) as? ProfileHeaderTableViewCell
+                            cell?.delegate = self
+                            cell?.backgroundColor = UIColor.Asset.darkGray
+                            cell?.configCell(viewModel: ProfileHeaderViewModel(profileType: self.profileViewModel.profileType, userInfo: self.profileViewModel.userInfo))
+                            return cell ?? ProfileHeaderTableViewCell()
+                        } else {
+                            let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.pageHeader, for: indexPath as IndexPath) as? PageHeaderTableViewCell
+                            cell?.delegate = self
+                            cell?.backgroundColor = UIColor.Asset.darkGray
+                            cell?.configCell(viewModel: ProfileHeaderViewModel(profileType: self.profileViewModel.profileType, userInfo: self.profileViewModel.userInfo))
+                            return cell ?? PageHeaderTableViewCell()
+                        }
                     }
                 } else {
                     let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.profileHeaderSkeleton, for: indexPath as IndexPath) as? ProfileHeaderSkeletonTableViewCell
@@ -410,6 +419,21 @@ extension ProfileViewController: ProfileHeaderTableViewCellDelegate {
     }
 
     func didBlocked(_ profileHeaderTableViewCell: ProfileHeaderTableViewCell) {
+        self.profileViewModel.userInfo.blocked = true
+        self.tableView.reloadData()
+    }
+}
+
+extension ProfileViewController: PageHeaderTableViewCellDelegate {
+    func didUpdateProfileSuccess(_ pageHeaderTableViewCell: PageHeaderTableViewCell) {
+        self.tableView.reloadData()
+    }
+
+    func didAuthen(_ pageHeaderTableViewCell: PageHeaderTableViewCell) {
+        NotificationCenter.default.post(name: .openSignInDelegate, object: nil, userInfo: nil)
+    }
+
+    func didBlocked(_ pageHeaderTableViewCell: PageHeaderTableViewCell) {
         self.profileViewModel.userInfo.blocked = true
         self.tableView.reloadData()
     }
