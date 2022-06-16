@@ -70,7 +70,7 @@ class UpdateUserInfoViewController: UIViewController {
     func configureTableView() {
         self.tableView.delegate = self
         self.tableView.dataSource = self
-        self.tableView.register(UINib(nibName: ProfileNibVars.TableViewCell.UpdateUserInfo, bundle: ConfigBundle.profile), forCellReuseIdentifier: ProfileNibVars.TableViewCell.UpdateUserInfo)
+        self.tableView.register(UINib(nibName: ProfileNibVars.TableViewCell.updateUserInfo, bundle: ConfigBundle.profile), forCellReuseIdentifier: ProfileNibVars.TableViewCell.updateUserInfo)
         self.tableView.rowHeight = UITableView.automaticDimension
         self.tableView.estimatedRowHeight = 100
     }
@@ -86,7 +86,7 @@ extension UpdateUserInfoViewController: UITableViewDelegate, UITableViewDataSour
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.UpdateUserInfo, for: indexPath as IndexPath) as? UpdateUserInfoTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.updateUserInfo, for: indexPath as IndexPath) as? UpdateUserInfoTableViewCell
         cell?.backgroundColor = UIColor.clear
         cell?.delegate = self
         return cell ?? UpdateUserInfoTableViewCell()

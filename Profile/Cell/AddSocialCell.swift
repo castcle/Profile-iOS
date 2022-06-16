@@ -111,11 +111,11 @@ class AddSocialCell: UICollectionViewCell {
         self.websiteTextField.tag = 4
         self.websiteTextField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
 
-        self.facebookTextField.text = (Defaults[.facebook].isEmpty ? "https://" : Defaults[.facebook])
-        self.twitterTextField.text = (Defaults[.twitter].isEmpty ? "https://" : Defaults[.twitter])
-        self.youtubeTextField.text = (Defaults[.youtube].isEmpty ? "https://" : Defaults[.youtube])
-        self.mediumTextField.text = (Defaults[.medium].isEmpty ? "https://" : Defaults[.medium])
-        self.websiteTextField.text = (Defaults[.website].isEmpty ? "https://" : Defaults[.website])
+        self.facebookTextField.text = (Defaults[.facebook].isEmpty ? Protocal.https.value : Defaults[.facebook])
+        self.twitterTextField.text = (Defaults[.twitter].isEmpty ? Protocal.https.value : Defaults[.twitter])
+        self.youtubeTextField.text = (Defaults[.youtube].isEmpty ? Protocal.https.value : Defaults[.youtube])
+        self.mediumTextField.text = (Defaults[.medium].isEmpty ? Protocal.https.value : Defaults[.medium])
+        self.websiteTextField.text = (Defaults[.website].isEmpty ? Protocal.https.value : Defaults[.website])
 
         self.titleLabel.text = Localization.AddSocial.description.text
         self.facebookTextField.placeholder = Localization.AddSocial.facebook.text
@@ -131,15 +131,15 @@ class AddSocialCell: UICollectionViewCell {
 
     @objc func textFieldDidChange(_ textField: UITextField) {
         if textField.tag == 0 {
-            Defaults[.facebook] = (textField.text! == "https://" ? "" : textField.text!)
+            Defaults[.facebook] = (textField.text! == Protocal.https.value ? "" : textField.text!)
         } else if textField.tag == 1 {
-            Defaults[.twitter] = (textField.text! == "https://" ? "" : textField.text!)
+            Defaults[.twitter] = (textField.text! == Protocal.https.value ? "" : textField.text!)
         } else if textField.tag == 2 {
-            Defaults[.youtube] = (textField.text! == "https://" ? "" : textField.text!)
+            Defaults[.youtube] = (textField.text! == Protocal.https.value ? "" : textField.text!)
         } else if textField.tag == 3 {
-            Defaults[.medium] = (textField.text! == "https://" ? "" : textField.text!)
+            Defaults[.medium] = (textField.text! == Protocal.https.value ? "" : textField.text!)
         } else if textField.tag == 4 {
-            Defaults[.website] = (textField.text! == "https://" ? "" : textField.text!)
+            Defaults[.website] = (textField.text! == Protocal.https.value ? "" : textField.text!)
         }
     }
 }

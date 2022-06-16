@@ -181,11 +181,11 @@ class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
 
     private func mappingData() {
         self.overviewTextView.text = self.viewModel.userInfo.overview
-        self.facebookTextField.text = (self.viewModel.userInfo.links.facebook.isEmpty ? "https://" : self.viewModel.userInfo.links.facebook)
-        self.twitterTextField.text = (self.viewModel.userInfo.links.twitter.isEmpty ? "https://" : self.viewModel.userInfo.links.twitter)
-        self.youtubeTextField.text = (self.viewModel.userInfo.links.youtube.isEmpty ? "https://" : self.viewModel.userInfo.links.youtube)
-        self.mediumTextField.text = (self.viewModel.userInfo.links.medium.isEmpty ? "https://" : self.viewModel.userInfo.links.medium)
-        self.websiteTextField.text = (self.viewModel.userInfo.links.website.isEmpty ? "https://" : self.viewModel.userInfo.links.website)
+        self.facebookTextField.text = (self.viewModel.userInfo.links.facebook.isEmpty ? Protocal.https.value : self.viewModel.userInfo.links.facebook)
+        self.twitterTextField.text = (self.viewModel.userInfo.links.twitter.isEmpty ? Protocal.https.value : self.viewModel.userInfo.links.twitter)
+        self.youtubeTextField.text = (self.viewModel.userInfo.links.youtube.isEmpty ? Protocal.https.value : self.viewModel.userInfo.links.youtube)
+        self.mediumTextField.text = (self.viewModel.userInfo.links.medium.isEmpty ? Protocal.https.value : self.viewModel.userInfo.links.medium)
+        self.websiteTextField.text = (self.viewModel.userInfo.links.website.isEmpty ? Protocal.https.value : self.viewModel.userInfo.links.website)
     }
 
     private func updateUI() {
@@ -273,11 +273,11 @@ class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         }
 
         self.viewModel.userRequest.payload.overview = self.overviewTextView.text ?? ""
-        self.viewModel.userRequest.payload.links.facebook = (self.facebookTextField.text! == "https://" ? "" : self.facebookTextField.text!)
-        self.viewModel.userRequest.payload.links.twitter = (self.twitterTextField.text! == "https://" ? "" : self.twitterTextField.text!)
-        self.viewModel.userRequest.payload.links.youtube = (self.youtubeTextField.text! == "https://" ? "" : self.youtubeTextField.text!)
-        self.viewModel.userRequest.payload.links.medium = (self.mediumTextField.text! == "https://" ? "" : self.mediumTextField.text!)
-        self.viewModel.userRequest.payload.links.website = (self.websiteTextField.text! == "https://" ? "" : self.websiteTextField.text!)
+        self.viewModel.userRequest.payload.links.facebook = (self.facebookTextField.text! == Protocal.https.value ? "" : self.facebookTextField.text!)
+        self.viewModel.userRequest.payload.links.twitter = (self.twitterTextField.text! == Protocal.https.value ? "" : self.twitterTextField.text!)
+        self.viewModel.userRequest.payload.links.youtube = (self.youtubeTextField.text! == Protocal.https.value ? "" : self.youtubeTextField.text!)
+        self.viewModel.userRequest.payload.links.medium = (self.mediumTextField.text! == Protocal.https.value ? "" : self.mediumTextField.text!)
+        self.viewModel.userRequest.payload.links.website = (self.websiteTextField.text! == Protocal.https.value ? "" : self.websiteTextField.text!)
         self.viewModel.updateProfile(isPage: true, castcleId: self.viewModel.userInfo.castcleId)
     }
 

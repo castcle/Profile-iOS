@@ -88,7 +88,7 @@ public struct ProfileNibVars {
         public static let infoNormal = "InfoNormalTableViewCell"
         public static let infoWithIcon = "InfoWithIconTableViewCell"
         public static let updateUserImage = "UpdateUserImageTableViewCell"
-        public static let UpdateUserInfo = "UpdateUserInfoTableViewCell"
+        public static let updateUserInfo = "UpdateUserInfoTableViewCell"
     }
 
     // MARK: - CollectionViewCell
