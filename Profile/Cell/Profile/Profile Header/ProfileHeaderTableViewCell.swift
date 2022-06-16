@@ -206,17 +206,9 @@ extension ProfileHeaderTableViewCell {
                 let url = URL(string: UserManager.shared.cover)
                 self.coverImage.kf.setImage(with: url, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.35))])
             }
-        } else {
-            let urlProfile = URL(string: self.viewModel.userInfo.images.avatar.thumbnail)
-            let urlCover = URL(string: self.viewModel.userInfo.images.cover.fullHd)
-            self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
-            self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.35))])
-        }
 
-        if self.viewModel.profileType == .mine {
             self.displayNameLabel.text = UserManager.shared.displayName
             self.userIdLabel.text = UserManager.shared.castcleId
-
             self.followLabel.customize { label in
                 label.font = UIFont.asset(.regular, fontSize: .body)
                 label.numberOfLines = 1
@@ -242,7 +234,18 @@ extension ProfileHeaderTableViewCell {
             self.followLabel.text = "\(UserManager.shared.following) Following   \(UserManager.shared.followers) Followers"
             self.bioLabel.text = UserManager.shared.overview
             self.editProfileButton.setTitle("Edit Profile", for: .normal)
+
+            // MARK: - Hide and show button
+            self.editCoverButton.isHidden = false
+            self.editProfileButton.isHidden = false
+            self.editProfileImageButton.isHidden = false
+            self.viewProfileButton.isHidden = true
+            self.followButton.isHidden = true
         } else {
+            let urlProfile = URL(string: self.viewModel.userInfo.images.avatar.thumbnail)
+            let urlCover = URL(string: self.viewModel.userInfo.images.cover.fullHd)
+            self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
+            self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.35))])
             self.displayNameLabel.text = self.viewModel.userInfo.displayName
             self.userIdLabel.text = "@\(self.viewModel.userInfo.castcleId)"
             self.followLabel.customize { label in
@@ -266,15 +269,8 @@ extension ProfileHeaderTableViewCell {
             self.followLabel.text = "\(self.viewModel.userInfo.following.count) Following   \(self.viewModel.userInfo.followers.count) Followers"
             self.bioLabel.text = self.viewModel.userInfo.overview
             self.viewProfileButton.setTitle("View Profile", for: .normal)
-        }
 
-        if self.viewModel.profileType == .mine {
-            self.editCoverButton.isHidden = false
-            self.editProfileButton.isHidden = false
-            self.editProfileImageButton.isHidden = false
-            self.viewProfileButton.isHidden = true
-            self.followButton.isHidden = true
-        } else {
+            // MARK: - Hide and show button
             self.editCoverButton.isHidden = true
             self.editProfileButton.isHidden = true
             self.editProfileImageButton.isHidden = true
@@ -284,7 +280,7 @@ extension ProfileHeaderTableViewCell {
     }
 
     private func followUI() {
-        if self.viewModel.isFollow == true {
+        if self.viewModel.isFollow {
             self.followButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .overline)
             self.followButton.setBackgroundImage(UIColor.Asset.lightBlue.toImage(), for: .normal)
             self.followButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
@@ -412,14 +408,12 @@ extension ProfileHeaderTableViewCell {
 
 extension ProfileHeaderTableViewCell: TLPhotosPickerViewControllerDelegate {
     func shouldDismissPhotoPicker(withTLPHAssets: [TLPHAsset]) -> Bool {
-        if let asset = withTLPHAssets.first {
-            if let image = asset.fullResolutionImage {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    if self.updateImageType == .avatar {
-                        self.presentCropViewController(image: image, updateImageType: .avatar)
-                    } else if self.updateImageType == .cover {
-                        self.presentCropViewController(image: image, updateImageType: .cover)
-                    }
+        if let asset = withTLPHAssets.first, let image = asset.fullResolutionImage {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                if self.updateImageType == .avatar {
+                    self.presentCropViewController(image: image, updateImageType: .avatar)
+                } else if self.updateImageType == .cover {
+                    self.presentCropViewController(image: image, updateImageType: .cover)
                 }
             }
         }

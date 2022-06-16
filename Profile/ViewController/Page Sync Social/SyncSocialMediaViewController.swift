@@ -76,7 +76,7 @@ class SyncSocialMediaViewController: UIViewController {
         if !self.viewModel.castcleId.isEmpty {
             self.hud.textLabel.text = "Loading"
             self.hud.show(in: self.view)
-            self.viewModel.getInfo(duplicate: false)
+            self.viewModel.getInfo(isDuplicate: false)
         }
     }
 

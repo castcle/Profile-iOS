@@ -402,14 +402,12 @@ extension EditInfoTableViewCell: EditInfoViewModelDelegate {
 
 extension EditInfoTableViewCell: TLPhotosPickerViewControllerDelegate {
     func shouldDismissPhotoPicker(withTLPHAssets: [TLPHAsset]) -> Bool {
-        if let asset = withTLPHAssets.first {
-            if let image = asset.fullResolutionImage {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    if self.updateImageType == .avatar {
-                        self.presentCropViewController(image: image, updateImageType: .avatar)
-                    } else if self.updateImageType == .cover {
-                        self.presentCropViewController(image: image, updateImageType: .cover)
-                    }
+        if let asset = withTLPHAssets.first, let image = asset.fullResolutionImage {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                if self.updateImageType == .avatar {
+                    self.presentCropViewController(image: image, updateImageType: .avatar)
+                } else if self.updateImageType == .cover {
+                    self.presentCropViewController(image: image, updateImageType: .cover)
                 }
             }
         }

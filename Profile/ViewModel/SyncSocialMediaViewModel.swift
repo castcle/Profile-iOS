@@ -39,7 +39,7 @@ public final class SyncSocialMediaViewModel {
     let tokenHelper: TokenHelper = TokenHelper()
     var castcleId: String = ""
     var socialType: SocialType = .unknow
-    private var duplicate: Bool = false
+    private var isDuplicate: Bool = false
     var state: State = .none
     var isSyncTwitter: Bool = false
     var isSyncFacebook: Bool = false
@@ -49,9 +49,9 @@ public final class SyncSocialMediaViewModel {
         self.castcleId = castcleId
     }
 
-    func getInfo(duplicate: Bool) {
+    func getInfo(isDuplicate: Bool) {
         self.state = .getUserInfo
-        self.duplicate = duplicate
+        self.isDuplicate = isDuplicate
         self.userRepository.getUser(userId: self.castcleId) { (success, response, isRefreshToken) in
             if success {
                 do {
@@ -68,7 +68,7 @@ public final class SyncSocialMediaViewModel {
                     } else {
                         self.isSyncFacebook = false
                     }
-                    if duplicate {
+                    if self.isDuplicate {
                         self.didDuplicate?()
                     } else {
                         self.didGetUserInfoFinish?()
@@ -94,7 +94,7 @@ public final class SyncSocialMediaViewModel {
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
                     let duplicate: Bool = json["duplicate"].boolValue
-                    self.getInfo(duplicate: duplicate)
+                    self.getInfo(isDuplicate: duplicate)
                 } catch {}
             } else {
                 if isRefreshToken {
@@ -114,7 +114,7 @@ public final class SyncSocialMediaViewModel {
 extension SyncSocialMediaViewModel: TokenHelperDelegate {
     public func didRefreshTokenFinish() {
         if self.state == .getUserInfo {
-            self.getInfo(duplicate: self.duplicate)
+            self.getInfo(isDuplicate: self.isDuplicate)
         } else if self.state == .syncSocial {
             self.syncSocial()
         }

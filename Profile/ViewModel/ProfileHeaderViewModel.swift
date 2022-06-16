@@ -73,10 +73,8 @@ public final class ProfileHeaderViewModel {
         self.state = .followUser
         self.userRequest.targetCastcleId = self.userInfo.castcleId
         self.userRepository.follow(userRequest: self.userRequest) { (success, _, isRefreshToken) in
-            if !success {
-                if isRefreshToken {
-                    self.tokenHelper.refreshToken()
-                }
+            if !success && isRefreshToken {
+                self.tokenHelper.refreshToken()
             }
         }
     }
@@ -85,10 +83,8 @@ public final class ProfileHeaderViewModel {
         self.state = .unfollowUser
         self.userRequest.targetCastcleId = self.userInfo.castcleId
         self.userRepository.unfollow(targetCastcleId: self.userRequest.targetCastcleId) { (success, _, isRefreshToken) in
-            if !success {
-                if isRefreshToken {
-                    self.tokenHelper.refreshToken()
-                }
+            if !success && isRefreshToken {
+                self.tokenHelper.refreshToken()
             }
         }
     }

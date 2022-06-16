@@ -238,17 +238,13 @@ extension PageHeaderTableViewCell {
         self.castLabel.text = String.displayCount(count: self.viewModel.userInfo.casts)
         if self.viewModel.isMyPage {
             self.editProfileButton.setTitle("Edit Page", for: .normal)
-        } else {
-            self.viewProfileButton.setTitle("View Page", for: .normal)
-        }
-
-        if self.viewModel.isMyPage {
             self.editCoverButton.isHidden = false
             self.editProfileButton.isHidden = false
             self.editProfileImageButton.isHidden = false
             self.viewProfileButton.isHidden = true
             self.followButton.isHidden = true
         } else {
+            self.viewProfileButton.setTitle("View Page", for: .normal)
             self.editCoverButton.isHidden = true
             self.editProfileButton.isHidden = true
             self.editProfileImageButton.isHidden = true
@@ -386,14 +382,12 @@ extension PageHeaderTableViewCell {
 
 extension PageHeaderTableViewCell: TLPhotosPickerViewControllerDelegate {
     func shouldDismissPhotoPicker(withTLPHAssets: [TLPHAsset]) -> Bool {
-        if let asset = withTLPHAssets.first {
-            if let image = asset.fullResolutionImage {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    if self.updateImageType == .avatar {
-                        self.presentCropViewController(image: image, updateImageType: .avatar)
-                    } else if self.updateImageType == .cover {
-                        self.presentCropViewController(image: image, updateImageType: .cover)
-                    }
+        if let asset = withTLPHAssets.first, let image = asset.fullResolutionImage {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                if self.updateImageType == .avatar {
+                    self.presentCropViewController(image: image, updateImageType: .avatar)
+                } else if self.updateImageType == .cover {
+                    self.presentCropViewController(image: image, updateImageType: .cover)
                 }
             }
         }
