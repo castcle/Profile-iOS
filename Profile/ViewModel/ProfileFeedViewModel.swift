@@ -192,7 +192,7 @@ public final class ProfileFeedViewModel {
             }
         }
     }
-    
+
     private func mappingData(shelf: ContentShelf) {
         if self.profileContentType == .all {
             if shelf.meta.resultCount < self.contentRequest.maxResults {

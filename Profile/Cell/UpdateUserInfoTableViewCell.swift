@@ -142,11 +142,11 @@ class UpdateUserInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         self.hud.show(in: Utility.currentViewController().view)
         self.delegate?.didUpdateInfo(isProcess: true)
         self.viewModel.userRequest.payload.overview = self.overviewTextView.text ?? ""
-        self.viewModel.userRequest.payload.links.facebook = (self.facebookTextField.text! == Protocal.https.value ? "" : self.facebookTextField.text!)
-        self.viewModel.userRequest.payload.links.twitter = (self.twitterTextField.text! == Protocal.https.value ? "" : self.twitterTextField.text!)
-        self.viewModel.userRequest.payload.links.youtube = (self.youtubeTextField.text! == Protocal.https.value ? "" : self.youtubeTextField.text!)
-        self.viewModel.userRequest.payload.links.medium = (self.mediumTextField.text! == Protocal.https.value ? "" : self.mediumTextField.text!)
-        self.viewModel.userRequest.payload.links.website = (self.websiteTextField.text! == Protocal.https.value ? "" : self.websiteTextField.text!)
+        self.viewModel.userRequest.payload.links.facebook = (self.facebookTextField.text! == UrlProtocol.https.value ? "" : self.facebookTextField.text!)
+        self.viewModel.userRequest.payload.links.twitter = (self.twitterTextField.text! == UrlProtocol.https.value ? "" : self.twitterTextField.text!)
+        self.viewModel.userRequest.payload.links.youtube = (self.youtubeTextField.text! == UrlProtocol.https.value ? "" : self.youtubeTextField.text!)
+        self.viewModel.userRequest.payload.links.medium = (self.mediumTextField.text! == UrlProtocol.https.value ? "" : self.mediumTextField.text!)
+        self.viewModel.userRequest.payload.links.website = (self.websiteTextField.text! == UrlProtocol.https.value ? "" : self.websiteTextField.text!)
         self.viewModel.updateProfile()
     }
 }
