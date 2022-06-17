@@ -54,7 +54,7 @@ class CreatePageDisplayNameCell: UICollectionViewCell, UITextFieldDelegate {
         self.headlineLabel.textColor = UIColor.Asset.white
         self.subTitleLabel.font = UIFont.asset(.regular, fontSize: .head4)
         self.subTitleLabel.textColor = UIColor.Asset.white
-        self.setupNextButton(isActive: false)
+        self.nextButton.activeButton(isActive: false)
         self.activityIndicator.color = UIColor.Asset.lightBlue
         self.activityIndicator.isHidden = true
         self.checkImage.isHidden = true
@@ -88,32 +88,19 @@ class CreatePageDisplayNameCell: UICollectionViewCell, UITextFieldDelegate {
         self.activityIndicator.isHidden = true
         self.activityIndicator.stopAnimating()
         if self.viewModel.isCastcleIdExist {
-            self.setupNextButton(isActive: false)
+            self.nextButton.activeButton(isActive: false)
             self.checkImage.isHidden = false
             self.checkImage.image = UIImage.init(icon: .castcle(.incorrect), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.denger)
             self.idTextField.textColor = UIColor.Asset.denger
         } else {
             if self.displayNameTextfield.text!.isEmpty {
-                self.setupNextButton(isActive: false)
+                self.nextButton.activeButton(isActive: false)
             } else {
-                self.setupNextButton(isActive: true)
+                self.nextButton.activeButton(isActive: true)
             }
             self.checkImage.isHidden = false
             self.checkImage.image = UIImage.init(icon: .castcle(.checkmark), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.lightBlue)
             self.idTextField.textColor = UIColor.Asset.white
-        }
-    }
-
-    private func setupNextButton(isActive: Bool) {
-        self.nextButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .head4)
-        if isActive {
-            self.nextButton.setTitleColor(UIColor.Asset.white, for: .normal)
-            self.nextButton.setBackgroundImage(UIColor.Asset.lightBlue.toImage(), for: .normal)
-            self.nextButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.clear)
-        } else {
-            self.nextButton.setTitleColor(UIColor.Asset.gray, for: .normal)
-            self.nextButton.setBackgroundImage(UIColor.Asset.darkGraphiteBlue.toImage(), for: .normal)
-            self.nextButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.black)
         }
     }
 
@@ -135,7 +122,7 @@ class CreatePageDisplayNameCell: UICollectionViewCell, UITextFieldDelegate {
     }
 
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        self.setupNextButton(isActive: false)
+        self.nextButton.activeButton(isActive: false)
         if textField.tag == 1 {
             self.checkImage.isHidden = true
             self.idTextField.textColor = UIColor.Asset.white
@@ -147,7 +134,7 @@ class CreatePageDisplayNameCell: UICollectionViewCell, UITextFieldDelegate {
             let displayName = textField.text ?? ""
             self.viewModel.authenRequest.displayName = displayName
             if !self.viewModel.authenRequest.displayName.isEmpty && !self.viewModel.isCastcleIdExist {
-                self.setupNextButton(isActive: true)
+                self.nextButton.activeButton(isActive: true)
             } else if !self.viewModel.authenRequest.displayName.isEmpty && self.viewModel.isCastcleIdExist {
                 self.idTextField.isEnabled = false
                 self.activityIndicator.isHidden = false
@@ -155,12 +142,12 @@ class CreatePageDisplayNameCell: UICollectionViewCell, UITextFieldDelegate {
                 self.activityIndicator.startAnimating()
                 self.viewModel.suggestCastcleId()
             } else {
-                self.setupNextButton(isActive: false)
+                self.nextButton.activeButton(isActive: false)
             }
         } else if textField.tag == 1 {
             let idCastcle = textField.text ?? ""
             if idCastcle.isEmpty {
-                self.setupNextButton(isActive: false)
+                self.nextButton.activeButton(isActive: false)
                 self.checkImage.isHidden = true
                 textField.textColor = UIColor.Asset.white
             } else {

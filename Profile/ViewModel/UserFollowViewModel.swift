@@ -28,6 +28,7 @@
 import Core
 import Networking
 import SwiftyJSON
+import Moya
 
 public final class UserFollowViewModel {
 
@@ -64,46 +65,33 @@ public final class UserFollowViewModel {
 
     private func getFollower() {
         self.userRepository.getUserFollower(userId: self.castcleId, userFollowRequest: self.userFollowRequest) { (success, response, isRefreshToken) in
-            if success {
-                do {
-                    let rawJson = try response.mapJSON()
-                    let json = JSON(rawJson)
-                    let userData = (json[JsonKey.payload.rawValue].arrayValue).map { UserInfo(json: $0) }
-                    self.meta = Meta(json: JSON(json[JsonKey.meta.rawValue].dictionaryValue))
-                    self.users.append(contentsOf: userData)
-                    self.didLoadFollowUserFinish?()
-                } catch {
-                    self.didLoadFollowUserFinish?()
-                }
-            } else {
-                if isRefreshToken {
-                    self.tokenHelper.refreshToken()
-                } else {
-                    self.didLoadFollowUserFinish?()
-                }
-            }
+            self.handleRespond(success: success, response: response, isRefreshToken: isRefreshToken)
         }
     }
 
     private func getFollowing() {
         self.userRepository.getUserFollowing(userId: self.castcleId, userFollowRequest: self.userFollowRequest) { (success, response, isRefreshToken) in
-            if success {
-                do {
-                    let rawJson = try response.mapJSON()
-                    let json = JSON(rawJson)
-                    let userData = (json[JsonKey.payload.rawValue].arrayValue).map { UserInfo(json: $0) }
-                    self.meta = Meta(json: JSON(json[JsonKey.meta.rawValue].dictionaryValue))
-                    self.users.append(contentsOf: userData)
-                    self.didLoadFollowUserFinish?()
-                } catch {
-                    self.didLoadFollowUserFinish?()
-                }
+            self.handleRespond(success: success, response: response, isRefreshToken: isRefreshToken)
+        }
+    }
+
+    private func handleRespond(success: Bool, response: Response, isRefreshToken: Bool) {
+        if success {
+            do {
+                let rawJson = try response.mapJSON()
+                let json = JSON(rawJson)
+                let userData = (json[JsonKey.payload.rawValue].arrayValue).map { UserInfo(json: $0) }
+                self.meta = Meta(json: JSON(json[JsonKey.meta.rawValue].dictionaryValue))
+                self.users.append(contentsOf: userData)
+                self.didLoadFollowUserFinish?()
+            } catch {
+                self.didLoadFollowUserFinish?()
+            }
+        } else {
+            if isRefreshToken {
+                self.tokenHelper.refreshToken()
             } else {
-                if isRefreshToken {
-                    self.tokenHelper.refreshToken()
-                } else {
-                    self.didLoadFollowUserFinish?()
-                }
+                self.didLoadFollowUserFinish?()
             }
         }
     }

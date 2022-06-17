@@ -64,7 +64,7 @@ class ConfirmDeletePageTableViewCell: UITableViewCell {
         self.line1View.backgroundColor = UIColor.Asset.black
         self.line2View.backgroundColor = UIColor.Asset.black
         self.showPasswordButton.setImage(UIImage.init(icon: .castcle(.show), size: CGSize(width: 25, height: 25), textColor: UIColor.Asset.white).withRenderingMode(.alwaysOriginal), for: .normal)
-        self.setupNextButton(isActive: false)
+        self.nextButton.activeButton(isActive: false)
         self.passwordTextField.tag = 0
         self.passwordTextField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
         self.viewModel.delegate = self
@@ -83,7 +83,7 @@ class ConfirmDeletePageTableViewCell: UITableViewCell {
     }
 
     @objc func textFieldDidChange(_ textField: UITextField) {
-        self.setupNextButton(isActive: self.isCanNext())
+        self.nextButton.activeButton(isActive: self.isCanNext())
     }
 
     func configCell(userInfo: UserInfo) {
@@ -104,19 +104,6 @@ class ConfirmDeletePageTableViewCell: UITableViewCell {
         self.subtitleLabel.text = Localization.DeletePageConfirm.subDetail.text
         self.pageLabel.text = Localization.DeletePageConfirm.page.text
         self.nextButton.setTitle(Localization.DeletePageConfirm.next.text, for: .normal)
-    }
-
-    private func setupNextButton(isActive: Bool) {
-        self.nextButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .head4)
-        if isActive {
-            self.nextButton.setTitleColor(UIColor.Asset.white, for: .normal)
-            self.nextButton.setBackgroundImage(UIColor.Asset.lightBlue.toImage(), for: .normal)
-            self.nextButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.clear)
-        } else {
-            self.nextButton.setTitleColor(UIColor.Asset.gray, for: .normal)
-            self.nextButton.setBackgroundImage(UIColor.Asset.darkGraphiteBlue.toImage(), for: .normal)
-            self.nextButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.black)
-        }
     }
 
     @IBAction func showPasswordAction(_ sender: Any) {
