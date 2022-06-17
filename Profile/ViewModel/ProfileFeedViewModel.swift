@@ -28,6 +28,7 @@
 import Core
 import Networking
 import SwiftyJSON
+import Moya
 
 public protocol ProfileFeedViewModelDelegate: AnyObject {
     func didGetContentFinish(success: Bool)
@@ -162,109 +163,69 @@ public final class ProfileFeedViewModel {
 
     private func getMeContent() {
         self.contentRepository.getMeContents(contentRequest: self.contentRequest) { (success, response, isRefreshToken) in
-            if success {
-                do {
-                    let rawJson = try response.mapJSON()
-                    let json = JSON(rawJson)
-                    let shelf = ContentShelf(json: json)
-                    if self.profileContentType == .all {
-                        if shelf.meta.resultCount < self.contentRequest.maxResults {
-                            self.allCanLoad = false
-                        }
-                        self.allContents.append(contentsOf: shelf.contents)
-                        self.allMeta = shelf.meta
-                        self.allMeta.resultCount = 25
-                        self.allLoaded = true
-                    } else if self.profileContentType == .post {
-                        if shelf.meta.resultCount < self.contentRequest.maxResults {
-                            self.postCanLoad = false
-                        }
-                        self.postContents.append(contentsOf: shelf.contents)
-                        self.postMeta = shelf.meta
-                        self.postMeta.resultCount = 25
-                        self.postLoaded = true
-                    } else if self.profileContentType == .blog {
-                        if shelf.meta.resultCount < self.contentRequest.maxResults {
-                            self.blogCanLoad = false
-                        }
-                        self.blogContents.append(contentsOf: shelf.contents)
-                        self.blogMeta = shelf.meta
-                        self.blogMeta.resultCount = 25
-                        self.blogLoaded = true
-                    } else if self.profileContentType == .photo {
-                        if shelf.meta.resultCount < self.contentRequest.maxResults {
-                            self.photoCanLoad = false
-                        }
-                        self.photoContents.append(contentsOf: shelf.contents)
-                        self.photoMeta = shelf.meta
-                        self.photoMeta.resultCount = 25
-                        self.photoLoaded = true
-                    }
-                    self.delegate?.didGetContentFinish(success: true)
-                } catch {
-                    self.delegate?.didGetContentFinish(success: false)
-                }
-            } else {
-                if isRefreshToken {
-                    self.tokenHelper.refreshToken()
-                } else {
-                    self.delegate?.didGetContentFinish(success: false)
-                }
-            }
+            self.handleRespond(success: success, response: response, isRefreshToken: isRefreshToken)
         }
     }
 
     private func getUserContent() {
         self.userRepository.getUserContents(userId: self.castcleId, contentRequest: self.contentRequest) { (success, response, isRefreshToken) in
-            if success {
-                do {
-                    let rawJson = try response.mapJSON()
-                    let json = JSON(rawJson)
-                    let shelf = ContentShelf(json: json)
-                    if self.profileContentType == .all {
-                        if shelf.meta.resultCount < self.contentRequest.maxResults {
-                            self.allCanLoad = false
-                        }
-                        self.allContents.append(contentsOf: shelf.contents)
-                        self.allMeta = shelf.meta
-                        self.allMeta.resultCount = 25
-                        self.allLoaded = true
-                    } else if self.profileContentType == .post {
-                        if shelf.meta.resultCount < self.contentRequest.maxResults {
-                            self.postCanLoad = false
-                        }
-                        self.postContents.append(contentsOf: shelf.contents)
-                        self.postMeta = shelf.meta
-                        self.postMeta.resultCount = 25
-                        self.postLoaded = true
-                    } else if self.profileContentType == .blog {
-                        if shelf.meta.resultCount < self.contentRequest.maxResults {
-                            self.blogCanLoad = false
-                        }
-                        self.blogContents.append(contentsOf: shelf.contents)
-                        self.blogMeta = shelf.meta
-                        self.blogMeta.resultCount = 25
-                        self.blogLoaded = true
-                    } else if self.profileContentType == .photo {
-                        if shelf.meta.resultCount < self.contentRequest.maxResults {
-                            self.photoCanLoad = false
-                        }
-                        self.photoContents.append(contentsOf: shelf.contents)
-                        self.photoMeta = shelf.meta
-                        self.photoMeta.resultCount = 25
-                        self.photoLoaded = true
-                    }
-                    self.delegate?.didGetContentFinish(success: true)
-                } catch {
-                    self.delegate?.didGetContentFinish(success: false)
-                }
-            } else {
-                if isRefreshToken {
-                    self.tokenHelper.refreshToken()
-                } else {
-                    self.delegate?.didGetContentFinish(success: false)
-                }
+            self.handleRespond(success: success, response: response, isRefreshToken: isRefreshToken)
+        }
+    }
+
+    private func handleRespond(success: Bool, response: Response, isRefreshToken: Bool) {
+        if success {
+            do {
+                let rawJson = try response.mapJSON()
+                let json = JSON(rawJson)
+                let shelf = ContentShelf(json: json)
+                self.mappingData(shelf: shelf)
+                self.delegate?.didGetContentFinish(success: true)
+            } catch {
+                self.delegate?.didGetContentFinish(success: false)
             }
+        } else {
+            if isRefreshToken {
+                self.tokenHelper.refreshToken()
+            } else {
+                self.delegate?.didGetContentFinish(success: false)
+            }
+        }
+    }
+    
+    private func mappingData(shelf: ContentShelf) {
+        if self.profileContentType == .all {
+            if shelf.meta.resultCount < self.contentRequest.maxResults {
+                self.allCanLoad = false
+            }
+            self.allContents.append(contentsOf: shelf.contents)
+            self.allMeta = shelf.meta
+            self.allMeta.resultCount = 25
+            self.allLoaded = true
+        } else if self.profileContentType == .post {
+            if shelf.meta.resultCount < self.contentRequest.maxResults {
+                self.postCanLoad = false
+            }
+            self.postContents.append(contentsOf: shelf.contents)
+            self.postMeta = shelf.meta
+            self.postMeta.resultCount = 25
+            self.postLoaded = true
+        } else if self.profileContentType == .blog {
+            if shelf.meta.resultCount < self.contentRequest.maxResults {
+                self.blogCanLoad = false
+            }
+            self.blogContents.append(contentsOf: shelf.contents)
+            self.blogMeta = shelf.meta
+            self.blogMeta.resultCount = 25
+            self.blogLoaded = true
+        } else if self.profileContentType == .photo {
+            if shelf.meta.resultCount < self.contentRequest.maxResults {
+                self.photoCanLoad = false
+            }
+            self.photoContents.append(contentsOf: shelf.contents)
+            self.photoMeta = shelf.meta
+            self.photoMeta.resultCount = 25
+            self.photoLoaded = true
         }
     }
 
