@@ -92,7 +92,7 @@ class EditProfileViewModel {
         self.userRequest.payload.images.avatar = image.toBase64() ?? ""
         self.userRepository.updateAvatar(userId: self.castcleId, userRequest: self.userRequest) { (success, response, isRefreshToken) in
             if success {
-                self.updateLocalInfo(response: response, isAvatar: true)
+                self.updateLocalInfo(response: response)
             } else {
                 if isRefreshToken {
                     self.tokenHelper.refreshToken()
@@ -111,7 +111,7 @@ class EditProfileViewModel {
         self.userRequest.payload.images.cover = image.toBase64() ?? ""
         self.userRepository.updateCover(userId: self.castcleId, userRequest: self.userRequest) { (success, response, isRefreshToken) in
             if success {
-                self.updateLocalInfo(response: response, isAvatar: false)
+                self.updateLocalInfo(response: response)
             } else {
                 if isRefreshToken {
                     self.tokenHelper.refreshToken()
@@ -122,7 +122,7 @@ class EditProfileViewModel {
         }
     }
 
-    private func updateLocalInfo(response: Response, isAvatar: Bool) {
+    private func updateLocalInfo(response: Response) {
         do {
             let realm = try Realm()
             let rawJson = try response.mapJSON()

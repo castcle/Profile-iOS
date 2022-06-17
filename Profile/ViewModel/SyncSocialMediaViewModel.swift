@@ -58,9 +58,9 @@ public final class SyncSocialMediaViewModel {
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
                     self.userInfo = UserInfo(json: json)
-                    self.checkIsSyncTwitter(user: self.userInfo)
-                    self.checkIsSyncFacebook(user: self.userInfo)
-                    self.checkIsDuplicate(user: self.userInfo)
+                    self.checkIsSyncTwitter()
+                    self.checkIsSyncFacebook()
+                    self.checkIsDuplicate()
                 } catch {
                     self.didError?()
                 }
@@ -74,7 +74,7 @@ public final class SyncSocialMediaViewModel {
         }
     }
 
-    private func checkIsSyncTwitter(user: UserInfo) {
+    private func checkIsSyncTwitter() {
         if !self.userInfo.syncSocial.twitter.socialId.isEmpty {
             self.isSyncTwitter = true
         } else {
@@ -82,7 +82,7 @@ public final class SyncSocialMediaViewModel {
         }
     }
 
-    private func checkIsSyncFacebook(user: UserInfo) {
+    private func checkIsSyncFacebook() {
         if !self.userInfo.syncSocial.facebook.socialId.isEmpty {
             self.isSyncFacebook = true
         } else {
@@ -90,7 +90,7 @@ public final class SyncSocialMediaViewModel {
         }
     }
 
-    private func checkIsDuplicate(user: UserInfo) {
+    private func checkIsDuplicate() {
         if self.isDuplicate {
             self.didDuplicate?()
         } else {
