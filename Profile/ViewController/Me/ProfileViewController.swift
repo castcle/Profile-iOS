@@ -222,36 +222,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             if indexPath.row == PeofileHeaderRaw.info.rawValue {
-                if self.profileViewModel.loadState == .error {
-                    let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.userNotFound, for: indexPath as IndexPath) as? UserNotFoundTableViewCell
-                    cell?.backgroundColor = UIColor.clear
-                    return cell ?? UserNotFoundTableViewCell()
-                } else if self.profileViewModel.loadState == .loaded {
-                    if self.profileViewModel.isBlocked {
-                        let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.headerBlocked, for: indexPath as IndexPath) as? HeaderBlockedTableViewCell
-                        cell?.backgroundColor = UIColor.Asset.darkGray
-                        cell?.configCell(userInfo: self.profileViewModel.userInfo)
-                        return cell ?? HeaderBlockedTableViewCell()
-                    } else {
-                        if self.profileViewModel.userInfo.type == .people {
-                            let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.profileHeader, for: indexPath as IndexPath) as? ProfileHeaderTableViewCell
-                            cell?.delegate = self
-                            cell?.backgroundColor = UIColor.Asset.darkGray
-                            cell?.configCell(viewModel: ProfileHeaderViewModel(profileType: self.profileViewModel.profileType, userInfo: self.profileViewModel.userInfo))
-                            return cell ?? ProfileHeaderTableViewCell()
-                        } else {
-                            let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.pageHeader, for: indexPath as IndexPath) as? PageHeaderTableViewCell
-                            cell?.delegate = self
-                            cell?.backgroundColor = UIColor.Asset.darkGray
-                            cell?.configCell(viewModel: ProfileHeaderViewModel(profileType: self.profileViewModel.profileType, userInfo: self.profileViewModel.userInfo))
-                            return cell ?? PageHeaderTableViewCell()
-                        }
-                    }
-                } else {
-                    let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.profileHeaderSkeleton, for: indexPath as IndexPath) as? ProfileHeaderSkeletonTableViewCell
-                    cell?.backgroundColor = UIColor.Asset.darkGray
-                    return cell ?? ProfileHeaderSkeletonTableViewCell()
-                }
+                return self.renderHeaderCell(tableView: tableView, indexPath: indexPath)
             } else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.profilePost, for: indexPath as IndexPath) as? ProfilePostTableViewCell
                 cell?.backgroundColor = UIColor.Asset.darkGray
@@ -274,35 +245,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
                     return cell ?? BlockedUserTableViewCell()
                 } else {
                     let content = self.profileFeedViewModel.displayContents[indexPath.section - 2]
-                    if content.referencedCasts.type == .recasted {
-                        if indexPath.row == 0 {
-                            return self.renderFeedCell(content: content, cellType: .activity, tableView: tableView, indexPath: indexPath)
-                        } else if indexPath.row == 1 {
-                            return self.renderFeedCell(content: content, cellType: .header, tableView: tableView, indexPath: indexPath)
-                        } else if indexPath.row == 2 {
-                            return self.renderFeedCell(content: content, cellType: .content, tableView: tableView, indexPath: indexPath)
-                        } else {
-                            return self.renderFeedCell(content: content, cellType: .footer, tableView: tableView, indexPath: indexPath)
-                        }
-                    } else if content.referencedCasts.type == .quoted {
-                        if indexPath.row == 0 {
-                            return self.renderFeedCell(content: content, cellType: .header, tableView: tableView, indexPath: indexPath)
-                        } else if indexPath.row == 1 {
-                            return self.renderFeedCell(content: content, cellType: .content, tableView: tableView, indexPath: indexPath)
-                        } else if indexPath.row == 2 {
-                            return self.renderFeedCell(content: content, cellType: .quote, tableView: tableView, indexPath: indexPath)
-                        } else {
-                            return self.renderFeedCell(content: content, cellType: .footer, tableView: tableView, indexPath: indexPath)
-                        }
-                    } else {
-                        if indexPath.row == 0 {
-                            return self.renderFeedCell(content: content, cellType: .header, tableView: tableView, indexPath: indexPath)
-                        } else if indexPath.row == 1 {
-                            return self.renderFeedCell(content: content, cellType: .content, tableView: tableView, indexPath: indexPath)
-                        } else {
-                            return self.renderFeedCell(content: content, cellType: .footer, tableView: tableView, indexPath: indexPath)
-                        }
-                    }
+                    return self.getContentCellWithContent(content: content, tableView: tableView, indexPath: indexPath)[indexPath.row]
                 }
             } else {
                 return FeedCellHelper().renderSkeletonCell(tableView: tableView, indexPath: indexPath)
@@ -352,14 +295,68 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
 
-    func renderFeedCell(content: Content, cellType: FeedCellType, tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
-        var originalContent = Content()
-        if content.referencedCasts.type == .recasted || content.referencedCasts.type == .quoted {
-            if let tempContent = ContentHelper.shared.getContentRef(id: content.referencedCasts.id) {
-                originalContent = tempContent
+    private func renderHeaderCell(tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
+        if self.profileViewModel.loadState == .error {
+            let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.userNotFound, for: indexPath as IndexPath) as? UserNotFoundTableViewCell
+            cell?.backgroundColor = UIColor.clear
+            return cell ?? UserNotFoundTableViewCell()
+        } else if self.profileViewModel.loadState == .loaded {
+            if self.profileViewModel.isBlocked {
+                let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.headerBlocked, for: indexPath as IndexPath) as? HeaderBlockedTableViewCell
+                cell?.backgroundColor = UIColor.Asset.darkGray
+                cell?.configCell(userInfo: self.profileViewModel.userInfo)
+                return cell ?? HeaderBlockedTableViewCell()
+            } else {
+                if self.profileViewModel.userInfo.type == .people {
+                    let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.profileHeader, for: indexPath as IndexPath) as? ProfileHeaderTableViewCell
+                    cell?.delegate = self
+                    cell?.backgroundColor = UIColor.Asset.darkGray
+                    cell?.configCell(viewModel: ProfileHeaderViewModel(profileType: self.profileViewModel.profileType, userInfo: self.profileViewModel.userInfo))
+                    return cell ?? ProfileHeaderTableViewCell()
+                } else {
+                    let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.pageHeader, for: indexPath as IndexPath) as? PageHeaderTableViewCell
+                    cell?.delegate = self
+                    cell?.backgroundColor = UIColor.Asset.darkGray
+                    cell?.configCell(viewModel: ProfileHeaderViewModel(profileType: self.profileViewModel.profileType, userInfo: self.profileViewModel.userInfo))
+                    return cell ?? PageHeaderTableViewCell()
+                }
             }
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.profileHeaderSkeleton, for: indexPath as IndexPath) as? ProfileHeaderSkeletonTableViewCell
+            cell?.backgroundColor = UIColor.Asset.darkGray
+            return cell ?? ProfileHeaderSkeletonTableViewCell()
         }
+    }
 
+    private func getContentCellWithContent(content: Content, tableView: UITableView, indexPath: IndexPath) -> [UITableViewCell] {
+        if content.referencedCasts.type == .recasted {
+            return [
+                self.renderFeedCell(content: content, cellType: .activity, tableView: tableView, indexPath: indexPath),
+                self.renderFeedCell(content: content, cellType: .header, tableView: tableView, indexPath: indexPath),
+                self.renderFeedCell(content: content, cellType: .content, tableView: tableView, indexPath: indexPath),
+                self.renderFeedCell(content: content, cellType: .footer, tableView: tableView, indexPath: indexPath)
+            ]
+        } else if content.referencedCasts.type == .quoted {
+            return [
+                self.renderFeedCell(content: content, cellType: .header, tableView: tableView, indexPath: indexPath),
+                self.renderFeedCell(content: content, cellType: .content, tableView: tableView, indexPath: indexPath),
+                self.renderFeedCell(content: content, cellType: .quote, tableView: tableView, indexPath: indexPath),
+                self.renderFeedCell(content: content, cellType: .footer, tableView: tableView, indexPath: indexPath)
+            ]
+        } else {
+            return [
+                self.renderFeedCell(content: content, cellType: .header, tableView: tableView, indexPath: indexPath),
+                self.renderFeedCell(content: content, cellType: .content, tableView: tableView, indexPath: indexPath),
+                self.renderFeedCell(content: content, cellType: .footer, tableView: tableView, indexPath: indexPath)
+            ]
+        }
+    }
+
+    private func renderFeedCell(content: Content, cellType: FeedCellType, tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
+        var originalContent = Content()
+        if (content.referencedCasts.type == .recasted || content.referencedCasts.type == .quoted), let tempContent = ContentHelper.shared.getContentRef(id: content.referencedCasts.id) {
+            originalContent = tempContent
+        }
         switch cellType {
         case .activity:
             let cell = tableView.dequeueReusableCell(withIdentifier: ComponentNibVars.TableViewCell.activityHeader, for: indexPath as IndexPath) as? ActivityHeaderTableViewCell
@@ -387,20 +384,24 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
             }
             return cell ?? FooterTableViewCell()
         case .quote:
-            return FeedCellHelper().renderQuoteCastCell(content: originalContent, tableView: self.tableView, indexPath: indexPath, isRenderForFeed: true)
+            return FeedCellHelper().renderQuoteCastCell(content: originalContent, tableView: tableView, indexPath: indexPath, isRenderForFeed: true)
         default:
-            if content.referencedCasts.type == .recasted {
-                if originalContent.type == .long && !content.isOriginalExpand {
-                    return FeedCellHelper().renderLongCastCell(content: originalContent, tableView: self.tableView, indexPath: indexPath)
-                } else {
-                    return FeedCellHelper().renderFeedCell(content: originalContent, tableView: self.tableView, indexPath: indexPath)
-                }
+            return renderContentCell(content: content, originalContent: originalContent, tableView: tableView, indexPath: indexPath)
+        }
+    }
+
+    private func renderContentCell(content: Content, originalContent: Content, tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
+        if content.referencedCasts.type == .recasted {
+            if originalContent.type == .long && !content.isOriginalExpand {
+                return FeedCellHelper().renderLongCastCell(content: originalContent, tableView: tableView, indexPath: indexPath)
             } else {
-                if content.type == .long && !content.isExpand {
-                    return FeedCellHelper().renderLongCastCell(content: content, tableView: self.tableView, indexPath: indexPath)
-                } else {
-                    return FeedCellHelper().renderFeedCell(content: content, tableView: self.tableView, indexPath: indexPath)
-                }
+                return FeedCellHelper().renderFeedCell(content: originalContent, tableView: tableView, indexPath: indexPath)
+            }
+        } else {
+            if content.type == .long && !content.isExpand {
+                return FeedCellHelper().renderLongCastCell(content: content, tableView: tableView, indexPath: indexPath)
+            } else {
+                return FeedCellHelper().renderFeedCell(content: content, tableView: tableView, indexPath: indexPath)
             }
         }
     }
