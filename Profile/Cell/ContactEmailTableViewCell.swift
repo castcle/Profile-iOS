@@ -52,7 +52,7 @@ class ContactEmailTableViewCell: UITableViewCell, UITextFieldDelegate {
         self.subtitleLabel.textColor = UIColor.Asset.white
         self.emailTextField.font = UIFont.asset(.regular, fontSize: .body)
         self.emailTextField.textColor = UIColor.Asset.white
-        self.setupSaveButton(isActive: false)
+        self.saveButton.activeButton(isActive: false)
         self.emailTextField.delegate = self
         self.emailTextField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
     }
@@ -81,20 +81,7 @@ class ContactEmailTableViewCell: UITableViewCell, UITextFieldDelegate {
     }
 
     @objc func textFieldDidChange(_ textField: UITextField) {
-        self.setupSaveButton(isActive: self.isCanNext())
-    }
-
-    private func setupSaveButton(isActive: Bool) {
-        self.saveButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .head4)
-        if isActive {
-            self.saveButton.setTitleColor(UIColor.Asset.white, for: .normal)
-            self.saveButton.setBackgroundImage(UIColor.Asset.lightBlue.toImage(), for: .normal)
-            self.saveButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.clear)
-        } else {
-            self.saveButton.setTitleColor(UIColor.Asset.gray, for: .normal)
-            self.saveButton.setBackgroundImage(UIColor.Asset.darkGraphiteBlue.toImage(), for: .normal)
-            self.saveButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.black)
-        }
+        self.saveButton.activeButton(isActive: self.isCanNext())
     }
 
     @IBAction func nextAction(_ sender: Any) {

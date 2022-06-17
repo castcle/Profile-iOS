@@ -54,7 +54,7 @@ class ContactPhoneTableViewCell: UITableViewCell, UITextFieldDelegate {
         self.hud.textLabel.text = "Saving"
         self.subtitleLabel.font = UIFont.asset(.regular, fontSize: .body)
         self.subtitleLabel.textColor = UIColor.Asset.white
-        self.setupSaveButton(isActive: false)
+        self.saveButton.activeButton(isActive: false)
         self.codeLabel.font = UIFont.asset(.regular, fontSize: .overline)
         self.codeLabel.textColor = UIColor.Asset.white
         self.mobileTextField.font = UIFont.asset(.regular, fontSize: .overline)
@@ -95,19 +95,6 @@ class ContactPhoneTableViewCell: UITableViewCell, UITextFieldDelegate {
         }
     }
 
-    private func setupSaveButton(isActive: Bool) {
-        self.saveButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .head4)
-        if isActive {
-            self.saveButton.setTitleColor(UIColor.Asset.white, for: .normal)
-            self.saveButton.setBackgroundImage(UIColor.Asset.lightBlue.toImage(), for: .normal)
-            self.saveButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.clear)
-        } else {
-            self.saveButton.setTitleColor(UIColor.Asset.gray, for: .normal)
-            self.saveButton.setBackgroundImage(UIColor.Asset.darkGraphiteBlue.toImage(), for: .normal)
-            self.saveButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.black)
-        }
-    }
-
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
        textField.resignFirstResponder()
        return true
@@ -116,9 +103,9 @@ class ContactPhoneTableViewCell: UITableViewCell, UITextFieldDelegate {
     @objc func textFieldDidChange(_ textField: UITextField) {
         let mobileNumber = (textField.text ?? "").substringWithRange(range: 20)
         if mobileNumber.isEmpty {
-            self.setupSaveButton(isActive: false)
+            self.saveButton.activeButton(isActive: false)
         } else {
-            self.setupSaveButton(isActive: true)
+            self.saveButton.activeButton(isActive: true)
         }
         textField.text = mobileNumber
     }
@@ -155,6 +142,6 @@ extension ContactPhoneTableViewCell: SelectCodeViewControllerDelegate {
     func didSelectCountryCode(_ view: SelectCodeViewController, countryCode: CountryCode) {
         self.viewModel.userRequest.payload.contact.countryCode = countryCode.dialCode
         self.codeLabel.text = "\(countryCode.dialCode) \(countryCode.code)"
-        self.setupSaveButton(isActive: self.isCanNext())
+        self.saveButton.activeButton(isActive: self.isCanNext())
     }
 }
