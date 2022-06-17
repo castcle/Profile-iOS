@@ -30,6 +30,7 @@ import Core
 import Networking
 import SwiftyJSON
 import RealmSwift
+import Moya
 
 public protocol EditProfileViewModelDelegate: AnyObject {
     func didUpdateInfoFinish(success: Bool)
@@ -91,24 +92,7 @@ class EditProfileViewModel {
         self.userRequest.payload.images.avatar = image.toBase64() ?? ""
         self.userRepository.updateAvatar(userId: self.castcleId, userRequest: self.userRequest) { (success, response, isRefreshToken) in
             if success {
-                do {
-                    let realm = try Realm()
-                    let rawJson = try response.mapJSON()
-                    let json = JSON(rawJson)
-                    let user = UserInfo(json: json)
-                    if isPage {
-                        let pageRealm = realm.objects(Page.self).filter("castcleId == '\(user.castcleId)'").first
-                        if let page = pageRealm {
-                            try realm.write {
-                                page.avatar = user.images.avatar.thumbnail
-                                realm.add(page, update: .modified)
-                            }
-                        }
-                    } else {
-                        UserHelper.shared.updateLocalProfile(user: user)
-                    }
-                    self.delegate?.didUpdateInfoFinish(success: true)
-                } catch {}
+                self.updateLocalInfo(response: response, isAvatar: true)
             } else {
                 if isRefreshToken {
                     self.tokenHelper.refreshToken()
@@ -127,24 +111,7 @@ class EditProfileViewModel {
         self.userRequest.payload.images.cover = image.toBase64() ?? ""
         self.userRepository.updateCover(userId: self.castcleId, userRequest: self.userRequest) { (success, response, isRefreshToken) in
             if success {
-                do {
-                    let realm = try Realm()
-                    let rawJson = try response.mapJSON()
-                    let json = JSON(rawJson)
-                    let user = UserInfo(json: json)
-                    if self.isPage {
-                        let pageRealm = realm.objects(Page.self).filter("castcleId == '\(user.castcleId)'").first
-                        if let page = pageRealm {
-                            try realm.write {
-                                page.cover = user.images.cover.fullHd
-                                realm.add(page, update: .modified)
-                            }
-                        }
-                    } else {
-                        UserHelper.shared.updateLocalProfile(user: user)
-                    }
-                    self.delegate?.didUpdateInfoFinish(success: true)
-                } catch {}
+                self.updateLocalInfo(response: response, isAvatar: false)
             } else {
                 if isRefreshToken {
                     self.tokenHelper.refreshToken()
@@ -153,6 +120,28 @@ class EditProfileViewModel {
                 }
             }
         }
+    }
+
+    private func updateLocalInfo(response: Response, isAvatar: Bool) {
+        do {
+            let realm = try Realm()
+            let rawJson = try response.mapJSON()
+            let json = JSON(rawJson)
+            let user = UserInfo(json: json)
+            if self.isPage {
+                let pageRealm = realm.objects(Page.self).filter("castcleId == '\(user.castcleId)'").first
+                if let page = pageRealm {
+                    try realm.write {
+                        page.avatar = user.images.avatar.thumbnail
+                        page.cover = user.images.cover.fullHd
+                        realm.add(page, update: .modified)
+                    }
+                }
+            } else {
+                UserHelper.shared.updateLocalProfile(user: user)
+            }
+            self.delegate?.didUpdateInfoFinish(success: true)
+        } catch {}
     }
 }
 
