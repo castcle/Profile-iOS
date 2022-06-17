@@ -275,10 +275,8 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         if indexPath.section >= 2 {
             var originalContent = Content()
             let content = self.profileFeedViewModel.displayContents[indexPath.section - 2]
-            if content.referencedCasts.type == .recasted || content.referencedCasts.type == .quoted {
-                if let tempContent = ContentHelper.shared.getContentRef(id: content.referencedCasts.id) {
-                    originalContent = tempContent
-                }
+            if content.referencedCasts.type == .recasted || content.referencedCasts.type == .quoted, let tempContent = ContentHelper.shared.getContentRef(id: content.referencedCasts.id) {
+                originalContent = tempContent
             }
 
             if content.referencedCasts.type == .recasted {

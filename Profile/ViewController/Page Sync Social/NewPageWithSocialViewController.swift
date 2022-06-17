@@ -94,7 +94,7 @@ class NewPageWithSocialViewController: UIViewController {
                     pageSocial.displayName = page.name
                     pageSocial.overview = page.about
                     pageSocial.authToken = page.accessToken
-                    pageSocial.avatar = "https://graph.facebook.com/\(page.id)/picture?type=large&access_token=\(accessToken ?? "")"
+                    pageSocial.avatar = ConstantUrl.facebookAvatar(page.id, accessToken ?? "").path
                     pageSocial.cover = page.cover
                     self.viewModel.pageSocialRequest.payload.append(pageSocial)
                 }
