@@ -30,15 +30,15 @@ import Core
 
 class InfoNormalTableViewCell: UITableViewCell {
 
-    @IBOutlet var titleLabel: UILabel!
-    @IBOutlet var detailLabel: UILabel!
+    @IBOutlet var infoNormalTitleLabel: UILabel!
+    @IBOutlet var infoNormalDetailLabel: UILabel!
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.titleLabel.font = UIFont.asset(.regular, fontSize: .body)
-        self.titleLabel.textColor = UIColor.Asset.white
-        self.detailLabel.font = UIFont.asset(.regular, fontSize: .body)
-        self.detailLabel.textColor = UIColor.Asset.lightBlue
+        self.infoNormalTitleLabel.font = UIFont.asset(.regular, fontSize: .body)
+        self.infoNormalTitleLabel.textColor = UIColor.Asset.white
+        self.infoNormalDetailLabel.font = UIFont.asset(.regular, fontSize: .body)
+        self.infoNormalDetailLabel.textColor = UIColor.Asset.lightBlue
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -46,7 +46,7 @@ class InfoNormalTableViewCell: UITableViewCell {
     }
 
     func configCell(title: String, detail: String) {
-        self.titleLabel.text = title
-        self.detailLabel.text = detail
+        self.infoNormalTitleLabel.text = title
+        self.infoNormalDetailLabel.text = detail
     }
 }

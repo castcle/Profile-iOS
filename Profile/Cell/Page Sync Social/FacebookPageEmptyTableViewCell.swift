@@ -30,15 +30,15 @@ import Core
 
 class FacebookPageEmptyTableViewCell: UITableViewCell {
 
-    @IBOutlet var emptyTitleLabel: UILabel!
-    @IBOutlet var emptyDetailLabel: UILabel!
+    @IBOutlet var pageEmptyTitleLabel: UILabel!
+    @IBOutlet var pageEmptyDetailLabel: UILabel!
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.emptyTitleLabel.font = UIFont.asset(.regular, fontSize: .body)
-        self.emptyTitleLabel.textColor = UIColor.Asset.white
-        self.emptyDetailLabel.font = UIFont.asset(.regular, fontSize: .body)
-        self.emptyDetailLabel.textColor = UIColor.Asset.lightGray
+        self.pageEmptyTitleLabel.font = UIFont.asset(.regular, fontSize: .body)
+        self.pageEmptyTitleLabel.textColor = UIColor.Asset.white
+        self.pageEmptyDetailLabel.font = UIFont.asset(.regular, fontSize: .body)
+        self.pageEmptyDetailLabel.textColor = UIColor.Asset.lightGray
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

@@ -29,16 +29,16 @@ import UIKit
 
 class InfoWithIconTableViewCell: UITableViewCell {
 
-    @IBOutlet var icon: UIImageView!
-    @IBOutlet var titleLabel: UILabel!
-    @IBOutlet var detailLabel: UILabel!
+    @IBOutlet var infoIcon: UIImageView!
+    @IBOutlet var infoWithIconTitleLabel: UILabel!
+    @IBOutlet var infoWithIconDetailLabel: UILabel!
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.titleLabel.font = UIFont.asset(.regular, fontSize: .body)
-        self.titleLabel.textColor = UIColor.Asset.white
-        self.detailLabel.font = UIFont.asset(.regular, fontSize: .body)
-        self.detailLabel.textColor = UIColor.Asset.lightBlue
+        self.infoWithIconTitleLabel.font = UIFont.asset(.regular, fontSize: .body)
+        self.infoWithIconTitleLabel.textColor = UIColor.Asset.white
+        self.infoWithIconDetailLabel.font = UIFont.asset(.regular, fontSize: .body)
+        self.infoWithIconDetailLabel.textColor = UIColor.Asset.lightBlue
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -46,8 +46,8 @@ class InfoWithIconTableViewCell: UITableViewCell {
     }
 
     func configCell(icon: UIImage, title: String, detail: String) {
-        self.icon.image = icon
-        self.titleLabel.text = title
-        self.detailLabel.text = detail
+        self.infoIcon.image = icon
+        self.infoWithIconTitleLabel.text = title
+        self.infoWithIconDetailLabel.text = detail
     }
 }
