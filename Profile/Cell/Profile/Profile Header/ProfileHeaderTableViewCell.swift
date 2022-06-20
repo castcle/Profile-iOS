@@ -44,25 +44,25 @@ protocol ProfileHeaderTableViewCellDelegate: AnyObject {
 
 class ProfileHeaderTableViewCell: UITableViewCell {
 
-    @IBOutlet var coverImage: UIImageView!
-    @IBOutlet var profileImage: UIImageView!
-    @IBOutlet var editCoverButton: UIButton!
+    @IBOutlet var userCoverImage: UIImageView!
+    @IBOutlet var userAvatarImage: UIImageView!
+    @IBOutlet var editUserCoverButton: UIButton!
     @IBOutlet var moreButton: UIButton!
-    @IBOutlet var editProfileImageButton: UIButton!
-    @IBOutlet var displayNameLabel: UILabel!
-    @IBOutlet var userIdLabel: UILabel!
-    @IBOutlet var bioLabel: UILabel!
-    @IBOutlet var editProfileButton: UIButton!
-    @IBOutlet var viewProfileButton: UIButton!
-    @IBOutlet var followButton: UIButton!
-    @IBOutlet var followLabel: ActiveLabel!
-    @IBOutlet var coverLoadView: UIView!
-    @IBOutlet var coverBackgroundView: UIView!
-    @IBOutlet var coverIndicator: NVActivityIndicatorView!
-    @IBOutlet var uploadCoverLabel: UILabel!
-    @IBOutlet var avatarLoadView: UIView!
-    @IBOutlet var avatarBackgroundView: UIView!
-    @IBOutlet var avatarIndicator: NVActivityIndicatorView!
+    @IBOutlet var editUserAvatarButton: UIButton!
+    @IBOutlet var userDisplayNameLabel: UILabel!
+    @IBOutlet var userCastcleIdLabel: UILabel!
+    @IBOutlet var userBioLabel: UILabel!
+    @IBOutlet var editUserProfileButton: UIButton!
+    @IBOutlet var viewUserProfileButton: UIButton!
+    @IBOutlet var userFollowButton: UIButton!
+    @IBOutlet var userFollowLabel: ActiveLabel!
+    @IBOutlet var userCoverLoadView: UIView!
+    @IBOutlet var userCoverBackgroundView: UIView!
+    @IBOutlet var userCoverIndicator: NVActivityIndicatorView!
+    @IBOutlet var userUploadCoverLabel: UILabel!
+    @IBOutlet var userAvatarLoadView: UIView!
+    @IBOutlet var userAvatarBackgroundView: UIView!
+    @IBOutlet var userAvatarIndicator: NVActivityIndicatorView!
 
     public var delegate: ProfileHeaderTableViewCellDelegate?
     private var viewModel = ProfileHeaderViewModel(profileType: .unknow, userInfo: UserInfo())
@@ -71,36 +71,36 @@ class ProfileHeaderTableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.displayNameLabel.font = UIFont.asset(.regular, fontSize: .head4)
-        self.displayNameLabel.textColor = UIColor.Asset.white
-        self.userIdLabel.font = UIFont.asset(.regular, fontSize: .overline)
-        self.userIdLabel.textColor = UIColor.Asset.gray
-        self.bioLabel.font = UIFont.asset(.regular, fontSize: .body)
-        self.bioLabel.textColor = UIColor.Asset.white
-        self.uploadCoverLabel.font = UIFont.asset(.regular, fontSize: .overline)
-        self.uploadCoverLabel.textColor = UIColor.Asset.white
-        self.profileImage.circle(color: UIColor.Asset.white)
-        self.avatarLoadView.capsule(borderWidth: 2.0, borderColor: UIColor.Asset.white)
-        self.editProfileImageButton.setImage(UIImage.init(icon: .castcle(.camera), size: CGSize(width: 15, height: 15), textColor: UIColor.Asset.darkGraphiteBlue).withRenderingMode(.alwaysOriginal), for: .normal)
-        self.editProfileImageButton.setBackgroundImage(UIColor.Asset.lightBlue.toImage(), for: .normal)
-        self.editProfileImageButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.darkGraphiteBlue)
+        self.userDisplayNameLabel.font = UIFont.asset(.regular, fontSize: .head4)
+        self.userDisplayNameLabel.textColor = UIColor.Asset.white
+        self.userCastcleIdLabel.font = UIFont.asset(.regular, fontSize: .overline)
+        self.userCastcleIdLabel.textColor = UIColor.Asset.gray
+        self.userBioLabel.font = UIFont.asset(.regular, fontSize: .body)
+        self.userBioLabel.textColor = UIColor.Asset.white
+        self.userUploadCoverLabel.font = UIFont.asset(.regular, fontSize: .overline)
+        self.userUploadCoverLabel.textColor = UIColor.Asset.white
+        self.userAvatarImage.circle(color: UIColor.Asset.white)
+        self.userAvatarLoadView.capsule(borderWidth: 2.0, borderColor: UIColor.Asset.white)
+        self.editUserAvatarButton.setImage(UIImage.init(icon: .castcle(.camera), size: CGSize(width: 15, height: 15), textColor: UIColor.Asset.darkGraphiteBlue).withRenderingMode(.alwaysOriginal), for: .normal)
+        self.editUserAvatarButton.setBackgroundImage(UIColor.Asset.lightBlue.toImage(), for: .normal)
+        self.editUserAvatarButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.darkGraphiteBlue)
         self.moreButton.setImage(UIImage.init(icon: .castcle(.ellipsisV), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.gray).withRenderingMode(.alwaysOriginal), for: .normal)
         self.moreButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.gray)
-        self.editCoverButton.setImage(UIImage.init(icon: .castcle(.camera), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white).withRenderingMode(.alwaysOriginal), for: .normal)
-        self.editCoverButton.setBackgroundImage(UIColor.Asset.gray.toImage(), for: .normal)
-        self.editCoverButton.capsule()
-        self.editProfileButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .overline)
-        self.editProfileButton.setTitleColor(UIColor.Asset.lightBlue, for: .normal)
-        self.editProfileButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
-        self.viewProfileButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .overline)
-        self.viewProfileButton.setTitleColor(UIColor.Asset.lightBlue, for: .normal)
-        self.viewProfileButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
-        self.coverBackgroundView.backgroundColor = UIColor.Asset.darkGray
-        self.avatarBackgroundView.backgroundColor = UIColor.Asset.darkGray
-        self.coverLoadView.isHidden = true
-        self.avatarLoadView.isHidden = true
-        self.coverIndicator.type = .ballBeat
-        self.avatarIndicator.type = .ballBeat
+        self.editUserCoverButton.setImage(UIImage.init(icon: .castcle(.camera), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white).withRenderingMode(.alwaysOriginal), for: .normal)
+        self.editUserCoverButton.setBackgroundImage(UIColor.Asset.gray.toImage(), for: .normal)
+        self.editUserCoverButton.capsule()
+        self.editUserProfileButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .overline)
+        self.editUserProfileButton.setTitleColor(UIColor.Asset.lightBlue, for: .normal)
+        self.editUserProfileButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
+        self.viewUserProfileButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .overline)
+        self.viewUserProfileButton.setTitleColor(UIColor.Asset.lightBlue, for: .normal)
+        self.viewUserProfileButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
+        self.userCoverBackgroundView.backgroundColor = UIColor.Asset.darkGray
+        self.userAvatarBackgroundView.backgroundColor = UIColor.Asset.darkGray
+        self.userCoverLoadView.isHidden = true
+        self.userAvatarLoadView.isHidden = true
+        self.userCoverIndicator.type = .ballBeat
+        self.userAvatarIndicator.type = .ballBeat
         self.editProfileViewModel.delegate = self
     }
 
@@ -194,22 +194,22 @@ extension ProfileHeaderTableViewCell {
     private func updateProfileUI() {
         if self.viewModel.profileType == .mine {
             if let avatar = self.editProfileViewModel.avatar {
-                self.profileImage.image = avatar
+                self.userAvatarImage.image = avatar
             } else {
                 let url = URL(string: UserManager.shared.avatar)
-                self.profileImage.kf.setImage(with: url, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
+                self.userAvatarImage.kf.setImage(with: url, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
             }
 
             if let cover = self.editProfileViewModel.cover {
-                self.coverImage.image = cover
+                self.userCoverImage.image = cover
             } else {
                 let url = URL(string: UserManager.shared.cover)
-                self.coverImage.kf.setImage(with: url, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.35))])
+                self.userCoverImage.kf.setImage(with: url, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.35))])
             }
 
-            self.displayNameLabel.text = UserManager.shared.displayName
-            self.userIdLabel.text = UserManager.shared.castcleId
-            self.followLabel.customize { label in
+            self.userDisplayNameLabel.text = UserManager.shared.displayName
+            self.userCastcleIdLabel.text = UserManager.shared.castcleId
+            self.userFollowLabel.customize { label in
                 label.font = UIFont.asset(.regular, fontSize: .body)
                 label.numberOfLines = 1
                 label.textColor = UIColor.Asset.gray
@@ -231,24 +231,24 @@ extension ProfileHeaderTableViewCell {
                     Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.userFollow(UserFollowViewModel(followType: .follower, castcleId: UserManager.shared.rawCastcleId))), animated: true)
                 }
             }
-            self.followLabel.text = "\(UserManager.shared.following) Following   \(UserManager.shared.followers) Followers"
-            self.bioLabel.text = UserManager.shared.overview
-            self.editProfileButton.setTitle("Edit Profile", for: .normal)
+            self.userFollowLabel.text = "\(UserManager.shared.following) Following   \(UserManager.shared.followers) Followers"
+            self.userBioLabel.text = UserManager.shared.overview
+            self.editUserProfileButton.setTitle("Edit Profile", for: .normal)
 
             // MARK: - Hide and show button
-            self.editCoverButton.isHidden = false
-            self.editProfileButton.isHidden = false
-            self.editProfileImageButton.isHidden = false
-            self.viewProfileButton.isHidden = true
-            self.followButton.isHidden = true
+            self.editUserCoverButton.isHidden = false
+            self.editUserProfileButton.isHidden = false
+            self.editUserAvatarButton.isHidden = false
+            self.viewUserProfileButton.isHidden = true
+            self.userFollowButton.isHidden = true
         } else {
             let urlProfile = URL(string: self.viewModel.userInfo.images.avatar.thumbnail)
             let urlCover = URL(string: self.viewModel.userInfo.images.cover.fullHd)
-            self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
-            self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.35))])
-            self.displayNameLabel.text = self.viewModel.userInfo.displayName
-            self.userIdLabel.text = "@\(self.viewModel.userInfo.castcleId)"
-            self.followLabel.customize { label in
+            self.userAvatarImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
+            self.userCoverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.35))])
+            self.userDisplayNameLabel.text = self.viewModel.userInfo.displayName
+            self.userCastcleIdLabel.text = "@\(self.viewModel.userInfo.castcleId)"
+            self.userFollowLabel.customize { label in
                 label.font = UIFont.asset(.regular, fontSize: .body)
                 label.numberOfLines = 1
                 label.textColor = UIColor.Asset.gray
@@ -266,30 +266,30 @@ extension ProfileHeaderTableViewCell {
                     Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.userFollow(UserFollowViewModel(followType: .follower, castcleId: self.viewModel.userInfo.castcleId))), animated: true)
                 }
             }
-            self.followLabel.text = "\(self.viewModel.userInfo.following.count) Following   \(self.viewModel.userInfo.followers.count) Followers"
-            self.bioLabel.text = self.viewModel.userInfo.overview
-            self.viewProfileButton.setTitle("View Profile", for: .normal)
+            self.userFollowLabel.text = "\(self.viewModel.userInfo.following.count) Following   \(self.viewModel.userInfo.followers.count) Followers"
+            self.userBioLabel.text = self.viewModel.userInfo.overview
+            self.viewUserProfileButton.setTitle("View Profile", for: .normal)
 
             // MARK: - Hide and show button
-            self.editCoverButton.isHidden = true
-            self.editProfileButton.isHidden = true
-            self.editProfileImageButton.isHidden = true
-            self.viewProfileButton.isHidden = false
-            self.followButton.isHidden = false
+            self.editUserCoverButton.isHidden = true
+            self.editUserProfileButton.isHidden = true
+            self.editUserAvatarButton.isHidden = true
+            self.viewUserProfileButton.isHidden = false
+            self.userFollowButton.isHidden = false
         }
     }
 
     private func followUI() {
         if self.viewModel.isFollow {
-            self.followButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .overline)
-            self.followButton.setBackgroundImage(UIColor.Asset.lightBlue.toImage(), for: .normal)
-            self.followButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
-            self.followButton.setIcon(prefixText: "Following  ", prefixTextColor: UIColor.Asset.white, icon: .castcle(.checkmark), iconColor: UIColor.Asset.white, postfixText: "", postfixTextColor: UIColor.Asset.white, forState: .normal, textSize: 14, iconSize: 14)
+            self.userFollowButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .overline)
+            self.userFollowButton.setBackgroundImage(UIColor.Asset.lightBlue.toImage(), for: .normal)
+            self.userFollowButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
+            self.userFollowButton.setIcon(prefixText: "Following  ", prefixTextColor: UIColor.Asset.white, icon: .castcle(.checkmark), iconColor: UIColor.Asset.white, postfixText: "", postfixTextColor: UIColor.Asset.white, forState: .normal, textSize: 14, iconSize: 14)
         } else {
-            self.followButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .overline)
-            self.followButton.setBackgroundImage(UIColor.Asset.darkGray.toImage(), for: .normal)
-            self.followButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
-            self.followButton.setIcon(prefixText: "     Follow     ", prefixTextColor: UIColor.Asset.lightBlue, icon: .castcle(.checkmark), iconColor: UIColor.Asset.darkGray, postfixText: "", postfixTextColor: UIColor.Asset.white, forState: .normal, textSize: 14, iconSize: 0)
+            self.userFollowButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .overline)
+            self.userFollowButton.setBackgroundImage(UIColor.Asset.darkGray.toImage(), for: .normal)
+            self.userFollowButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
+            self.userFollowButton.setIcon(prefixText: "     Follow     ", prefixTextColor: UIColor.Asset.lightBlue, icon: .castcle(.checkmark), iconColor: UIColor.Asset.darkGray, postfixText: "", postfixTextColor: UIColor.Asset.white, forState: .normal, textSize: 14, iconSize: 0)
         }
     }
 
@@ -440,10 +440,10 @@ extension ProfileHeaderTableViewCell: TOCropViewControllerDelegate {
         cropViewController.dismiss(animated: true, completion: {
             if self.updateImageType == .avatar {
                 let avatarCropImage = image.resizeImage(targetSize: CGSize.init(width: 200, height: 200))
-                self.profileImage.image = avatarCropImage
+                self.userAvatarImage.image = avatarCropImage
                 self.editProfileViewModel.avatar = avatarCropImage
-                self.avatarLoadView.isHidden = false
-                self.avatarIndicator.startAnimating()
+                self.userAvatarLoadView.isHidden = false
+                self.userAvatarIndicator.startAnimating()
                 self.editProfileViewModel.updateAvatar(isPage: false, castcleId: UserManager.shared.rawCastcleId)
             }
         })
@@ -453,10 +453,10 @@ extension ProfileHeaderTableViewCell: TOCropViewControllerDelegate {
         cropViewController.dismiss(animated: true, completion: {
             if self.updateImageType == .cover {
                 let coverCropImage = image.resizeImage(targetSize: CGSize.init(width: 640, height: 480))
-                self.coverImage.image = coverCropImage
+                self.userCoverImage.image = coverCropImage
                 self.editProfileViewModel.cover = coverCropImage
-                self.coverLoadView.isHidden = false
-                self.coverIndicator.startAnimating()
+                self.userCoverLoadView.isHidden = false
+                self.userCoverIndicator.startAnimating()
                 self.editProfileViewModel.updateCover(isPage: false, castcleId: UserManager.shared.rawCastcleId)
             }
         })
@@ -466,10 +466,10 @@ extension ProfileHeaderTableViewCell: TOCropViewControllerDelegate {
 extension ProfileHeaderTableViewCell: EditProfileViewModelDelegate {
     func didUpdateInfoFinish(success: Bool) {
         if success {
-            self.avatarLoadView.isHidden = true
-            self.coverLoadView.isHidden = true
-            self.avatarIndicator.stopAnimating()
-            self.coverIndicator.stopAnimating()
+            self.userAvatarLoadView.isHidden = true
+            self.userCoverLoadView.isHidden = true
+            self.userAvatarIndicator.stopAnimating()
+            self.userCoverIndicator.stopAnimating()
             if self.updateImageType == .avatar {
                 self.delegate?.didUpdateProfileSuccess(self)
                 self.updateImageType = .none

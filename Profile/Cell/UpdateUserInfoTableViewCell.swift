@@ -36,35 +36,35 @@ public protocol UpdateUserInfoTableViewCellDelegate: AnyObject {
 
 class UpdateUserInfoTableViewCell: UITableViewCell, UITextViewDelegate {
 
-    @IBOutlet var titleLabel: UILabel!
-    @IBOutlet var subTitleLabel: UILabel!
-    @IBOutlet var linkTitleLabel: UILabel!
-    @IBOutlet var overviewLabel: UILabel!
-    @IBOutlet var overviewTextView: UITextView!
-    @IBOutlet var birthdayTitleLabel: UILabel!
-    @IBOutlet var birthdayLabel: UILabel!
-    @IBOutlet var facebookTextField: UITextField!
-    @IBOutlet var twitterTextField: UITextField!
-    @IBOutlet var youtubeTextField: UITextField!
-    @IBOutlet var mediumTextField: UITextField!
-    @IBOutlet var websiteTextField: UITextField!
-    @IBOutlet var aboutView: UIView!
-    @IBOutlet var facebookView: UIView!
-    @IBOutlet var twitterView: UIView!
-    @IBOutlet var youtubeView: UIView!
-    @IBOutlet var mediumView: UIView!
-    @IBOutlet var websiteView: UIView!
+    @IBOutlet var updateUserInfoTitleLabel: UILabel!
+    @IBOutlet var updateUserInfoSubTitleLabel: UILabel!
+    @IBOutlet var updateUserInfoLinkTitleLabel: UILabel!
+    @IBOutlet var updateUserInfoBirthdayTitleLabel: UILabel!
+    @IBOutlet var updateUserInfoOverviewTitleLabel: UILabel!
+    @IBOutlet var userOverviewTextView: UITextView!
+    @IBOutlet var userBirthdayLabel: UILabel!
+    @IBOutlet var userFacebookTextField: UITextField!
+    @IBOutlet var userTwitterTextField: UITextField!
+    @IBOutlet var userYoutubeTextField: UITextField!
+    @IBOutlet var userMediumTextField: UITextField!
+    @IBOutlet var userWebsiteTextField: UITextField!
+    @IBOutlet var userAboutView: UIView!
+    @IBOutlet var userFacebookView: UIView!
+    @IBOutlet var userTwitterView: UIView!
+    @IBOutlet var userYoutubeView: UIView!
+    @IBOutlet var userMediumView: UIView!
+    @IBOutlet var userWebsiteView: UIView!
     @IBOutlet var arrowImage: UIImageView!
-    @IBOutlet var facebookIconView: UIView!
-    @IBOutlet var facebookIcon: UIImageView!
-    @IBOutlet var twitterIconView: UIView!
-    @IBOutlet var twitterIcon: UIImageView!
-    @IBOutlet var youtubeIconView: UIView!
-    @IBOutlet var youtubeIcon: UIImageView!
-    @IBOutlet var mediumIconView: UIView!
-    @IBOutlet var mediumIcon: UIImageView!
-    @IBOutlet var websiteIconView: UIView!
-    @IBOutlet var websiteIcon: UIImageView!
+    @IBOutlet var userFacebookIconView: UIView!
+    @IBOutlet var userFacebookIcon: UIImageView!
+    @IBOutlet var userTwitterIconView: UIView!
+    @IBOutlet var userTwitterIcon: UIImageView!
+    @IBOutlet var userYoutubeIconView: UIView!
+    @IBOutlet var userYoutubeIcon: UIImageView!
+    @IBOutlet var userMediumIconView: UIView!
+    @IBOutlet var userMediumIcon: UIImageView!
+    @IBOutlet var userWebsiteIconView: UIView!
+    @IBOutlet var userWebsiteIcon: UIImageView!
     @IBOutlet var selectDateButton: UIButton!
     @IBOutlet var saveButton: UIButton!
 
@@ -76,51 +76,51 @@ class UpdateUserInfoTableViewCell: UITableViewCell, UITextViewDelegate {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.titleLabel.font = UIFont.asset(.bold, fontSize: .head4)
-        self.titleLabel.textColor = UIColor.Asset.white
-        self.subTitleLabel.font = UIFont.asset(.regular, fontSize: .body)
-        self.subTitleLabel.textColor = UIColor.Asset.white
-        self.overviewLabel.font = UIFont.asset(.bold, fontSize: .body)
-        self.overviewLabel.textColor = UIColor.Asset.white
-        self.overviewTextView.font = UIFont.asset(.regular, fontSize: .body)
-        self.overviewTextView.textColor = UIColor.Asset.white
-        self.birthdayTitleLabel.font = UIFont.asset(.bold, fontSize: .body)
-        self.birthdayTitleLabel.textColor = UIColor.Asset.white
-        self.birthdayLabel.font = UIFont.asset(.regular, fontSize: .body)
-        self.birthdayLabel.textColor = UIColor.Asset.lightBlue
-        self.linkTitleLabel.font = UIFont.asset(.bold, fontSize: .body)
-        self.linkTitleLabel.textColor = UIColor.Asset.white
-        self.facebookTextField.font = UIFont.asset(.regular, fontSize: .body)
-        self.facebookTextField.textColor = UIColor.Asset.white
-        self.twitterTextField.font = UIFont.asset(.regular, fontSize: .body)
-        self.twitterTextField.textColor = UIColor.Asset.white
-        self.youtubeTextField.font = UIFont.asset(.regular, fontSize: .body)
-        self.youtubeTextField.textColor = UIColor.Asset.white
-        self.mediumTextField.font = UIFont.asset(.regular, fontSize: .body)
-        self.mediumTextField.textColor = UIColor.Asset.white
-        self.websiteTextField.font = UIFont.asset(.regular, fontSize: .body)
-        self.websiteTextField.textColor = UIColor.Asset.white
-        self.aboutView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
-        self.facebookView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
-        self.twitterView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
-        self.youtubeView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
-        self.mediumView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
-        self.websiteView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
+        self.updateUserInfoTitleLabel.font = UIFont.asset(.bold, fontSize: .head4)
+        self.updateUserInfoTitleLabel.textColor = UIColor.Asset.white
+        self.updateUserInfoSubTitleLabel.font = UIFont.asset(.regular, fontSize: .body)
+        self.updateUserInfoSubTitleLabel.textColor = UIColor.Asset.white
+        self.updateUserInfoOverviewTitleLabel.font = UIFont.asset(.bold, fontSize: .body)
+        self.updateUserInfoOverviewTitleLabel.textColor = UIColor.Asset.white
+        self.userOverviewTextView.font = UIFont.asset(.regular, fontSize: .body)
+        self.userOverviewTextView.textColor = UIColor.Asset.white
+        self.updateUserInfoBirthdayTitleLabel.font = UIFont.asset(.bold, fontSize: .body)
+        self.updateUserInfoBirthdayTitleLabel.textColor = UIColor.Asset.white
+        self.userBirthdayLabel.font = UIFont.asset(.regular, fontSize: .body)
+        self.userBirthdayLabel.textColor = UIColor.Asset.lightBlue
+        self.updateUserInfoLinkTitleLabel.font = UIFont.asset(.bold, fontSize: .body)
+        self.updateUserInfoLinkTitleLabel.textColor = UIColor.Asset.white
+        self.userFacebookTextField.font = UIFont.asset(.regular, fontSize: .body)
+        self.userFacebookTextField.textColor = UIColor.Asset.white
+        self.userTwitterTextField.font = UIFont.asset(.regular, fontSize: .body)
+        self.userTwitterTextField.textColor = UIColor.Asset.white
+        self.userYoutubeTextField.font = UIFont.asset(.regular, fontSize: .body)
+        self.userYoutubeTextField.textColor = UIColor.Asset.white
+        self.userMediumTextField.font = UIFont.asset(.regular, fontSize: .body)
+        self.userMediumTextField.textColor = UIColor.Asset.white
+        self.userWebsiteTextField.font = UIFont.asset(.regular, fontSize: .body)
+        self.userWebsiteTextField.textColor = UIColor.Asset.white
+        self.userAboutView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
+        self.userFacebookView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
+        self.userTwitterView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
+        self.userYoutubeView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
+        self.userMediumView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
+        self.userWebsiteView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
         self.arrowImage.image = UIImage.init(icon: .castcle(.next), size: CGSize(width: 25, height: 25), textColor: UIColor.Asset.white)
-        self.facebookIconView.capsule(color: UIColor.Asset.facebook)
-        self.facebookIcon.image = UIImage.init(icon: .castcle(.facebook), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.white)
-        self.twitterIconView.capsule(color: UIColor.Asset.twitter)
-        self.twitterIcon.image = UIImage.init(icon: .castcle(.twitter), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.white)
-        self.youtubeIconView.capsule(color: UIColor.Asset.white)
-        self.youtubeIcon.image = UIImage.init(icon: .castcle(.youtube), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.denger)
-        self.mediumIconView.capsule(color: UIColor.Asset.white)
-        self.mediumIcon.image = UIImage.init(icon: .castcle(.medium), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.black)
-        self.websiteIconView.capsule(color: UIColor.Asset.white)
-        self.websiteIcon.image = UIImage.init(icon: .castcle(.link), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.lightBlue)
+        self.userFacebookIconView.capsule(color: UIColor.Asset.facebook)
+        self.userFacebookIcon.image = UIImage.init(icon: .castcle(.facebook), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.white)
+        self.userTwitterIconView.capsule(color: UIColor.Asset.twitter)
+        self.userTwitterIcon.image = UIImage.init(icon: .castcle(.twitter), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.white)
+        self.userYoutubeIconView.capsule(color: UIColor.Asset.white)
+        self.userYoutubeIcon.image = UIImage.init(icon: .castcle(.youtube), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.denger)
+        self.userMediumIconView.capsule(color: UIColor.Asset.white)
+        self.userMediumIcon.image = UIImage.init(icon: .castcle(.medium), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.black)
+        self.userWebsiteIconView.capsule(color: UIColor.Asset.white)
+        self.userWebsiteIcon.image = UIImage.init(icon: .castcle(.link), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.lightBlue)
 
         self.hud.textLabel.text = "Saving"
-        self.overviewTextView.delegate = self
-        self.overviewTextView.placeholder = "Write something to introduce yourself!"
+        self.userOverviewTextView.delegate = self
+        self.userOverviewTextView.placeholder = "Write something to introduce yourself!"
         self.saveButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .head4)
         self.saveButton.setTitleColor(UIColor.Asset.white, for: .normal)
         self.saveButton.capsule(color: UIColor.Asset.lightBlue, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
@@ -141,12 +141,12 @@ class UpdateUserInfoTableViewCell: UITableViewCell, UITextViewDelegate {
     @IBAction func saveAction(_ sender: Any) {
         self.hud.show(in: Utility.currentViewController().view)
         self.delegate?.didUpdateInfo(isProcess: true)
-        self.viewModel.userRequest.payload.overview = self.overviewTextView.text ?? ""
-        self.viewModel.userRequest.payload.links.facebook = (self.facebookTextField.text! == UrlProtocol.https.value ? "" : self.facebookTextField.text!)
-        self.viewModel.userRequest.payload.links.twitter = (self.twitterTextField.text! == UrlProtocol.https.value ? "" : self.twitterTextField.text!)
-        self.viewModel.userRequest.payload.links.youtube = (self.youtubeTextField.text! == UrlProtocol.https.value ? "" : self.youtubeTextField.text!)
-        self.viewModel.userRequest.payload.links.medium = (self.mediumTextField.text! == UrlProtocol.https.value ? "" : self.mediumTextField.text!)
-        self.viewModel.userRequest.payload.links.website = (self.websiteTextField.text! == UrlProtocol.https.value ? "" : self.websiteTextField.text!)
+        self.viewModel.userRequest.payload.overview = self.userOverviewTextView.text ?? ""
+        self.viewModel.userRequest.payload.links.facebook = (self.userFacebookTextField.text! == UrlProtocol.https.value ? "" : self.userFacebookTextField.text!)
+        self.viewModel.userRequest.payload.links.twitter = (self.userTwitterTextField.text! == UrlProtocol.https.value ? "" : self.userTwitterTextField.text!)
+        self.viewModel.userRequest.payload.links.youtube = (self.userYoutubeTextField.text! == UrlProtocol.https.value ? "" : self.userYoutubeTextField.text!)
+        self.viewModel.userRequest.payload.links.medium = (self.userMediumTextField.text! == UrlProtocol.https.value ? "" : self.userMediumTextField.text!)
+        self.viewModel.userRequest.payload.links.website = (self.userWebsiteTextField.text! == UrlProtocol.https.value ? "" : self.userWebsiteTextField.text!)
         self.viewModel.updateProfile()
     }
 }
@@ -154,7 +154,7 @@ class UpdateUserInfoTableViewCell: UITableViewCell, UITextViewDelegate {
 extension UpdateUserInfoTableViewCell: DatePickerViewControllerDelegate {
     func datePickerViewController(_ view: DatePickerViewController, didSelectDate date: Date, displayDate: String) {
         self.viewModel.dobDate = date
-        self.birthdayLabel.text = displayDate
+        self.userBirthdayLabel.text = displayDate
     }
 }
 

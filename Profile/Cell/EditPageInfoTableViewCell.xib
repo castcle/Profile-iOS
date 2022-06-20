@@ -497,50 +497,50 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
-                <outlet property="aboutView" destination="QBL-v3-nPl" id="8qs-Hk-jdM"/>
-                <outlet property="castcleIdLabel" destination="TCO-XM-AlX" id="ECm-sM-JK1"/>
-                <outlet property="castcleIdNoticeLabel" destination="LOt-nr-16d" id="w2t-0V-E3Y"/>
-                <outlet property="castcleIdTextField" destination="WFe-Ff-Vce" id="yhd-rZ-9VA"/>
-                <outlet property="castcleIdView" destination="oU8-11-IHl" id="2LA-lP-a8L"/>
-                <outlet property="coverImage" destination="DKg-Yl-5nM" id="ekI-uE-DaN"/>
-                <outlet property="displayNameLabel" destination="CfU-3M-Vmz" id="CGx-81-CWx"/>
-                <outlet property="displayNameTextField" destination="986-tf-UfZ" id="xpe-zg-2mx"/>
-                <outlet property="displayNameView" destination="0Et-pm-9n9" id="SOk-or-xiv"/>
-                <outlet property="editCoverButton" destination="1tz-IK-Fk9" id="4dq-T4-7DO"/>
-                <outlet property="editProfileImageButton" destination="bbo-xo-8tb" id="rMD-ry-Qog"/>
-                <outlet property="emailIcon" destination="iHJ-Tz-AAm" id="Q8c-NQ-hb2"/>
-                <outlet property="emailLabel" destination="02Y-0l-42h" id="E2d-QO-u2B"/>
-                <outlet property="emailTitleLabel" destination="e92-6H-7Pn" id="IMD-rZ-lEk"/>
-                <outlet property="facebookIcon" destination="bVf-rS-4Bo" id="HBZ-I4-74a"/>
-                <outlet property="facebookIconView" destination="ovM-5P-3zV" id="QVc-Kv-LUs"/>
-                <outlet property="facebookTextField" destination="PuP-7T-zj9" id="enz-Lf-T70"/>
-                <outlet property="facebookView" destination="SUX-LU-0ON" id="Z15-Hr-Wh7"/>
-                <outlet property="linkTitleLabel" destination="98h-3g-Xti" id="luw-PK-S2Z"/>
-                <outlet property="mediumIcon" destination="soH-60-xPm" id="7Lc-AC-njx"/>
-                <outlet property="mediumIconView" destination="YkB-Qi-Xze" id="ogZ-JU-Xez"/>
-                <outlet property="mediumTextField" destination="w3k-H6-hxZ" id="LVw-14-lJq"/>
-                <outlet property="mediumView" destination="EZ3-TQ-gOI" id="hkd-fV-fvZ"/>
-                <outlet property="overviewLabel" destination="9yF-aW-Lw8" id="Mf0-vV-iTL"/>
-                <outlet property="overviewTextView" destination="USs-XZ-jOf" id="twM-vb-0Mj"/>
-                <outlet property="pageInfoTitleLabel" destination="dgV-Zd-Sjc" id="GEc-A8-abh"/>
-                <outlet property="phoneIcon" destination="GQs-Pc-Iql" id="Fc5-py-Qh6"/>
-                <outlet property="phoneLabel" destination="xwS-3T-ZPq" id="c8o-6R-OIm"/>
-                <outlet property="phoneTitleLabel" destination="sUY-D9-wy9" id="unS-ys-0Pr"/>
+                <outlet property="editPageAvaterButton" destination="bbo-xo-8tb" id="KNk-FT-OwC"/>
+                <outlet property="editPageCoverButton" destination="1tz-IK-Fk9" id="B8U-Dx-qlp"/>
+                <outlet property="pageAboutView" destination="QBL-v3-nPl" id="xWZ-uT-Uas"/>
+                <outlet property="pageAvatarImage" destination="3wx-Ma-8dq" id="PJM-Ct-uLk"/>
+                <outlet property="pageCastcleIdLabel" destination="TCO-XM-AlX" id="jNz-JM-6va"/>
+                <outlet property="pageCastcleIdNoticeLabel" destination="LOt-nr-16d" id="OBL-WS-BMU"/>
+                <outlet property="pageCastcleIdTextField" destination="WFe-Ff-Vce" id="bDq-Jt-DXr"/>
+                <outlet property="pageCastcleIdView" destination="oU8-11-IHl" id="dS5-Ns-FoH"/>
+                <outlet property="pageCoverImage" destination="DKg-Yl-5nM" id="kQM-ig-9zh"/>
+                <outlet property="pageDisplayNameLabel" destination="CfU-3M-Vmz" id="NZe-Gv-6gr"/>
+                <outlet property="pageDisplayNameTextField" destination="986-tf-UfZ" id="Zls-S2-u6Q"/>
+                <outlet property="pageDisplayNameView" destination="0Et-pm-9n9" id="mQd-oT-ZPT"/>
+                <outlet property="pageEmailIcon" destination="iHJ-Tz-AAm" id="iv4-gT-QTu"/>
+                <outlet property="pageEmailLabel" destination="02Y-0l-42h" id="Kzs-J7-7jF"/>
+                <outlet property="pageEmailTitleLabel" destination="e92-6H-7Pn" id="Ip1-2d-x0w"/>
+                <outlet property="pageFacebookIcon" destination="bVf-rS-4Bo" id="34D-6s-AuR"/>
+                <outlet property="pageFacebookIconView" destination="ovM-5P-3zV" id="pqc-D8-C2D"/>
+                <outlet property="pageFacebookTextField" destination="PuP-7T-zj9" id="77s-0w-hkh"/>
+                <outlet property="pageFacebookView" destination="SUX-LU-0ON" id="3MY-28-bWM"/>
+                <outlet property="pageLinkTitleLabel" destination="98h-3g-Xti" id="kjw-Eq-eEi"/>
+                <outlet property="pageMediumIcon" destination="soH-60-xPm" id="GgK-FO-zdh"/>
+                <outlet property="pageMediumIconView" destination="YkB-Qi-Xze" id="iSp-Du-C8H"/>
+                <outlet property="pageMediumTextField" destination="w3k-H6-hxZ" id="DR3-R4-5yC"/>
+                <outlet property="pageMediumView" destination="EZ3-TQ-gOI" id="fb0-tf-a84"/>
+                <outlet property="pageOverviewLabel" destination="9yF-aW-Lw8" id="Rxu-Ly-wao"/>
+                <outlet property="pageOverviewTextView" destination="USs-XZ-jOf" id="l7P-eB-P0a"/>
+                <outlet property="pagePageInfoTitleLabel" destination="dgV-Zd-Sjc" id="vc9-4q-opv"/>
+                <outlet property="pagePhoneIcon" destination="GQs-Pc-Iql" id="vPI-qU-5nS"/>
+                <outlet property="pagePhoneLabel" destination="xwS-3T-ZPq" id="4lb-FD-qZZ"/>
+                <outlet property="pagePhoneTitleLabel" destination="sUY-D9-wy9" id="Snd-DX-v40"/>
+                <outlet property="pageTwitterIcon" destination="eY7-w9-woI" id="rMa-oQ-znz"/>
+                <outlet property="pageTwitterIconView" destination="zQn-Qy-gq5" id="1NH-rn-xcU"/>
+                <outlet property="pageTwitterTextField" destination="7W8-jc-IIr" id="l8F-nO-AyY"/>
+                <outlet property="pageTwitterView" destination="XV3-lQ-gDc" id="9y7-IX-DDj"/>
+                <outlet property="pageWebsiteIcon" destination="aUS-eg-a6P" id="Sw7-a4-j5L"/>
+                <outlet property="pageWebsiteIconView" destination="ZPc-nA-3Jx" id="TbC-Uy-jvB"/>
+                <outlet property="pageWebsiteTextField" destination="pZg-2i-Vet" id="VUW-ai-dyb"/>
+                <outlet property="pageWebsiteView" destination="zub-gb-hKR" id="KRf-ye-e9i"/>
+                <outlet property="pageYoutubeIcon" destination="YVp-XG-fvT" id="CgT-Im-owb"/>
+                <outlet property="pageYoutubeIconView" destination="vIc-7k-Qtf" id="cwT-Mq-y1u"/>
+                <outlet property="pageYoutubeTextField" destination="CLM-4A-sNi" id="4o4-y5-Dxw"/>
+                <outlet property="pageYoutubeView" destination="4L2-DU-JMY" id="ZO0-du-hMy"/>
                 <outlet property="prefixLabel" destination="TS2-qE-pyY" id="yd5-MA-P81"/>
-                <outlet property="profileImage" destination="3wx-Ma-8dq" id="tcv-Kz-FyD"/>
                 <outlet property="saveButton" destination="C61-pt-iDm" id="xZw-Gt-xCA"/>
-                <outlet property="twitterIcon" destination="eY7-w9-woI" id="D3u-qL-Aki"/>
-                <outlet property="twitterIconView" destination="zQn-Qy-gq5" id="9B4-53-OC6"/>
-                <outlet property="twitterTextField" destination="7W8-jc-IIr" id="pke-jC-g0Z"/>
-                <outlet property="twitterView" destination="XV3-lQ-gDc" id="I0Z-ST-Nwu"/>
-                <outlet property="websiteIcon" destination="aUS-eg-a6P" id="rfB-Xx-zs1"/>
-                <outlet property="websiteIconView" destination="ZPc-nA-3Jx" id="RnQ-Ze-N7O"/>
-                <outlet property="websiteTextField" destination="pZg-2i-Vet" id="4Lw-L6-pq8"/>
-                <outlet property="websiteView" destination="zub-gb-hKR" id="YfK-eA-ayI"/>
-                <outlet property="youtubeIcon" destination="YVp-XG-fvT" id="ydd-ca-6YJ"/>
-                <outlet property="youtubeIconView" destination="vIc-7k-Qtf" id="PCM-VD-0X6"/>
-                <outlet property="youtubeTextField" destination="CLM-4A-sNi" id="wJ3-m3-x55"/>
-                <outlet property="youtubeView" destination="4L2-DU-JMY" id="AfW-ri-gXl"/>
             </connections>
             <point key="canvasLocation" x="18.840579710144929" y="539.73214285714278"/>
         </tableViewCell>

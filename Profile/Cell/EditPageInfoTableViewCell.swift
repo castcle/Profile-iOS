@@ -40,49 +40,49 @@ import TLPhotoPicker
 
 class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
 
-    @IBOutlet var coverImage: UIImageView!
-    @IBOutlet var profileImage: UIImageView!
-    @IBOutlet var editCoverButton: UIButton!
-    @IBOutlet var editProfileImageButton: UIButton!
-    @IBOutlet var castcleIdLabel: UILabel!
-    @IBOutlet var castcleIdNoticeLabel: UILabel!
+    @IBOutlet var pageCoverImage: UIImageView!
+    @IBOutlet var pageAvatarImage: UIImageView!
+    @IBOutlet var editPageCoverButton: UIButton!
+    @IBOutlet var editPageAvaterButton: UIButton!
+    @IBOutlet var pageCastcleIdLabel: UILabel!
+    @IBOutlet var pageCastcleIdNoticeLabel: UILabel!
     @IBOutlet var prefixLabel: UILabel!
-    @IBOutlet var displayNameLabel: UILabel!
-    @IBOutlet var linkTitleLabel: UILabel!
-    @IBOutlet var overviewLabel: UILabel!
-    @IBOutlet var overviewTextView: UITextView!
-    @IBOutlet var castcleIdTextField: UITextField!
-    @IBOutlet var displayNameTextField: UITextField!
-    @IBOutlet var facebookTextField: UITextField!
-    @IBOutlet var twitterTextField: UITextField!
-    @IBOutlet var youtubeTextField: UITextField!
-    @IBOutlet var mediumTextField: UITextField!
-    @IBOutlet var websiteTextField: UITextField!
-    @IBOutlet var castcleIdView: UIView!
-    @IBOutlet var displayNameView: UIView!
-    @IBOutlet var aboutView: UIView!
-    @IBOutlet var facebookView: UIView!
-    @IBOutlet var twitterView: UIView!
-    @IBOutlet var youtubeView: UIView!
-    @IBOutlet var mediumView: UIView!
-    @IBOutlet var websiteView: UIView!
-    @IBOutlet var pageInfoTitleLabel: UILabel!
-    @IBOutlet var emailTitleLabel: UILabel!
-    @IBOutlet var phoneTitleLabel: UILabel!
-    @IBOutlet var emailLabel: UILabel!
-    @IBOutlet var phoneLabel: UILabel!
-    @IBOutlet var emailIcon: UIImageView!
-    @IBOutlet var phoneIcon: UIImageView!
-    @IBOutlet var facebookIconView: UIView!
-    @IBOutlet var facebookIcon: UIImageView!
-    @IBOutlet var twitterIconView: UIView!
-    @IBOutlet var twitterIcon: UIImageView!
-    @IBOutlet var youtubeIconView: UIView!
-    @IBOutlet var youtubeIcon: UIImageView!
-    @IBOutlet var mediumIconView: UIView!
-    @IBOutlet var mediumIcon: UIImageView!
-    @IBOutlet var websiteIconView: UIView!
-    @IBOutlet var websiteIcon: UIImageView!
+    @IBOutlet var pageDisplayNameLabel: UILabel!
+    @IBOutlet var pageLinkTitleLabel: UILabel!
+    @IBOutlet var pageOverviewLabel: UILabel!
+    @IBOutlet var pageOverviewTextView: UITextView!
+    @IBOutlet var pageCastcleIdTextField: UITextField!
+    @IBOutlet var pageDisplayNameTextField: UITextField!
+    @IBOutlet var pageFacebookTextField: UITextField!
+    @IBOutlet var pageTwitterTextField: UITextField!
+    @IBOutlet var pageYoutubeTextField: UITextField!
+    @IBOutlet var pageMediumTextField: UITextField!
+    @IBOutlet var pageWebsiteTextField: UITextField!
+    @IBOutlet var pageCastcleIdView: UIView!
+    @IBOutlet var pageDisplayNameView: UIView!
+    @IBOutlet var pageAboutView: UIView!
+    @IBOutlet var pageFacebookView: UIView!
+    @IBOutlet var pageTwitterView: UIView!
+    @IBOutlet var pageYoutubeView: UIView!
+    @IBOutlet var pageMediumView: UIView!
+    @IBOutlet var pageWebsiteView: UIView!
+    @IBOutlet var pagePageInfoTitleLabel: UILabel!
+    @IBOutlet var pageEmailTitleLabel: UILabel!
+    @IBOutlet var pagePhoneTitleLabel: UILabel!
+    @IBOutlet var pageEmailLabel: UILabel!
+    @IBOutlet var pagePhoneLabel: UILabel!
+    @IBOutlet var pageEmailIcon: UIImageView!
+    @IBOutlet var pagePhoneIcon: UIImageView!
+    @IBOutlet var pageFacebookIconView: UIView!
+    @IBOutlet var pageFacebookIcon: UIImageView!
+    @IBOutlet var pageTwitterIconView: UIView!
+    @IBOutlet var pageTwitterIcon: UIImageView!
+    @IBOutlet var pageYoutubeIconView: UIView!
+    @IBOutlet var pageYoutubeIcon: UIImageView!
+    @IBOutlet var pageMediumIconView: UIView!
+    @IBOutlet var pageMediumIcon: UIImageView!
+    @IBOutlet var pageWebsiteIconView: UIView!
+    @IBOutlet var pageWebsiteIcon: UIImageView!
     @IBOutlet var saveButton: UIButton!
 
     let viewModel = EditInfoViewModel()
@@ -91,77 +91,75 @@ class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.profileImage.circle(color: UIColor.Asset.white)
-        self.editProfileImageButton.setImage(UIImage.init(icon: .castcle(.camera), size: CGSize(width: 15, height: 15), textColor: UIColor.Asset.white).withRenderingMode(.alwaysOriginal), for: .normal)
-        self.editProfileImageButton.setBackgroundImage(UIColor.Asset.lightBlue.toImage(), for: .normal)
-        self.editProfileImageButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.white)
-        self.editCoverButton.setImage(UIImage.init(icon: .castcle(.camera), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white).withRenderingMode(.alwaysOriginal), for: .normal)
-        self.editCoverButton.setBackgroundImage(UIColor.Asset.gray.toImage(), for: .normal)
-        self.editCoverButton.capsule()
-
-        self.castcleIdLabel.font = UIFont.asset(.bold, fontSize: .body)
-        self.castcleIdLabel.textColor = UIColor.Asset.white
-        self.castcleIdNoticeLabel.font = UIFont.asset(.regular, fontSize: .overline)
-        self.castcleIdNoticeLabel.textColor = UIColor.Asset.white
+        self.pageAvatarImage.circle(color: UIColor.Asset.white)
+        self.editPageAvaterButton.setImage(UIImage.init(icon: .castcle(.camera), size: CGSize(width: 15, height: 15), textColor: UIColor.Asset.white).withRenderingMode(.alwaysOriginal), for: .normal)
+        self.editPageAvaterButton.setBackgroundImage(UIColor.Asset.lightBlue.toImage(), for: .normal)
+        self.editPageAvaterButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.white)
+        self.editPageCoverButton.setImage(UIImage.init(icon: .castcle(.camera), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white).withRenderingMode(.alwaysOriginal), for: .normal)
+        self.editPageCoverButton.setBackgroundImage(UIColor.Asset.gray.toImage(), for: .normal)
+        self.editPageCoverButton.capsule()
+        self.pageCastcleIdLabel.font = UIFont.asset(.bold, fontSize: .body)
+        self.pageCastcleIdLabel.textColor = UIColor.Asset.white
+        self.pageCastcleIdNoticeLabel.font = UIFont.asset(.regular, fontSize: .overline)
+        self.pageCastcleIdNoticeLabel.textColor = UIColor.Asset.white
         self.prefixLabel.font = UIFont.asset(.regular, fontSize: .body)
         self.prefixLabel.textColor = UIColor.Asset.lightGray
-        self.displayNameLabel.font = UIFont.asset(.bold, fontSize: .body)
-        self.displayNameLabel.textColor = UIColor.Asset.white
-        self.overviewLabel.font = UIFont.asset(.bold, fontSize: .body)
-        self.overviewLabel.textColor = UIColor.Asset.white
-        self.overviewTextView.font = UIFont.asset(.regular, fontSize: .body)
-        self.overviewTextView.textColor = UIColor.Asset.white
-        self.linkTitleLabel.font = UIFont.asset(.bold, fontSize: .body)
-        self.linkTitleLabel.textColor = UIColor.Asset.white
-        self.pageInfoTitleLabel.textColor = UIColor.Asset.lightGray
-        self.pageInfoTitleLabel.font = UIFont.asset(.regular, fontSize: .overline)
-        self.emailTitleLabel.textColor = UIColor.Asset.white
-        self.emailTitleLabel.font = UIFont.asset(.regular, fontSize: .body)
-        self.phoneTitleLabel.textColor = UIColor.Asset.white
-        self.phoneTitleLabel.font = UIFont.asset(.regular, fontSize: .body)
-        self.emailLabel.textColor = UIColor.Asset.lightGray
-        self.emailLabel.font = UIFont.asset(.regular, fontSize: .body)
-        self.phoneLabel.textColor = UIColor.Asset.lightGray
-        self.phoneLabel.font = UIFont.asset(.regular, fontSize: .body)
-        self.emailIcon.image = UIImage.init(icon: .castcle(.next), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white)
-        self.phoneIcon.image = UIImage.init(icon: .castcle(.next), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white)
-        self.castcleIdTextField.font = UIFont.asset(.regular, fontSize: .body)
-        self.castcleIdTextField.textColor = UIColor.Asset.white
-        self.displayNameTextField.font = UIFont.asset(.regular, fontSize: .body)
-        self.displayNameTextField.textColor = UIColor.Asset.white
-        self.facebookTextField.font = UIFont.asset(.regular, fontSize: .body)
-        self.facebookTextField.textColor = UIColor.Asset.white
-        self.twitterTextField.font = UIFont.asset(.regular, fontSize: .body)
-        self.twitterTextField.textColor = UIColor.Asset.white
-        self.youtubeTextField.font = UIFont.asset(.regular, fontSize: .body)
-        self.youtubeTextField.textColor = UIColor.Asset.white
-        self.mediumTextField.font = UIFont.asset(.regular, fontSize: .body)
-        self.mediumTextField.textColor = UIColor.Asset.white
-        self.websiteTextField.font = UIFont.asset(.regular, fontSize: .body)
-        self.websiteTextField.textColor = UIColor.Asset.white
-        self.castcleIdView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
-        self.displayNameView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
-        self.aboutView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
-        self.facebookView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
-        self.twitterView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
-        self.youtubeView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
-        self.mediumView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
-        self.websiteView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
-
-        self.facebookIconView.capsule(color: UIColor.Asset.facebook)
-        self.facebookIcon.image = UIImage.init(icon: .castcle(.facebook), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.white)
-        self.twitterIconView.capsule(color: UIColor.Asset.twitter)
-        self.twitterIcon.image = UIImage.init(icon: .castcle(.twitter), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.white)
-        self.youtubeIconView.capsule(color: UIColor.Asset.white)
-        self.youtubeIcon.image = UIImage.init(icon: .castcle(.youtube), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.denger)
-        self.mediumIconView.capsule(color: UIColor.Asset.white)
-        self.mediumIcon.image = UIImage.init(icon: .castcle(.medium), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.black)
-        self.websiteIconView.capsule(color: UIColor.Asset.white)
-        self.websiteIcon.image = UIImage.init(icon: .castcle(.image), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.lightBlue)
+        self.pageDisplayNameLabel.font = UIFont.asset(.bold, fontSize: .body)
+        self.pageDisplayNameLabel.textColor = UIColor.Asset.white
+        self.pageOverviewLabel.font = UIFont.asset(.bold, fontSize: .body)
+        self.pageOverviewLabel.textColor = UIColor.Asset.white
+        self.pageOverviewTextView.font = UIFont.asset(.regular, fontSize: .body)
+        self.pageOverviewTextView.textColor = UIColor.Asset.white
+        self.pageLinkTitleLabel.font = UIFont.asset(.bold, fontSize: .body)
+        self.pageLinkTitleLabel.textColor = UIColor.Asset.white
+        self.pagePageInfoTitleLabel.textColor = UIColor.Asset.lightGray
+        self.pagePageInfoTitleLabel.font = UIFont.asset(.regular, fontSize: .overline)
+        self.pageEmailTitleLabel.textColor = UIColor.Asset.white
+        self.pageEmailTitleLabel.font = UIFont.asset(.regular, fontSize: .body)
+        self.pagePhoneTitleLabel.textColor = UIColor.Asset.white
+        self.pagePhoneTitleLabel.font = UIFont.asset(.regular, fontSize: .body)
+        self.pageEmailLabel.textColor = UIColor.Asset.lightGray
+        self.pageEmailLabel.font = UIFont.asset(.regular, fontSize: .body)
+        self.pagePhoneLabel.textColor = UIColor.Asset.lightGray
+        self.pagePhoneLabel.font = UIFont.asset(.regular, fontSize: .body)
+        self.pageEmailIcon.image = UIImage.init(icon: .castcle(.next), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white)
+        self.pagePhoneIcon.image = UIImage.init(icon: .castcle(.next), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white)
+        self.pageCastcleIdTextField.font = UIFont.asset(.regular, fontSize: .body)
+        self.pageCastcleIdTextField.textColor = UIColor.Asset.white
+        self.pageDisplayNameTextField.font = UIFont.asset(.regular, fontSize: .body)
+        self.pageDisplayNameTextField.textColor = UIColor.Asset.white
+        self.pageFacebookTextField.font = UIFont.asset(.regular, fontSize: .body)
+        self.pageFacebookTextField.textColor = UIColor.Asset.white
+        self.pageTwitterTextField.font = UIFont.asset(.regular, fontSize: .body)
+        self.pageTwitterTextField.textColor = UIColor.Asset.white
+        self.pageYoutubeTextField.font = UIFont.asset(.regular, fontSize: .body)
+        self.pageYoutubeTextField.textColor = UIColor.Asset.white
+        self.pageMediumTextField.font = UIFont.asset(.regular, fontSize: .body)
+        self.pageMediumTextField.textColor = UIColor.Asset.white
+        self.pageWebsiteTextField.font = UIFont.asset(.regular, fontSize: .body)
+        self.pageWebsiteTextField.textColor = UIColor.Asset.white
+        self.pageCastcleIdView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
+        self.pageDisplayNameView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
+        self.pageAboutView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
+        self.pageFacebookView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
+        self.pageTwitterView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
+        self.pageYoutubeView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
+        self.pageMediumView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
+        self.pageWebsiteView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
+        self.pageFacebookIconView.capsule(color: UIColor.Asset.facebook)
+        self.pageFacebookIcon.image = UIImage.init(icon: .castcle(.facebook), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.white)
+        self.pageTwitterIconView.capsule(color: UIColor.Asset.twitter)
+        self.pageTwitterIcon.image = UIImage.init(icon: .castcle(.twitter), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.white)
+        self.pageYoutubeIconView.capsule(color: UIColor.Asset.white)
+        self.pageYoutubeIcon.image = UIImage.init(icon: .castcle(.youtube), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.denger)
+        self.pageMediumIconView.capsule(color: UIColor.Asset.white)
+        self.pageMediumIcon.image = UIImage.init(icon: .castcle(.medium), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.black)
+        self.pageWebsiteIconView.capsule(color: UIColor.Asset.white)
+        self.pageWebsiteIcon.image = UIImage.init(icon: .castcle(.image), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.lightBlue)
 
         self.hud.textLabel.text = "Saving"
-        self.overviewTextView.delegate = self
-        self.overviewTextView.placeholder = "Write something to introduce yourself!"
+        self.pageOverviewTextView.delegate = self
+        self.pageOverviewTextView.placeholder = "Write something to introduce yourself!"
         self.saveButton.setTitle("Save", for: .normal)
         self.saveButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .head4)
         self.saveButton.setTitleColor(UIColor.Asset.white, for: .normal)
@@ -180,71 +178,71 @@ class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
     }
 
     private func mappingData() {
-        self.overviewTextView.text = self.viewModel.userInfo.overview
-        self.facebookTextField.text = (self.viewModel.userInfo.links.facebook.isEmpty ? UrlProtocol.https.value : self.viewModel.userInfo.links.facebook)
-        self.twitterTextField.text = (self.viewModel.userInfo.links.twitter.isEmpty ? UrlProtocol.https.value : self.viewModel.userInfo.links.twitter)
-        self.youtubeTextField.text = (self.viewModel.userInfo.links.youtube.isEmpty ? UrlProtocol.https.value : self.viewModel.userInfo.links.youtube)
-        self.mediumTextField.text = (self.viewModel.userInfo.links.medium.isEmpty ? UrlProtocol.https.value : self.viewModel.userInfo.links.medium)
-        self.websiteTextField.text = (self.viewModel.userInfo.links.website.isEmpty ? UrlProtocol.https.value : self.viewModel.userInfo.links.website)
+        self.pageOverviewTextView.text = self.viewModel.userInfo.overview
+        self.pageFacebookTextField.text = (self.viewModel.userInfo.links.facebook.isEmpty ? UrlProtocol.https.value : self.viewModel.userInfo.links.facebook)
+        self.pageTwitterTextField.text = (self.viewModel.userInfo.links.twitter.isEmpty ? UrlProtocol.https.value : self.viewModel.userInfo.links.twitter)
+        self.pageYoutubeTextField.text = (self.viewModel.userInfo.links.youtube.isEmpty ? UrlProtocol.https.value : self.viewModel.userInfo.links.youtube)
+        self.pageMediumTextField.text = (self.viewModel.userInfo.links.medium.isEmpty ? UrlProtocol.https.value : self.viewModel.userInfo.links.medium)
+        self.pageWebsiteTextField.text = (self.viewModel.userInfo.links.website.isEmpty ? UrlProtocol.https.value : self.viewModel.userInfo.links.website)
     }
 
     private func updateUI() {
         if let avatar = self.viewModel.avatar {
-            self.profileImage.image = avatar
+            self.pageAvatarImage.image = avatar
         } else {
             let url = URL(string: self.viewModel.userInfo.images.avatar.thumbnail)
-            self.profileImage.kf.setImage(with: url, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
+            self.pageAvatarImage.kf.setImage(with: url, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
         }
 
         if let cover = self.viewModel.cover {
-            self.coverImage.image = cover
+            self.pageCoverImage.image = cover
         } else {
             let url = URL(string: self.viewModel.userInfo.images.cover.fullHd)
-            self.coverImage.kf.setImage(with: url, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.35))])
+            self.pageCoverImage.kf.setImage(with: url, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.35))])
         }
 
-        self.castcleIdTextField.text = self.viewModel.userInfo.castcleId
-        self.displayNameTextField.text = self.viewModel.userInfo.displayName
+        self.pageCastcleIdTextField.text = self.viewModel.userInfo.castcleId
+        self.pageDisplayNameTextField.text = self.viewModel.userInfo.displayName
         if self.viewModel.userInfo.canUpdateCastcleId {
-            self.castcleIdNoticeLabel.text = ""
-            self.castcleIdTextField.isEnabled = true
+            self.pageCastcleIdNoticeLabel.text = ""
+            self.pageCastcleIdTextField.isEnabled = true
         } else {
-            self.castcleIdNoticeLabel.text = "Once your Castcle ID has been changed, you can edit it again after 60 days."
-            self.castcleIdTextField.isEnabled = false
+            self.pageCastcleIdNoticeLabel.text = "Once your Castcle ID has been changed, you can edit it again after 60 days."
+            self.pageCastcleIdTextField.isEnabled = false
         }
 
         if self.viewModel.userInfo.contact.email.isEmpty {
-            self.emailLabel.textColor = UIColor.Asset.lightGray
-            self.emailLabel.text = "None"
+            self.pageEmailLabel.textColor = UIColor.Asset.lightGray
+            self.pageEmailLabel.text = "None"
         } else {
-            self.emailLabel.textColor = UIColor.Asset.lightBlue
-            self.emailLabel.text = self.viewModel.userInfo.contact.email
+            self.pageEmailLabel.textColor = UIColor.Asset.lightBlue
+            self.pageEmailLabel.text = self.viewModel.userInfo.contact.email
         }
 
         if self.viewModel.userInfo.contact.phone.isEmpty {
-            self.phoneLabel.textColor = UIColor.Asset.lightGray
-            self.phoneLabel.text = "None"
+            self.pagePhoneLabel.textColor = UIColor.Asset.lightGray
+            self.pagePhoneLabel.text = "None"
         } else {
-            self.phoneLabel.textColor = UIColor.Asset.lightBlue
-            self.phoneLabel.text = "\(self.viewModel.userInfo.contact.countryCode.isEmpty ? "(+66)" : "(\(self.viewModel.userInfo.contact.countryCode)")) \(self.viewModel.userInfo.contact.phone)"
+            self.pagePhoneLabel.textColor = UIColor.Asset.lightBlue
+            self.pagePhoneLabel.text = "\(self.viewModel.userInfo.contact.countryCode.isEmpty ? "(+66)" : "(\(self.viewModel.userInfo.contact.countryCode)")) \(self.viewModel.userInfo.contact.phone)"
         }
     }
 
     private func disableUI(isActive: Bool) {
         if isActive {
-            self.overviewTextView.isEditable = true
-            self.facebookTextField.isEnabled = true
-            self.twitterTextField.isEnabled = true
-            self.youtubeTextField.isEnabled = true
-            self.mediumTextField.isEnabled = true
-            self.websiteTextField.isEnabled = true
+            self.pageOverviewTextView.isEditable = true
+            self.pageFacebookTextField.isEnabled = true
+            self.pageTwitterTextField.isEnabled = true
+            self.pageYoutubeTextField.isEnabled = true
+            self.pageMediumTextField.isEnabled = true
+            self.pageWebsiteTextField.isEnabled = true
         } else {
-            self.overviewTextView.isEditable = false
-            self.facebookTextField.isEnabled = false
-            self.twitterTextField.isEnabled = false
-            self.youtubeTextField.isEnabled = false
-            self.mediumTextField.isEnabled = false
-            self.websiteTextField.isEnabled = false
+            self.pageOverviewTextView.isEditable = false
+            self.pageFacebookTextField.isEnabled = false
+            self.pageTwitterTextField.isEnabled = false
+            self.pageYoutubeTextField.isEnabled = false
+            self.pageMediumTextField.isEnabled = false
+            self.pageWebsiteTextField.isEnabled = false
         }
     }
 
@@ -264,20 +262,20 @@ class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         self.hud.show(in: Utility.currentViewController().view)
         self.disableUI(isActive: false)
 
-        if (self.castcleIdTextField.text!).trimmingCharacters(in: .whitespacesAndNewlines) != self.viewModel.userInfo.castcleId {
-            self.viewModel.userRequest.payload.castcleId = (self.castcleIdTextField.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+        if (self.pageCastcleIdTextField.text!).trimmingCharacters(in: .whitespacesAndNewlines) != self.viewModel.userInfo.castcleId {
+            self.viewModel.userRequest.payload.castcleId = (self.pageCastcleIdTextField.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
         }
 
-        if (self.displayNameTextField.text!).trimmingCharacters(in: .whitespacesAndNewlines) != self.viewModel.userInfo.displayName {
-            self.viewModel.userRequest.payload.displayName = (self.displayNameTextField.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+        if (self.pageDisplayNameTextField.text!).trimmingCharacters(in: .whitespacesAndNewlines) != self.viewModel.userInfo.displayName {
+            self.viewModel.userRequest.payload.displayName = (self.pageDisplayNameTextField.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
         }
 
-        self.viewModel.userRequest.payload.overview = self.overviewTextView.text ?? ""
-        self.viewModel.userRequest.payload.links.facebook = (self.facebookTextField.text! == UrlProtocol.https.value ? "" : self.facebookTextField.text!)
-        self.viewModel.userRequest.payload.links.twitter = (self.twitterTextField.text! == UrlProtocol.https.value ? "" : self.twitterTextField.text!)
-        self.viewModel.userRequest.payload.links.youtube = (self.youtubeTextField.text! == UrlProtocol.https.value ? "" : self.youtubeTextField.text!)
-        self.viewModel.userRequest.payload.links.medium = (self.mediumTextField.text! == UrlProtocol.https.value ? "" : self.mediumTextField.text!)
-        self.viewModel.userRequest.payload.links.website = (self.websiteTextField.text! == UrlProtocol.https.value ? "" : self.websiteTextField.text!)
+        self.viewModel.userRequest.payload.overview = self.pageOverviewTextView.text ?? ""
+        self.viewModel.userRequest.payload.links.facebook = (self.pageFacebookTextField.text! == UrlProtocol.https.value ? "" : self.pageFacebookTextField.text!)
+        self.viewModel.userRequest.payload.links.twitter = (self.pageTwitterTextField.text! == UrlProtocol.https.value ? "" : self.pageTwitterTextField.text!)
+        self.viewModel.userRequest.payload.links.youtube = (self.pageYoutubeTextField.text! == UrlProtocol.https.value ? "" : self.pageYoutubeTextField.text!)
+        self.viewModel.userRequest.payload.links.medium = (self.pageMediumTextField.text! == UrlProtocol.https.value ? "" : self.pageMediumTextField.text!)
+        self.viewModel.userRequest.payload.links.website = (self.pageWebsiteTextField.text! == UrlProtocol.https.value ? "" : self.pageWebsiteTextField.text!)
         self.viewModel.updateProfile(isPage: true, castcleId: self.viewModel.userInfo.castcleId)
     }
 
@@ -452,7 +450,7 @@ extension EditPageInfoTableViewCell: TOCropViewControllerDelegate {
         cropViewController.dismiss(animated: true, completion: {
             if self.updateImageType == .avatar {
                 let avatarPageInfoCropImage = image.resizeImage(targetSize: CGSize.init(width: 200, height: 200))
-                self.profileImage.image = avatarPageInfoCropImage
+                self.pageAvatarImage.image = avatarPageInfoCropImage
                 self.viewModel.avatar = avatarPageInfoCropImage
             }
         })
@@ -462,7 +460,7 @@ extension EditPageInfoTableViewCell: TOCropViewControllerDelegate {
         cropViewController.dismiss(animated: true, completion: {
             if self.updateImageType == .cover {
                 let coverPageInfoCropImage = image.resizeImage(targetSize: CGSize.init(width: 640, height: 480))
-                self.coverImage.image = coverPageInfoCropImage
+                self.pageCoverImage.image = coverPageInfoCropImage
                 self.viewModel.cover = coverPageInfoCropImage
             }
         })
@@ -472,8 +470,8 @@ extension EditPageInfoTableViewCell: TOCropViewControllerDelegate {
 extension EditPageInfoTableViewCell: ContactEmailViewControllerDelegate {
     func didChangeEmail(_ contactEmailViewController: ContactEmailViewController, email: String) {
         self.viewModel.userInfo.contact.email = email
-        self.emailLabel.textColor = UIColor.Asset.lightBlue
-        self.emailLabel.text = self.viewModel.userInfo.contact.email
+        self.pageEmailLabel.textColor = UIColor.Asset.lightBlue
+        self.pageEmailLabel.text = self.viewModel.userInfo.contact.email
     }
 }
 
@@ -481,7 +479,7 @@ extension EditPageInfoTableViewCell: ContactPhoneViewControllerDelegate {
     func didChangePhone(_ contactPhoneViewController: ContactPhoneViewController, phone: String, countryCode: String) {
         self.viewModel.userInfo.contact.phone = phone
         self.viewModel.userInfo.contact.countryCode = countryCode
-        self.phoneLabel.textColor = UIColor.Asset.lightBlue
-        self.phoneLabel.text = "\(self.viewModel.userInfo.contact.countryCode.isEmpty ? "(+66)" : "(\(self.viewModel.userInfo.contact.countryCode)")) \(self.viewModel.userInfo.contact.phone)"
+        self.pagePhoneLabel.textColor = UIColor.Asset.lightBlue
+        self.pagePhoneLabel.text = "\(self.viewModel.userInfo.contact.countryCode.isEmpty ? "(+66)" : "(\(self.viewModel.userInfo.contact.countryCode)")) \(self.viewModel.userInfo.contact.phone)"
     }
 }

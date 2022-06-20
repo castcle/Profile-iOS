@@ -237,25 +237,25 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
-                <outlet property="avatarBackgroundView" destination="zRH-Tt-GWQ" id="3VD-Wa-rUm"/>
-                <outlet property="avatarIndicator" destination="plf-PV-mvs" id="Nkg-uM-038"/>
-                <outlet property="avatarLoadView" destination="VtV-uD-EhT" id="MIT-H3-GMo"/>
-                <outlet property="bioLabel" destination="02L-pR-rAK" id="dEZ-Mr-8Jl"/>
-                <outlet property="coverBackgroundView" destination="oP8-BY-msx" id="YYh-zs-Ezy"/>
-                <outlet property="coverImage" destination="HqY-XB-dQ4" id="EnE-4O-5Qa"/>
-                <outlet property="coverIndicator" destination="E3f-WV-TAv" id="oyE-Mf-1ar"/>
-                <outlet property="coverLoadView" destination="TP6-Db-gNX" id="be1-RH-dUR"/>
-                <outlet property="displayNameLabel" destination="3Tg-z6-d19" id="DUZ-Wc-9cJ"/>
-                <outlet property="editCoverButton" destination="lPd-hQ-bAb" id="Wra-S3-1Dz"/>
-                <outlet property="editProfileButton" destination="dLG-si-dz5" id="yrI-OA-OjV"/>
-                <outlet property="editProfileImageButton" destination="S5R-aa-Fhd" id="AqP-2L-I83"/>
-                <outlet property="followButton" destination="gq9-ir-4RE" id="vbh-2Y-8lW"/>
-                <outlet property="followLabel" destination="EXO-8h-UJ1" id="rbJ-0D-FYW"/>
+                <outlet property="editUserAvatarButton" destination="S5R-aa-Fhd" id="fQH-Ux-VH8"/>
+                <outlet property="editUserCoverButton" destination="lPd-hQ-bAb" id="25N-Do-pbH"/>
+                <outlet property="editUserProfileButton" destination="dLG-si-dz5" id="Mxw-CU-wk8"/>
                 <outlet property="moreButton" destination="kjm-A1-Sfv" id="hAe-11-LBI"/>
-                <outlet property="profileImage" destination="ZqZ-n0-X5y" id="yVO-ON-cB7"/>
-                <outlet property="uploadCoverLabel" destination="2jI-c7-084" id="jOj-hL-M5q"/>
-                <outlet property="userIdLabel" destination="xSt-UI-7Ko" id="pdH-IG-AnC"/>
-                <outlet property="viewProfileButton" destination="GgD-xl-uoa" id="Kvz-w8-YUy"/>
+                <outlet property="userAvatarBackgroundView" destination="zRH-Tt-GWQ" id="J9P-1O-1l3"/>
+                <outlet property="userAvatarImage" destination="ZqZ-n0-X5y" id="xRb-bX-JbJ"/>
+                <outlet property="userAvatarIndicator" destination="plf-PV-mvs" id="wHY-iE-qxs"/>
+                <outlet property="userAvatarLoadView" destination="VtV-uD-EhT" id="b8p-Gb-pF4"/>
+                <outlet property="userBioLabel" destination="02L-pR-rAK" id="utj-C6-CQd"/>
+                <outlet property="userCastcleIdLabel" destination="xSt-UI-7Ko" id="ghm-YK-FT8"/>
+                <outlet property="userCoverBackgroundView" destination="oP8-BY-msx" id="aLW-N9-JMJ"/>
+                <outlet property="userCoverImage" destination="HqY-XB-dQ4" id="Ta6-Z0-42U"/>
+                <outlet property="userCoverIndicator" destination="E3f-WV-TAv" id="0xC-vL-gk8"/>
+                <outlet property="userCoverLoadView" destination="TP6-Db-gNX" id="BZG-QH-faN"/>
+                <outlet property="userDisplayNameLabel" destination="3Tg-z6-d19" id="CDi-OX-ISz"/>
+                <outlet property="userFollowButton" destination="gq9-ir-4RE" id="bd5-Ev-Nz9"/>
+                <outlet property="userFollowLabel" destination="EXO-8h-UJ1" id="D6F-jS-OPz"/>
+                <outlet property="userUploadCoverLabel" destination="2jI-c7-084" id="3uI-dG-hAH"/>
+                <outlet property="viewUserProfileButton" destination="GgD-xl-uoa" id="318-pX-D0s"/>
             </connections>
             <point key="canvasLocation" x="137.68115942028987" y="261.16071428571428"/>
         </tableViewCell>

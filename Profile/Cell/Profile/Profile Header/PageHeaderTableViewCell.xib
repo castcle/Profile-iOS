@@ -324,28 +324,28 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
-                <outlet property="avatarBackgroundView" destination="zRH-Tt-GWQ" id="3VD-Wa-rUm"/>
-                <outlet property="avatarIndicator" destination="plf-PV-mvs" id="Nkg-uM-038"/>
-                <outlet property="avatarLoadView" destination="VtV-uD-EhT" id="MIT-H3-GMo"/>
-                <outlet property="bioLabel" destination="02L-pR-rAK" id="dEZ-Mr-8Jl"/>
-                <outlet property="castLabel" destination="afH-0H-i3P" id="hJJ-Hy-znn"/>
-                <outlet property="castTitleLabel" destination="A5n-6v-K8Z" id="AbY-c7-7TG"/>
-                <outlet property="coverBackgroundView" destination="oP8-BY-msx" id="YYh-zs-Ezy"/>
-                <outlet property="coverImage" destination="HqY-XB-dQ4" id="EnE-4O-5Qa"/>
-                <outlet property="coverIndicator" destination="E3f-WV-TAv" id="oyE-Mf-1ar"/>
-                <outlet property="coverLoadView" destination="TP6-Db-gNX" id="be1-RH-dUR"/>
-                <outlet property="displayNameLabel" destination="3Tg-z6-d19" id="DUZ-Wc-9cJ"/>
-                <outlet property="editCoverButton" destination="lPd-hQ-bAb" id="Wra-S3-1Dz"/>
-                <outlet property="editProfileButton" destination="dLG-si-dz5" id="yrI-OA-OjV"/>
-                <outlet property="editProfileImageButton" destination="S5R-aa-Fhd" id="AqP-2L-I83"/>
-                <outlet property="followButton" destination="gq9-ir-4RE" id="vbh-2Y-8lW"/>
-                <outlet property="followTitleLabel" destination="SvD-0e-4Nf" id="3Lj-S9-19h"/>
-                <outlet property="followerLabel" destination="p3Z-AR-gpl" id="Lsd-ca-BPL"/>
+                <outlet property="editPageAvatarButton" destination="S5R-aa-Fhd" id="RR2-MN-QiH"/>
+                <outlet property="editPageCoverButton" destination="lPd-hQ-bAb" id="oVZ-yo-Gur"/>
+                <outlet property="editPageProfileButton" destination="dLG-si-dz5" id="emC-j8-ztc"/>
                 <outlet property="moreButton" destination="kjm-A1-Sfv" id="hAe-11-LBI"/>
-                <outlet property="profileImage" destination="ZqZ-n0-X5y" id="yVO-ON-cB7"/>
-                <outlet property="uploadCoverLabel" destination="2jI-c7-084" id="jOj-hL-M5q"/>
-                <outlet property="userIdLabel" destination="xSt-UI-7Ko" id="pdH-IG-AnC"/>
-                <outlet property="viewProfileButton" destination="GgD-xl-uoa" id="Kvz-w8-YUy"/>
+                <outlet property="pageAvatarBackgroundView" destination="zRH-Tt-GWQ" id="qpZ-IM-M5a"/>
+                <outlet property="pageAvatarImage" destination="ZqZ-n0-X5y" id="dGD-vB-fxp"/>
+                <outlet property="pageAvatarIndicator" destination="plf-PV-mvs" id="9WK-9G-Oa7"/>
+                <outlet property="pageAvatarLoadView" destination="VtV-uD-EhT" id="v01-Ry-Ixu"/>
+                <outlet property="pageBioLabel" destination="02L-pR-rAK" id="98V-8w-dRW"/>
+                <outlet property="pageCastLabel" destination="afH-0H-i3P" id="7h4-su-Q0i"/>
+                <outlet property="pageCastTitleLabel" destination="A5n-6v-K8Z" id="Tmj-3e-mM0"/>
+                <outlet property="pageCastcleIdLabel" destination="xSt-UI-7Ko" id="GSC-PH-aFz"/>
+                <outlet property="pageCoverBackgroundView" destination="oP8-BY-msx" id="bR0-5D-Flg"/>
+                <outlet property="pageCoverImage" destination="HqY-XB-dQ4" id="WeQ-g5-0Vc"/>
+                <outlet property="pageCoverIndicator" destination="E3f-WV-TAv" id="sbw-wr-81B"/>
+                <outlet property="pageCoverLoadView" destination="TP6-Db-gNX" id="oCD-aD-00p"/>
+                <outlet property="pageDisplayNameLabel" destination="3Tg-z6-d19" id="2Um-4a-OMC"/>
+                <outlet property="pageFollowButton" destination="gq9-ir-4RE" id="bSd-MO-IOk"/>
+                <outlet property="pageFollowTitleLabel" destination="SvD-0e-4Nf" id="UDe-SS-amR"/>
+                <outlet property="pageFollowerLabel" destination="p3Z-AR-gpl" id="Qxw-gL-we3"/>
+                <outlet property="pageUploadCoverLabel" destination="2jI-c7-084" id="rT4-4h-TaU"/>
+                <outlet property="viewPageProfileButton" destination="GgD-xl-uoa" id="4Jb-lV-hHx"/>
             </connections>
             <point key="canvasLocation" x="137.68115942028987" y="265.84821428571428"/>
         </tableViewCell>

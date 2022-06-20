@@ -43,28 +43,28 @@ protocol PageHeaderTableViewCellDelegate: AnyObject {
 
 class PageHeaderTableViewCell: UITableViewCell {
 
-    @IBOutlet var coverImage: UIImageView!
-    @IBOutlet var profileImage: UIImageView!
-    @IBOutlet var editCoverButton: UIButton!
+    @IBOutlet var pageCoverImage: UIImageView!
+    @IBOutlet var pageAvatarImage: UIImageView!
+    @IBOutlet var editPageCoverButton: UIButton!
     @IBOutlet var moreButton: UIButton!
-    @IBOutlet var editProfileImageButton: UIButton!
-    @IBOutlet var displayNameLabel: UILabel!
-    @IBOutlet var userIdLabel: UILabel!
-    @IBOutlet var bioLabel: UILabel!
-    @IBOutlet var editProfileButton: UIButton!
-    @IBOutlet var viewProfileButton: UIButton!
-    @IBOutlet var followButton: UIButton!
-    @IBOutlet var coverLoadView: UIView!
-    @IBOutlet var coverBackgroundView: UIView!
-    @IBOutlet var coverIndicator: NVActivityIndicatorView!
-    @IBOutlet var uploadCoverLabel: UILabel!
-    @IBOutlet var avatarLoadView: UIView!
-    @IBOutlet var avatarBackgroundView: UIView!
-    @IBOutlet var avatarIndicator: NVActivityIndicatorView!
-    @IBOutlet var followerLabel: UILabel!
-    @IBOutlet var followTitleLabel: UILabel!
-    @IBOutlet var castLabel: UILabel!
-    @IBOutlet var castTitleLabel: UILabel!
+    @IBOutlet var editPageAvatarButton: UIButton!
+    @IBOutlet var pageDisplayNameLabel: UILabel!
+    @IBOutlet var pageCastcleIdLabel: UILabel!
+    @IBOutlet var pageBioLabel: UILabel!
+    @IBOutlet var editPageProfileButton: UIButton!
+    @IBOutlet var viewPageProfileButton: UIButton!
+    @IBOutlet var pageFollowButton: UIButton!
+    @IBOutlet var pageCoverLoadView: UIView!
+    @IBOutlet var pageCoverBackgroundView: UIView!
+    @IBOutlet var pageCoverIndicator: NVActivityIndicatorView!
+    @IBOutlet var pageUploadCoverLabel: UILabel!
+    @IBOutlet var pageAvatarLoadView: UIView!
+    @IBOutlet var pageAvatarBackgroundView: UIView!
+    @IBOutlet var pageAvatarIndicator: NVActivityIndicatorView!
+    @IBOutlet var pageFollowerLabel: UILabel!
+    @IBOutlet var pageFollowTitleLabel: UILabel!
+    @IBOutlet var pageCastLabel: UILabel!
+    @IBOutlet var pageCastTitleLabel: UILabel!
 
     public var delegate: PageHeaderTableViewCellDelegate?
     private var viewModel = ProfileHeaderViewModel(profileType: .unknow, userInfo: UserInfo())
@@ -73,44 +73,44 @@ class PageHeaderTableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.displayNameLabel.font = UIFont.asset(.regular, fontSize: .head4)
-        self.displayNameLabel.textColor = UIColor.Asset.white
-        self.userIdLabel.font = UIFont.asset(.regular, fontSize: .overline)
-        self.userIdLabel.textColor = UIColor.Asset.gray
-        self.bioLabel.font = UIFont.asset(.regular, fontSize: .body)
-        self.bioLabel.textColor = UIColor.Asset.white
-        self.uploadCoverLabel.font = UIFont.asset(.regular, fontSize: .overline)
-        self.uploadCoverLabel.textColor = UIColor.Asset.white
-        self.followerLabel.font = UIFont.asset(.regular, fontSize: .overline)
-        self.followerLabel.textColor = UIColor.Asset.white
-        self.followTitleLabel.font = UIFont.asset(.regular, fontSize: .overline)
-        self.followTitleLabel.textColor = UIColor.Asset.white
-        self.castLabel.font = UIFont.asset(.regular, fontSize: .overline)
-        self.castLabel.textColor = UIColor.Asset.white
-        self.castTitleLabel.font = UIFont.asset(.regular, fontSize: .overline)
-        self.castTitleLabel.textColor = UIColor.Asset.white
-        self.profileImage.circle(color: UIColor.Asset.white)
-        self.avatarLoadView.capsule(borderWidth: 2.0, borderColor: UIColor.Asset.white)
-        self.editProfileImageButton.setImage(UIImage.init(icon: .castcle(.camera), size: CGSize(width: 15, height: 15), textColor: UIColor.Asset.darkGraphiteBlue).withRenderingMode(.alwaysOriginal), for: .normal)
-        self.editProfileImageButton.setBackgroundImage(UIColor.Asset.lightBlue.toImage(), for: .normal)
-        self.editProfileImageButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.darkGraphiteBlue)
+        self.pageDisplayNameLabel.font = UIFont.asset(.regular, fontSize: .head4)
+        self.pageDisplayNameLabel.textColor = UIColor.Asset.white
+        self.pageCastcleIdLabel.font = UIFont.asset(.regular, fontSize: .overline)
+        self.pageCastcleIdLabel.textColor = UIColor.Asset.gray
+        self.pageBioLabel.font = UIFont.asset(.regular, fontSize: .body)
+        self.pageBioLabel.textColor = UIColor.Asset.white
+        self.pageUploadCoverLabel.font = UIFont.asset(.regular, fontSize: .overline)
+        self.pageUploadCoverLabel.textColor = UIColor.Asset.white
+        self.pageFollowerLabel.font = UIFont.asset(.regular, fontSize: .overline)
+        self.pageFollowerLabel.textColor = UIColor.Asset.white
+        self.pageFollowTitleLabel.font = UIFont.asset(.regular, fontSize: .overline)
+        self.pageFollowTitleLabel.textColor = UIColor.Asset.white
+        self.pageCastLabel.font = UIFont.asset(.regular, fontSize: .overline)
+        self.pageCastLabel.textColor = UIColor.Asset.white
+        self.pageCastTitleLabel.font = UIFont.asset(.regular, fontSize: .overline)
+        self.pageCastTitleLabel.textColor = UIColor.Asset.white
+        self.pageAvatarImage.circle(color: UIColor.Asset.white)
+        self.pageAvatarLoadView.capsule(borderWidth: 2.0, borderColor: UIColor.Asset.white)
+        self.editPageAvatarButton.setImage(UIImage.init(icon: .castcle(.camera), size: CGSize(width: 15, height: 15), textColor: UIColor.Asset.darkGraphiteBlue).withRenderingMode(.alwaysOriginal), for: .normal)
+        self.editPageAvatarButton.setBackgroundImage(UIColor.Asset.lightBlue.toImage(), for: .normal)
+        self.editPageAvatarButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.darkGraphiteBlue)
         self.moreButton.setImage(UIImage.init(icon: .castcle(.ellipsisV), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.gray).withRenderingMode(.alwaysOriginal), for: .normal)
         self.moreButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.gray)
-        self.editCoverButton.setImage(UIImage.init(icon: .castcle(.camera), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white).withRenderingMode(.alwaysOriginal), for: .normal)
-        self.editCoverButton.setBackgroundImage(UIColor.Asset.gray.toImage(), for: .normal)
-        self.editCoverButton.capsule()
-        self.editProfileButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .overline)
-        self.editProfileButton.setTitleColor(UIColor.Asset.lightBlue, for: .normal)
-        self.editProfileButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
-        self.viewProfileButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .overline)
-        self.viewProfileButton.setTitleColor(UIColor.Asset.lightBlue, for: .normal)
-        self.viewProfileButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
-        self.coverBackgroundView.backgroundColor = UIColor.Asset.darkGray
-        self.avatarBackgroundView.backgroundColor = UIColor.Asset.darkGray
-        self.coverLoadView.isHidden = true
-        self.avatarLoadView.isHidden = true
-        self.coverIndicator.type = .ballBeat
-        self.avatarIndicator.type = .ballBeat
+        self.editPageCoverButton.setImage(UIImage.init(icon: .castcle(.camera), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white).withRenderingMode(.alwaysOriginal), for: .normal)
+        self.editPageCoverButton.setBackgroundImage(UIColor.Asset.gray.toImage(), for: .normal)
+        self.editPageCoverButton.capsule()
+        self.editPageProfileButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .overline)
+        self.editPageProfileButton.setTitleColor(UIColor.Asset.lightBlue, for: .normal)
+        self.editPageProfileButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
+        self.viewPageProfileButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .overline)
+        self.viewPageProfileButton.setTitleColor(UIColor.Asset.lightBlue, for: .normal)
+        self.viewPageProfileButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
+        self.pageCoverBackgroundView.backgroundColor = UIColor.Asset.darkGray
+        self.pageAvatarBackgroundView.backgroundColor = UIColor.Asset.darkGray
+        self.pageCoverLoadView.isHidden = true
+        self.pageAvatarLoadView.isHidden = true
+        self.pageCoverIndicator.type = .ballBeat
+        self.pageAvatarIndicator.type = .ballBeat
         self.editProfileViewModel.delegate = self
     }
 
@@ -216,54 +216,54 @@ extension PageHeaderTableViewCell {
         let urlCover = URL(string: self.viewModel.userInfo.images.cover.fullHd)
         if self.viewModel.isMyPage {
             if let avatar = self.editProfileViewModel.avatar {
-                self.profileImage.image = avatar
+                self.pageAvatarImage.image = avatar
             } else {
-                self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
+                self.pageAvatarImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
             }
 
             if let cover = self.editProfileViewModel.cover {
-                self.coverImage.image = cover
+                self.pageCoverImage.image = cover
             } else {
-                self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.35))])
+                self.pageCoverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.35))])
             }
         } else {
-            self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
-            self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.35))])
+            self.pageAvatarImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
+            self.pageCoverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.35))])
         }
 
-        self.displayNameLabel.text = self.viewModel.userInfo.displayName
-        self.userIdLabel.text = "@\(self.viewModel.userInfo.castcleId)"
-        self.bioLabel.text = self.viewModel.userInfo.overview
-        self.followerLabel.text = String.displayCount(count: self.viewModel.userInfo.followers.count)
-        self.castLabel.text = String.displayCount(count: self.viewModel.userInfo.casts)
+        self.pageDisplayNameLabel.text = self.viewModel.userInfo.displayName
+        self.pageCastcleIdLabel.text = "@\(self.viewModel.userInfo.castcleId)"
+        self.pageBioLabel.text = self.viewModel.userInfo.overview
+        self.pageFollowerLabel.text = String.displayCount(count: self.viewModel.userInfo.followers.count)
+        self.pageCastLabel.text = String.displayCount(count: self.viewModel.userInfo.casts)
         if self.viewModel.isMyPage {
-            self.editProfileButton.setTitle("Edit Page", for: .normal)
-            self.editCoverButton.isHidden = false
-            self.editProfileButton.isHidden = false
-            self.editProfileImageButton.isHidden = false
-            self.viewProfileButton.isHidden = true
-            self.followButton.isHidden = true
+            self.editPageProfileButton.setTitle("Edit Page", for: .normal)
+            self.editPageCoverButton.isHidden = false
+            self.editPageProfileButton.isHidden = false
+            self.editPageAvatarButton.isHidden = false
+            self.viewPageProfileButton.isHidden = true
+            self.pageFollowButton.isHidden = true
         } else {
-            self.viewProfileButton.setTitle("View Page", for: .normal)
-            self.editCoverButton.isHidden = true
-            self.editProfileButton.isHidden = true
-            self.editProfileImageButton.isHidden = true
-            self.viewProfileButton.isHidden = false
-            self.followButton.isHidden = false
+            self.viewPageProfileButton.setTitle("View Page", for: .normal)
+            self.editPageCoverButton.isHidden = true
+            self.editPageProfileButton.isHidden = true
+            self.editPageAvatarButton.isHidden = true
+            self.viewPageProfileButton.isHidden = false
+            self.pageFollowButton.isHidden = false
         }
     }
 
     private func followUI() {
         if self.viewModel.isFollow == true {
-            self.followButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .overline)
-            self.followButton.setBackgroundImage(UIColor.Asset.lightBlue.toImage(), for: .normal)
-            self.followButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
-            self.followButton.setIcon(prefixText: "Following  ", prefixTextColor: UIColor.Asset.white, icon: .castcle(.checkmark), iconColor: UIColor.Asset.white, postfixText: "", postfixTextColor: UIColor.Asset.white, forState: .normal, textSize: 14, iconSize: 14)
+            self.pageFollowButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .overline)
+            self.pageFollowButton.setBackgroundImage(UIColor.Asset.lightBlue.toImage(), for: .normal)
+            self.pageFollowButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
+            self.pageFollowButton.setIcon(prefixText: "Following  ", prefixTextColor: UIColor.Asset.white, icon: .castcle(.checkmark), iconColor: UIColor.Asset.white, postfixText: "", postfixTextColor: UIColor.Asset.white, forState: .normal, textSize: 14, iconSize: 14)
         } else {
-            self.followButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .overline)
-            self.followButton.setBackgroundImage(UIColor.Asset.darkGray.toImage(), for: .normal)
-            self.followButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
-            self.followButton.setIcon(prefixText: "     Follow     ", prefixTextColor: UIColor.Asset.lightBlue, icon: .castcle(.checkmark), iconColor: UIColor.Asset.darkGray, postfixText: "", postfixTextColor: UIColor.Asset.white, forState: .normal, textSize: 14, iconSize: 0)
+            self.pageFollowButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .overline)
+            self.pageFollowButton.setBackgroundImage(UIColor.Asset.darkGray.toImage(), for: .normal)
+            self.pageFollowButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
+            self.pageFollowButton.setIcon(prefixText: "     Follow     ", prefixTextColor: UIColor.Asset.lightBlue, icon: .castcle(.checkmark), iconColor: UIColor.Asset.darkGray, postfixText: "", postfixTextColor: UIColor.Asset.white, forState: .normal, textSize: 14, iconSize: 0)
         }
     }
 
@@ -413,10 +413,10 @@ extension PageHeaderTableViewCell: TOCropViewControllerDelegate {
         cropViewController.dismiss(animated: true, completion: {
             if self.updateImageType == .avatar {
                 let avatarCropImage = image.resizeImage(targetSize: CGSize.init(width: 200, height: 200))
-                self.profileImage.image = avatarCropImage
+                self.pageAvatarImage.image = avatarCropImage
                 self.editProfileViewModel.avatar = avatarCropImage
-                self.avatarLoadView.isHidden = false
-                self.avatarIndicator.startAnimating()
+                self.pageAvatarLoadView.isHidden = false
+                self.pageAvatarIndicator.startAnimating()
                 self.editProfileViewModel.updateAvatar(isPage: true, castcleId: self.viewModel.userInfo.castcleId)
             }
         })
@@ -426,10 +426,10 @@ extension PageHeaderTableViewCell: TOCropViewControllerDelegate {
         cropViewController.dismiss(animated: true, completion: {
             if self.updateImageType == .cover {
                 let coverCropImage = image.resizeImage(targetSize: CGSize.init(width: 640, height: 480))
-                self.coverImage.image = coverCropImage
+                self.pageCoverImage.image = coverCropImage
                 self.editProfileViewModel.cover = coverCropImage
-                self.coverLoadView.isHidden = false
-                self.coverIndicator.startAnimating()
+                self.pageCoverLoadView.isHidden = false
+                self.pageCoverIndicator.startAnimating()
                 self.editProfileViewModel.updateCover(isPage: true, castcleId: self.viewModel.userInfo.castcleId)
             }
         })
@@ -439,10 +439,10 @@ extension PageHeaderTableViewCell: TOCropViewControllerDelegate {
 extension PageHeaderTableViewCell: EditProfileViewModelDelegate {
     func didUpdateInfoFinish(success: Bool) {
         if success {
-            self.avatarLoadView.isHidden = true
-            self.coverLoadView.isHidden = true
-            self.avatarIndicator.stopAnimating()
-            self.coverIndicator.stopAnimating()
+            self.pageAvatarLoadView.isHidden = true
+            self.pageCoverLoadView.isHidden = true
+            self.pageAvatarIndicator.stopAnimating()
+            self.pageCoverIndicator.stopAnimating()
             if self.updateImageType == .avatar {
                 self.delegate?.didUpdateProfileSuccess(self)
                 self.updateImageType = .none
