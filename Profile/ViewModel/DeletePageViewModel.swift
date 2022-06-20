@@ -73,14 +73,9 @@ public class DeletePageViewModel {
             if success {
                 self.state = .none
                 do {
-                    let realm = try Realm()
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
                     let pages = json[JsonKey.payload.rawValue].arrayValue
-                    let pageRealm = realm.objects(Page.self)
-                    try realm.write {
-                        realm.delete(pageRealm)
-                    }
                     UserHelper.shared.updatePage(pages: pages)
                     self.delegate?.didGetAllPageFinish()
                 } catch {}
