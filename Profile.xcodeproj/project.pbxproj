@@ -66,6 +66,7 @@
 		B7910ED326C00A550097C94E /* EditInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7910ED126C00A550097C94E /* EditInfoTableViewCell.xib */; };
 		B7910ED526C00A700097C94E /* EditInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910ED426C00A700097C94E /* EditInfoViewController.swift */; };
 		B7910ED726C0340B0097C94E /* ProfileActionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7910ED626C0340B0097C94E /* ProfileActionViewController.swift */; };
+		B7925149286067380020FE8C /* SocialHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7925148286067380020FE8C /* SocialHelper.swift */; };
 		B797240D27FACFF900111F24 /* SyncSocialMediaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B797240C27FACFF800111F24 /* SyncSocialMediaViewController.swift */; };
 		B797240F27FAD15E00111F24 /* SyncSocialMediaViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B797240E27FAD15E00111F24 /* SyncSocialMediaViewModel.swift */; };
 		B797241227FAD6FC00111F24 /* SocialAccountTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B797241027FAD6FB00111F24 /* SocialAccountTableViewCell.xib */; };
@@ -200,6 +201,7 @@
 		B7910ED126C00A550097C94E /* EditInfoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EditInfoTableViewCell.xib; sourceTree = "<group>"; };
 		B7910ED426C00A700097C94E /* EditInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditInfoViewController.swift; sourceTree = "<group>"; };
 		B7910ED626C0340B0097C94E /* ProfileActionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileActionViewController.swift; sourceTree = "<group>"; };
+		B7925148286067380020FE8C /* SocialHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialHelper.swift; sourceTree = "<group>"; };
 		B797240C27FACFF800111F24 /* SyncSocialMediaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncSocialMediaViewController.swift; sourceTree = "<group>"; };
 		B797240E27FAD15E00111F24 /* SyncSocialMediaViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncSocialMediaViewModel.swift; sourceTree = "<group>"; };
 		B797241027FAD6FB00111F24 /* SocialAccountTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SocialAccountTableViewCell.xib; sourceTree = "<group>"; };
@@ -385,6 +387,7 @@
 				B7910DDB26AFC60E0097C94E /* Info.plist */,
 				B7910E6E26BBD36A0097C94E /* Profile.storyboard */,
 				B7910EB826BD2DA20097C94E /* Me.storyboard */,
+				B79251472860671C0020FE8C /* Helper */,
 				B703A53A2788337C007BFA01 /* Localizable */,
 				B7910EB726BD0C1F0097C94E /* ViewController */,
 				B7910E9B26BCDA9E0097C94E /* ViewModel */,
@@ -508,6 +511,14 @@
 				B76AE886281257700045EB39 /* ContactPhoneViewController.swift */,
 			);
 			path = ViewController;
+			sourceTree = "<group>";
+		};
+		B79251472860671C0020FE8C /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				B7925148286067380020FE8C /* SocialHelper.swift */,
+			);
+			path = Helper;
 			sourceTree = "<group>";
 		};
 		B79F2B092859934700B82989 /* Profile Header */ = {
@@ -751,6 +762,7 @@
 				B753F57C2782D1AB00D1AC92 /* FeedHeaderTableViewCell.swift in Sources */,
 				B7D4BC2527FF1D4C008ACD9F /* FacebookPageTableViewCell.swift in Sources */,
 				B7FB347527D8B64E00C3C6A3 /* PageSyncSocialViewModel.swift in Sources */,
+				B7925149286067380020FE8C /* SocialHelper.swift in Sources */,
 				B7AF662D26F35B5900BDE9C4 /* AddLinkTableViewCell.swift in Sources */,
 				B7F0D303282ACD3100BA9764 /* UpdateUserInfoViewController.swift in Sources */,
 				B797240D27FACFF900111F24 /* SyncSocialMediaViewController.swift in Sources */,

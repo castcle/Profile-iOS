@@ -93,19 +93,7 @@ class SyncSocialMediaViewController: UIViewController {
     }
 
     func syncFacebook() {
-        let loginManager = LoginManager()
-        if AccessToken.current != nil {
-            loginManager.logOut()
-        }
-        loginManager.logIn(permissions: ["public_profile", "email", "pages_show_list", "pages_manage_metadata"], from: self) { (result, error) in
-            guard error == nil else {
-                print(error!.localizedDescription)
-                return
-            }
-            guard let result = result, !result.isCancelled else {
-                print("User cancelled login")
-                return
-            }
+        SocialHelper().authenFacebook(from: self) {
             self.hud.show(in: self.view)
             self.getPages()
         }
@@ -117,7 +105,7 @@ class SyncSocialMediaViewController: UIViewController {
             self.hud.textLabel.text = "Syncing"
             self.hud.show(in: self.view)
             self.accToken = accessToken
-            self.getUserProfile()
+            self.getUserProfileTwitter()
         } failure: { error in
             print("ERROR: \(error.localizedDescription)")
         }
@@ -188,25 +176,9 @@ extension SyncSocialMediaViewController: UITableViewDelegate, UITableViewDataSou
 }
 
 extension SyncSocialMediaViewController: SFSafariViewControllerDelegate, ASWebAuthenticationPresentationContextProviding {
-    func getUserProfile() {
+    func getUserProfileTwitter() {
         self.swifter.verifyAccountCredentials(includeEntities: false, skipStatus: false, includeEmail: true, success: { json in
-            let twitterId: String = json["id_str"].string ?? ""
-            let twitterName: String = json["name"].string ?? ""
-            let twitterProfilePic: String = json["profile_image_url_https"].string?.replacingOccurrences(of: "_normal", with: "", options: .literal, range: nil) ?? ""
-            let twitterScreenName: String = json["screen_name"].string ?? ""
-            let twitterDescription: String = json["description"].string ?? ""
-            let twitterCover: String = json["profile_banner_url"].string ?? ""
-
-            var pageSocial: PageSocial = PageSocial()
-            pageSocial.provider = .twitter
-            pageSocial.socialId = twitterId
-            pageSocial.userName = twitterScreenName
-            pageSocial.displayName = twitterName
-            pageSocial.overview = twitterDescription
-            pageSocial.avatar = twitterProfilePic
-            pageSocial.cover = twitterCover
-
-            self.viewModel.pageSocial = pageSocial
+            self.viewModel.pageSocial = SocialHelper().mappingTwitterInfoToPageSocial(json: json)
             self.viewModel.syncSocial()
         })
     }
