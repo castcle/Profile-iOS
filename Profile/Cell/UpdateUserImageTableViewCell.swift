@@ -266,9 +266,9 @@ extension UpdateUserImageTableViewCell: TOCropViewControllerDelegate {
     func cropViewController(_ cropViewController: TOCropViewController, didCropToCircularImage image: UIImage, with cropRect: CGRect, angle: Int) {
         cropViewController.dismiss(animated: true, completion: {
             if self.updateImageType == .avatar {
-                let avatarCropImage = image.resizeImage(targetSize: CGSize.init(width: 200, height: 200))
-                self.profileImage.image = avatarCropImage
-                self.viewModel.avatar = avatarCropImage
+                let avatarUserImageCropImage = image.resizeImage(targetSize: CGSize.init(width: 200, height: 200))
+                self.profileImage.image = avatarUserImageCropImage
+                self.viewModel.avatar = avatarUserImageCropImage
             }
         })
     }
@@ -276,9 +276,9 @@ extension UpdateUserImageTableViewCell: TOCropViewControllerDelegate {
     func cropViewController(_ cropViewController: TOCropViewController, didCropTo image: UIImage, with cropRect: CGRect, angle: Int) {
         cropViewController.dismiss(animated: true, completion: {
             if self.updateImageType == .cover {
-                let coverCropImage = image.resizeImage(targetSize: CGSize.init(width: 640, height: 480))
-                self.coverImage.image = coverCropImage
-                self.viewModel.cover = coverCropImage
+                let coverUserImageCropImage = image.resizeImage(targetSize: CGSize.init(width: 640, height: 480))
+                self.coverImage.image = coverUserImageCropImage
+                self.viewModel.cover = coverUserImageCropImage
             }
         })
     }

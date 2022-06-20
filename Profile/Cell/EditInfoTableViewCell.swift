@@ -431,9 +431,9 @@ extension EditInfoTableViewCell: TOCropViewControllerDelegate {
     func cropViewController(_ cropViewController: TOCropViewController, didCropToCircularImage image: UIImage, with cropRect: CGRect, angle: Int) {
         cropViewController.dismiss(animated: true, completion: {
             if self.updateImageType == .avatar {
-                let avatarCropImage = image.resizeImage(targetSize: CGSize.init(width: 200, height: 200))
-                self.profileImage.image = avatarCropImage
-                self.viewModel.avatar = avatarCropImage
+                let avatarEditInfoCropImage = image.resizeImage(targetSize: CGSize.init(width: 200, height: 200))
+                self.profileImage.image = avatarEditInfoCropImage
+                self.viewModel.avatar = avatarEditInfoCropImage
             }
         })
     }
@@ -441,9 +441,9 @@ extension EditInfoTableViewCell: TOCropViewControllerDelegate {
     func cropViewController(_ cropViewController: TOCropViewController, didCropTo image: UIImage, with cropRect: CGRect, angle: Int) {
         cropViewController.dismiss(animated: true, completion: {
             if self.updateImageType == .cover {
-                let coverCropImage = image.resizeImage(targetSize: CGSize.init(width: 640, height: 480))
-                self.coverImage.image = coverCropImage
-                self.viewModel.cover = coverCropImage
+                let coverEditInfoCropImage = image.resizeImage(targetSize: CGSize.init(width: 640, height: 480))
+                self.coverImage.image = coverEditInfoCropImage
+                self.viewModel.cover = coverEditInfoCropImage
             }
         })
     }

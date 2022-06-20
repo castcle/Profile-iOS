@@ -451,9 +451,9 @@ extension EditPageInfoTableViewCell: TOCropViewControllerDelegate {
     func cropViewController(_ cropViewController: TOCropViewController, didCropToCircularImage image: UIImage, with cropRect: CGRect, angle: Int) {
         cropViewController.dismiss(animated: true, completion: {
             if self.updateImageType == .avatar {
-                let avatarCropImage = image.resizeImage(targetSize: CGSize.init(width: 200, height: 200))
-                self.profileImage.image = avatarCropImage
-                self.viewModel.avatar = avatarCropImage
+                let avatarPageInfoCropImage = image.resizeImage(targetSize: CGSize.init(width: 200, height: 200))
+                self.profileImage.image = avatarPageInfoCropImage
+                self.viewModel.avatar = avatarPageInfoCropImage
             }
         })
     }
@@ -461,9 +461,9 @@ extension EditPageInfoTableViewCell: TOCropViewControllerDelegate {
     func cropViewController(_ cropViewController: TOCropViewController, didCropTo image: UIImage, with cropRect: CGRect, angle: Int) {
         cropViewController.dismiss(animated: true, completion: {
             if self.updateImageType == .cover {
-                let coverCropImage = image.resizeImage(targetSize: CGSize.init(width: 640, height: 480))
-                self.coverImage.image = coverCropImage
-                self.viewModel.cover = coverCropImage
+                let coverPageInfoCropImage = image.resizeImage(targetSize: CGSize.init(width: 640, height: 480))
+                self.coverImage.image = coverPageInfoCropImage
+                self.viewModel.cover = coverPageInfoCropImage
             }
         })
     }
