@@ -25,6 +25,7 @@
 //  Created by Castcle Co., Ltd. on 11/5/2565 BE.
 //
 
+import UIKit
 import Core
 import Networking
 import SwiftyJSON
@@ -39,6 +40,8 @@ public class UpdateUserInfoViewModel {
     var userRequest: UserRequest = UserRequest()
     let tokenHelper: TokenHelper = TokenHelper()
     var dobDate: Date?
+    var avatar: UIImage?
+    var cover: UIImage?
     var state: State = .none
 
     public init() {
@@ -49,6 +52,12 @@ public class UpdateUserInfoViewModel {
         self.state = .updateUserInfo
         if let dob = self.dobDate {
             self.userRequest.payload.dob = dob.dateToStringSever()
+        }
+        if let avatarImage = self.avatar {
+            self.userRequest.payload.images.avatar = avatarImage.toBase64() ?? ""
+        }
+        if let coverImage = self.cover {
+            self.userRequest.payload.images.cover = coverImage.toBase64() ?? ""
         }
         self.userRepository.updateInfo(userId: UserManager.shared.rawCastcleId, userRequest: self.userRequest) { (success, response, isRefreshToken) in
             if success {

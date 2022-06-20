@@ -51,7 +51,7 @@ class UpdateUserImageTableViewCell: UITableViewCell {
     @IBOutlet var saveButton: UIButton!
 
     public var delegate: UpdateUserImageTableViewCellDelegate?
-    let viewModel = UpdateUserImageViewModel()
+    let viewModel = UpdateUserInfoViewModel()
     let hud = JGProgressHUD()
     private var updateImageType: UpdateImageType = .none
 
@@ -224,7 +224,7 @@ class UpdateUserImageTableViewCell: UITableViewCell {
     }
 }
 
-extension UpdateUserImageTableViewCell: UpdateUserImageViewModelDelegate {
+extension UpdateUserImageTableViewCell: UpdateUserInfoViewModelDelegate {
     func didUpdateInfoFinish(success: Bool) {
         self.hud.dismiss()
         if success {

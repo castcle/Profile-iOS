@@ -114,7 +114,6 @@
 		B7F0D2FB2829257700BA9764 /* UpdateUserImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F0D2FA2829257700BA9764 /* UpdateUserImageViewController.swift */; };
 		B7F0D2FE282A67E900BA9764 /* UpdateUserImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F0D2FC282A67E900BA9764 /* UpdateUserImageTableViewCell.swift */; };
 		B7F0D2FF282A67E900BA9764 /* UpdateUserImageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7F0D2FD282A67E900BA9764 /* UpdateUserImageTableViewCell.xib */; };
-		B7F0D301282A6D8000BA9764 /* UpdateUserImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F0D300282A6D8000BA9764 /* UpdateUserImageViewModel.swift */; };
 		B7F0D303282ACD3100BA9764 /* UpdateUserInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F0D302282ACD3100BA9764 /* UpdateUserInfoViewController.swift */; };
 		B7F0D306282ACE8600BA9764 /* UpdateUserInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F0D304282ACE8600BA9764 /* UpdateUserInfoTableViewCell.swift */; };
 		B7F0D307282ACE8600BA9764 /* UpdateUserInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7F0D305282ACE8600BA9764 /* UpdateUserInfoTableViewCell.xib */; };
@@ -250,7 +249,6 @@
 		B7F0D2FA2829257700BA9764 /* UpdateUserImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateUserImageViewController.swift; sourceTree = "<group>"; };
 		B7F0D2FC282A67E900BA9764 /* UpdateUserImageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateUserImageTableViewCell.swift; sourceTree = "<group>"; };
 		B7F0D2FD282A67E900BA9764 /* UpdateUserImageTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UpdateUserImageTableViewCell.xib; sourceTree = "<group>"; };
-		B7F0D300282A6D8000BA9764 /* UpdateUserImageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateUserImageViewModel.swift; sourceTree = "<group>"; };
 		B7F0D302282ACD3100BA9764 /* UpdateUserInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateUserInfoViewController.swift; sourceTree = "<group>"; };
 		B7F0D304282ACE8600BA9764 /* UpdateUserInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateUserInfoTableViewCell.swift; sourceTree = "<group>"; };
 		B7F0D305282ACE8600BA9764 /* UpdateUserInfoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UpdateUserInfoTableViewCell.xib; sourceTree = "<group>"; };
@@ -482,7 +480,6 @@
 				B7FB347427D8B64E00C3C6A3 /* PageSyncSocialViewModel.swift */,
 				B72AB84A27E82A8F007421D4 /* EditInfoViewModel.swift */,
 				B797240E27FAD15E00111F24 /* SyncSocialMediaViewModel.swift */,
-				B7F0D300282A6D8000BA9764 /* UpdateUserImageViewModel.swift */,
 				B7F0D308282AD5B000BA9764 /* UpdateUserInfoViewModel.swift */,
 			);
 			path = ViewModel;
@@ -795,7 +792,6 @@
 				B7910E8526BC52A00097C94E /* AboutInfoViewController.swift in Sources */,
 				B715F57028129C0C004687EA /* InfoNormalTableViewCell.swift in Sources */,
 				B753F5722782A50000D1AC92 /* ProfileViewModel.swift in Sources */,
-				B7F0D301282A6D8000BA9764 /* UpdateUserImageViewModel.swift in Sources */,
 				B7910E9D26BCDAC40097C94E /* AboutInfoViewModel.swift in Sources */,
 				B715F57428129C23004687EA /* InfoWithIconTableViewCell.swift in Sources */,
 				B7C46D9027A12D2E0031179E /* NewPageWithSocialViewController.swift in Sources */,
