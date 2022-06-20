@@ -32,7 +32,7 @@ import Defaults
 
 class PageDisplayNameViewController: UIViewController {
 
-    let collectionView: UICollectionView = {
+    let pageDisplayNameCollectionView: UICollectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         view.backgroundColor = UIColor.Asset.darkGraphiteBlue
         return view
@@ -52,24 +52,24 @@ class PageDisplayNameViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
         self.hideKeyboardWhenTapped()
-        self.setupNavBar()
-        self.collectionView.alwaysBounceVertical = true
-        self.collectionView.showsHorizontalScrollIndicator = false
-        self.collectionView.showsVerticalScrollIndicator = false
-        self.collectionView.backgroundColor = UIColor.clear
-        self.view.addSubview(self.collectionView)
-        self.adapter.collectionView = self.collectionView
+        self.pageDisplayNameCollectionView.alwaysBounceVertical = true
+        self.pageDisplayNameCollectionView.showsHorizontalScrollIndicator = false
+        self.pageDisplayNameCollectionView.showsVerticalScrollIndicator = false
+        self.pageDisplayNameCollectionView.backgroundColor = UIColor.clear
+        self.view.addSubview(self.pageDisplayNameCollectionView)
+        self.adapter.collectionView = self.pageDisplayNameCollectionView
         self.adapter.dataSource = self
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        self.collectionView.frame = view.bounds
+        self.pageDisplayNameCollectionView.frame = view.bounds
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         Defaults[.screenId] = ""
+        self.setupNavBar()
     }
 
     func setupNavBar() {

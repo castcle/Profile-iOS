@@ -32,7 +32,7 @@ import Defaults
 
 class AddSocialViewController: UIViewController {
 
-    let collectionView: UICollectionView = {
+    let addSocialcollectionView: UICollectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         view.backgroundColor = UIColor.Asset.darkGraphiteBlue
         return view
@@ -50,18 +50,18 @@ class AddSocialViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
         self.hideKeyboardWhenTapped()
-        self.collectionView.alwaysBounceVertical = true
-        self.collectionView.showsHorizontalScrollIndicator = false
-        self.collectionView.showsVerticalScrollIndicator = false
-        self.collectionView.backgroundColor = UIColor.clear
-        self.view.addSubview(self.collectionView)
-        self.adapter.collectionView = self.collectionView
+        self.addSocialcollectionView.alwaysBounceVertical = true
+        self.addSocialcollectionView.showsHorizontalScrollIndicator = false
+        self.addSocialcollectionView.showsVerticalScrollIndicator = false
+        self.addSocialcollectionView.backgroundColor = UIColor.clear
+        self.view.addSubview(self.addSocialcollectionView)
+        self.adapter.collectionView = self.addSocialcollectionView
         self.adapter.dataSource = self
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        self.collectionView.frame = view.bounds
+        self.addSocialcollectionView.frame = view.bounds
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -73,7 +73,6 @@ class AddSocialViewController: UIViewController {
     func setupNavBar() {
         self.customNavigationBar(.secondary, title: Localization.AddSocial.title.text)
         var rightButton: [UIBarButtonItem] = []
-
         let icon = UIButton()
         icon.setTitle(Localization.AddSocial.apply.text, for: .normal)
         icon.titleLabel?.font = UIFont.asset(.bold, fontSize: .head4)
