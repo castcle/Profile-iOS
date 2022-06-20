@@ -38,7 +38,6 @@ class UpdateUserInfoViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
         self.navigationItem.setHidesBackButton(true, animated: true)
-        self.setupNavBar()
         self.hideKeyboardWhenTapped()
         self.configureTableView()
     }
@@ -46,19 +45,19 @@ class UpdateUserInfoViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         Defaults[.screenId] = ""
+        self.setupNavBarUserInfo()
     }
 
-    func setupNavBar() {
+    func setupNavBarUserInfo() {
         self.customNavigationBar(.primary, title: "New User Profile")
-
-        var rightButton: [UIBarButtonItem] = []
-        let icon = UIButton()
-        icon.setTitle(Localization.ChooseProfileImage.skip.text, for: .normal)
-        icon.titleLabel?.font = UIFont.asset(.regular, fontSize: .body)
-        icon.setTitleColor(UIColor.Asset.lightBlue, for: .normal)
-        icon.addTarget(self, action: #selector(skipAction), for: .touchUpInside)
-        rightButton.append(UIBarButtonItem(customView: icon))
-        self.navigationItem.rightBarButtonItems = rightButton
+        var rightButtonBar: [UIBarButtonItem] = []
+        let iconSkip = UIButton()
+        iconSkip.setTitle(Localization.ChooseProfileImage.skip.text, for: .normal)
+        iconSkip.titleLabel?.font = UIFont.asset(.regular, fontSize: .body)
+        iconSkip.setTitleColor(UIColor.Asset.lightBlue, for: .normal)
+        iconSkip.addTarget(self, action: #selector(skipAction), for: .touchUpInside)
+        rightButtonBar.append(UIBarButtonItem(customView: iconSkip))
+        self.navigationItem.rightBarButtonItems = rightButtonBar
     }
 
     @objc private func skipAction() {
