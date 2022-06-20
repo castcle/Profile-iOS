@@ -389,19 +389,19 @@ extension ProfileHeaderTableViewCell {
         }
     }
 
-    private func presentCropViewController(image: UIImage, updateImageType: UpdateImageType) {
+    private func presentCropViewControllerProfileHeader(image: UIImage, updateImageType: UpdateImageType) {
         if updateImageType == .avatar {
-            let cropController = TOCropViewController(croppingStyle: .circular, image: image)
-            cropController.delegate = self
-            Utility.currentViewController().present(cropController, animated: true, completion: nil)
+            let cropProfileHeaderController = TOCropViewController(croppingStyle: .circular, image: image)
+            cropProfileHeaderController.delegate = self
+            Utility.currentViewController().present(cropProfileHeaderController, animated: true, completion: nil)
         } else {
-            let cropController = TOCropViewController(croppingStyle: .default, image: image)
-            cropController.aspectRatioPreset = .preset4x3
-            cropController.aspectRatioLockEnabled = true
-            cropController.resetAspectRatioEnabled = false
-            cropController.aspectRatioPickerButtonHidden = true
-            cropController.delegate = self
-            Utility.currentViewController().present(cropController, animated: true, completion: nil)
+            let cropProfileHeaderController = TOCropViewController(croppingStyle: .default, image: image)
+            cropProfileHeaderController.aspectRatioPreset = .preset4x3
+            cropProfileHeaderController.aspectRatioLockEnabled = true
+            cropProfileHeaderController.resetAspectRatioEnabled = false
+            cropProfileHeaderController.aspectRatioPickerButtonHidden = true
+            cropProfileHeaderController.delegate = self
+            Utility.currentViewController().present(cropProfileHeaderController, animated: true, completion: nil)
         }
     }
 }
@@ -411,9 +411,9 @@ extension ProfileHeaderTableViewCell: TLPhotosPickerViewControllerDelegate {
         if let asset = withTLPHAssets.first, let image = asset.fullResolutionImage {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 if self.updateImageType == .avatar {
-                    self.presentCropViewController(image: image, updateImageType: .avatar)
+                    self.presentCropViewControllerProfileHeader(image: image, updateImageType: .avatar)
                 } else if self.updateImageType == .cover {
-                    self.presentCropViewController(image: image, updateImageType: .cover)
+                    self.presentCropViewControllerProfileHeader(image: image, updateImageType: .cover)
                 }
             }
         }
@@ -427,9 +427,9 @@ extension ProfileHeaderTableViewCell: UIImagePickerControllerDelegate, UINavigat
 
         picker.dismiss(animated: true, completion: {
             if self.updateImageType == .avatar {
-                self.presentCropViewController(image: image, updateImageType: .avatar)
+                self.presentCropViewControllerProfileHeader(image: image, updateImageType: .avatar)
             } else if self.updateImageType == .cover {
-                self.presentCropViewController(image: image, updateImageType: .cover)
+                self.presentCropViewControllerProfileHeader(image: image, updateImageType: .cover)
             }
         })
     }

@@ -206,19 +206,19 @@ class UpdateUserImageTableViewCell: UITableViewCell {
         }
     }
 
-    private func presentCropViewController(image: UIImage, updateImageType: UpdateImageType) {
+    private func presentCropViewControllerUserImage(image: UIImage, updateImageType: UpdateImageType) {
         if updateImageType == .avatar {
-            let cropController = TOCropViewController(croppingStyle: .circular, image: image)
-            cropController.delegate = self
-            Utility.currentViewController().present(cropController, animated: true, completion: nil)
+            let cropUserImageController = TOCropViewController(croppingStyle: .circular, image: image)
+            cropUserImageController.delegate = self
+            Utility.currentViewController().present(cropUserImageController, animated: true, completion: nil)
         } else {
-            let cropController = TOCropViewController(croppingStyle: .default, image: image)
-            cropController.aspectRatioPreset = .preset4x3
-            cropController.aspectRatioLockEnabled = true
-            cropController.resetAspectRatioEnabled = false
-            cropController.aspectRatioPickerButtonHidden = true
-            cropController.delegate = self
-            Utility.currentViewController().present(cropController, animated: true, completion: nil)
+            let cropUserImageController = TOCropViewController(croppingStyle: .default, image: image)
+            cropUserImageController.aspectRatioPreset = .preset4x3
+            cropUserImageController.aspectRatioLockEnabled = true
+            cropUserImageController.resetAspectRatioEnabled = false
+            cropUserImageController.aspectRatioPickerButtonHidden = true
+            cropUserImageController.delegate = self
+            Utility.currentViewController().present(cropUserImageController, animated: true, completion: nil)
         }
     }
 }
@@ -239,9 +239,9 @@ extension UpdateUserImageTableViewCell: TLPhotosPickerViewControllerDelegate {
         if let asset = withTLPHAssets.first, let image = asset.fullResolutionImage {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 if self.updateImageType == .avatar {
-                    self.presentCropViewController(image: image, updateImageType: .avatar)
+                    self.presentCropViewControllerUserImage(image: image, updateImageType: .avatar)
                 } else if self.updateImageType == .cover {
-                    self.presentCropViewController(image: image, updateImageType: .cover)
+                    self.presentCropViewControllerUserImage(image: image, updateImageType: .cover)
                 }
             }
         }
@@ -254,9 +254,9 @@ extension UpdateUserImageTableViewCell: UIImagePickerControllerDelegate, UINavig
         guard let image = (info[UIImagePickerController.InfoKey.originalImage] as? UIImage) else { return }
         picker.dismiss(animated: true, completion: {
             if self.updateImageType == .avatar {
-                self.presentCropViewController(image: image, updateImageType: .avatar)
+                self.presentCropViewControllerUserImage(image: image, updateImageType: .avatar)
             } else if self.updateImageType == .cover {
-                self.presentCropViewController(image: image, updateImageType: .cover)
+                self.presentCropViewControllerUserImage(image: image, updateImageType: .cover)
             }
         })
     }

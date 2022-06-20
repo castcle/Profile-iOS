@@ -387,19 +387,19 @@ class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         }
     }
 
-    private func presentCropViewController(image: UIImage, updateImageType: UpdateImageType) {
+    private func presentCropViewControllerPageInfo(image: UIImage, updateImageType: UpdateImageType) {
         if updateImageType == .avatar {
-            let cropController = TOCropViewController(croppingStyle: .circular, image: image)
-            cropController.delegate = self
-            Utility.currentViewController().present(cropController, animated: true, completion: nil)
+            let cropPageInfoController = TOCropViewController(croppingStyle: .circular, image: image)
+            cropPageInfoController.delegate = self
+            Utility.currentViewController().present(cropPageInfoController, animated: true, completion: nil)
         } else {
-            let cropController = TOCropViewController(croppingStyle: .default, image: image)
-            cropController.aspectRatioPreset = .preset4x3
-            cropController.aspectRatioLockEnabled = true
-            cropController.resetAspectRatioEnabled = false
-            cropController.aspectRatioPickerButtonHidden = true
-            cropController.delegate = self
-            Utility.currentViewController().present(cropController, animated: true, completion: nil)
+            let cropPageInfoController = TOCropViewController(croppingStyle: .default, image: image)
+            cropPageInfoController.aspectRatioPreset = .preset4x3
+            cropPageInfoController.aspectRatioLockEnabled = true
+            cropPageInfoController.resetAspectRatioEnabled = false
+            cropPageInfoController.aspectRatioPickerButtonHidden = true
+            cropPageInfoController.delegate = self
+            Utility.currentViewController().present(cropPageInfoController, animated: true, completion: nil)
         }
     }
 }
@@ -424,9 +424,9 @@ extension EditPageInfoTableViewCell: TLPhotosPickerViewControllerDelegate {
         if let asset = withTLPHAssets.first, let image = asset.fullResolutionImage {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 if self.updateImageType == .avatar {
-                    self.presentCropViewController(image: image, updateImageType: .avatar)
+                    self.presentCropViewControllerPageInfo(image: image, updateImageType: .avatar)
                 } else if self.updateImageType == .cover {
-                    self.presentCropViewController(image: image, updateImageType: .cover)
+                    self.presentCropViewControllerPageInfo(image: image, updateImageType: .cover)
                 }
             }
         }
@@ -439,9 +439,9 @@ extension EditPageInfoTableViewCell: UIImagePickerControllerDelegate, UINavigati
         guard let image = (info[UIImagePickerController.InfoKey.originalImage] as? UIImage) else { return }
         picker.dismiss(animated: true, completion: {
             if self.updateImageType == .avatar {
-                self.presentCropViewController(image: image, updateImageType: .avatar)
+                self.presentCropViewControllerPageInfo(image: image, updateImageType: .avatar)
             } else if self.updateImageType == .cover {
-                self.presentCropViewController(image: image, updateImageType: .cover)
+                self.presentCropViewControllerPageInfo(image: image, updateImageType: .cover)
             }
         })
     }
