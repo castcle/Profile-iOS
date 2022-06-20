@@ -19,7 +19,7 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  EditInfoTableViewCell.swift
+//  EditPageInfoTableViewCell.swift
 //  Profile
 //
 //  Created by Castcle Co., Ltd. on 8/8/2564 BE.
@@ -283,103 +283,103 @@ class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
 
     @IBAction func editCoverAction(_ sender: Any) {
         self.updateImageType = .cover
-        self.selectImageSource()
+        self.selectImageSourcePageInfo()
     }
 
     @IBAction func editProfileImageAction(_ sender: Any) {
         self.updateImageType = .avatar
-        self.selectImageSource()
+        self.selectImageSourcePageInfo()
     }
 
-    private func selectImageSource() {
+    private func selectImageSourcePageInfo() {
         let actionSheet = CCActionSheet()
         let albumButton = CCAction(title: "Choose from Camera Roll", image: UIImage.init(icon: .castcle(.image), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .normal) {
             actionSheet.dismissActionSheet()
-            self.selectCameraRoll()
+            self.selectCameraRollPageInfo()
         }
         let cameraButton = CCAction(title: "Take Photo", image: UIImage.init(icon: .castcle(.camera), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .normal) {
             actionSheet.dismissActionSheet()
-            self.selectTakePhoto()
+            self.selectTakePhotoPageInfo()
         }
         actionSheet.addActions([albumButton, cameraButton])
         Utility.currentViewController().present(actionSheet, animated: true, completion: nil)
     }
 
-    private func selectCameraRoll() {
-        let photosPickerViewController = TLPhotosPickerViewController()
-        photosPickerViewController.delegate = self
-        photosPickerViewController.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
-        photosPickerViewController.collectionView.backgroundColor = UIColor.clear
-        photosPickerViewController.navigationBar.barTintColor = UIColor.Asset.darkGraphiteBlue
-        photosPickerViewController.navigationBar.isTranslucent = false
-        photosPickerViewController.titleLabel.font = UIFont.asset(.regular, fontSize: .overline)
-        photosPickerViewController.subTitleLabel.font = UIFont.asset(.regular, fontSize: .small)
-        photosPickerViewController.doneButton.setTitleTextAttributes([
+    private func selectCameraRollPageInfo() {
+        let photosPickerPageInfoViewController = TLPhotosPickerViewController()
+        photosPickerPageInfoViewController.delegate = self
+        photosPickerPageInfoViewController.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
+        photosPickerPageInfoViewController.collectionView.backgroundColor = UIColor.clear
+        photosPickerPageInfoViewController.navigationBar.barTintColor = UIColor.Asset.darkGraphiteBlue
+        photosPickerPageInfoViewController.navigationBar.isTranslucent = false
+        photosPickerPageInfoViewController.titleLabel.font = UIFont.asset(.regular, fontSize: .overline)
+        photosPickerPageInfoViewController.subTitleLabel.font = UIFont.asset(.regular, fontSize: .small)
+        photosPickerPageInfoViewController.doneButton.setTitleTextAttributes([
             NSAttributedString.Key.font: UIFont.asset(.bold, fontSize: .head4),
             NSAttributedString.Key.foregroundColor: UIColor.Asset.lightBlue
         ], for: .normal)
-        photosPickerViewController.cancelButton.setTitleTextAttributes([
+        photosPickerPageInfoViewController.cancelButton.setTitleTextAttributes([
             NSAttributedString.Key.font: UIFont.asset(.regular, fontSize: .body),
             NSAttributedString.Key.foregroundColor: UIColor.Asset.lightBlue
         ], for: .normal)
 
-        var configure = TLPhotosPickerConfigure()
-        configure.numberOfColumn = 3
-        configure.singleSelectedMode = true
-        configure.mediaType = .image
-        configure.usedCameraButton = false
-        configure.allowedLivePhotos = false
-        configure.allowedPhotograph = false
-        configure.allowedVideo = false
-        configure.autoPlay = false
-        configure.allowedVideoRecording = false
-        configure.selectedColor = UIColor.Asset.lightBlue
-        photosPickerViewController.configure = configure
-        Utility.currentViewController().present(photosPickerViewController, animated: true, completion: nil)
+        var configurePageInfo = TLPhotosPickerConfigure()
+        configurePageInfo.numberOfColumn = 3
+        configurePageInfo.singleSelectedMode = true
+        configurePageInfo.mediaType = .image
+        configurePageInfo.usedCameraButton = false
+        configurePageInfo.allowedLivePhotos = false
+        configurePageInfo.allowedPhotograph = false
+        configurePageInfo.allowedVideo = false
+        configurePageInfo.autoPlay = false
+        configurePageInfo.allowedVideoRecording = false
+        configurePageInfo.selectedColor = UIColor.Asset.lightBlue
+        photosPickerPageInfoViewController.configure = configurePageInfo
+        Utility.currentViewController().present(photosPickerPageInfoViewController, animated: true, completion: nil)
     }
 
-    private func selectTakePhoto() {
-        self.showCameraIfAuthorized()
+    private func selectTakePhotoPageInfo() {
+        self.showCameraIfAuthorizedPageInfo()
     }
 
-    private func showCameraIfAuthorized() {
+    private func showCameraIfAuthorizedPageInfo() {
         let cameraAuthorization = AVCaptureDevice.authorizationStatus(for: .video)
         switch cameraAuthorization {
         case .authorized:
-            self.showCamera()
+            self.showCameraPageInfo()
         case .notDetermined:
             AVCaptureDevice.requestAccess(for: .video, completionHandler: { [weak self] (authorized) in
                 DispatchQueue.main.async { [weak self] in
                     if authorized {
-                        self?.showCamera()
+                        self?.showCameraPageInfo()
                     } else {
-                        self?.handleDeniedCameraAuthorization()
+                        self?.handleDeniedCameraAuthorizationPageInfo()
                     }
                 }
             })
         case .restricted, .denied:
-            self.handleDeniedCameraAuthorization()
+            self.handleDeniedCameraAuthorizationPageInfo()
         @unknown default:
             break
         }
     }
 
-    private func showCamera() {
-        let picker = UIImagePickerController()
-        picker.sourceType = .camera
+    private func showCameraPageInfo() {
+        let pickerPageInfo = UIImagePickerController()
+        pickerPageInfo.sourceType = .camera
         var mediaTypes: [String] = []
         mediaTypes.append(kUTTypeImage as String)
         guard mediaTypes.count > 0 else {
             return
         }
-        picker.cameraDevice = .rear
-        picker.mediaTypes = mediaTypes
-        picker.allowsEditing = false
-        picker.delegate = self
-        Utility.currentViewController().present(picker, animated: true, completion: nil)
+        pickerPageInfo.cameraDevice = .rear
+        pickerPageInfo.mediaTypes = mediaTypes
+        pickerPageInfo.allowsEditing = false
+        pickerPageInfo.delegate = self
+        Utility.currentViewController().present(pickerPageInfo, animated: true, completion: nil)
     }
 
-    private func handleDeniedCameraAuthorization() {
+    private func handleDeniedCameraAuthorizationPageInfo() {
         DispatchQueue.main.async {
             let alert = UIAlertController(title: "Error", message: "Denied camera permissions granted", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))

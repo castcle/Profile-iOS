@@ -256,104 +256,103 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
 
     @IBAction func editCoverAction(_ sender: Any) {
         self.updateImageType = .cover
-        self.selectImageSource()
+        self.selectImageSourceEditInfo()
     }
 
     @IBAction func editProfileImageAction(_ sender: Any) {
         self.updateImageType = .avatar
-        self.selectImageSource()
+        self.selectImageSourceEditInfo()
     }
 
-    private func selectImageSource() {
+    private func selectImageSourceEditInfo() {
         let actionSheet = CCActionSheet()
         let albumButton = CCAction(title: "Choose from Camera Roll", image: UIImage.init(icon: .castcle(.image), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .normal) {
             actionSheet.dismissActionSheet()
-            self.selectCameraRoll()
+            self.selectCameraRollEditInfo()
         }
         let cameraButton = CCAction(title: "Take Photo", image: UIImage.init(icon: .castcle(.camera), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .normal) {
             actionSheet.dismissActionSheet()
-            self.selectTakePhoto()
+            self.selectTakePhotoEditInfo()
         }
 
         actionSheet.addActions([albumButton, cameraButton])
         Utility.currentViewController().present(actionSheet, animated: true, completion: nil)
     }
 
-    private func selectCameraRoll() {
-        let photosPickerViewController = TLPhotosPickerViewController()
-        photosPickerViewController.delegate = self
-        photosPickerViewController.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
-        photosPickerViewController.collectionView.backgroundColor = UIColor.clear
-        photosPickerViewController.navigationBar.barTintColor = UIColor.Asset.darkGraphiteBlue
-        photosPickerViewController.navigationBar.isTranslucent = false
-        photosPickerViewController.titleLabel.font = UIFont.asset(.regular, fontSize: .overline)
-        photosPickerViewController.subTitleLabel.font = UIFont.asset(.regular, fontSize: .small)
-        photosPickerViewController.doneButton.setTitleTextAttributes([
+    private func selectCameraRollEditInfo() {
+        let photosPickerEditInfoViewController = TLPhotosPickerViewController()
+        photosPickerEditInfoViewController.delegate = self
+        photosPickerEditInfoViewController.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
+        photosPickerEditInfoViewController.collectionView.backgroundColor = UIColor.clear
+        photosPickerEditInfoViewController.navigationBar.barTintColor = UIColor.Asset.darkGraphiteBlue
+        photosPickerEditInfoViewController.navigationBar.isTranslucent = false
+        photosPickerEditInfoViewController.titleLabel.font = UIFont.asset(.regular, fontSize: .overline)
+        photosPickerEditInfoViewController.subTitleLabel.font = UIFont.asset(.regular, fontSize: .small)
+        photosPickerEditInfoViewController.doneButton.setTitleTextAttributes([
             NSAttributedString.Key.font: UIFont.asset(.bold, fontSize: .head4),
             NSAttributedString.Key.foregroundColor: UIColor.Asset.lightBlue
         ], for: .normal)
-        photosPickerViewController.cancelButton.setTitleTextAttributes([
+        photosPickerEditInfoViewController.cancelButton.setTitleTextAttributes([
             NSAttributedString.Key.font: UIFont.asset(.regular, fontSize: .body),
             NSAttributedString.Key.foregroundColor: UIColor.Asset.lightBlue
         ], for: .normal)
-
-        var configure = TLPhotosPickerConfigure()
-        configure.numberOfColumn = 3
-        configure.singleSelectedMode = true
-        configure.mediaType = .image
-        configure.usedCameraButton = false
-        configure.allowedLivePhotos = false
-        configure.allowedPhotograph = false
-        configure.allowedVideo = false
-        configure.autoPlay = false
-        configure.allowedVideoRecording = false
-        configure.selectedColor = UIColor.Asset.lightBlue
-        photosPickerViewController.configure = configure
-        Utility.currentViewController().present(photosPickerViewController, animated: true, completion: nil)
+        var configureEditInfo = TLPhotosPickerConfigure()
+        configureEditInfo.numberOfColumn = 3
+        configureEditInfo.singleSelectedMode = true
+        configureEditInfo.mediaType = .image
+        configureEditInfo.usedCameraButton = false
+        configureEditInfo.allowedLivePhotos = false
+        configureEditInfo.allowedPhotograph = false
+        configureEditInfo.allowedVideo = false
+        configureEditInfo.autoPlay = false
+        configureEditInfo.allowedVideoRecording = false
+        configureEditInfo.selectedColor = UIColor.Asset.lightBlue
+        photosPickerEditInfoViewController.configure = configureEditInfo
+        Utility.currentViewController().present(photosPickerEditInfoViewController, animated: true, completion: nil)
     }
 
-    private func selectTakePhoto() {
-        self.showCameraIfAuthorized()
+    private func selectTakePhotoEditInfo() {
+        self.showCameraIfAuthorizedEditInfo()
     }
 
-    private func showCameraIfAuthorized() {
+    private func showCameraIfAuthorizedEditInfo() {
         let cameraAuthorization = AVCaptureDevice.authorizationStatus(for: .video)
         switch cameraAuthorization {
         case .authorized:
-            self.showCamera()
+            self.showCameraEditInfo()
         case .notDetermined:
             AVCaptureDevice.requestAccess(for: .video, completionHandler: { [weak self] (authorized) in
                 DispatchQueue.main.async { [weak self] in
                     if authorized {
-                        self?.showCamera()
+                        self?.showCameraEditInfo()
                     } else {
-                        self?.handleDeniedCameraAuthorization()
+                        self?.handleDeniedCameraAuthorizationEditInfo()
                     }
                 }
             })
         case .restricted, .denied:
-            self.handleDeniedCameraAuthorization()
+            self.handleDeniedCameraAuthorizationEditInfo()
         @unknown default:
             break
         }
     }
 
-    private func showCamera() {
-        let picker = UIImagePickerController()
-        picker.sourceType = .camera
+    private func showCameraEditInfo() {
+        let pickerEditInfo = UIImagePickerController()
+        pickerEditInfo.sourceType = .camera
         var mediaTypes: [String] = []
         mediaTypes.append(kUTTypeImage as String)
         guard mediaTypes.count > 0 else {
             return
         }
-        picker.cameraDevice = .rear
-        picker.mediaTypes = mediaTypes
-        picker.allowsEditing = false
-        picker.delegate = self
-        Utility.currentViewController().present(picker, animated: true, completion: nil)
+        pickerEditInfo.cameraDevice = .rear
+        pickerEditInfo.mediaTypes = mediaTypes
+        pickerEditInfo.allowsEditing = false
+        pickerEditInfo.delegate = self
+        Utility.currentViewController().present(pickerEditInfo, animated: true, completion: nil)
     }
 
-    private func handleDeniedCameraAuthorization() {
+    private func handleDeniedCameraAuthorizationEditInfo() {
         DispatchQueue.main.async {
             let alert = UIAlertController(title: "Error", message: "Denied camera permissions granted", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))

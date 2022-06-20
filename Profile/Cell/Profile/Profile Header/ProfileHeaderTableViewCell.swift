@@ -118,14 +118,14 @@ class ProfileHeaderTableViewCell: UITableViewCell {
     @IBAction func editCoverAction(_ sender: Any) {
         if self.viewModel.profileType == .mine {
             self.updateImageType = .cover
-            self.selectImageSource()
+            self.selectImageSourceProfileHeader()
         }
     }
 
     @IBAction func editProfileImageAction(_ sender: Any) {
         if self.viewModel.profileType == .mine {
             self.updateImageType = .avatar
-            self.selectImageSource()
+            self.selectImageSourceProfileHeader()
         }
     }
 
@@ -293,95 +293,95 @@ extension ProfileHeaderTableViewCell {
         }
     }
 
-    private func selectImageSource() {
+    private func selectImageSourceProfileHeader() {
         let actionSheet = CCActionSheet()
         let albumButton = CCAction(title: "Choose from Camera Roll", image: UIImage.init(icon: .castcle(.image), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .normal) {
             actionSheet.dismissActionSheet()
-            self.selectCameraRoll()
+            self.selectCameraRollProfileHeader()
         }
         let cameraButton = CCAction(title: "Take Photo", image: UIImage.init(icon: .castcle(.camera), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .normal) {
             actionSheet.dismissActionSheet()
-            self.selectTakePhoto()
+            self.selectTakePhotoProfileHeader()
         }
         actionSheet.addActions([albumButton, cameraButton])
         Utility.currentViewController().present(actionSheet, animated: true, completion: nil)
     }
 
-    private func selectCameraRoll() {
-        let photosPickerViewController = TLPhotosPickerViewController()
-        photosPickerViewController.delegate = self
-        photosPickerViewController.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
-        photosPickerViewController.collectionView.backgroundColor = UIColor.clear
-        photosPickerViewController.navigationBar.barTintColor = UIColor.Asset.darkGraphiteBlue
-        photosPickerViewController.navigationBar.isTranslucent = false
-        photosPickerViewController.titleLabel.font = UIFont.asset(.regular, fontSize: .overline)
-        photosPickerViewController.subTitleLabel.font = UIFont.asset(.regular, fontSize: .small)
-        photosPickerViewController.doneButton.setTitleTextAttributes([
+    private func selectCameraRollProfileHeader() {
+        let photosPickerProfileHeaderViewController = TLPhotosPickerViewController()
+        photosPickerProfileHeaderViewController.delegate = self
+        photosPickerProfileHeaderViewController.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
+        photosPickerProfileHeaderViewController.collectionView.backgroundColor = UIColor.clear
+        photosPickerProfileHeaderViewController.navigationBar.barTintColor = UIColor.Asset.darkGraphiteBlue
+        photosPickerProfileHeaderViewController.navigationBar.isTranslucent = false
+        photosPickerProfileHeaderViewController.titleLabel.font = UIFont.asset(.regular, fontSize: .overline)
+        photosPickerProfileHeaderViewController.subTitleLabel.font = UIFont.asset(.regular, fontSize: .small)
+        photosPickerProfileHeaderViewController.doneButton.setTitleTextAttributes([
             NSAttributedString.Key.font: UIFont.asset(.bold, fontSize: .head4),
             NSAttributedString.Key.foregroundColor: UIColor.Asset.lightBlue
         ], for: .normal)
-        photosPickerViewController.cancelButton.setTitleTextAttributes([
+        photosPickerProfileHeaderViewController.cancelButton.setTitleTextAttributes([
             NSAttributedString.Key.font: UIFont.asset(.regular, fontSize: .body),
             NSAttributedString.Key.foregroundColor: UIColor.Asset.lightBlue
         ], for: .normal)
 
-        var configure = TLPhotosPickerConfigure()
-        configure.numberOfColumn = 3
-        configure.singleSelectedMode = true
-        configure.mediaType = .image
-        configure.usedCameraButton = false
-        configure.allowedLivePhotos = false
-        configure.allowedPhotograph = false
-        configure.allowedVideo = false
-        configure.autoPlay = false
-        configure.allowedVideoRecording = false
-        configure.selectedColor = UIColor.Asset.lightBlue
-        photosPickerViewController.configure = configure
-        Utility.currentViewController().present(photosPickerViewController, animated: true, completion: nil)
+        var configureProfileHeader = TLPhotosPickerConfigure()
+        configureProfileHeader.numberOfColumn = 3
+        configureProfileHeader.singleSelectedMode = true
+        configureProfileHeader.mediaType = .image
+        configureProfileHeader.usedCameraButton = false
+        configureProfileHeader.allowedLivePhotos = false
+        configureProfileHeader.allowedPhotograph = false
+        configureProfileHeader.allowedVideo = false
+        configureProfileHeader.autoPlay = false
+        configureProfileHeader.allowedVideoRecording = false
+        configureProfileHeader.selectedColor = UIColor.Asset.lightBlue
+        photosPickerProfileHeaderViewController.configure = configureProfileHeader
+        Utility.currentViewController().present(photosPickerProfileHeaderViewController, animated: true, completion: nil)
     }
 
-    private func selectTakePhoto() {
-        self.showCameraIfAuthorized()
+    private func selectTakePhotoProfileHeader() {
+        self.showCameraIfAuthorizedProfileHeader()
     }
 
-    private func showCameraIfAuthorized() {
+    private func showCameraIfAuthorizedProfileHeader() {
         let cameraAuthorization = AVCaptureDevice.authorizationStatus(for: .video)
         switch cameraAuthorization {
         case .authorized:
-            self.showCamera()
+            self.showCameraProfileHeader()
         case .notDetermined:
             AVCaptureDevice.requestAccess(for: .video, completionHandler: { [weak self] (authorized) in
                 DispatchQueue.main.async { [weak self] in
                     if authorized {
-                        self?.showCamera()
+                        self?.showCameraProfileHeader()
                     } else {
-                        self?.handleDeniedCameraAuthorization()
+                        self?.handleDeniedCameraAuthorizationProfileHeader()
                     }
                 }
             })
         case .restricted, .denied:
-            self.handleDeniedCameraAuthorization()
+            self.handleDeniedCameraAuthorizationProfileHeader()
         @unknown default:
             break
         }
     }
 
-    private func showCamera() {
-        let picker = UIImagePickerController()
-        picker.sourceType = .camera
+    private func showCameraProfileHeader() {
+        let pickerProfileHeader = UIImagePickerController()
+        pickerProfileHeader.sourceType = .camera
         var mediaTypes: [String] = []
         mediaTypes.append(kUTTypeImage as String)
         guard mediaTypes.count > 0 else {
             return
         }
-        picker.cameraDevice = .rear
-        picker.mediaTypes = mediaTypes
-        picker.allowsEditing = false
-        picker.delegate = self
-        Utility.currentViewController().present(picker, animated: true, completion: nil)
+        pickerProfileHeader.cameraDevice = .rear
+        pickerProfileHeader.mediaTypes = mediaTypes
+        pickerProfileHeader.allowsEditing = false
+        pickerProfileHeader.delegate = self
+        Utility.currentViewController().present(pickerProfileHeader, animated: true, completion: nil)
     }
 
-    private func handleDeniedCameraAuthorization() {
+    private func handleDeniedCameraAuthorizationProfileHeader() {
         DispatchQueue.main.async {
             let alert = UIAlertController(title: "Error", message: "Denied camera permissions granted", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))

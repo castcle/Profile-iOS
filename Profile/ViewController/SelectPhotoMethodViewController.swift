@@ -112,79 +112,79 @@ class SelectPhotoMethodViewController: UIViewController {
     }
 
     @IBAction func cameraRollAction(_ sender: Any) {
-        let photosPickerViewController = TLPhotosPickerViewController()
-        photosPickerViewController.delegate = self
-        photosPickerViewController.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
-        photosPickerViewController.collectionView.backgroundColor = UIColor.clear
-        photosPickerViewController.navigationBar.barTintColor = UIColor.Asset.darkGraphiteBlue
-        photosPickerViewController.navigationBar.isTranslucent = false
-        photosPickerViewController.titleLabel.font = UIFont.asset(.regular, fontSize: .overline)
-        photosPickerViewController.subTitleLabel.font = UIFont.asset(.regular, fontSize: .small)
-        photosPickerViewController.doneButton.setTitleTextAttributes([
+        let photosPickerAvatarViewController = TLPhotosPickerViewController()
+        photosPickerAvatarViewController.delegate = self
+        photosPickerAvatarViewController.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
+        photosPickerAvatarViewController.collectionView.backgroundColor = UIColor.clear
+        photosPickerAvatarViewController.navigationBar.barTintColor = UIColor.Asset.darkGraphiteBlue
+        photosPickerAvatarViewController.navigationBar.isTranslucent = false
+        photosPickerAvatarViewController.titleLabel.font = UIFont.asset(.regular, fontSize: .overline)
+        photosPickerAvatarViewController.subTitleLabel.font = UIFont.asset(.regular, fontSize: .small)
+        photosPickerAvatarViewController.doneButton.setTitleTextAttributes([
             NSAttributedString.Key.font: UIFont.asset(.bold, fontSize: .head4),
             NSAttributedString.Key.foregroundColor: UIColor.Asset.lightBlue
         ], for: .normal)
-        photosPickerViewController.cancelButton.setTitleTextAttributes([
+        photosPickerAvatarViewController.cancelButton.setTitleTextAttributes([
             NSAttributedString.Key.font: UIFont.asset(.regular, fontSize: .body),
             NSAttributedString.Key.foregroundColor: UIColor.Asset.lightBlue
         ], for: .normal)
-        var configure = TLPhotosPickerConfigure()
-        configure.numberOfColumn = 3
-        configure.singleSelectedMode = true
-        configure.mediaType = .image
-        configure.usedCameraButton = false
-        configure.allowedLivePhotos = false
-        configure.allowedPhotograph = false
-        configure.allowedVideo = false
-        configure.autoPlay = false
-        configure.allowedVideoRecording = false
-        configure.selectedColor = UIColor.Asset.lightBlue
-        photosPickerViewController.configure = configure
-        Utility.currentViewController().present(photosPickerViewController, animated: true, completion: nil)
+        var configureAvatar = TLPhotosPickerConfigure()
+        configureAvatar.numberOfColumn = 3
+        configureAvatar.singleSelectedMode = true
+        configureAvatar.mediaType = .image
+        configureAvatar.usedCameraButton = false
+        configureAvatar.allowedLivePhotos = false
+        configureAvatar.allowedPhotograph = false
+        configureAvatar.allowedVideo = false
+        configureAvatar.autoPlay = false
+        configureAvatar.allowedVideoRecording = false
+        configureAvatar.selectedColor = UIColor.Asset.lightBlue
+        photosPickerAvatarViewController.configure = configureAvatar
+        Utility.currentViewController().present(photosPickerAvatarViewController, animated: true, completion: nil)
     }
 
     @IBAction func takePhotoAction(_ sender: Any) {
-        self.showCameraIfAuthorized()
+        self.showCameraIfAuthorizedInSelectAvatarView()
     }
 
-    private func showCameraIfAuthorized() {
+    private func showCameraIfAuthorizedInSelectAvatarView() {
         let cameraAuthorization = AVCaptureDevice.authorizationStatus(for: .video)
         switch cameraAuthorization {
         case .authorized:
-            self.showCamera()
+            self.showCameraInSelectAvatarView()
         case .notDetermined:
             AVCaptureDevice.requestAccess(for: .video, completionHandler: { [weak self] (authorized) in
                 DispatchQueue.main.async { [weak self] in
                     if authorized {
-                        self?.showCamera()
+                        self?.showCameraInSelectAvatarView()
                     } else {
-                        self?.handleDeniedCameraAuthorization()
+                        self?.handleDeniedCameraAuthorizationInSelectAvatarView()
                     }
                 }
             })
         case .restricted, .denied:
-            self.handleDeniedCameraAuthorization()
+            self.handleDeniedCameraAuthorizationInSelectAvatarView()
         @unknown default:
             break
         }
     }
 
-    private func showCamera() {
-        let picker = UIImagePickerController()
-        picker.sourceType = .camera
+    private func showCameraInSelectAvatarView() {
+        let pickerAvatar = UIImagePickerController()
+        pickerAvatar.sourceType = .camera
         var mediaTypes: [String] = []
         mediaTypes.append(kUTTypeImage as String)
         guard mediaTypes.count > 0 else {
             return
         }
-        picker.cameraDevice = .rear
-        picker.mediaTypes = mediaTypes
-        picker.allowsEditing = false
-        picker.delegate = self
-        self.present(picker, animated: true, completion: nil)
+        pickerAvatar.cameraDevice = .rear
+        pickerAvatar.mediaTypes = mediaTypes
+        pickerAvatar.allowsEditing = false
+        pickerAvatar.delegate = self
+        self.present(pickerAvatar, animated: true, completion: nil)
     }
 
-    private func handleDeniedCameraAuthorization() {
+    private func handleDeniedCameraAuthorizationInSelectAvatarView() {
         DispatchQueue.main.async {
             let alert = UIAlertController(title: "", message: "Denied camera permissions granted", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
