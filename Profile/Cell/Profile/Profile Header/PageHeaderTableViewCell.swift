@@ -164,7 +164,7 @@ class PageHeaderTableViewCell: UITableViewCell {
         } else {
             let actionSheet = CCActionSheet()
             let castcleId: String = self.viewModel.userInfo.castcleId
-            let reportButton = CCAction(title: "Report @\(castcleId)", image: UIImage.init(icon: .castcle(.report), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .normal) {
+            let reportPageButton = CCAction(title: "Report @\(castcleId)", image: UIImage.init(icon: .castcle(.report), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .normal) {
                 actionSheet.dismissActionSheet()
                 if UserManager.shared.isLogin {
                     self.viewModel.reportUser(castcleId: castcleId)
@@ -172,7 +172,7 @@ class PageHeaderTableViewCell: UITableViewCell {
                     self.delegate?.didAuthen(self)
                 }
             }
-            let blockButton = CCAction(title: "Block @\(castcleId)", image: UIImage.init(icon: .castcle(.block), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .normal) {
+            let blockPageButton = CCAction(title: "Block @\(castcleId)", image: UIImage.init(icon: .castcle(.block), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .normal) {
                 actionSheet.dismissActionSheet()
                 if UserManager.shared.isLogin {
                     self.viewModel.blockUser(castcleId: castcleId)
@@ -180,7 +180,7 @@ class PageHeaderTableViewCell: UITableViewCell {
                     self.delegate?.didAuthen(self)
                 }
             }
-            actionSheet.addActions([blockButton, reportButton])
+            actionSheet.addActions([blockPageButton, reportPageButton])
             Utility.currentViewController().present(actionSheet, animated: true, completion: nil)
         }
     }
