@@ -165,7 +165,7 @@
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                         <state key="normal" title="Edit Profile"/>
                         <connections>
-                            <action selector="editProfileAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="oPF-DJ-FxK"/>
+                            <action selector="editUserProfileAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="EAK-RO-B71"/>
                         </connections>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GgD-xl-uoa">
@@ -176,7 +176,7 @@
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                         <state key="normal" title="View Profile"/>
                         <connections>
-                            <action selector="viewProfileAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="hvd-os-XbU"/>
+                            <action selector="viewUserProfileAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="YZR-7c-Hvg"/>
                         </connections>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gq9-ir-4RE">
@@ -186,7 +186,7 @@
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                         <connections>
-                            <action selector="followAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="Uvs-gu-8IM"/>
+                            <action selector="userFollowAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="25E-8P-upI"/>
                         </connections>
                     </button>
                 </subviews>

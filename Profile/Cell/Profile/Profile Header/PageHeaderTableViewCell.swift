@@ -185,17 +185,17 @@ class PageHeaderTableViewCell: UITableViewCell {
         }
     }
 
-    @IBAction func editProfileAction(_ sender: Any) {
+    @IBAction func editPageProfileAction(_ sender: Any) {
         if self.viewModel.isMyPage {
             Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.editInfo(self.viewModel.profileType, self.viewModel.userInfo)), animated: true)
         }
     }
 
-    @IBAction func viewProfileAction(_ sender: Any) {
+    @IBAction func viewPageProfileAction(_ sender: Any) {
         Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.userInfo(UserInfoViewModel(userInfo: self.viewModel.userInfo))), animated: true)
     }
 
-    @IBAction func followAction(_ sender: Any) {
+    @IBAction func pageFollowAction(_ sender: Any) {
         if UserManager.shared.isLogin {
             if self.viewModel.isFollow {
                 self.viewModel.unfollowUser()

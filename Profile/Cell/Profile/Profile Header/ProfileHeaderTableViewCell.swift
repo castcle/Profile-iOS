@@ -165,17 +165,17 @@ class ProfileHeaderTableViewCell: UITableViewCell {
         }
     }
 
-    @IBAction func editProfileAction(_ sender: Any) {
+    @IBAction func editUserProfileAction(_ sender: Any) {
         if self.viewModel.profileType == .mine {
             Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.editInfo(self.viewModel.profileType, self.viewModel.userInfo)), animated: true)
         }
     }
 
-    @IBAction func viewProfileAction(_ sender: Any) {
+    @IBAction func viewUserProfileAction(_ sender: Any) {
         Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.userInfo(UserInfoViewModel(userInfo: self.viewModel.userInfo))), animated: true)
     }
 
-    @IBAction func followAction(_ sender: Any) {
+    @IBAction func userFollowAction(_ sender: Any) {
         if UserManager.shared.isLogin {
             if self.viewModel.isFollow {
                 self.viewModel.unfollowUser()
