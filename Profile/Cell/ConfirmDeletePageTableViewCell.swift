@@ -31,7 +31,7 @@ import Networking
 import JVFloatLabeledTextField
 import JGProgressHUD
 
-class ConfirmDeletePageTableViewCell: UITableViewCell {
+class ConfirmDeletePageTableViewCell: UITableViewCell, UITextFieldDelegate {
 
     @IBOutlet var headlineLabel: UILabel!
     @IBOutlet var subtitleLabel: UILabel!
@@ -67,6 +67,7 @@ class ConfirmDeletePageTableViewCell: UITableViewCell {
         self.nextButton.activeButton(isActive: false)
         self.passwordTextField.tag = 0
         self.passwordTextField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
+        self.passwordTextField.delegate = self
         self.viewModel.delegate = self
     }
 
@@ -84,6 +85,11 @@ class ConfirmDeletePageTableViewCell: UITableViewCell {
 
     @objc func textFieldDidChange(_ textField: UITextField) {
         self.nextButton.activeButton(isActive: self.isCanNext())
+    }
+
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 
     func configCell(userInfo: UserInfo) {
