@@ -94,7 +94,7 @@ public final class PageSyncSocialViewModel {
 
     public func setAutoPost() {
         self.state = .setAutoPost
-        self.pageRepository.setAutoPost(syncSocialId: self.syncSocialId) { (success, _, isRefreshToken) in
+        self.pageRepository.setAutoPost(castcleId: self.userInfo.castcleId, syncSocialId: self.syncSocialId) { (success, _, isRefreshToken) in
             if success {
                 self.didSetAutoPostFinish?()
             } else {
@@ -109,7 +109,7 @@ public final class PageSyncSocialViewModel {
 
     public func cancelAutoPost() {
         self.state = .cancelAutoPost
-        self.pageRepository.cancelAutoPost(syncSocialId: self.syncSocialId) { (success, _, isRefreshToken) in
+        self.pageRepository.cancelAutoPost(castcleId: self.userInfo.castcleId, syncSocialId: self.syncSocialId) { (success, _, isRefreshToken) in
             if success {
                 self.didCancelAutoPostFinish?()
             } else {
@@ -122,24 +122,9 @@ public final class PageSyncSocialViewModel {
         }
     }
 
-    public func reconnectSyncSocial() {
-        self.state = .reconnectSyncSocial
-        self.pageRepository.reconnectSyncSocial(syncSocialId: self.syncSocialId, pageSocial: self.pageSocial) { (success, _, isRefreshToken) in
-            if success {
-                self.didReconnectSyncSocialFinish?()
-            } else {
-                if isRefreshToken {
-                    self.tokenHelper.refreshToken()
-                } else {
-                    self.didReconnectSyncSocialFinish?()
-                }
-            }
-        }
-    }
-
     public func disconnectSyncSocial() {
         self.state = .disconnectSyncSocial
-        self.pageRepository.disconnectSyncSocial(syncSocialId: self.syncSocialId) { (success, _, isRefreshToken) in
+        self.pageRepository.disconnectSyncSocial(castcleId: self.userInfo.castcleId, syncSocialId: self.syncSocialId) { (success, _, isRefreshToken) in
             if success {
                 self.didDisconnectSyncSocialFinish?()
             } else {
@@ -167,8 +152,6 @@ extension PageSyncSocialViewModel: TokenHelperDelegate {
             self.setAutoPost()
         } else if self.state == .cancelAutoPost {
             self.cancelAutoPost()
-        } else if self.state == .reconnectSyncSocial {
-            self.reconnectSyncSocial()
         } else if self.state == .disconnectSyncSocial {
             self.disconnectSyncSocial()
         }
