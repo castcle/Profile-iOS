@@ -28,5 +28,7 @@
 class SocialLinkShelf: NSObject {
     var socialLinks: [SocialLink] = []
 
-    override init() { }
+    override init() {
+        // Init model
+    }
 }

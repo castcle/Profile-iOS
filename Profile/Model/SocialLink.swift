@@ -31,7 +31,9 @@ public class SocialLink: NSObject {
     var socialLinkType: SocialLinkType = .website
     var value: String = ""
 
-    public override init() { }
+    public override init() {
+        // Init model
+    }
 
     public init(socialLinkType: SocialLinkType, value: String) {
         self.socialLinkType = socialLinkType

@@ -254,7 +254,7 @@ extension PageHeaderTableViewCell {
     }
 
     private func followUI() {
-        if self.viewModel.isFollow == true {
+        if self.viewModel.isFollow {
             self.pageFollowButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .overline)
             self.pageFollowButton.setBackgroundImage(UIColor.Asset.lightBlue.toImage(), for: .normal)
             self.pageFollowButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
