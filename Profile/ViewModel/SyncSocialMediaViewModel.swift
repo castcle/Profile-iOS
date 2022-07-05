@@ -106,6 +106,7 @@ public final class SyncSocialMediaViewModel {
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
                     let duplicate: Bool = json["duplicate"].boolValue
+                    self.sendAnalytics(social: self.pageSocial.provider.rawValue)
                     self.getInfo(isDuplicate: duplicate)
                 } catch {}
             } else {
@@ -121,6 +122,14 @@ public final class SyncSocialMediaViewModel {
     var didGetUserInfoFinish: (() -> Void)?
     var didDuplicate: (() -> Void)?
     var didError: (() -> Void)?
+
+    private func sendAnalytics(social: String) {
+        let item = Analytic()
+        item.accountId = UserManager.shared.accountId
+        item.userId = UserManager.shared.id
+        item.channel = social
+        TrackingAnalyticHelper.shared.sendTrackingAnalytic(eventType: .connectSyncSocial, item: item)
+    }
 }
 
 extension SyncSocialMediaViewModel: TokenHelperDelegate {

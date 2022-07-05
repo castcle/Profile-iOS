@@ -68,11 +68,13 @@ class SyncSocialMediaViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        Defaults[.screenId] = ""
+        Defaults[.screenId] = ScreenId.syncSocial.rawValue
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        EngagementHelper().sendCastcleAnalytic(event: .onScreenView, screen: .syncSocial)
+        self.sendAnalytics()
         if !self.viewModel.castcleId.isEmpty {
             self.hud.textLabel.text = "Loading"
             self.hud.show(in: self.view)
@@ -82,6 +84,13 @@ class SyncSocialMediaViewController: UIViewController {
 
     func setupNavBar() {
         self.customNavigationBar(.secondary, title: "Sync Social Media")
+    }
+
+    private func sendAnalytics() {
+        let item = Analytic()
+        item.accountId = UserManager.shared.accountId
+        item.userId = UserManager.shared.id
+        TrackingAnalyticHelper.shared.sendTrackingAnalytic(eventType: .viewSyncSocial, item: item)
     }
 
     func configureTableView() {
