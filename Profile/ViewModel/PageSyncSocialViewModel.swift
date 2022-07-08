@@ -97,6 +97,7 @@ public final class PageSyncSocialViewModel {
         self.pageRepository.setAutoPost(castcleId: self.userInfo.castcleId, syncSocialId: self.syncSocialId) { (success, _, isRefreshToken) in
             if success {
                 self.didSetAutoPostFinish?()
+                self.sendAnalytics(isActive: true)
             } else {
                 if isRefreshToken {
                     self.tokenHelper.refreshToken()
@@ -112,6 +113,7 @@ public final class PageSyncSocialViewModel {
         self.pageRepository.cancelAutoPost(castcleId: self.userInfo.castcleId, syncSocialId: self.syncSocialId) { (success, _, isRefreshToken) in
             if success {
                 self.didCancelAutoPostFinish?()
+                self.sendAnalytics(isActive: false)
             } else {
                 if isRefreshToken {
                     self.tokenHelper.refreshToken()
@@ -122,26 +124,17 @@ public final class PageSyncSocialViewModel {
         }
     }
 
-    public func disconnectSyncSocial() {
-        self.state = .disconnectSyncSocial
-        self.pageRepository.disconnectSyncSocial(castcleId: self.userInfo.castcleId, syncSocialId: self.syncSocialId) { (success, _, isRefreshToken) in
-            if success {
-                self.didDisconnectSyncSocialFinish?()
-            } else {
-                if isRefreshToken {
-                    self.tokenHelper.refreshToken()
-                } else {
-                    self.didDisconnectSyncSocialFinish?()
-                }
-            }
-        }
-    }
-
     var didGetUserInfoFinish: (() -> Void)?
     var didSetAutoPostFinish: (() -> Void)?
     var didCancelAutoPostFinish: (() -> Void)?
-    var didReconnectSyncSocialFinish: (() -> Void)?
-    var didDisconnectSyncSocialFinish: (() -> Void)?
+
+    private func sendAnalytics(isActive: Bool) {
+        let item = Analytic()
+        item.accountId = UserManager.shared.accountId
+        item.userId = UserManager.shared.id
+        item.active = (isActive ? "on" : "off")
+        TrackingAnalyticHelper.shared.sendTrackingAnalytic(eventType: .autoPostSyncSocial, item: item)
+    }
 }
 
 extension PageSyncSocialViewModel: TokenHelperDelegate {
@@ -153,7 +146,7 @@ extension PageSyncSocialViewModel: TokenHelperDelegate {
         } else if self.state == .cancelAutoPost {
             self.cancelAutoPost()
         } else if self.state == .disconnectSyncSocial {
-            self.disconnectSyncSocial()
+//            self.disconnectSyncSocial()
         }
     }
 }

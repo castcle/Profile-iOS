@@ -56,14 +56,6 @@ class PageSyncSocialViewController: UIViewController {
         self.viewModel.didCancelAutoPostFinish = {
             self.hud.dismiss()
         }
-
-        self.viewModel.didReconnectSyncSocialFinish = {
-            self.hud.dismiss()
-        }
-
-        self.viewModel.didDisconnectSyncSocialFinish = {
-            self.hud.dismiss()
-        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
