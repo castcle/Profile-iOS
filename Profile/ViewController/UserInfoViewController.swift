@@ -36,6 +36,7 @@ public class UserInfoViewController: UIViewController, UITableViewDelegate, UITa
 
     enum UserInfoViewControllerSection: Int, CaseIterable {
         case info = 0
+        case createAt
         case birthdate
         case email
         case contactNumber
@@ -84,6 +85,8 @@ public class UserInfoViewController: UIViewController, UITableViewDelegate, UITa
 
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
+        case UserInfoViewControllerSection.createAt.rawValue:
+            return (self.viewModel.userInfo.type == .page ? 1 : 0)
         case UserInfoViewControllerSection.birthdate.rawValue:
             if self.viewModel.userInfo.type == .page {
                 return 0
@@ -130,11 +133,17 @@ public class UserInfoViewController: UIViewController, UITableViewDelegate, UITa
             cell?.backgroundColor = UIColor.clear
             cell?.configCell(userInfo: self.viewModel.userInfo)
             return cell ?? UserInfoTableViewCell()
+        case UserInfoViewControllerSection.createAt.rawValue:
+            let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.infoNormal, for: indexPath as IndexPath) as? InfoNormalTableViewCell
+            let createDate = Date.stringToDate(str: self.viewModel.userInfo.createdAt)
+            cell?.backgroundColor = UIColor.clear
+            cell?.configCell(title: "Page create", detail: createDate.dateToString())
+            return cell ?? InfoNormalTableViewCell()
         case UserInfoViewControllerSection.birthdate.rawValue:
             let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.infoNormal, for: indexPath as IndexPath) as? InfoNormalTableViewCell
             let dobDate = Date.stringToDate(str: self.viewModel.userInfo.dob)
             cell?.backgroundColor = UIColor.clear
-            cell?.configCell(title: "Birth date", detail: dobDate.dateToString())
+            cell?.configCell(title: "Date of birth", detail: dobDate.dateToString())
             return cell ?? InfoNormalTableViewCell()
         case UserInfoViewControllerSection.email.rawValue:
             let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.infoNormal, for: indexPath as IndexPath) as? InfoNormalTableViewCell

@@ -43,7 +43,7 @@ class UserInfoTableViewCell: UITableViewCell {
         self.displayNameLabel.font = UIFont.asset(.regular, fontSize: .head4)
         self.displayNameLabel.textColor = UIColor.Asset.white
         self.userIdLabel.font = UIFont.asset(.regular, fontSize: .overline)
-        self.userIdLabel.textColor = UIColor.Asset.white
+        self.userIdLabel.textColor = UIColor.Asset.textGray
         self.profileImage.circle(color: UIColor.Asset.white)
     }
 
