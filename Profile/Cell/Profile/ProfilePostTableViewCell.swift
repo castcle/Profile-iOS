@@ -44,8 +44,8 @@ class ProfilePostTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         self.lineView.backgroundColor = UIColor.Asset.darkGraphiteBlue
-        self.newPostView.backgroundColor = UIColor.Asset.darkGray
-        self.searchView.custom(color: UIColor.Asset.darkGray, cornerRadius: 18, borderWidth: 1, borderColor: UIColor.Asset.darkGraphiteBlue)
+        self.newPostView.backgroundColor = UIColor.Asset.cellBackground
+        self.searchView.custom(color: UIColor.Asset.cellBackground, cornerRadius: 18, borderWidth: 1, borderColor: UIColor.Asset.darkGraphiteBlue)
         self.miniProfileImage.circle(color: UIColor.Asset.darkGraphiteBlue)
         self.placeholderLabel.font = UIFont.asset(.light, fontSize: .overline)
         self.placeholderLabel.textColor = UIColor.Asset.lightGray

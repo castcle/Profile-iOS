@@ -37,7 +37,7 @@ class AddLinkTableViewCell: UITableViewCell {
         super.awakeFromNib()
         self.addSocialButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .body)
         self.addSocialButton.setTitleColor(UIColor.Asset.lightBlue, for: .normal)
-        self.addSocialButton.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
+        self.addSocialButton.custom(color: UIColor.Asset.cellBackground, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
         self.linkLabel.font = UIFont.asset(.regular, fontSize: .body)
         self.linkLabel.textColor = UIColor.Asset.white
     }

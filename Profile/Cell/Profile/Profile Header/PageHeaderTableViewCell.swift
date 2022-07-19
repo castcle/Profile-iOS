@@ -105,8 +105,8 @@ class PageHeaderTableViewCell: UITableViewCell {
         self.viewPageProfileButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .overline)
         self.viewPageProfileButton.setTitleColor(UIColor.Asset.lightBlue, for: .normal)
         self.viewPageProfileButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
-        self.pageCoverBackgroundView.backgroundColor = UIColor.Asset.darkGray
-        self.pageAvatarBackgroundView.backgroundColor = UIColor.Asset.darkGray
+        self.pageCoverBackgroundView.backgroundColor = UIColor.Asset.cellBackground
+        self.pageAvatarBackgroundView.backgroundColor = UIColor.Asset.cellBackground
         self.pageCoverLoadView.isHidden = true
         self.pageAvatarLoadView.isHidden = true
         self.pageCoverIndicator.type = .ballBeat
@@ -261,9 +261,9 @@ extension PageHeaderTableViewCell {
             self.pageFollowButton.setIcon(prefixText: "Following  ", prefixTextColor: UIColor.Asset.white, icon: .castcle(.checkmark), iconColor: UIColor.Asset.white, postfixText: "", postfixTextColor: UIColor.Asset.white, forState: .normal, textSize: 14, iconSize: 14)
         } else {
             self.pageFollowButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .overline)
-            self.pageFollowButton.setBackgroundImage(UIColor.Asset.darkGray.toImage(), for: .normal)
+            self.pageFollowButton.setBackgroundImage(UIColor.Asset.cellBackground.toImage(), for: .normal)
             self.pageFollowButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
-            self.pageFollowButton.setIcon(prefixText: "     Follow     ", prefixTextColor: UIColor.Asset.lightBlue, icon: .castcle(.checkmark), iconColor: UIColor.Asset.darkGray, postfixText: "", postfixTextColor: UIColor.Asset.white, forState: .normal, textSize: 14, iconSize: 0)
+            self.pageFollowButton.setIcon(prefixText: "     Follow     ", prefixTextColor: UIColor.Asset.lightBlue, icon: .castcle(.checkmark), iconColor: UIColor.Asset.cellBackground, postfixText: "", postfixTextColor: UIColor.Asset.white, forState: .normal, textSize: 14, iconSize: 0)
         }
     }
 

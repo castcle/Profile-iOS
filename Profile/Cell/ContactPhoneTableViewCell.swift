@@ -59,8 +59,8 @@ class ContactPhoneTableViewCell: UITableViewCell, UITextFieldDelegate {
         self.codeLabel.textColor = UIColor.Asset.white
         self.mobileTextField.font = UIFont.asset(.regular, fontSize: .overline)
         self.mobileTextField.textColor = UIColor.Asset.white
-        self.codeView.capsule(color: UIColor.Asset.darkGray)
-        self.mobileViewView.capsule(color: UIColor.Asset.darkGray)
+        self.codeView.capsule(color: UIColor.Asset.cellBackground)
+        self.mobileViewView.capsule(color: UIColor.Asset.cellBackground)
         self.dropdownImage.image = UIImage.init(icon: .castcle(.dropDown), size: CGSize(width: 25, height: 25), textColor: UIColor.Asset.lightBlue)
         self.mobileTextField.delegate = self
         self.mobileTextField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)

@@ -77,7 +77,7 @@ extension FacebookPageListViewController: UITableViewDelegate, UITableViewDataSo
             return cell ?? FacebookPageEmptyTableViewCell()
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.facebookPage, for: indexPath as IndexPath) as? FacebookPageTableViewCell
-            cell?.backgroundColor = UIColor.Asset.darkGray
+            cell?.backgroundColor = UIColor.Asset.cellBackground
             cell?.configCell(page: self.facebookPage[indexPath.row])
             return cell ?? FacebookPageTableViewCell()
         }

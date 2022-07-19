@@ -73,7 +73,7 @@ class PageSyncSocialTableViewCell: UITableViewCell {
         self.connectIcon.image = UIImage.init(icon: .castcle(.bindLink), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.white)
         self.autoPostIcon.image = UIImage.init(icon: .castcle(.autoPost), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.white)
 
-        self.autoPostSwitch.tintColor = UIColor.Asset.darkGray
+        self.autoPostSwitch.tintColor = UIColor.Asset.cellBackground
         self.autoPostSwitch.onTintColor = UIColor.Asset.lightBlue
         self.autoPostSwitch.thumbTintColor = UIColor.Asset.white
         self.autoPostSwitch.addTarget(self, action: #selector(switchValueDidChange(_:)), for: .valueChanged)

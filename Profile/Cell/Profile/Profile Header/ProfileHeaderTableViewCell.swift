@@ -95,8 +95,8 @@ class ProfileHeaderTableViewCell: UITableViewCell {
         self.viewUserProfileButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .overline)
         self.viewUserProfileButton.setTitleColor(UIColor.Asset.lightBlue, for: .normal)
         self.viewUserProfileButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
-        self.userCoverBackgroundView.backgroundColor = UIColor.Asset.darkGray
-        self.userAvatarBackgroundView.backgroundColor = UIColor.Asset.darkGray
+        self.userCoverBackgroundView.backgroundColor = UIColor.Asset.cellBackground
+        self.userAvatarBackgroundView.backgroundColor = UIColor.Asset.cellBackground
         self.userCoverLoadView.isHidden = true
         self.userAvatarLoadView.isHidden = true
         self.userCoverIndicator.type = .ballBeat
@@ -287,9 +287,9 @@ extension ProfileHeaderTableViewCell {
             self.userFollowButton.setIcon(prefixText: "Following  ", prefixTextColor: UIColor.Asset.white, icon: .castcle(.checkmark), iconColor: UIColor.Asset.white, postfixText: "", postfixTextColor: UIColor.Asset.white, forState: .normal, textSize: 14, iconSize: 14)
         } else {
             self.userFollowButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .overline)
-            self.userFollowButton.setBackgroundImage(UIColor.Asset.darkGray.toImage(), for: .normal)
+            self.userFollowButton.setBackgroundImage(UIColor.Asset.cellBackground.toImage(), for: .normal)
             self.userFollowButton.capsule(color: UIColor.clear, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
-            self.userFollowButton.setIcon(prefixText: "     Follow     ", prefixTextColor: UIColor.Asset.lightBlue, icon: .castcle(.checkmark), iconColor: UIColor.Asset.darkGray, postfixText: "", postfixTextColor: UIColor.Asset.white, forState: .normal, textSize: 14, iconSize: 0)
+            self.userFollowButton.setIcon(prefixText: "     Follow     ", prefixTextColor: UIColor.Asset.lightBlue, icon: .castcle(.checkmark), iconColor: UIColor.Asset.cellBackground, postfixText: "", postfixTextColor: UIColor.Asset.white, forState: .normal, textSize: 14, iconSize: 0)
         }
     }
 

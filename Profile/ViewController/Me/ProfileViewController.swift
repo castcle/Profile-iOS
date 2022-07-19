@@ -225,7 +225,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
                 return self.renderHeaderCell(tableView: tableView, indexPath: indexPath)
             } else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.profilePost, for: indexPath as IndexPath) as? ProfilePostTableViewCell
-                cell?.backgroundColor = UIColor.Asset.darkGray
+                cell?.backgroundColor = UIColor.Asset.cellBackground
                 cell?.configCell(profileType: self.profileViewModel.profileType, userInfo: self.profileViewModel.userInfo)
                 return cell ?? ProfilePostTableViewCell()
             }
@@ -301,27 +301,27 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         } else if self.profileViewModel.loadState == .loaded {
             if self.profileViewModel.isBlocked {
                 let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.headerBlocked, for: indexPath as IndexPath) as? HeaderBlockedTableViewCell
-                cell?.backgroundColor = UIColor.Asset.darkGray
+                cell?.backgroundColor = UIColor.Asset.cellBackground
                 cell?.configCell(userInfo: self.profileViewModel.userInfo)
                 return cell ?? HeaderBlockedTableViewCell()
             } else {
                 if self.profileViewModel.userInfo.type == .people {
                     let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.profileHeader, for: indexPath as IndexPath) as? ProfileHeaderTableViewCell
                     cell?.delegate = self
-                    cell?.backgroundColor = UIColor.Asset.darkGray
+                    cell?.backgroundColor = UIColor.Asset.cellBackground
                     cell?.configCell(viewModel: ProfileHeaderViewModel(profileType: self.profileViewModel.profileType, userInfo: self.profileViewModel.userInfo))
                     return cell ?? ProfileHeaderTableViewCell()
                 } else {
                     let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.pageHeader, for: indexPath as IndexPath) as? PageHeaderTableViewCell
                     cell?.delegate = self
-                    cell?.backgroundColor = UIColor.Asset.darkGray
+                    cell?.backgroundColor = UIColor.Asset.cellBackground
                     cell?.configCell(viewModel: ProfileHeaderViewModel(profileType: self.profileViewModel.profileType, userInfo: self.profileViewModel.userInfo))
                     return cell ?? PageHeaderTableViewCell()
                 }
             }
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.profileHeaderSkeleton, for: indexPath as IndexPath) as? ProfileHeaderSkeletonTableViewCell
-            cell?.backgroundColor = UIColor.Asset.darkGray
+            cell?.backgroundColor = UIColor.Asset.cellBackground
             return cell ?? ProfileHeaderSkeletonTableViewCell()
         }
     }
@@ -358,12 +358,12 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         switch cellType {
         case .activity:
             let cell = tableView.dequeueReusableCell(withIdentifier: ComponentNibVars.TableViewCell.activityHeader, for: indexPath as IndexPath) as? ActivityHeaderTableViewCell
-            cell?.backgroundColor = UIColor.Asset.darkGray
+            cell?.backgroundColor = UIColor.Asset.cellBackground
             cell?.cellConfig(content: content)
             return cell ?? ActivityHeaderTableViewCell()
         case .header:
             let cell = tableView.dequeueReusableCell(withIdentifier: ComponentNibVars.TableViewCell.headerFeed, for: indexPath as IndexPath) as? HeaderTableViewCell
-            cell?.backgroundColor = UIColor.Asset.darkGray
+            cell?.backgroundColor = UIColor.Asset.cellBackground
             cell?.delegate = self
             if content.referencedCasts.type == .recasted {
                 cell?.configCell(type: .content, content: originalContent, isDefaultContent: false)
@@ -373,7 +373,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
             return cell ?? HeaderTableViewCell()
         case .footer:
             let cell = tableView.dequeueReusableCell(withIdentifier: ComponentNibVars.TableViewCell.footerFeed, for: indexPath as IndexPath) as? FooterTableViewCell
-            cell?.backgroundColor = UIColor.Asset.darkGray
+            cell?.backgroundColor = UIColor.Asset.cellBackground
             cell?.delegate = self
             if content.referencedCasts.type == .recasted {
                 cell?.configCell(content: originalContent, isCommentView: false)

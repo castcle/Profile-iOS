@@ -47,7 +47,7 @@ class ContactEmailTableViewCell: UITableViewCell, UITextFieldDelegate {
     override func awakeFromNib() {
         super.awakeFromNib()
         self.hud.textLabel.text = "Saving"
-        self.emailView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
+        self.emailView.custom(color: UIColor.Asset.cellBackground, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
         self.subtitleLabel.font = UIFont.asset(.regular, fontSize: .body)
         self.subtitleLabel.textColor = UIColor.Asset.white
         self.emailTextField.font = UIFont.asset(.regular, fontSize: .body)

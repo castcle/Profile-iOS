@@ -43,7 +43,7 @@ class AboutTableViewCell: UITableViewCell, UITextViewDelegate {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.aboutView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
+        self.aboutView.custom(color: UIColor.Asset.cellBackground, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
         self.headlineLabel.font = UIFont.asset(.regular, fontSize: .title)
         self.headlineLabel.textColor = UIColor.Asset.white
         self.overviewLabel.font = UIFont.asset(.regular, fontSize: .body)

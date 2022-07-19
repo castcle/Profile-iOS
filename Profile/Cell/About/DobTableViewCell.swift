@@ -54,7 +54,7 @@ class DobTableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.birthdayView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
+        self.birthdayView.custom(color: UIColor.Asset.cellBackground, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
         self.birthdayLabel.font = UIFont.asset(.regular, fontSize: .body)
         self.birthdayLabel.textColor = UIColor.Asset.white
     }

@@ -115,24 +115,24 @@ extension UserFollowViewController: UITableViewDelegate, UITableViewDataSource {
         if self.viewModel.state == .loading {
             let cell = tableView.dequeueReusableCell(withIdentifier: ComponentNibVars.TableViewCell.skeletonUser, for: indexPath as IndexPath) as? SkeletonUserTableViewCell
             cell?.configCell()
-            cell?.backgroundColor = UIColor.Asset.darkGray
+            cell?.backgroundColor = UIColor.Asset.cellBackground
             return cell ?? SkeletonUserTableViewCell()
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: ComponentNibVars.TableViewCell.userToFollow, for: indexPath as IndexPath) as? UserToFollowTableViewCell
             cell?.configCell(user: self.viewModel.users[indexPath.section])
-            cell?.backgroundColor = UIColor.Asset.darkGray
+            cell?.backgroundColor = UIColor.Asset.cellBackground
             cell?.delegate = self
             return cell ?? UserToFollowTableViewCell()
         }
     }
 
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 2
+        return 1
     }
 
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let footerView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: tableView.frame.width, height: 2))
-        footerView.backgroundColor = UIColor.clear
+        let footerView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: tableView.frame.width, height: 1))
+        footerView.backgroundColor = UIColor.Asset.lineGray
         return footerView
     }
 }

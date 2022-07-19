@@ -61,7 +61,7 @@ class SocialLinkTableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.socialView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
+        self.socialView.custom(color: UIColor.Asset.cellBackground, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
         self.valueLabel.font = UIFont.asset(.regular, fontSize: .overline)
         self.valueLabel.textColor = UIColor.Asset.lightBlue
     }

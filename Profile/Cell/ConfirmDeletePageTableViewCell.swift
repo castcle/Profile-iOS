@@ -51,7 +51,7 @@ class ConfirmDeletePageTableViewCell: UITableViewCell, UITextFieldDelegate {
     override func awakeFromNib() {
         super.awakeFromNib()
         self.hud.textLabel.text = "Deleting"
-        self.passwordView.custom(color: UIColor.Asset.darkGray, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
+        self.passwordView.custom(color: UIColor.Asset.cellBackground, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
         self.headlineLabel.font = UIFont.asset(.regular, fontSize: .title)
         self.headlineLabel.textColor = UIColor.Asset.white
         self.subtitleLabel.font = UIFont.asset(.regular, fontSize: .body)
