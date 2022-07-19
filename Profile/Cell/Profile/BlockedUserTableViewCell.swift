@@ -45,8 +45,8 @@ class BlockedUserTableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.subTitleLabel.font = UIFont.asset(.regular, fontSize: .body)
-        self.subTitleLabel.textColor = UIColor.Asset.white
+        self.subTitleLabel.font = UIFont.asset(.contentLight, fontSize: .body)
+        self.subTitleLabel.textColor = UIColor.Asset.textDetailGray
         self.unblockButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .body)
         self.unblockButton.setTitleColor(UIColor.Asset.white, for: .normal)
         self.unblockButton.capsule(color: UIColor.Asset.denger, borderWidth: 1, borderColor: UIColor.Asset.denger)

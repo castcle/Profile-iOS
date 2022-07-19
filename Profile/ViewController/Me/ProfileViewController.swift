@@ -240,7 +240,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
                 if self.profileViewModel.isBlocked {
                     let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.blockedUser, for: indexPath as IndexPath) as? BlockedUserTableViewCell
                     cell?.delegate = self
-                    cell?.backgroundColor = UIColor.Asset.darkGraphiteBlue
+                    cell?.backgroundColor = UIColor.Asset.cellBackground
                     cell?.configCell(castcleId: self.profileViewModel.castcleIdBlock)
                     return cell ?? BlockedUserTableViewCell()
                 } else {
@@ -257,7 +257,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         if section == 1 {
             return 0
         } else {
-            return 5
+            return self.profileViewModel.isBlocked ? 0 : 5
         }
     }
 
@@ -265,9 +265,13 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         if section == 1 {
             return UIView()
         } else {
-            let footerView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: tableView.frame.width, height: 5))
-            footerView.backgroundColor = UIColor.clear
-            return footerView
+            if self.profileViewModel.isBlocked {
+                return UIView()
+            } else {
+                let footerView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: tableView.frame.width, height: 5))
+                footerView.backgroundColor = UIColor.clear
+                return footerView
+            }
         }
     }
 
