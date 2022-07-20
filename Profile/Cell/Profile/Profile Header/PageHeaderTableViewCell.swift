@@ -34,6 +34,7 @@ import Networking
 import NVActivityIndicatorView
 import TLPhotoPicker
 import TOCropViewController
+import Lightbox
 
 protocol PageHeaderTableViewCellDelegate: AnyObject {
     func didUpdateProfileSuccess(_ pageHeaderTableViewCell: PageHeaderTableViewCell)
@@ -208,9 +209,34 @@ class PageHeaderTableViewCell: UITableViewCell {
             self.delegate?.didAuthen(self)
         }
     }
+
+    @IBAction func viewPageCoverAction(_ sender: Any) {
+        self.displayPageImage(imageUrl: self.viewModel.userInfo.images.cover.fullHd)
+    }
+
+    @IBAction func viewPaAvatarAction(_ sender: Any) {
+        self.displayPageImage(imageUrl: self.viewModel.userInfo.images.avatar.fullHd)
+    }
 }
 
 extension PageHeaderTableViewCell {
+    private func displayPageImage(imageUrl: String) {
+        let images = [
+            LightboxImage(imageURL: URL(string: imageUrl)!)
+        ]
+        LightboxConfig.CloseButton.textAttributes = [
+            .font: UIFont.asset(.bold, fontSize: .body),
+            .foregroundColor: UIColor.Asset.white
+          ]
+        LightboxConfig.CloseButton.text = "Close"
+        let controller = LightboxController(images: images)
+        controller.pageDelegate = self
+        controller.dismissalDelegate = self
+        controller.dynamicBackground = true
+        controller.footerView.isHidden = true
+        Utility.currentViewController().present(controller, animated: true, completion: nil)
+    }
+
     private func updateProfileUI() {
         let urlProfile = URL(string: self.viewModel.userInfo.images.avatar.thumbnail)
         let urlCover = URL(string: self.viewModel.userInfo.images.cover.fullHd)
@@ -454,5 +480,17 @@ extension PageHeaderTableViewCell: EditProfileViewModelDelegate {
 extension PageHeaderTableViewCell: ProfileHeaderViewModelDelegate {
     func didBlocked() {
         self.delegate?.didBlocked(self)
+    }
+}
+
+extension PageHeaderTableViewCell: LightboxControllerPageDelegate {
+    public func lightboxController(_ controller: LightboxController, didMoveToPage page: Int) {
+        // MARK: - Lightbox Move Page
+    }
+}
+
+extension PageHeaderTableViewCell: LightboxControllerDismissalDelegate {
+    public func lightboxControllerWillDismiss(_ controller: LightboxController) {
+        // MARK: - Lightbox Dismiss
     }
 }

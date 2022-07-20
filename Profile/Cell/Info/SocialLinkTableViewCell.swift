@@ -46,13 +46,13 @@ class SocialLinkTableViewCell: UITableViewCell {
                 self.socialIcon.image = UIImage.init(icon: .castcle(.twitter), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.white)
                 self.socialIconView.capsule(color: UIColor.Asset.twitter)
             case .youtube:
-                self.socialIcon.image = UIImage.init(icon: .castcle(.youtube), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.denger)
+                self.socialIcon.image = UIImage.init(icon: .castcle(.youtubeBold), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.denger)
                 self.socialIconView.capsule(color: UIColor.Asset.white)
             case .medium:
                 self.socialIcon.image = UIImage.init(icon: .castcle(.medium), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.black)
                 self.socialIconView.capsule(color: UIColor.Asset.white)
             default:
-                self.socialIcon.image = UIImage.init(icon: .castcle(.link), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.lightBlue)
+                self.socialIcon.image = UIImage.init(icon: .castcle(.others), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.lightBlue)
                 self.socialIconView.capsule(color: UIColor.Asset.white)
             }
             self.valueLabel.text = social.value

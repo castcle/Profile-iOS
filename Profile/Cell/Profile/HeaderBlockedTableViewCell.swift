@@ -28,6 +28,7 @@
 import UIKit
 import Core
 import Networking
+import Lightbox
 
 class HeaderBlockedTableViewCell: UITableViewCell {
 
@@ -35,6 +36,8 @@ class HeaderBlockedTableViewCell: UITableViewCell {
     @IBOutlet var profileImage: UIImageView!
     @IBOutlet var displayNameLabel: UILabel!
     @IBOutlet var userIdLabel: UILabel!
+
+    private var userInfo = UserInfo()
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -50,11 +53,49 @@ class HeaderBlockedTableViewCell: UITableViewCell {
     }
 
     func configCell(userInfo: UserInfo) {
-        let urlProfile = URL(string: userInfo.images.avatar.thumbnail)
-        let urlCover = URL(string: userInfo.images.cover.large)
+        self.userInfo =  userInfo
+        let urlProfile = URL(string: self.userInfo.images.avatar.thumbnail)
+        let urlCover = URL(string: self.userInfo.images.cover.large)
         self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
         self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.35))])
-        self.displayNameLabel.text = userInfo.displayName
-        self.userIdLabel.text = "@\(userInfo.castcleId)"
+        self.displayNameLabel.text = self.userInfo.displayName
+        self.userIdLabel.text = "@\(self.userInfo.castcleId)"
+    }
+
+    private func displayUserImage(imageUrl: String) {
+        let images = [
+            LightboxImage(imageURL: URL(string: imageUrl)!)
+        ]
+        LightboxConfig.CloseButton.textAttributes = [
+            .font: UIFont.asset(.bold, fontSize: .body),
+            .foregroundColor: UIColor.Asset.white
+          ]
+        LightboxConfig.CloseButton.text = "Close"
+        let controller = LightboxController(images: images)
+        controller.pageDelegate = self
+        controller.dismissalDelegate = self
+        controller.dynamicBackground = true
+        controller.footerView.isHidden = true
+        Utility.currentViewController().present(controller, animated: true, completion: nil)
+    }
+
+    @IBAction func viewUserCoverAction(_ sender: Any) {
+        self.displayUserImage(imageUrl: self.userInfo.images.cover.fullHd)
+    }
+
+    @IBAction func viewUserAvatarAction(_ sender: Any) {
+        self.displayUserImage(imageUrl: self.userInfo.images.avatar.fullHd)
+    }
+}
+
+extension HeaderBlockedTableViewCell: LightboxControllerPageDelegate {
+    public func lightboxController(_ controller: LightboxController, didMoveToPage page: Int) {
+        // MARK: - Lightbox Move Page
+    }
+}
+
+extension HeaderBlockedTableViewCell: LightboxControllerDismissalDelegate {
+    public func lightboxControllerWillDismiss(_ controller: LightboxController) {
+        // MARK: - Lightbox Dismiss
     }
 }

@@ -142,11 +142,11 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         self.twitterIconView.capsule(color: UIColor.Asset.twitter)
         self.twitterIcon.image = UIImage.init(icon: .castcle(.twitter), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.white)
         self.youtubeIconView.capsule(color: UIColor.Asset.white)
-        self.youtubeIcon.image = UIImage.init(icon: .castcle(.youtube), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.denger)
+        self.youtubeIcon.image = UIImage.init(icon: .castcle(.youtubeBold), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.denger)
         self.mediumIconView.capsule(color: UIColor.Asset.white)
         self.mediumIcon.image = UIImage.init(icon: .castcle(.medium), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.black)
         self.websiteIconView.capsule(color: UIColor.Asset.white)
-        self.websiteIcon.image = UIImage.init(icon: .castcle(.link), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.lightBlue)
+        self.websiteIcon.image = UIImage.init(icon: .castcle(.others), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.lightBlue)
 
         self.hud.textLabel.text = "Saving"
         self.overviewTextView.delegate = self
@@ -246,11 +246,11 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         }
 
         self.viewModel.userRequest.payload.overview = self.overviewTextView.text ?? ""
-        self.viewModel.userRequest.payload.links.facebook = (self.facebookTextField.text! == UrlProtocol.https.value ? "" : self.facebookTextField.text!)
-        self.viewModel.userRequest.payload.links.twitter = (self.twitterTextField.text! == UrlProtocol.https.value ? "" : self.twitterTextField.text!)
-        self.viewModel.userRequest.payload.links.youtube = (self.youtubeTextField.text! == UrlProtocol.https.value ? "" : self.youtubeTextField.text!)
-        self.viewModel.userRequest.payload.links.medium = (self.mediumTextField.text! == UrlProtocol.https.value ? "" : self.mediumTextField.text!)
-        self.viewModel.userRequest.payload.links.website = (self.websiteTextField.text! == UrlProtocol.https.value ? "" : self.websiteTextField.text!)
+        self.viewModel.userRequest.payload.links.facebook = (self.facebookTextField.text! == UrlProtocol.https.value ? "" : self.facebookTextField.text!.toUrlString)
+        self.viewModel.userRequest.payload.links.twitter = (self.twitterTextField.text! == UrlProtocol.https.value ? "" : self.twitterTextField.text!.toUrlString)
+        self.viewModel.userRequest.payload.links.youtube = (self.youtubeTextField.text! == UrlProtocol.https.value ? "" : self.youtubeTextField.text!.toUrlString)
+        self.viewModel.userRequest.payload.links.medium = (self.mediumTextField.text! == UrlProtocol.https.value ? "" : self.mediumTextField.text!.toUrlString)
+        self.viewModel.userRequest.payload.links.website = (self.websiteTextField.text! == UrlProtocol.https.value ? "" : self.websiteTextField.text!.toUrlString)
         self.viewModel.updateProfile(isPage: false, castcleId: UserManager.shared.rawCastcleId)
     }
 

@@ -35,6 +35,7 @@ import NVActivityIndicatorView
 import ActiveLabel
 import TLPhotoPicker
 import TOCropViewController
+import Lightbox
 
 protocol ProfileHeaderTableViewCellDelegate: AnyObject {
     func didUpdateProfileSuccess(_ profileHeaderTableViewCell: ProfileHeaderTableViewCell)
@@ -188,9 +189,42 @@ class ProfileHeaderTableViewCell: UITableViewCell {
             self.delegate?.didAuthen(self)
         }
     }
+
+    @IBAction func viewCoverAction(_ sender: Any) {
+        if self.viewModel.profileType == .mine {
+            self.displayUserImage(imageUrl: UserManager.shared.coverFullHd)
+        } else {
+            self.displayUserImage(imageUrl: self.viewModel.userInfo.images.cover.fullHd)
+        }
+    }
+
+    @IBAction func viewAvatarAction(_ sender: Any) {
+        if self.viewModel.profileType == .mine {
+            self.displayUserImage(imageUrl: UserManager.shared.avatarFullHd)
+        } else {
+            self.displayUserImage(imageUrl: self.viewModel.userInfo.images.avatar.fullHd)
+        }
+    }
 }
 
 extension ProfileHeaderTableViewCell {
+    private func displayUserImage(imageUrl: String) {
+        let images = [
+            LightboxImage(imageURL: URL(string: imageUrl)!)
+        ]
+        LightboxConfig.CloseButton.textAttributes = [
+            .font: UIFont.asset(.bold, fontSize: .body),
+            .foregroundColor: UIColor.Asset.white
+          ]
+        LightboxConfig.CloseButton.text = "Close"
+        let controller = LightboxController(images: images)
+        controller.pageDelegate = self
+        controller.dismissalDelegate = self
+        controller.dynamicBackground = true
+        controller.footerView.isHidden = true
+        Utility.currentViewController().present(controller, animated: true, completion: nil)
+    }
+
     private func updateProfileUI() {
         if self.viewModel.profileType == .mine {
             if let avatar = self.editProfileViewModel.avatar {
@@ -481,5 +515,17 @@ extension ProfileHeaderTableViewCell: EditProfileViewModelDelegate {
 extension ProfileHeaderTableViewCell: ProfileHeaderViewModelDelegate {
     func didBlocked() {
         self.delegate?.didBlocked(self)
+    }
+}
+
+extension ProfileHeaderTableViewCell: LightboxControllerPageDelegate {
+    public func lightboxController(_ controller: LightboxController, didMoveToPage page: Int) {
+        // MARK: - Lightbox Move Page
+    }
+}
+
+extension ProfileHeaderTableViewCell: LightboxControllerDismissalDelegate {
+    public func lightboxControllerWillDismiss(_ controller: LightboxController) {
+        // MARK: - Lightbox Dismiss
     }
 }
