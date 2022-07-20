@@ -65,8 +65,7 @@ class CreatePageDisplayNameViewModel {
                 do {
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
-                    let payload = JSON(json[JsonKey.payload.rawValue].dictionaryValue)
-                    let suggestCastcleId = payload[JsonKey.suggestCastcleId.rawValue].stringValue
+                    let suggestCastcleId = json[JsonKey.suggestCastcleId.rawValue].stringValue
                     self.delegate?.didSuggestCastcleIdFinish(suggestCastcleId: suggestCastcleId)
                 } catch {}
             } else {
