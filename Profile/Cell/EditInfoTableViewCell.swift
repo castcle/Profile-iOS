@@ -156,6 +156,7 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         self.saveButton.setTitleColor(UIColor.Asset.white, for: .normal)
         self.saveButton.capsule(color: UIColor.Asset.lightBlue, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
         self.viewModel.delegate = self
+        self.castcleIdTextField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -207,6 +208,13 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         self.websiteTextField.text = (UserManager.shared.websiteLink.isEmpty ? UrlProtocol.https.value : UserManager.shared.websiteLink)
     }
 
+    @objc private func textFieldDidChange(_ textField: UITextField) {
+        if textField.tag == 0 {
+            let displayCastcleId = textField.text ?? ""
+            textField.text = displayCastcleId.toRawCastcleId
+        }
+    }
+
     private func disableUI(isActive: Bool) {
         if isActive {
             self.overviewTextView.isEditable = true
@@ -235,16 +243,18 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
     }
 
     @IBAction func saveAction(_ sender: Any) {
+        guard (self.castcleIdTextField.text!).trimmingCharacters(in: .whitespacesAndNewlines).isCastcleId else {
+            ApiHelper.displayError(error: "Castcle ID cannot contain special characters")
+            return
+        }
         self.hud.show(in: Utility.currentViewController().view)
         self.disableUI(isActive: false)
-        if (self.castcleIdTextField.text!).trimmingCharacters(in: .whitespacesAndNewlines) != UserManager.shared.castcleId {
-            self.viewModel.userRequest.payload.castcleId = (self.castcleIdTextField.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+        if (self.castcleIdTextField.text!).trimmingCharacters(in: .whitespacesAndNewlines).toCastcleId != UserManager.shared.castcleId {
+            self.viewModel.userRequest.payload.castcleId = (self.castcleIdTextField.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines).toCastcleId
         }
-
         if (self.displayNameTextField.text!).trimmingCharacters(in: .whitespacesAndNewlines) != UserManager.shared.displayName {
             self.viewModel.userRequest.payload.displayName = (self.displayNameTextField.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
         }
-
         self.viewModel.userRequest.payload.overview = self.overviewTextView.text ?? ""
         self.viewModel.userRequest.payload.links.facebook = (self.facebookTextField.text! == UrlProtocol.https.value ? "" : self.facebookTextField.text!.toUrlString)
         self.viewModel.userRequest.payload.links.twitter = (self.twitterTextField.text! == UrlProtocol.https.value ? "" : self.twitterTextField.text!.toUrlString)

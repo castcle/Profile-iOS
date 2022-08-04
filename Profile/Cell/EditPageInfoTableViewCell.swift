@@ -165,6 +165,7 @@ class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         self.saveButton.setTitleColor(UIColor.Asset.white, for: .normal)
         self.saveButton.capsule(color: UIColor.Asset.lightBlue, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
         self.viewModel.delegate = self
+        self.pageCastcleIdTextField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -184,6 +185,13 @@ class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         self.pageYoutubeTextField.text = (self.viewModel.userInfo.links.youtube.isEmpty ? UrlProtocol.https.value : self.viewModel.userInfo.links.youtube)
         self.pageMediumTextField.text = (self.viewModel.userInfo.links.medium.isEmpty ? UrlProtocol.https.value : self.viewModel.userInfo.links.medium)
         self.pageWebsiteTextField.text = (self.viewModel.userInfo.links.website.isEmpty ? UrlProtocol.https.value : self.viewModel.userInfo.links.website)
+    }
+
+    @objc private func textFieldDidChange(_ textField: UITextField) {
+        if textField.tag == 0 {
+            let displayCastcleId = textField.text ?? ""
+            textField.text = displayCastcleId.toRawCastcleId
+        }
     }
 
     private func updateUI() {
@@ -259,17 +267,19 @@ class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
     }
 
     @IBAction func saveAction(_ sender: Any) {
+        guard (self.pageCastcleIdTextField.text!).trimmingCharacters(in: .whitespacesAndNewlines).isCastcleId else {
+            ApiHelper.displayError(error: "Castcle ID cannot contain special characters")
+            return
+        }
         self.hud.show(in: Utility.currentViewController().view)
         self.disableUI(isActive: false)
 
-        if (self.pageCastcleIdTextField.text!).trimmingCharacters(in: .whitespacesAndNewlines) != self.viewModel.userInfo.castcleId {
-            self.viewModel.userRequest.payload.castcleId = (self.pageCastcleIdTextField.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+        if (self.pageCastcleIdTextField.text!).trimmingCharacters(in: .whitespacesAndNewlines).toCastcleId != self.viewModel.userInfo.castcleId {
+            self.viewModel.userRequest.payload.castcleId = (self.pageCastcleIdTextField.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines).toCastcleId
         }
-
         if (self.pageDisplayNameTextField.text!).trimmingCharacters(in: .whitespacesAndNewlines) != self.viewModel.userInfo.displayName {
             self.viewModel.userRequest.payload.displayName = (self.pageDisplayNameTextField.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
         }
-
         self.viewModel.userRequest.payload.overview = self.pageOverviewTextView.text ?? ""
         self.viewModel.userRequest.payload.links.facebook = (self.pageFacebookTextField.text! == UrlProtocol.https.value ? "" : self.pageFacebookTextField.text!.toUrlString)
         self.viewModel.userRequest.payload.links.twitter = (self.pageTwitterTextField.text! == UrlProtocol.https.value ? "" : self.pageTwitterTextField.text!.toUrlString)
