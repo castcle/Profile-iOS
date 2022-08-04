@@ -59,7 +59,7 @@ class HeaderBlockedTableViewCell: UITableViewCell {
         self.profileImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
         self.coverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.35))])
         self.displayNameLabel.text = self.userInfo.displayName
-        self.userIdLabel.text = "@\(self.userInfo.castcleId)"
+        self.userIdLabel.text = self.userInfo.castcleId
     }
 
     private func displayUserImage(imageUrl: String) {

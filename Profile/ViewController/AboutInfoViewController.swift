@@ -43,7 +43,7 @@ class AboutInfoViewController: UIViewController {
         case submit
     }
 
-    var viewModel = AboutInfoViewModel(authorType: .people, castcleId: UserManager.shared.rawCastcleId)
+    var viewModel = AboutInfoViewModel(authorType: .people, castcleId: UserManager.shared.castcleId)
 
     override func viewDidLoad() {
         super.viewDidLoad()

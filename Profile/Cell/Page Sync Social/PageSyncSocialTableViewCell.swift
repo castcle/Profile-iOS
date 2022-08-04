@@ -107,13 +107,12 @@ class PageSyncSocialTableViewCell: UITableViewCell {
         let castcleAvatarUrl = URL(string: avatar)
         self.castcleAvatarImage.kf.setImage(with: castcleAvatarUrl, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
         self.castcleNameLabel.text = displayName
-        self.castcleIdLabel.text = "@\(castcleId)"
+        self.castcleIdLabel.text = castcleId
 
         let socialAvatarUrl = URL(string: self.syncDetail.avatar)
         self.socialAvatarImage.kf.setImage(with: socialAvatarUrl, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
         self.socialNameLabel.text = self.syncDetail.displayName
-        self.socialIdLabel.text = self.syncDetail.userName.isEmpty ? "" : "@\(self.syncDetail.userName)"
-
+        self.socialIdLabel.text = self.syncDetail.userName.isEmpty ? "" : self.syncDetail.userName.toCastcleId
         if self.syncDetail.autoPost {
             self.autoPostSwitch.setOn(true, animated: false)
         } else {

@@ -181,7 +181,7 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
             self.coverImage.kf.setImage(with: url, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.35))])
         }
 
-        self.castcleIdTextField.text = UserManager.shared.rawCastcleId
+        self.castcleIdTextField.text = UserManager.shared.castcleId
         self.displayNameTextField.text = UserManager.shared.displayName
         self.overviewTextView.text = UserManager.shared.overview
 
@@ -237,7 +237,7 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
     @IBAction func saveAction(_ sender: Any) {
         self.hud.show(in: Utility.currentViewController().view)
         self.disableUI(isActive: false)
-        if (self.castcleIdTextField.text!).trimmingCharacters(in: .whitespacesAndNewlines) != UserManager.shared.rawCastcleId {
+        if (self.castcleIdTextField.text!).trimmingCharacters(in: .whitespacesAndNewlines) != UserManager.shared.castcleId {
             self.viewModel.userRequest.payload.castcleId = (self.castcleIdTextField.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
         }
 
@@ -251,7 +251,7 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         self.viewModel.userRequest.payload.links.youtube = (self.youtubeTextField.text! == UrlProtocol.https.value ? "" : self.youtubeTextField.text!.toUrlString)
         self.viewModel.userRequest.payload.links.medium = (self.mediumTextField.text! == UrlProtocol.https.value ? "" : self.mediumTextField.text!.toUrlString)
         self.viewModel.userRequest.payload.links.website = (self.websiteTextField.text! == UrlProtocol.https.value ? "" : self.websiteTextField.text!.toUrlString)
-        self.viewModel.updateProfile(isPage: false, castcleId: UserManager.shared.rawCastcleId)
+        self.viewModel.updateProfile(isPage: false, castcleId: UserManager.shared.castcleId)
     }
 
     @IBAction func editCoverAction(_ sender: Any) {

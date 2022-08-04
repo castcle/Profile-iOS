@@ -165,7 +165,7 @@ class PageHeaderTableViewCell: UITableViewCell {
         } else {
             let actionSheet = CCActionSheet()
             let castcleId: String = self.viewModel.userInfo.castcleId
-            let reportPageButton = CCAction(title: "Report @\(castcleId)", image: UIImage.init(icon: .castcle(.report), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .normal) {
+            let reportPageButton = CCAction(title: "Report \(castcleId)", image: UIImage.init(icon: .castcle(.report), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .normal) {
                 actionSheet.dismissActionSheet()
                 if UserManager.shared.isLogin {
                     self.viewModel.reportUser(castcleId: castcleId)
@@ -173,7 +173,7 @@ class PageHeaderTableViewCell: UITableViewCell {
                     self.delegate?.didAuthen(self)
                 }
             }
-            let blockPageButton = CCAction(title: "Block @\(castcleId)", image: UIImage.init(icon: .castcle(.block), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .normal) {
+            let blockPageButton = CCAction(title: "Block \(castcleId)", image: UIImage.init(icon: .castcle(.block), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .normal) {
                 actionSheet.dismissActionSheet()
                 if UserManager.shared.isLogin {
                     self.viewModel.blockUser(castcleId: castcleId)
@@ -258,7 +258,7 @@ extension PageHeaderTableViewCell {
         }
 
         self.pageDisplayNameLabel.text = self.viewModel.userInfo.displayName
-        self.pageCastcleIdLabel.text = "@\(self.viewModel.userInfo.castcleId)"
+        self.pageCastcleIdLabel.text = self.viewModel.userInfo.castcleId
         self.pageBioLabel.text = self.viewModel.userInfo.overview
         self.pageFollowerLabel.text = String.displayCount(count: self.viewModel.userInfo.followers.count)
         self.pageCastLabel.text = String.displayCount(count: self.viewModel.userInfo.casts)

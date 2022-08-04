@@ -79,10 +79,6 @@ class CreatePageDisplayNameCell: UICollectionViewCell, UITextFieldDelegate {
         self.nextButton.setTitle(Localization.CreatePageName.button.text, for: .normal)
     }
 
-    private func castcleId(displayCastcleId: String) -> String {
-        return displayCastcleId.replacingOccurrences(of: "@", with: "")
-    }
-
     private func updateUI() {
         self.idTextField.isEnabled = true
         self.activityIndicator.isHidden = true
@@ -107,9 +103,9 @@ class CreatePageDisplayNameCell: UICollectionViewCell, UITextFieldDelegate {
     @objc func textFieldDidChange(_ textField: UITextField) {
         if textField.tag == 1 {
             let displayCastcleId = textField.text ?? ""
-            let castcleId = self.castcleId(displayCastcleId: displayCastcleId)
+            let castcleId = displayCastcleId.toCastcleId
             if !castcleId.isEmpty {
-                textField.text = "@\(castcleId)"
+                textField.text = castcleId
             } else {
                 textField.text = ""
             }
@@ -146,7 +142,7 @@ class CreatePageDisplayNameCell: UICollectionViewCell, UITextFieldDelegate {
             }
         } else if textField.tag == 1 {
             let idCastcle = textField.text ?? ""
-            if idCastcle.isEmpty {
+            if idCastcle.isEmpty || idCastcle == "@" {
                 self.nextButton.activeButton(isActive: false)
                 self.checkImage.isHidden = true
                 textField.textColor = UIColor.Asset.white
@@ -155,7 +151,7 @@ class CreatePageDisplayNameCell: UICollectionViewCell, UITextFieldDelegate {
                 self.activityIndicator.isHidden = false
                 self.checkImage.isHidden = true
                 self.activityIndicator.startAnimating()
-                self.viewModel.authenRequest.castcleId = self.castcleId(displayCastcleId: textField.text!)
+                self.viewModel.authenRequest.castcleId = textField.text!.toCastcleId
                 self.viewModel.checkCastcleIdExists()
             }
         }
@@ -167,7 +163,12 @@ class CreatePageDisplayNameCell: UICollectionViewCell, UITextFieldDelegate {
 
     @IBAction func nextAction(_ sender: Any) {
         self.endEditing(true)
-        if !self.displayNameTextfield.text!.isEmpty && !self.viewModel.isCastcleIdExist {
+        guard !self.displayNameTextfield.text!.isEmpty && !self.viewModel.isCastcleIdExist else { return }
+        if !self.viewModel.authenRequest.castcleId.toRawCastcleId.isCastcleId {
+            ApiHelper.displayError(error: "Castcle ID cannot contain special characters")
+        } else if self.viewModel.authenRequest.castcleId.count > 30 {
+            ApiHelper.displayError(error: "Castcle ID cannot exceed 30 characters")
+        } else {
             self.hud.show(in: Utility.currentViewController().view)
             self.viewModel.pageRequest.castcleId = self.viewModel.authenRequest.castcleId
             self.viewModel.pageRequest.displayName = self.viewModel.authenRequest.displayName
@@ -178,9 +179,10 @@ class CreatePageDisplayNameCell: UICollectionViewCell, UITextFieldDelegate {
 
 extension CreatePageDisplayNameCell: CreatePageDisplayNameViewModelDelegate {
     func didSuggestCastcleIdFinish(suggestCastcleId: String) {
-        self.viewModel.authenRequest.castcleId = suggestCastcleId
+        let castcleId = suggestCastcleId.toCastcleId
+        self.viewModel.authenRequest.castcleId = castcleId
         self.viewModel.isCastcleIdExist = false
-        self.idTextField.text = "@\(suggestCastcleId)"
+        self.idTextField.text = castcleId
         self.updateUI()
     }
 

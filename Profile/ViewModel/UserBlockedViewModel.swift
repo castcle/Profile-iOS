@@ -48,7 +48,7 @@ public final class UserBlockedViewModel {
     func unblockUser(castcleId: String) {
         self.state = .unblockUser
         self.castcleId = castcleId
-        self.reportRepository.unblockUser(userId: UserManager.shared.rawCastcleId, targetCastcleId: self.castcleId) { (success, _, isRefreshToken) in
+        self.reportRepository.unblockUser(userId: UserManager.shared.castcleId, targetCastcleId: self.castcleId) { (success, _, isRefreshToken) in
             if success {
                 self.delegate?.didUnblocked()
             } else {

@@ -93,7 +93,7 @@ public final class ProfileHeaderViewModel {
         self.state = .reportUser
         self.castcleId = castcleId
         self.reportRequest.targetCastcleId = self.castcleId
-        self.reportRepository.reportUser(userId: UserManager.shared.rawCastcleId, reportRequest: self.reportRequest) { (success, _, isRefreshToken) in
+        self.reportRepository.reportUser(userId: UserManager.shared.castcleId, reportRequest: self.reportRequest) { (success, _, isRefreshToken) in
             if success {
                 Utility.currentViewController().navigationController?.pushViewController(ComponentOpener.open(.reportSuccess(false, self.castcleId)), animated: true)
             } else {
@@ -108,7 +108,7 @@ public final class ProfileHeaderViewModel {
         self.state = .blockUser
         self.castcleId = castcleId
         self.reportRequest.targetCastcleId = self.castcleId
-        self.reportRepository.blockUser(userId: UserManager.shared.rawCastcleId, reportRequest: self.reportRequest) { (success, _, isRefreshToken) in
+        self.reportRepository.blockUser(userId: UserManager.shared.castcleId, reportRequest: self.reportRequest) { (success, _, isRefreshToken) in
             if success {
                 self.delegate?.didBlocked()
             } else {

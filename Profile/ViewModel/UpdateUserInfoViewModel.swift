@@ -59,7 +59,7 @@ public class UpdateUserInfoViewModel {
         if let coverImage = self.cover {
             self.userRequest.payload.images.cover = coverImage.toBase64() ?? ""
         }
-        self.userRepository.updateInfo(userId: UserManager.shared.rawCastcleId, userRequest: self.userRequest) { (success, response, isRefreshToken) in
+        self.userRepository.updateInfo(userId: UserManager.shared.castcleId, userRequest: self.userRequest) { (success, response, isRefreshToken) in
             if success {
                 do {
                     let rawJson = try response.mapJSON()

@@ -66,8 +66,8 @@ class BlockedUserTableViewCell: UITableViewCell {
             label.enabledTypes = [.mention]
             label.mentionColor = UIColor.Asset.lightBlue
         }
-        self.titleLabel.text = "@\(self.castcleId) is blocked"
-        self.subTitleLabel.text = "Do you wish to view @\(self.castcleId) casts?\nConsidering unblock @\(self.castcleId)"
+        self.titleLabel.text = "\(self.castcleId) is blocked"
+        self.subTitleLabel.text = "Do you wish to view \(self.castcleId) casts?\nConsidering unblock \(self.castcleId)"
         self.unblockButton.setTitle("Unblocked", for: .normal)
     }
 

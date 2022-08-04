@@ -132,7 +132,7 @@ class ProfileHeaderTableViewCell: UITableViewCell {
 
     @IBAction func moreAction(_ sender: Any) {
         if self.viewModel.profileType == .mine {
-            let castcleId: String = UserManager.shared.rawCastcleId
+            let castcleId: String = UserManager.shared.castcleId
             let actionSheet = CCActionSheet()
             let syncButton = CCAction(title: "Sync social media", image: UIImage.init(icon: .castcle(.bindLink), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .normal) {
                 actionSheet.dismissActionSheet()
@@ -145,7 +145,7 @@ class ProfileHeaderTableViewCell: UITableViewCell {
         } else {
             let actionSheet = CCActionSheet()
             let castcleId: String = self.viewModel.userInfo.castcleId
-            let reportUserButton = CCAction(title: "Report @\(castcleId)", image: UIImage.init(icon: .castcle(.report), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .normal) {
+            let reportUserButton = CCAction(title: "Report \(castcleId)", image: UIImage.init(icon: .castcle(.report), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .normal) {
                 actionSheet.dismissActionSheet()
                 if UserManager.shared.isLogin {
                     self.viewModel.reportUser(castcleId: castcleId)
@@ -153,7 +153,7 @@ class ProfileHeaderTableViewCell: UITableViewCell {
                     self.delegate?.didAuthen(self)
                 }
             }
-            let blockUserButton = CCAction(title: "Block @\(castcleId)", image: UIImage.init(icon: .castcle(.block), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .normal) {
+            let blockUserButton = CCAction(title: "Block \(castcleId)", image: UIImage.init(icon: .castcle(.block), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .normal) {
                 actionSheet.dismissActionSheet()
                 if UserManager.shared.isLogin {
                     self.viewModel.blockUser(castcleId: castcleId)
@@ -258,11 +258,11 @@ extension ProfileHeaderTableViewCell {
                 label.customSelectedColor[followerType] = UIColor.Asset.gray
 
                 label.handleCustomTap(for: followingType) { _ in
-                    Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.userFollow(UserFollowViewModel(followType: .following, castcleId: UserManager.shared.rawCastcleId))), animated: true)
+                    Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.userFollow(UserFollowViewModel(followType: .following, castcleId: UserManager.shared.castcleId))), animated: true)
                 }
 
                 label.handleCustomTap(for: followerType) { _ in
-                    Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.userFollow(UserFollowViewModel(followType: .follower, castcleId: UserManager.shared.rawCastcleId))), animated: true)
+                    Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.userFollow(UserFollowViewModel(followType: .follower, castcleId: UserManager.shared.castcleId))), animated: true)
                 }
             }
             self.userFollowLabel.text = "\(UserManager.shared.following) Following   \(UserManager.shared.followers) Followers"
@@ -281,7 +281,7 @@ extension ProfileHeaderTableViewCell {
             self.userAvatarImage.kf.setImage(with: urlProfile, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
             self.userCoverImage.kf.setImage(with: urlCover, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.35))])
             self.userDisplayNameLabel.text = self.viewModel.userInfo.displayName
-            self.userCastcleIdLabel.text = "@\(self.viewModel.userInfo.castcleId)"
+            self.userCastcleIdLabel.text = self.viewModel.userInfo.castcleId
             self.userFollowLabel.customize { label in
                 label.font = UIFont.asset(.regular, fontSize: .body)
                 label.numberOfLines = 1
@@ -478,7 +478,7 @@ extension ProfileHeaderTableViewCell: TOCropViewControllerDelegate {
                 self.editProfileViewModel.avatar = avatarCropImage
                 self.userAvatarLoadView.isHidden = false
                 self.userAvatarIndicator.startAnimating()
-                self.editProfileViewModel.updateAvatar(isPage: false, castcleId: UserManager.shared.rawCastcleId)
+                self.editProfileViewModel.updateAvatar(isPage: false, castcleId: UserManager.shared.castcleId)
             }
         })
     }
@@ -491,7 +491,7 @@ extension ProfileHeaderTableViewCell: TOCropViewControllerDelegate {
                 self.editProfileViewModel.cover = coverCropImage
                 self.userCoverLoadView.isHidden = false
                 self.userCoverIndicator.startAnimating()
-                self.editProfileViewModel.updateCover(isPage: false, castcleId: UserManager.shared.rawCastcleId)
+                self.editProfileViewModel.updateCover(isPage: false, castcleId: UserManager.shared.castcleId)
             }
         })
     }
