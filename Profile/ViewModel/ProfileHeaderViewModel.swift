@@ -95,7 +95,11 @@ public final class ProfileHeaderViewModel {
         self.reportRequest.targetCastcleId = self.castcleId
         self.reportRepository.reportUser(userId: UserManager.shared.castcleId, reportRequest: self.reportRequest) { (success, _, isRefreshToken) in
             if success {
-                Utility.currentViewController().navigationController?.pushViewController(ComponentOpener.open(.reportSuccess(false, self.castcleId)), animated: true)
+                let reportDict: [String: Any] = [
+                    JsonKey.castcleId.rawValue: self.castcleId,
+                    JsonKey.isReportContent.rawValue: false
+                ]
+                NotificationCenter.default.post(name: .openReportSuccessDelegate, object: nil, userInfo: reportDict)
             } else {
                 if isRefreshToken {
                     self.tokenHelper.refreshToken()
