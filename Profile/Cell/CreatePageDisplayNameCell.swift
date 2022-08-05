@@ -164,7 +164,7 @@ class CreatePageDisplayNameCell: UICollectionViewCell, UITextFieldDelegate {
     @IBAction func nextAction(_ sender: Any) {
         self.endEditing(true)
         guard !self.displayNameTextfield.text!.isEmpty && !self.viewModel.isCastcleIdExist else { return }
-        if !self.viewModel.authenRequest.castcleId.toRawCastcleId.isCastcleId {
+        if !self.viewModel.authenRequest.castcleId.isCastcleId {
             ApiHelper.displayError(error: "Castcle ID cannot contain special characters")
         } else if self.viewModel.authenRequest.castcleId.count > 30 {
             ApiHelper.displayError(error: "Castcle ID cannot exceed 30 characters")

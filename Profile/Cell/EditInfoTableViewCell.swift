@@ -29,6 +29,7 @@ import UIKit
 import Photos
 import MobileCoreServices
 import Core
+import Networking
 import Component
 import UITextView_Placeholder
 import PanModal
@@ -36,6 +37,10 @@ import Defaults
 import JGProgressHUD
 import TOCropViewController
 import TLPhotoPicker
+
+protocol EditInfoTableViewCellDelegate: AnyObject {
+    func didUpdateUserInfo(_ cell: EditInfoTableViewCell, userInfo: UserInfo)
+}
 
 class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
 
@@ -81,6 +86,7 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
     @IBOutlet var selectDateButton: UIButton!
     @IBOutlet var saveButton: UIButton!
 
+    var delegate: EditInfoTableViewCellDelegate?
     let viewModel = EditInfoViewModel()
     let hud = JGProgressHUD()
     private var dobDate: Date?
@@ -182,7 +188,7 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
             self.coverImage.kf.setImage(with: url, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.35))])
         }
 
-        self.castcleIdTextField.text = UserManager.shared.castcleId
+        self.castcleIdTextField.text = UserManager.shared.castcleId.toRawCastcleId
         self.displayNameTextField.text = UserManager.shared.displayName
         self.overviewTextView.text = UserManager.shared.overview
 
@@ -243,13 +249,13 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
     }
 
     @IBAction func saveAction(_ sender: Any) {
-        guard (self.castcleIdTextField.text!).trimmingCharacters(in: .whitespacesAndNewlines).isCastcleId else {
+        guard (self.castcleIdTextField.text!).trimmingCharacters(in: .whitespacesAndNewlines).toCastcleId.isCastcleId else {
             ApiHelper.displayError(error: "Castcle ID cannot contain special characters")
             return
         }
         self.hud.show(in: Utility.currentViewController().view)
         self.disableUI(isActive: false)
-        if (self.castcleIdTextField.text!).trimmingCharacters(in: .whitespacesAndNewlines).toCastcleId != UserManager.shared.castcleId {
+        if self.viewModel.userInfo.canUpdateCastcleId && ((self.castcleIdTextField.text!).trimmingCharacters(in: .whitespacesAndNewlines).toCastcleId != UserManager.shared.castcleId) {
             self.viewModel.userRequest.payload.castcleId = (self.castcleIdTextField.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines).toCastcleId
         }
         if (self.displayNameTextField.text!).trimmingCharacters(in: .whitespacesAndNewlines) != UserManager.shared.displayName {
@@ -403,6 +409,7 @@ extension EditInfoTableViewCell: EditInfoViewModelDelegate {
         self.hud.dismiss()
         if success {
             Utility.currentViewController().navigationController?.popViewController(animated: true)
+            self.delegate?.didUpdateUserInfo(self, userInfo: self.viewModel.userInfo)
         } else {
             self.disableUI(isActive: true)
         }

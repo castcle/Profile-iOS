@@ -114,17 +114,18 @@ public class EditInfoViewModel {
         }
         self.userRepository.updateInfo(userId: self.castcleId, userRequest: self.userRequest) { (success, response, isRefreshToken) in
             if success {
-                if isPage {
-                    self.delegate?.didUpdateInfoFinish(success: true)
-                } else {
-                    do {
-                        let rawJson = try response.mapJSON()
-                        let json = JSON(rawJson)
-                        UserHelper.shared.updateLocalProfile(user: UserInfo(json: json))
-                        self.delegate?.didUpdateInfoFinish(success: true)
-                    } catch {
-                        self.delegate?.didUpdateInfoFinish(success: false)
+                do {
+                    let rawJson = try response.mapJSON()
+                    let json = JSON(rawJson)
+                    self.userInfo = UserInfo(json: json)
+                    if isPage {
+                        UserHelper.shared.updateSinglePage(page: self.userInfo)
+                    } else {
+                        UserHelper.shared.updateLocalProfile(user: self.userInfo)
                     }
+                    self.delegate?.didUpdateInfoFinish(success: true)
+                } catch {
+                    self.delegate?.didUpdateInfoFinish(success: false)
                 }
             } else {
                 if isRefreshToken {

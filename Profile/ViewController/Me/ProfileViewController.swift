@@ -437,6 +437,13 @@ extension ProfileViewController: PageHeaderTableViewCellDelegate {
         self.profileViewModel.userInfo.blocked = true
         self.tableView.reloadData()
     }
+
+    func didPageUpdateInfo(_ pageHeaderTableViewCell: PageHeaderTableViewCell, userInfo: UserInfo) {
+        self.profileViewModel.userInfo = userInfo
+        self.profileViewModel.displayName = userInfo.displayName
+        self.setupNavBar()
+        self.tableView.reloadData()
+    }
 }
 
 extension ProfileViewController: HeaderTableViewCellDelegate {

@@ -38,6 +38,10 @@ import JGProgressHUD
 import TOCropViewController
 import TLPhotoPicker
 
+protocol EditPageInfoTableViewCellDelegate: AnyObject {
+    func didUpdatePageInfo(_ cell: EditPageInfoTableViewCell, userInfo: UserInfo)
+}
+
 class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
 
     @IBOutlet var pageCoverImage: UIImageView!
@@ -85,6 +89,7 @@ class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
     @IBOutlet var pageWebsiteIcon: UIImageView!
     @IBOutlet var saveButton: UIButton!
 
+    var delegate: EditPageInfoTableViewCellDelegate?
     let viewModel = EditInfoViewModel()
     let hud = JGProgressHUD()
     private var updateImageType: UpdateImageType = .none
@@ -209,7 +214,7 @@ class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
             self.pageCoverImage.kf.setImage(with: url, placeholder: UIImage.Asset.placeholder, options: [.transition(.fade(0.35))])
         }
 
-        self.pageCastcleIdTextField.text = self.viewModel.userInfo.castcleId
+        self.pageCastcleIdTextField.text = self.viewModel.userInfo.castcleId.toRawCastcleId
         self.pageDisplayNameTextField.text = self.viewModel.userInfo.displayName
         if self.viewModel.userInfo.canUpdateCastcleId {
             self.pageCastcleIdNoticeLabel.text = ""
@@ -267,14 +272,14 @@ class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
     }
 
     @IBAction func saveAction(_ sender: Any) {
-        guard (self.pageCastcleIdTextField.text!).trimmingCharacters(in: .whitespacesAndNewlines).isCastcleId else {
+        guard (self.pageCastcleIdTextField.text!).trimmingCharacters(in: .whitespacesAndNewlines).toCastcleId.isCastcleId else {
             ApiHelper.displayError(error: "Castcle ID cannot contain special characters")
             return
         }
         self.hud.show(in: Utility.currentViewController().view)
         self.disableUI(isActive: false)
 
-        if (self.pageCastcleIdTextField.text!).trimmingCharacters(in: .whitespacesAndNewlines).toCastcleId != self.viewModel.userInfo.castcleId {
+        if self.viewModel.userInfo.canUpdateCastcleId && ((self.pageCastcleIdTextField.text!).trimmingCharacters(in: .whitespacesAndNewlines).toCastcleId != self.viewModel.userInfo.castcleId) {
             self.viewModel.userRequest.payload.castcleId = (self.pageCastcleIdTextField.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines).toCastcleId
         }
         if (self.pageDisplayNameTextField.text!).trimmingCharacters(in: .whitespacesAndNewlines) != self.viewModel.userInfo.displayName {
@@ -421,6 +426,7 @@ extension EditPageInfoTableViewCell: EditInfoViewModelDelegate {
         self.hud.dismiss()
         if success {
             Utility.currentViewController().navigationController?.popViewController(animated: true)
+            self.delegate?.didUpdatePageInfo(self, userInfo: self.viewModel.userInfo)
         } else {
             self.disableUI(isActive: true)
         }

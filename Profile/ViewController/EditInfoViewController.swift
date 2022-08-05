@@ -32,10 +32,15 @@ import Networking
 import Defaults
 import JGProgressHUD
 
+protocol EditInfoViewControllerDelegate: AnyObject {
+    func didUpdateInfo(_ view: EditInfoViewController, userInfo: UserInfo)
+}
+
 class EditInfoViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet var tableView: UITableView!
 
+    var delegate: EditInfoViewControllerDelegate?
     var viewModel = EditInfoViewModel()
     let hud = JGProgressHUD()
 
@@ -92,11 +97,13 @@ class EditInfoViewController: UIViewController, UITableViewDelegate, UITableView
             let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.editInfo, for: indexPath as IndexPath) as? EditInfoTableViewCell
             cell?.backgroundColor = UIColor.clear
             cell?.configCell()
+            cell?.delegate = self
             return cell ?? EditInfoTableViewCell()
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.editPageInfo, for: indexPath as IndexPath) as? EditPageInfoTableViewCell
             cell?.backgroundColor = UIColor.clear
             cell?.configCell(userInfo: self.viewModel.userInfo)
+            cell?.delegate = self
             return cell ?? EditPageInfoTableViewCell()
         }
     }
@@ -110,5 +117,17 @@ extension EditInfoViewController: EditInfoViewModelDelegate {
 
     func didUpdateInfoFinish(success: Bool) {
         // Not use
+    }
+}
+
+extension EditInfoViewController: EditInfoTableViewCellDelegate {
+    func didUpdateUserInfo(_ cell: EditInfoTableViewCell, userInfo: UserInfo) {
+        self.delegate?.didUpdateInfo(self, userInfo: userInfo)
+    }
+}
+
+extension EditInfoViewController: EditPageInfoTableViewCellDelegate {
+    func didUpdatePageInfo(_ cell: EditPageInfoTableViewCell, userInfo: UserInfo) {
+        self.delegate?.didUpdateInfo(self, userInfo: userInfo)
     }
 }

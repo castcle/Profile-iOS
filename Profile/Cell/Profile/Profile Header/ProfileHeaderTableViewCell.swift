@@ -168,7 +168,9 @@ class ProfileHeaderTableViewCell: UITableViewCell {
 
     @IBAction func editUserProfileAction(_ sender: Any) {
         if self.viewModel.profileType == .mine {
-            Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.editInfo(self.viewModel.profileType, self.viewModel.userInfo)), animated: true)
+            let viewController = ProfileOpener.open(.editInfo(self.viewModel.profileType, self.viewModel.userInfo)) as? EditInfoViewController
+            viewController?.delegate = self
+            Utility.currentViewController().navigationController?.pushViewController(viewController ?? EditInfoViewController(), animated: true)
         }
     }
 
@@ -527,5 +529,12 @@ extension ProfileHeaderTableViewCell: LightboxControllerPageDelegate {
 extension ProfileHeaderTableViewCell: LightboxControllerDismissalDelegate {
     public func lightboxControllerWillDismiss(_ controller: LightboxController) {
         // MARK: - Lightbox Dismiss
+    }
+}
+
+extension ProfileHeaderTableViewCell: EditInfoViewControllerDelegate {
+    func didUpdateInfo(_ view: EditInfoViewController, userInfo: UserInfo) {
+        self.viewModel.userInfo = userInfo
+        self.updateProfileUI()
     }
 }

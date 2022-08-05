@@ -40,6 +40,7 @@ protocol PageHeaderTableViewCellDelegate: AnyObject {
     func didUpdateProfileSuccess(_ pageHeaderTableViewCell: PageHeaderTableViewCell)
     func didAuthen(_ pageHeaderTableViewCell: PageHeaderTableViewCell)
     func didBlocked(_ pageHeaderTableViewCell: PageHeaderTableViewCell)
+    func didPageUpdateInfo(_ pageHeaderTableViewCell: PageHeaderTableViewCell, userInfo: UserInfo)
 }
 
 class PageHeaderTableViewCell: UITableViewCell {
@@ -188,7 +189,9 @@ class PageHeaderTableViewCell: UITableViewCell {
 
     @IBAction func editPageProfileAction(_ sender: Any) {
         if self.viewModel.isMyPage {
-            Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.editInfo(self.viewModel.profileType, self.viewModel.userInfo)), animated: true)
+            let viewController = ProfileOpener.open(.editInfo(self.viewModel.profileType, self.viewModel.userInfo)) as? EditInfoViewController
+            viewController?.delegate = self
+            Utility.currentViewController().navigationController?.pushViewController(viewController ?? EditInfoViewController(), animated: true)
         }
     }
 
@@ -492,5 +495,13 @@ extension PageHeaderTableViewCell: LightboxControllerPageDelegate {
 extension PageHeaderTableViewCell: LightboxControllerDismissalDelegate {
     public func lightboxControllerWillDismiss(_ controller: LightboxController) {
         // MARK: - Lightbox Dismiss
+    }
+}
+
+extension PageHeaderTableViewCell: EditInfoViewControllerDelegate {
+    func didUpdateInfo(_ view: EditInfoViewController, userInfo: UserInfo) {
+        self.viewModel.userInfo = userInfo
+        self.updateProfileUI()
+        self.delegate?.didPageUpdateInfo(self, userInfo: userInfo)
     }
 }
