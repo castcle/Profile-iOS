@@ -240,6 +240,18 @@ public final class ProfileFeedViewModel {
             self.photoContents.remove(at: index)
         }
     }
+
+    func viewReportContentAt(index: Int) {
+        if self.profileContentType == .all {
+            self.allContents[index].isShowContentReport = true
+        } else if self.profileContentType == .post {
+            self.postContents[index].isShowContentReport = true
+        } else if self.profileContentType == .blog {
+            self.blogContents[index].isShowContentReport = true
+        } else if self.profileContentType == .photo {
+            self.photoContents[index].isShowContentReport = true
+        }
+    }
 }
 
 extension ProfileFeedViewModel: TokenHelperDelegate {

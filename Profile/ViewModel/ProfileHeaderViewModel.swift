@@ -89,25 +89,6 @@ public final class ProfileHeaderViewModel {
         }
     }
 
-    func reportUser(castcleId: String) {
-        self.state = .reportUser
-        self.castcleId = castcleId
-        self.reportRequest.targetCastcleId = self.castcleId
-        self.reportRepository.reportUser(userId: UserManager.shared.castcleId, reportRequest: self.reportRequest) { (success, _, isRefreshToken) in
-            if success {
-                let reportDict: [String: Any] = [
-                    JsonKey.castcleId.rawValue: self.castcleId,
-                    JsonKey.isReportContent.rawValue: false
-                ]
-                NotificationCenter.default.post(name: .openReportSuccessDelegate, object: nil, userInfo: reportDict)
-            } else {
-                if isRefreshToken {
-                    self.tokenHelper.refreshToken()
-                }
-            }
-        }
-    }
-
     func blockUser(castcleId: String) {
         self.state = .blockUser
         self.castcleId = castcleId
@@ -130,8 +111,6 @@ extension ProfileHeaderViewModel: TokenHelperDelegate {
             self.followUser()
         } else if self.state == .unfollowUser {
             self.unfollowUser()
-        } else if self.state == .reportUser {
-            self.reportUser(castcleId: self.castcleId)
         } else if self.state == .blockUser {
             self.blockUser(castcleId: self.castcleId)
         }

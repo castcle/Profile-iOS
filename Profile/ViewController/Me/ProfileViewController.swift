@@ -118,6 +118,7 @@ class ProfileViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.setupNavBar()
+        self.tableView.reloadData()
         if self.profileViewModel.profileType == .mine {
             Defaults[.screenId] = ScreenId.profileTimeline.rawValue
         } else {
@@ -202,10 +203,18 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
                 return 0
             } else {
                 if self.profileFeedViewModel.feedLoaded {
+                    let content = self.profileFeedViewModel.displayContents[section - 2]
                     if self.profileViewModel.isBlocked {
                         return 1
+                    } else if content.participate.recasted || ContentHelper.shared.isReportContent(contentId: content.id) {
+                        if content.isShowContentReport && content.referencedCasts.type == .quoted {
+                            return 5
+                        } else if content.isShowContentReport && content.referencedCasts.type != .quoted {
+                            return 4
+                        } else {
+                            return 1
+                        }
                     } else {
-                        let content = self.profileFeedViewModel.displayContents[section - 2]
                         if content.referencedCasts.type == .recasted || content.referencedCasts.type == .quoted {
                             return 4
                         } else {
@@ -331,7 +340,28 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     private func getContentCellWithContent(content: Content, tableView: UITableView, indexPath: IndexPath) -> [UITableViewCell] {
-        if content.referencedCasts.type == .recasted {
+        if content.participate.recasted || ContentHelper.shared.isReportContent(contentId: content.id) {
+            if content.isShowContentReport && content.referencedCasts.type == .quoted {
+                return [
+                    self.renderFeedCell(content: content, cellType: .activity, tableView: tableView, indexPath: indexPath),
+                    self.renderFeedCell(content: content, cellType: .header, tableView: tableView, indexPath: indexPath),
+                    self.renderFeedCell(content: content, cellType: .content, tableView: tableView, indexPath: indexPath),
+                    self.renderFeedCell(content: content, cellType: .quote, tableView: tableView, indexPath: indexPath),
+                    self.renderFeedCell(content: content, cellType: .footer, tableView: tableView, indexPath: indexPath)
+                ]
+            } else if content.isShowContentReport && content.referencedCasts.type != .quoted {
+                return [
+                    self.renderFeedCell(content: content, cellType: .activity, tableView: tableView, indexPath: indexPath),
+                    self.renderFeedCell(content: content, cellType: .header, tableView: tableView, indexPath: indexPath),
+                    self.renderFeedCell(content: content, cellType: .content, tableView: tableView, indexPath: indexPath),
+                    self.renderFeedCell(content: content, cellType: .footer, tableView: tableView, indexPath: indexPath)
+                ]
+            } else {
+                return [
+                    self.renderFeedCell(content: content, cellType: .report, tableView: tableView, indexPath: indexPath)
+                ]
+            }
+        } else if content.referencedCasts.type == .recasted {
             return [
                 self.renderFeedCell(content: content, cellType: .activity, tableView: tableView, indexPath: indexPath),
                 self.renderFeedCell(content: content, cellType: .header, tableView: tableView, indexPath: indexPath),
@@ -387,8 +417,13 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
             return cell ?? FooterTableViewCell()
         case .quote:
             return FeedCellHelper().renderQuoteCastCell(content: originalContent, tableView: tableView, indexPath: indexPath, isRenderForFeed: true)
+        case .report:
+            let cell = tableView.dequeueReusableCell(withIdentifier: ComponentNibVars.TableViewCell.report, for: indexPath as IndexPath) as? ReportTableViewCell
+            cell?.backgroundColor = UIColor.Asset.cellBackground
+            cell?.delegate = self
+            return cell ?? ReportTableViewCell()
         default:
-            return renderContentCell(content: content, originalContent: originalContent, tableView: tableView, indexPath: indexPath)
+            return self.renderContentCell(content: content, originalContent: originalContent, tableView: tableView, indexPath: indexPath)
         }
     }
 
@@ -456,20 +491,13 @@ extension ProfileViewController: HeaderTableViewCellDelegate {
         }
     }
 
-    func didReportSuccess(_ headerTableViewCell: HeaderTableViewCell) {
+    func didReport(_ headerTableViewCell: HeaderTableViewCell, contentId: String) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             let reportDict: [String: Any] = [
                 JsonKey.castcleId.rawValue: "",
-                JsonKey.isReportContent.rawValue: true
+                JsonKey.contentId.rawValue: contentId
             ]
-            NotificationCenter.default.post(name: .openReportSuccessDelegate, object: nil, userInfo: reportDict)
-        }
-
-        if let indexPath = self.tableView.indexPath(for: headerTableViewCell) {
-            UIView.transition(with: self.tableView, duration: 0.35, options: .transitionCrossDissolve, animations: {
-                self.profileFeedViewModel.removeContentAt(index: indexPath.section - 2)
-                self.tableView.reloadData()
-            })
+            NotificationCenter.default.post(name: .openReportDelegate, object: nil, userInfo: reportDict)
         }
     }
 }
@@ -515,6 +543,15 @@ extension ProfileViewController: ProfileFeedViewModelDelegate {
                 self.tableView.coreRefresh.noticeNoMoreData()
             }
             self.tableView.coreRefresh.endLoadingMore()
+            self.tableView.reloadData()
+        }
+    }
+}
+
+extension ProfileViewController: ReportTableViewCellDelegate {
+    func didTabView(_ reportTableViewCell: ReportTableViewCell) {
+        if let indexPath = self.tableView.indexPath(for: reportTableViewCell) {
+            self.profileFeedViewModel.viewReportContentAt(index: indexPath.section - 2)
             self.tableView.reloadData()
         }
     }

@@ -148,7 +148,13 @@ class ProfileHeaderTableViewCell: UITableViewCell {
             let reportUserButton = CCAction(title: "Report \(castcleId)", image: UIImage.init(icon: .castcle(.report), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .normal) {
                 actionSheet.dismissActionSheet()
                 if UserManager.shared.isLogin {
-                    self.viewModel.reportUser(castcleId: castcleId)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        let reportDict: [String: Any] = [
+                            JsonKey.castcleId.rawValue: castcleId,
+                            JsonKey.contentId.rawValue: ""
+                        ]
+                        NotificationCenter.default.post(name: .openReportDelegate, object: nil, userInfo: reportDict)
+                    }
                 } else {
                     self.delegate?.didAuthen(self)
                 }
