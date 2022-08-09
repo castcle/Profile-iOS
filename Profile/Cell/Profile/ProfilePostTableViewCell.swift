@@ -73,7 +73,7 @@ class ProfilePostTableViewCell: UITableViewCell {
             viewController.modalPresentationStyle = .fullScreen
             Utility.currentViewController().present(viewController, animated: true, completion: nil)
         } else {
-            let viewController = PostOpener.open(.post(PostViewModel(postType: .newCast, page: Page().initCustom(id: self.userInfo.id, displayName: self.userInfo.displayName, castcleId: self.userInfo.castcleId, avatar: self.userInfo.images.avatar.thumbnail, cover: self.userInfo.images.cover.fullHd, overview: self.userInfo.overview, official: self.userInfo.verified.official))))
+            let viewController = PostOpener.open(.post(PostViewModel(postType: .newCast, page: PageRealm().initCustom(id: self.userInfo.id, displayName: self.userInfo.displayName, castcleId: self.userInfo.castcleId, avatar: self.userInfo.images.avatar.thumbnail, cover: self.userInfo.images.cover.fullHd, overview: self.userInfo.overview, official: self.userInfo.verified.official))))
             viewController.modalPresentationStyle = .fullScreen
             Utility.currentViewController().present(viewController, animated: true, completion: nil)
         }

@@ -129,7 +129,7 @@ class EditProfileViewModel {
             let json = JSON(rawJson)
             let user = UserInfo(json: json)
             if self.isPage {
-                let pageRealm = realm.objects(Page.self).filter("castcleId == '\(user.castcleId)'").first
+                let pageRealm = realm.objects(PageRealm.self).filter("castcleId == '\(user.castcleId)'").first
                 if let page = pageRealm {
                     try realm.write {
                         page.avatar = user.images.avatar.thumbnail

@@ -57,7 +57,7 @@ public final class ProfileHeaderViewModel {
         if self.userInfo.type == .page {
             do {
                 let realm = try Realm()
-                if realm.objects(Page.self).filter("castcleId = '\(self.userInfo.castcleId)'").first != nil {
+                if realm.objects(PageRealm.self).filter("castcleId = '\(self.userInfo.castcleId)'").first != nil {
                     self.isMyPage = true
                 } else {
                     self.isMyPage = false
