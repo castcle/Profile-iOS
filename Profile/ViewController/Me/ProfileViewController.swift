@@ -97,6 +97,11 @@ class ProfileViewController: UIViewController {
             self.profileViewModel.loadState = .loaded
             self.tableView.coreRefresh.endHeaderRefresh()
             self.tableView.isScrollEnabled = true
+            if self.profileViewModel.isBlocked {
+                self.tableView.backgroundColor = UIColor.Asset.cellBackground
+            } else {
+                self.tableView.backgroundColor = UIColor.clear
+            }
             UIView.transition(with: self.view, duration: 0.35, options: .transitionCrossDissolve, animations: {
                 self.tableView.reloadData()
             })

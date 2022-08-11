@@ -255,7 +255,7 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         }
         self.hud.show(in: Utility.currentViewController().view)
         self.disableUI(isActive: false)
-        if self.viewModel.userInfo.canUpdateCastcleId && ((self.castcleIdTextField.text!).trimmingCharacters(in: .whitespacesAndNewlines).toCastcleId != UserManager.shared.castcleId) {
+        if UserManager.shared.canUpdateCastcleId && ((self.castcleIdTextField.text!).trimmingCharacters(in: .whitespacesAndNewlines).toCastcleId != UserManager.shared.castcleId) {
             self.viewModel.userRequest.payload.castcleId = (self.castcleIdTextField.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines).toCastcleId
         }
         if (self.displayNameTextField.text!).trimmingCharacters(in: .whitespacesAndNewlines) != UserManager.shared.displayName {
