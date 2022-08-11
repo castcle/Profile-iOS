@@ -252,6 +252,18 @@ public final class ProfileFeedViewModel {
             self.photoContents[index].isShowContentReport = true
         }
     }
+
+    func appealContentAt(index: Int) {
+        if self.profileContentType == .all {
+            self.allContents[index].reportedStatus = .appeal
+        } else if self.profileContentType == .post {
+            self.postContents[index].reportedStatus = .appeal
+        } else if self.profileContentType == .blog {
+            self.blogContents[index].reportedStatus = .appeal
+        } else if self.profileContentType == .photo {
+            self.photoContents[index].reportedStatus = .appeal
+        }
+    }
 }
 
 extension ProfileFeedViewModel: TokenHelperDelegate {

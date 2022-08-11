@@ -146,16 +146,16 @@ public class UserInfoViewController: UIViewController, UITableViewDelegate, UITa
             cell?.configCell(title: "Date of birth", detail: dobDate.dateToString())
             return cell ?? InfoNormalTableViewCell()
         case UserInfoViewControllerSection.email.rawValue:
-            let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.infoNormal, for: indexPath as IndexPath) as? InfoNormalTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.infoWithIcon, for: indexPath as IndexPath) as? InfoWithIconTableViewCell
             cell?.backgroundColor = UIColor.clear
-            cell?.configCell(title: "Email", detail: self.viewModel.userInfo.contact.email)
-            return cell ?? InfoNormalTableViewCell()
+            cell?.configCell(icon: UIImage.init(icon: .castcle(.mailSolid), size: CGSize(width: 25, height: 25), textColor: UIColor.Asset.white), title: "Email", detail: self.viewModel.userInfo.contact.email)
+            return cell ?? InfoWithIconTableViewCell()
         case UserInfoViewControllerSection.contactNumber.rawValue:
-            let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.infoNormal, for: indexPath as IndexPath) as? InfoNormalTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.infoWithIcon, for: indexPath as IndexPath) as? InfoWithIconTableViewCell
             let contactNumber = "(\(self.viewModel.userInfo.contact.countryCode.isEmpty ? "+66" : self.viewModel.userInfo.contact.countryCode)) \(self.viewModel.userInfo.contact.phone)"
             cell?.backgroundColor = UIColor.clear
-            cell?.configCell(title: "Contact number", detail: contactNumber)
-            return cell ?? InfoNormalTableViewCell()
+            cell?.configCell(icon: UIImage.init(icon: .castcle(.phone), size: CGSize(width: 25, height: 25), textColor: UIColor.Asset.white), title: "Contact number", detail: contactNumber)
+            return cell ?? InfoWithIconTableViewCell()
         case UserInfoViewControllerSection.headerLink.rawValue:
             let cell = tableView.dequeueReusableCell(withIdentifier: ProfileNibVars.TableViewCell.infoHeader, for: indexPath as IndexPath) as? InfoHeaderTableViewCell
             cell?.backgroundColor = UIColor.clear
