@@ -211,7 +211,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
                     let content = self.profileFeedViewModel.displayContents[section - 2]
                     if self.profileViewModel.isBlocked {
                         return 1
-                    } else if content.participate.recasted || ContentHelper.shared.isReportContent(contentId: content.id) {
+                    } else if content.participate.reported || ContentHelper.shared.isReportContent(contentId: content.id) {
                         if content.isShowContentReport && content.referencedCasts.type == .quoted {
                             return 5
                         } else if content.isShowContentReport && content.referencedCasts.type != .quoted {
@@ -345,7 +345,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     private func getContentCellWithContent(content: Content, tableView: UITableView, indexPath: IndexPath) -> [UITableViewCell] {
-        if content.participate.recasted || ContentHelper.shared.isReportContent(contentId: content.id) {
+        if content.participate.reported || ContentHelper.shared.isReportContent(contentId: content.id) {
             if content.isShowContentReport && content.referencedCasts.type == .quoted {
                 return [
                     self.renderFeedCell(content: content, cellType: .activity, tableView: tableView, indexPath: indexPath),
