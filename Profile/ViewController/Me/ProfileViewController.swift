@@ -479,6 +479,7 @@ extension ProfileViewController: ProfileHeaderTableViewCellDelegate {
 
     func didBlocked(_ profileHeaderTableViewCell: ProfileHeaderTableViewCell) {
         self.profileViewModel.userInfo.blocked = true
+        self.tableView.backgroundColor = UIColor.Asset.cellBackground
         self.tableView.reloadData()
     }
 }
@@ -494,6 +495,7 @@ extension ProfileViewController: PageHeaderTableViewCellDelegate {
 
     func didBlocked(_ pageHeaderTableViewCell: PageHeaderTableViewCell) {
         self.profileViewModel.userInfo.blocked = true
+        self.tableView.backgroundColor = UIColor.Asset.cellBackground
         self.tableView.reloadData()
     }
 
@@ -559,6 +561,7 @@ extension ProfileViewController: BlockedUserTableViewCellDelegate {
     func didUnblocked(_ blockedUserTableViewCell: BlockedUserTableViewCell) {
         if self.profileViewModel.profileType != .mine && !self.profileViewModel.isMyPage {
             self.profileViewModel.userInfo.blocked = false
+            self.tableView.backgroundColor = UIColor.clear
             self.tableView.reloadData()
         }
     }
