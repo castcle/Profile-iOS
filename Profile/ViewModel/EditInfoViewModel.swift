@@ -146,8 +146,6 @@ public class EditInfoViewModel {
     }
 
     private func mappingMineInfo() {
-        self.userRequest.payload.castcleId = UserManager.shared.castcleId
-        self.userRequest.payload.displayName = UserManager.shared.displayName
         self.userRequest.payload.overview = UserManager.shared.overview
         self.userRequest.payload.links.facebook = UserManager.shared.facebookLink
         self.userRequest.payload.links.twitter = UserManager.shared.twitterLink
@@ -179,9 +177,9 @@ public class EditInfoViewModel {
             return true
         } else if !self.userRequest.payload.castcleId.isEmpty && (self.userRequest.payload.castcleId != UserManager.shared.castcleId) {
             return true
-        } else if self.userRequest.payload.overview != UserManager.shared.overview {
+        } else if !self.userRequest.payload.displayName.isEmpty && (self.userRequest.payload.displayName != UserManager.shared.displayName) {
             return true
-        } else if self.userRequest.payload.displayName != UserManager.shared.displayName {
+        } else if self.userRequest.payload.overview != UserManager.shared.overview {
             return true
         } else if self.userRequest.payload.links.facebook != UserManager.shared.facebookLink {
             return true
