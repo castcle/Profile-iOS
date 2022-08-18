@@ -193,7 +193,11 @@ class SelectPhotoMethodViewController: UIViewController {
     }
 
     private func presentCropViewController(image: UIImage) {
-        let cropController = TOCropViewController(croppingStyle: .circular, image: image)
+        let cropController = TOCropViewController(croppingStyle: .default, image: image)
+        cropController.aspectRatioPreset = .presetSquare
+        cropController.aspectRatioLockEnabled = true
+        cropController.resetAspectRatioEnabled = false
+        cropController.aspectRatioPickerButtonHidden = true
         cropController.delegate = self
         self.present(cropController, animated: true, completion: nil)
     }
@@ -220,9 +224,9 @@ extension SelectPhotoMethodViewController: UIImagePickerControllerDelegate, UINa
 }
 
 extension SelectPhotoMethodViewController: TOCropViewControllerDelegate {
-    func cropViewController(_ cropViewController: TOCropViewController, didCropToCircularImage image: UIImage, with cropRect: CGRect, angle: Int) {
+    func cropViewController(_ cropViewController: TOCropViewController, didCropTo image: UIImage, with cropRect: CGRect, angle: Int) {
         cropViewController.dismiss(animated: true, completion: {
-            self.viewModel.avatar = image.resizeImage(targetSize: CGSize.init(width: 500, height: 500))
+            self.viewModel.avatar = image.resizeImage(targetSize: CGSize.init(width: 200, height: 200))
             self.hud.show(in: self.view)
             if self.viewModel.authorType == .page {
                 self.viewModel.updateUserAvatar(isPage: true)

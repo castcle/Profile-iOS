@@ -165,12 +165,22 @@ class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         self.hud.textLabel.text = "Saving"
         self.pageOverviewTextView.delegate = self
         self.pageOverviewTextView.placeholder = "Write something to introduce yourself!"
-        self.saveButton.setTitle("Save", for: .normal)
-        self.saveButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .head4)
-        self.saveButton.setTitleColor(UIColor.Asset.white, for: .normal)
-        self.saveButton.capsule(color: UIColor.Asset.lightBlue, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
         self.viewModel.delegate = self
+        self.viewModel.profileType = .user
+        self.pageCastcleIdTextField.tag = 0
         self.pageCastcleIdTextField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
+        self.pageDisplayNameTextField.tag = 1
+        self.pageDisplayNameTextField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
+        self.pageFacebookTextField.tag = 2
+        self.pageFacebookTextField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
+        self.pageTwitterTextField.tag = 3
+        self.pageTwitterTextField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
+        self.pageYoutubeTextField.tag = 4
+        self.pageYoutubeTextField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
+        self.pageMediumTextField.tag = 5
+        self.pageMediumTextField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
+        self.pageWebsiteTextField.tag = 6
+        self.pageWebsiteTextField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -196,7 +206,36 @@ class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         if textField.tag == 0 {
             let displayCastcleId = textField.text ?? ""
             textField.text = displayCastcleId.toRawCastcleId
+            if self.viewModel.userInfo.canUpdateCastcleId && ((textField.text!).trimmingCharacters(in: .whitespacesAndNewlines).toCastcleId != self.viewModel.userInfo.castcleId) {
+                self.viewModel.userRequest.payload.castcleId = (textField.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines).toCastcleId
+            } else {
+                self.viewModel.userRequest.payload.castcleId = ""
+            }
+        } else if textField.tag == 1 {
+            if (textField.text!).trimmingCharacters(in: .whitespacesAndNewlines) != self.viewModel.userInfo.displayName {
+                self.viewModel.userRequest.payload.displayName = (textField.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+            } else {
+                self.viewModel.userRequest.payload.displayName = ""
+            }
+        } else if textField.tag == 2 {
+            self.viewModel.userRequest.payload.links.facebook = (textField.text! == UrlProtocol.https.value ? "" : textField.text!.toUrlString)
+        } else if textField.tag == 3 {
+            self.viewModel.userRequest.payload.links.twitter = (textField.text! == UrlProtocol.https.value ? "" : textField.text!.toUrlString)
+        } else if textField.tag == 4 {
+            self.viewModel.userRequest.payload.links.youtube = (textField.text! == UrlProtocol.https.value ? "" : textField.text!.toUrlString)
+        } else if textField.tag == 5 {
+            self.viewModel.userRequest.payload.links.medium = (textField.text! == UrlProtocol.https.value ? "" : textField.text!.toUrlString)
+        } else if textField.tag == 6 {
+            self.viewModel.userRequest.payload.links.website = (textField.text! == UrlProtocol.https.value ? "" : textField.text!.toUrlString)
         }
+        self.saveButton.activeButton(isActive: self.viewModel.isCanUpdateInfo())
+    }
+
+    func textViewDidChange(_ textView: UITextView) {
+        let overView = (textView.text ?? "").substringWithRange(range: 280)
+        textView.text = overView
+        self.viewModel.userRequest.payload.overview = overView
+        self.saveButton.activeButton(isActive: self.viewModel.isCanUpdateInfo())
     }
 
     private func updateUI() {
@@ -239,6 +278,8 @@ class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
             self.pagePhoneLabel.textColor = UIColor.Asset.lightBlue
             self.pagePhoneLabel.text = "\(self.viewModel.userInfo.contact.countryCode.isEmpty ? "(+66)" : "(\(self.viewModel.userInfo.contact.countryCode)")) \(self.viewModel.userInfo.contact.phone)"
         }
+        self.viewModel.mappingData()
+        self.saveButton.activeButton(isActive: false)
     }
 
     private func disableUI(isActive: Bool) {
@@ -272,26 +313,15 @@ class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
     }
 
     @IBAction func saveAction(_ sender: Any) {
-        guard (self.pageCastcleIdTextField.text!).trimmingCharacters(in: .whitespacesAndNewlines).toCastcleId.isCastcleId else {
-            ApiHelper.displayError(error: "Castcle ID cannot contain special characters")
-            return
+        if self.viewModel.isCanUpdateInfo() {
+            guard (self.pageCastcleIdTextField.text!).trimmingCharacters(in: .whitespacesAndNewlines).toCastcleId.isCastcleId else {
+                ApiHelper.displayError(error: "Castcle ID cannot contain special characters")
+                return
+            }
+            self.hud.show(in: Utility.currentViewController().view)
+            self.disableUI(isActive: false)
+            self.viewModel.updateProfile(isPage: true, castcleId: self.viewModel.userInfo.castcleId)
         }
-        self.hud.show(in: Utility.currentViewController().view)
-        self.disableUI(isActive: false)
-
-        if self.viewModel.userInfo.canUpdateCastcleId && ((self.pageCastcleIdTextField.text!).trimmingCharacters(in: .whitespacesAndNewlines).toCastcleId != self.viewModel.userInfo.castcleId) {
-            self.viewModel.userRequest.payload.castcleId = (self.pageCastcleIdTextField.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines).toCastcleId
-        }
-        if (self.pageDisplayNameTextField.text!).trimmingCharacters(in: .whitespacesAndNewlines) != self.viewModel.userInfo.displayName {
-            self.viewModel.userRequest.payload.displayName = (self.pageDisplayNameTextField.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
-        }
-        self.viewModel.userRequest.payload.overview = self.pageOverviewTextView.text ?? ""
-        self.viewModel.userRequest.payload.links.facebook = (self.pageFacebookTextField.text! == UrlProtocol.https.value ? "" : self.pageFacebookTextField.text!.toUrlString)
-        self.viewModel.userRequest.payload.links.twitter = (self.pageTwitterTextField.text! == UrlProtocol.https.value ? "" : self.pageTwitterTextField.text!.toUrlString)
-        self.viewModel.userRequest.payload.links.youtube = (self.pageYoutubeTextField.text! == UrlProtocol.https.value ? "" : self.pageYoutubeTextField.text!.toUrlString)
-        self.viewModel.userRequest.payload.links.medium = (self.pageMediumTextField.text! == UrlProtocol.https.value ? "" : self.pageMediumTextField.text!.toUrlString)
-        self.viewModel.userRequest.payload.links.website = (self.pageWebsiteTextField.text! == UrlProtocol.https.value ? "" : self.pageWebsiteTextField.text!.toUrlString)
-        self.viewModel.updateProfile(isPage: true, castcleId: self.viewModel.userInfo.castcleId)
     }
 
     @IBAction func editCoverAction(_ sender: Any) {
@@ -471,6 +501,7 @@ extension EditPageInfoTableViewCell: TOCropViewControllerDelegate {
                 self.pageCoverImage.image = coverPageInfoCropImage
                 self.viewModel.cover = coverPageInfoCropImage
             }
+            self.saveButton.activeButton(isActive: self.viewModel.isCanUpdateInfo())
         })
     }
 }

@@ -155,14 +155,19 @@ public class EditInfoViewModel {
     }
 
     private func mappingPageInfo() {
-        
+        self.userRequest.payload.overview = self.userInfo.overview
+        self.userRequest.payload.links.facebook = self.userInfo.links.facebook
+        self.userRequest.payload.links.twitter = self.userInfo.links.twitter
+        self.userRequest.payload.links.youtube = self.userInfo.links.youtube
+        self.userRequest.payload.links.medium = self.userInfo.links.medium
+        self.userRequest.payload.links.website = self.userInfo.links.website
     }
 
     func isCanUpdateInfo() -> Bool {
         if self.profileType == .mine {
             return self.isMineInfoUpdate()
         } else if self.profileType == .user {
-            return false
+            return self.isPageInfoUpdate()
         } else {
             return false
         }
@@ -190,6 +195,34 @@ public class EditInfoViewModel {
         } else if self.userRequest.payload.links.medium != UserManager.shared.mediumLink {
             return true
         } else if self.userRequest.payload.links.website != UserManager.shared.websiteLink {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    private func isPageInfoUpdate() -> Bool {
+        if self.avatar != nil {
+            return true
+        } else if self.cover != nil {
+            return true
+        } else if self.dobDate != nil {
+            return true
+        } else if !self.userRequest.payload.castcleId.isEmpty && (self.userRequest.payload.castcleId != self.userInfo.castcleId) {
+            return true
+        } else if !self.userRequest.payload.displayName.isEmpty && (self.userRequest.payload.displayName != self.userInfo.displayName) {
+            return true
+        } else if self.userRequest.payload.overview != self.userInfo.overview {
+            return true
+        } else if self.userRequest.payload.links.facebook != self.userInfo.links.facebook {
+            return true
+        } else if self.userRequest.payload.links.twitter != self.userInfo.links.twitter {
+            return true
+        } else if self.userRequest.payload.links.youtube != self.userInfo.links.youtube {
+            return true
+        } else if self.userRequest.payload.links.medium != self.userInfo.links.medium {
+            return true
+        } else if self.userRequest.payload.links.website != self.userInfo.links.website {
             return true
         } else {
             return false

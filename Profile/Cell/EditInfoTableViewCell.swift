@@ -157,10 +157,6 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         self.hud.textLabel.text = "Saving"
         self.overviewTextView.delegate = self
         self.overviewTextView.placeholder = "Write something to introduce yourself!"
-        self.saveButton.setTitle("Save", for: .normal)
-        self.saveButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .head4)
-        self.saveButton.setTitleColor(UIColor.Asset.white, for: .normal)
-        self.saveButton.capsule(color: UIColor.Asset.lightBlue, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
         self.viewModel.delegate = self
         self.viewModel.profileType = .mine
         self.castcleIdTextField.tag = 0
@@ -484,13 +480,12 @@ extension EditInfoTableViewCell: TOCropViewControllerDelegate {
                 let avatarEditInfoCropImage = image.resizeImage(targetSize: CGSize.init(width: 200, height: 200))
                 self.profileImage.image = avatarEditInfoCropImage
                 self.viewModel.avatar = avatarEditInfoCropImage
-                self.saveButton.activeButton(isActive: self.viewModel.isCanUpdateInfo())
             } else {
                 let coverEditInfoCropImage = image.resizeImage(targetSize: CGSize.init(width: 640, height: 360))
                 self.coverImage.image = coverEditInfoCropImage
                 self.viewModel.cover = coverEditInfoCropImage
-                self.saveButton.activeButton(isActive: self.viewModel.isCanUpdateInfo())
             }
+            self.saveButton.activeButton(isActive: self.viewModel.isCanUpdateInfo())
         })
     }
 }
