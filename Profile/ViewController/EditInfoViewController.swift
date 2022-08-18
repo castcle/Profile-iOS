@@ -72,7 +72,11 @@ class EditInfoViewController: UIViewController, UITableViewDelegate, UITableView
     }
 
     func setupNavBar() {
-        self.customNavigationBar(.secondary, title: "Edit Profile")
+        if self.viewModel.profileType == .mine {
+            self.customNavigationBar(.secondary, title: "Edit Profile")
+        } else if self.viewModel.profileType == .user {
+            self.customNavigationBar(.secondary, title: "Edit Page")
+        }
     }
 
     func configureTableView() {

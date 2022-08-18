@@ -207,19 +207,17 @@ class UpdateUserImageTableViewCell: UITableViewCell {
     }
 
     private func presentCropViewControllerUserImage(image: UIImage, updateImageType: UpdateImageType) {
+        let cropUserImageController = TOCropViewController(croppingStyle: .default, image: image)
         if updateImageType == .avatar {
-            let cropUserImageController = TOCropViewController(croppingStyle: .circular, image: image)
-            cropUserImageController.delegate = self
-            Utility.currentViewController().present(cropUserImageController, animated: true, completion: nil)
+            cropUserImageController.aspectRatioPreset = .presetSquare
         } else {
-            let cropUserImageController = TOCropViewController(croppingStyle: .default, image: image)
-            cropUserImageController.aspectRatioPreset = .preset4x3
-            cropUserImageController.aspectRatioLockEnabled = true
-            cropUserImageController.resetAspectRatioEnabled = false
-            cropUserImageController.aspectRatioPickerButtonHidden = true
-            cropUserImageController.delegate = self
-            Utility.currentViewController().present(cropUserImageController, animated: true, completion: nil)
+            cropUserImageController.aspectRatioPreset = .preset16x9
         }
+        cropUserImageController.aspectRatioLockEnabled = true
+        cropUserImageController.resetAspectRatioEnabled = false
+        cropUserImageController.aspectRatioPickerButtonHidden = true
+        cropUserImageController.delegate = self
+        Utility.currentViewController().present(cropUserImageController, animated: true, completion: nil)
     }
 }
 
@@ -263,20 +261,14 @@ extension UpdateUserImageTableViewCell: UIImagePickerControllerDelegate, UINavig
 }
 
 extension UpdateUserImageTableViewCell: TOCropViewControllerDelegate {
-    func cropViewController(_ cropViewController: TOCropViewController, didCropToCircularImage image: UIImage, with cropRect: CGRect, angle: Int) {
+    func cropViewController(_ cropViewController: TOCropViewController, didCropTo image: UIImage, with cropRect: CGRect, angle: Int) {
         cropViewController.dismiss(animated: true, completion: {
             if self.updateImageType == .avatar {
                 let avatarUserImageCropImage = image.resizeImage(targetSize: CGSize.init(width: 200, height: 200))
                 self.profileImage.image = avatarUserImageCropImage
                 self.viewModel.avatar = avatarUserImageCropImage
-            }
-        })
-    }
-
-    func cropViewController(_ cropViewController: TOCropViewController, didCropTo image: UIImage, with cropRect: CGRect, angle: Int) {
-        cropViewController.dismiss(animated: true, completion: {
-            if self.updateImageType == .cover {
-                let coverUserImageCropImage = image.resizeImage(targetSize: CGSize.init(width: 640, height: 480))
+            } else {
+                let coverUserImageCropImage = image.resizeImage(targetSize: CGSize.init(width: 640, height: 360))
                 self.coverImage.image = coverUserImageCropImage
                 self.viewModel.cover = coverUserImageCropImage
             }

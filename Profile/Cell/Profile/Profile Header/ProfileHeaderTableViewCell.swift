@@ -432,19 +432,17 @@ extension ProfileHeaderTableViewCell {
     }
 
     private func presentCropViewControllerProfileHeader(image: UIImage, updateImageType: UpdateImageType) {
+        let cropProfileHeaderController = TOCropViewController(croppingStyle: .default, image: image)
         if updateImageType == .avatar {
-            let cropProfileHeaderController = TOCropViewController(croppingStyle: .circular, image: image)
-            cropProfileHeaderController.delegate = self
-            Utility.currentViewController().present(cropProfileHeaderController, animated: true, completion: nil)
+            cropProfileHeaderController.aspectRatioPreset = .presetSquare
         } else {
-            let cropProfileHeaderController = TOCropViewController(croppingStyle: .default, image: image)
-            cropProfileHeaderController.aspectRatioPreset = .preset4x3
-            cropProfileHeaderController.aspectRatioLockEnabled = true
-            cropProfileHeaderController.resetAspectRatioEnabled = false
-            cropProfileHeaderController.aspectRatioPickerButtonHidden = true
-            cropProfileHeaderController.delegate = self
-            Utility.currentViewController().present(cropProfileHeaderController, animated: true, completion: nil)
+            cropProfileHeaderController.aspectRatioPreset = .preset16x9
         }
+        cropProfileHeaderController.aspectRatioLockEnabled = true
+        cropProfileHeaderController.resetAspectRatioEnabled = false
+        cropProfileHeaderController.aspectRatioPickerButtonHidden = true
+        cropProfileHeaderController.delegate = self
+        Utility.currentViewController().present(cropProfileHeaderController, animated: true, completion: nil)
     }
 }
 
@@ -478,7 +476,7 @@ extension ProfileHeaderTableViewCell: UIImagePickerControllerDelegate, UINavigat
 }
 
 extension ProfileHeaderTableViewCell: TOCropViewControllerDelegate {
-    func cropViewController(_ cropViewController: TOCropViewController, didCropToCircularImage image: UIImage, with cropRect: CGRect, angle: Int) {
+    func cropViewController(_ cropViewController: TOCropViewController, didCropTo image: UIImage, with cropRect: CGRect, angle: Int) {
         cropViewController.dismiss(animated: true, completion: {
             if self.updateImageType == .avatar {
                 let avatarCropImage = image.resizeImage(targetSize: CGSize.init(width: 200, height: 200))
@@ -487,14 +485,8 @@ extension ProfileHeaderTableViewCell: TOCropViewControllerDelegate {
                 self.userAvatarLoadView.isHidden = false
                 self.userAvatarIndicator.startAnimating()
                 self.editProfileViewModel.updateAvatar(isPage: false, castcleId: UserManager.shared.castcleId)
-            }
-        })
-    }
-
-    func cropViewController(_ cropViewController: TOCropViewController, didCropTo image: UIImage, with cropRect: CGRect, angle: Int) {
-        cropViewController.dismiss(animated: true, completion: {
-            if self.updateImageType == .cover {
-                let coverCropImage = image.resizeImage(targetSize: CGSize.init(width: 640, height: 480))
+            } else {
+                let coverCropImage = image.resizeImage(targetSize: CGSize.init(width: 640, height: 360))
                 self.userCoverImage.image = coverCropImage
                 self.editProfileViewModel.cover = coverCropImage
                 self.userCoverLoadView.isHidden = false

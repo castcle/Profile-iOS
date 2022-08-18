@@ -162,7 +162,21 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         self.saveButton.setTitleColor(UIColor.Asset.white, for: .normal)
         self.saveButton.capsule(color: UIColor.Asset.lightBlue, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
         self.viewModel.delegate = self
+        self.viewModel.profileType = .mine
+        self.castcleIdTextField.tag = 0
         self.castcleIdTextField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
+        self.displayNameTextField.tag = 1
+        self.displayNameTextField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
+        self.facebookTextField.tag = 2
+        self.facebookTextField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
+        self.twitterTextField.tag = 3
+        self.twitterTextField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
+        self.youtubeTextField.tag = 4
+        self.youtubeTextField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
+        self.mediumTextField.tag = 5
+        self.mediumTextField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
+        self.websiteTextField.tag = 6
+        self.websiteTextField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -212,13 +226,44 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         self.youtubeTextField.text = (UserManager.shared.youtubeLink.isEmpty ? UrlProtocol.https.value : UserManager.shared.youtubeLink)
         self.mediumTextField.text = (UserManager.shared.mediumLink.isEmpty ? UrlProtocol.https.value : UserManager.shared.mediumLink)
         self.websiteTextField.text = (UserManager.shared.websiteLink.isEmpty ? UrlProtocol.https.value : UserManager.shared.websiteLink)
+        self.viewModel.mappingData()
+        self.saveButton.activeButton(isActive: false)
     }
 
     @objc private func textFieldDidChange(_ textField: UITextField) {
         if textField.tag == 0 {
             let displayCastcleId = textField.text ?? ""
             textField.text = displayCastcleId.toRawCastcleId
+            if UserManager.shared.canUpdateCastcleId && ((textField.text!).trimmingCharacters(in: .whitespacesAndNewlines).toCastcleId != UserManager.shared.castcleId) {
+                self.viewModel.userRequest.payload.castcleId = (textField.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines).toCastcleId
+            } else {
+                self.viewModel.userRequest.payload.castcleId = ""
+            }
+        } else if textField.tag == 1 {
+            if (textField.text!).trimmingCharacters(in: .whitespacesAndNewlines) != UserManager.shared.displayName {
+                self.viewModel.userRequest.payload.displayName = (textField.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+            } else {
+                self.viewModel.userRequest.payload.displayName = ""
+            }
+        } else if textField.tag == 2 {
+            self.viewModel.userRequest.payload.links.facebook = (textField.text! == UrlProtocol.https.value ? "" : textField.text!.toUrlString)
+        } else if textField.tag == 3 {
+            self.viewModel.userRequest.payload.links.twitter = (textField.text! == UrlProtocol.https.value ? "" : textField.text!.toUrlString)
+        } else if textField.tag == 4 {
+            self.viewModel.userRequest.payload.links.youtube = (textField.text! == UrlProtocol.https.value ? "" : textField.text!.toUrlString)
+        } else if textField.tag == 5 {
+            self.viewModel.userRequest.payload.links.medium = (textField.text! == UrlProtocol.https.value ? "" : textField.text!.toUrlString)
+        } else if textField.tag == 6 {
+            self.viewModel.userRequest.payload.links.website = (textField.text! == UrlProtocol.https.value ? "" : textField.text!.toUrlString)
         }
+        self.saveButton.activeButton(isActive: self.viewModel.isCanUpdateInfo())
+    }
+
+    func textViewDidChange(_ textView: UITextView) {
+        let overView = (textView.text ?? "").substringWithRange(range: 280)
+        textView.text = overView
+        self.viewModel.userRequest.payload.overview = overView
+        self.saveButton.activeButton(isActive: self.viewModel.isCanUpdateInfo())
     }
 
     private func disableUI(isActive: Bool) {
@@ -249,25 +294,15 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
     }
 
     @IBAction func saveAction(_ sender: Any) {
-        guard (self.castcleIdTextField.text!).trimmingCharacters(in: .whitespacesAndNewlines).toCastcleId.isCastcleId else {
-            ApiHelper.displayError(error: "Castcle ID cannot contain special characters")
-            return
+        if self.viewModel.isCanUpdateInfo() {
+            guard (self.castcleIdTextField.text!).trimmingCharacters(in: .whitespacesAndNewlines).toCastcleId.isCastcleId else {
+                ApiHelper.displayError(error: "Castcle ID cannot contain special characters")
+                return
+            }
+            self.hud.show(in: Utility.currentViewController().view)
+            self.disableUI(isActive: false)
+            self.viewModel.updateProfile(isPage: false, castcleId: UserManager.shared.castcleId)
         }
-        self.hud.show(in: Utility.currentViewController().view)
-        self.disableUI(isActive: false)
-        if UserManager.shared.canUpdateCastcleId && ((self.castcleIdTextField.text!).trimmingCharacters(in: .whitespacesAndNewlines).toCastcleId != UserManager.shared.castcleId) {
-            self.viewModel.userRequest.payload.castcleId = (self.castcleIdTextField.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines).toCastcleId
-        }
-        if (self.displayNameTextField.text!).trimmingCharacters(in: .whitespacesAndNewlines) != UserManager.shared.displayName {
-            self.viewModel.userRequest.payload.displayName = (self.displayNameTextField.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
-        }
-        self.viewModel.userRequest.payload.overview = self.overviewTextView.text ?? ""
-        self.viewModel.userRequest.payload.links.facebook = (self.facebookTextField.text! == UrlProtocol.https.value ? "" : self.facebookTextField.text!.toUrlString)
-        self.viewModel.userRequest.payload.links.twitter = (self.twitterTextField.text! == UrlProtocol.https.value ? "" : self.twitterTextField.text!.toUrlString)
-        self.viewModel.userRequest.payload.links.youtube = (self.youtubeTextField.text! == UrlProtocol.https.value ? "" : self.youtubeTextField.text!.toUrlString)
-        self.viewModel.userRequest.payload.links.medium = (self.mediumTextField.text! == UrlProtocol.https.value ? "" : self.mediumTextField.text!.toUrlString)
-        self.viewModel.userRequest.payload.links.website = (self.websiteTextField.text! == UrlProtocol.https.value ? "" : self.websiteTextField.text!.toUrlString)
-        self.viewModel.updateProfile(isPage: false, castcleId: UserManager.shared.castcleId)
     }
 
     @IBAction func editCoverAction(_ sender: Any) {
@@ -377,19 +412,17 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
     }
 
     private func presentCropViewControllerEditInfo(image: UIImage, updateImageType: UpdateImageType) {
+        let cropEditInfoController = TOCropViewController(croppingStyle: .default, image: image)
         if updateImageType == .avatar {
-            let cropEditInfoController = TOCropViewController(croppingStyle: .circular, image: image)
-            cropEditInfoController.delegate = self
-            Utility.currentViewController().present(cropEditInfoController, animated: true, completion: nil)
+            cropEditInfoController.aspectRatioPreset = .presetSquare
         } else {
-            let cropEditInfoController = TOCropViewController(croppingStyle: .default, image: image)
-            cropEditInfoController.aspectRatioPreset = .preset4x3
-            cropEditInfoController.aspectRatioLockEnabled = true
-            cropEditInfoController.resetAspectRatioEnabled = false
-            cropEditInfoController.aspectRatioPickerButtonHidden = true
-            cropEditInfoController.delegate = self
-            Utility.currentViewController().present(cropEditInfoController, animated: true, completion: nil)
+            cropEditInfoController.aspectRatioPreset = .preset16x9
         }
+        cropEditInfoController.aspectRatioLockEnabled = true
+        cropEditInfoController.resetAspectRatioEnabled = false
+        cropEditInfoController.aspectRatioPickerButtonHidden = true
+        cropEditInfoController.delegate = self
+        Utility.currentViewController().present(cropEditInfoController, animated: true, completion: nil)
     }
 }
 
@@ -445,22 +478,18 @@ extension EditInfoTableViewCell: UIImagePickerControllerDelegate, UINavigationCo
 }
 
 extension EditInfoTableViewCell: TOCropViewControllerDelegate {
-    func cropViewController(_ cropViewController: TOCropViewController, didCropToCircularImage image: UIImage, with cropRect: CGRect, angle: Int) {
+    func cropViewController(_ cropViewController: TOCropViewController, didCropTo image: UIImage, with cropRect: CGRect, angle: Int) {
         cropViewController.dismiss(animated: true, completion: {
             if self.updateImageType == .avatar {
                 let avatarEditInfoCropImage = image.resizeImage(targetSize: CGSize.init(width: 200, height: 200))
                 self.profileImage.image = avatarEditInfoCropImage
                 self.viewModel.avatar = avatarEditInfoCropImage
-            }
-        })
-    }
-
-    func cropViewController(_ cropViewController: TOCropViewController, didCropTo image: UIImage, with cropRect: CGRect, angle: Int) {
-        cropViewController.dismiss(animated: true, completion: {
-            if self.updateImageType == .cover {
-                let coverEditInfoCropImage = image.resizeImage(targetSize: CGSize.init(width: 640, height: 480))
+                self.saveButton.activeButton(isActive: self.viewModel.isCanUpdateInfo())
+            } else {
+                let coverEditInfoCropImage = image.resizeImage(targetSize: CGSize.init(width: 640, height: 360))
                 self.coverImage.image = coverEditInfoCropImage
                 self.viewModel.cover = coverEditInfoCropImage
+                self.saveButton.activeButton(isActive: self.viewModel.isCanUpdateInfo())
             }
         })
     }

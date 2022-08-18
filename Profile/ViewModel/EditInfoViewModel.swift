@@ -136,6 +136,67 @@ public class EditInfoViewModel {
             }
         }
     }
+
+    func mappingData() {
+        if self.profileType == .mine {
+            self.mappingMineInfo()
+        } else {
+            self.mappingPageInfo()
+        }
+    }
+
+    private func mappingMineInfo() {
+        self.userRequest.payload.castcleId = UserManager.shared.castcleId
+        self.userRequest.payload.displayName = UserManager.shared.displayName
+        self.userRequest.payload.overview = UserManager.shared.overview
+        self.userRequest.payload.links.facebook = UserManager.shared.facebookLink
+        self.userRequest.payload.links.twitter = UserManager.shared.twitterLink
+        self.userRequest.payload.links.youtube = UserManager.shared.youtubeLink
+        self.userRequest.payload.links.medium = UserManager.shared.mediumLink
+        self.userRequest.payload.links.website = UserManager.shared.websiteLink
+    }
+
+    private func mappingPageInfo() {
+        
+    }
+
+    func isCanUpdateInfo() -> Bool {
+        if self.profileType == .mine {
+            return self.isMineInfoUpdate()
+        } else if self.profileType == .user {
+            return false
+        } else {
+            return false
+        }
+    }
+
+    private func isMineInfoUpdate() -> Bool {
+        if self.avatar != nil {
+            return true
+        } else if self.cover != nil {
+            return true
+        } else if self.dobDate != nil {
+            return true
+        } else if !self.userRequest.payload.castcleId.isEmpty && (self.userRequest.payload.castcleId != UserManager.shared.castcleId) {
+            return true
+        } else if self.userRequest.payload.overview != UserManager.shared.overview {
+            return true
+        } else if self.userRequest.payload.displayName != UserManager.shared.displayName {
+            return true
+        } else if self.userRequest.payload.links.facebook != UserManager.shared.facebookLink {
+            return true
+        } else if self.userRequest.payload.links.twitter != UserManager.shared.twitterLink {
+            return true
+        } else if self.userRequest.payload.links.youtube != UserManager.shared.youtubeLink {
+            return true
+        } else if self.userRequest.payload.links.medium != UserManager.shared.mediumLink {
+            return true
+        } else if self.userRequest.payload.links.website != UserManager.shared.websiteLink {
+            return true
+        } else {
+            return false
+        }
+    }
 }
 
 extension EditInfoViewModel: TokenHelperDelegate {
