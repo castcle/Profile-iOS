@@ -34,7 +34,6 @@ import Component
 import UITextView_Placeholder
 import PanModal
 import Defaults
-import JGProgressHUD
 import TOCropViewController
 import TLPhotoPicker
 
@@ -91,7 +90,6 @@ class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
 
     var delegate: EditPageInfoTableViewCellDelegate?
     let viewModel = EditInfoViewModel()
-    let hud = JGProgressHUD()
     private var updateImageType: UpdateImageType = .none
 
     override func awakeFromNib() {
@@ -162,7 +160,6 @@ class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         self.pageWebsiteIconView.capsule(color: UIColor.Asset.white)
         self.pageWebsiteIcon.image = UIImage.init(icon: .castcle(.others), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.lightBlue)
 
-        self.hud.textLabel.text = "Saving"
         self.pageOverviewTextView.delegate = self
         self.pageOverviewTextView.placeholder = "Write something to introduce yourself!"
         self.viewModel.delegate = self
@@ -318,7 +315,7 @@ class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
                 ApiHelper.displayError(error: "Castcle ID cannot contain special characters")
                 return
             }
-            self.hud.show(in: Utility.currentViewController().view)
+            CCLoading.shared.show(text: "Saving")
             self.disableUI(isActive: false)
             self.viewModel.updateProfile(isPage: true, castcleId: self.viewModel.userInfo.castcleId)
         }
@@ -451,7 +448,7 @@ extension EditPageInfoTableViewCell: EditInfoViewModelDelegate {
     }
 
     func didUpdateInfoFinish(success: Bool) {
-        self.hud.dismiss()
+        CCLoading.shared.dismiss()
         if success {
             Utility.currentViewController().navigationController?.popViewController(animated: true)
             self.delegate?.didUpdatePageInfo(self, userInfo: self.viewModel.userInfo)

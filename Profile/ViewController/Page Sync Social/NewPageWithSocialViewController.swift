@@ -27,13 +27,13 @@
 
 import UIKit
 import Core
+import Component
 import Networking
 import Defaults
 import Swifter
 import SafariServices
 import AuthenticationServices
 import FBSDKLoginKit
-import JGProgressHUD
 
 class NewPageWithSocialViewController: UIViewController {
 
@@ -41,7 +41,6 @@ class NewPageWithSocialViewController: UIViewController {
 
     var swifter: Swifter!
     var accToken: Credential.OAuthAccessToken?
-    let hud = JGProgressHUD()
     var viewModel = NewPageWithSocialViewModel()
 
     override func viewDidLoad() {
@@ -49,7 +48,6 @@ class NewPageWithSocialViewController: UIViewController {
         self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
         self.setupNavBar()
         self.configureTableView()
-        self.hud.textLabel.text = "Creating"
         self.viewModel.delegate = self
     }
 
@@ -79,7 +77,7 @@ class NewPageWithSocialViewController: UIViewController {
             request = GraphRequest(graphPath: "/\(userId)/accounts?fields=name,about,username,access_token,cover", parameters: params, httpMethod: .get)
             request?.start { (_, result, error) in
                 guard error == nil else {
-                    self.hud.dismiss()
+                    CCLoading.shared.dismiss()
                     print(error!.localizedDescription)
                     return
                 }
@@ -125,7 +123,7 @@ extension NewPageWithSocialViewController: UITableViewDelegate, UITableViewDataS
 extension NewPageWithSocialViewController: NewPageWithSocialTableViewCellDelegate {
     func didSyncFacebook(_ newPageWithSocialTableViewCell: NewPageWithSocialTableViewCell) {
         SocialHelper().authenFacebook(from: self) {
-            self.hud.show(in: self.view)
+            CCLoading.shared.show(text: "Creating")
             self.getPages()
         }
     }
@@ -133,7 +131,7 @@ extension NewPageWithSocialViewController: NewPageWithSocialTableViewCellDelegat
     func didSyncTwitter(_ newPageWithSocialTableViewCell: NewPageWithSocialTableViewCell) {
         self.swifter = Swifter(consumerKey: TwitterConstants.key, consumerSecret: TwitterConstants.secretKey)
         self.swifter.authorize(withProvider: self, callbackURL: URL(string: TwitterConstants.callbackUrl)!) { accessToken, _ in
-            self.hud.show(in: self.view)
+            CCLoading.shared.show(text: "Creating")
             self.accToken = accessToken
             self.getUserProfileTwitter()
         } failure: { error in
@@ -161,7 +159,7 @@ extension NewPageWithSocialViewController: SFSafariViewControllerDelegate, ASWeb
 
 extension NewPageWithSocialViewController: NewPageWithSocialViewModelDelegate {
     func didCreatedPage(success: Bool) {
-        self.hud.dismiss()
+        CCLoading.shared.dismiss()
         if success {
             self.navigationController!.popViewController(animated: true)
         }

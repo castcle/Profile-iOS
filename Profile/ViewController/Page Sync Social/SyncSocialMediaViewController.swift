@@ -33,7 +33,6 @@ import Swifter
 import SafariServices
 import AuthenticationServices
 import FBSDKLoginKit
-import JGProgressHUD
 import Defaults
 
 class SyncSocialMediaViewController: UIViewController {
@@ -43,7 +42,6 @@ class SyncSocialMediaViewController: UIViewController {
     var viewModel = SyncSocialMediaViewModel(castcleId: "")
     var swifter: Swifter!
     var accToken: Credential.OAuthAccessToken?
-    let hud = JGProgressHUD()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,16 +51,16 @@ class SyncSocialMediaViewController: UIViewController {
 
         self.viewModel.didGetUserInfoFinish = {
             self.tableView.reloadData()
-            self.hud.dismiss()
+            CCLoading.shared.dismiss()
         }
 
         self.viewModel.didDuplicate = {
-            self.hud.dismiss()
+            CCLoading.shared.dismiss()
             Utility.currentViewController().present(ComponentOpener.open(.acceptSyncSocialPopup(AcceptSyncSocialPopupViewModel(socialType: self.viewModel.socialType, pageSocial: self.viewModel.pageSocial, userInfo: self.viewModel.userInfo))), animated: true)
         }
 
         self.viewModel.didError = {
-            self.hud.dismiss()
+            CCLoading.shared.dismiss()
         }
     }
 
@@ -76,8 +74,7 @@ class SyncSocialMediaViewController: UIViewController {
         EngagementHelper().sendCastcleAnalytic(event: .onScreenView, screen: .syncSocial)
         self.sendAnalytics()
         if !self.viewModel.castcleId.isEmpty {
-            self.hud.textLabel.text = "Loading"
-            self.hud.show(in: self.view)
+            CCLoading.shared.show(text: "Loading")
             self.viewModel.getInfo(isDuplicate: false)
         }
     }
@@ -103,7 +100,7 @@ class SyncSocialMediaViewController: UIViewController {
 
     func syncFacebook() {
         SocialHelper().authenFacebook(from: self) {
-            self.hud.show(in: self.view)
+            CCLoading.shared.show(text: "Loading")
             self.getPages()
         }
     }
@@ -111,8 +108,7 @@ class SyncSocialMediaViewController: UIViewController {
     func syncTwitter() {
         self.swifter = Swifter(consumerKey: TwitterConstants.key, consumerSecret: TwitterConstants.secretKey)
         self.swifter.authorize(withProvider: self, callbackURL: URL(string: TwitterConstants.callbackUrl)!) { accessToken, _ in
-            self.hud.textLabel.text = "Syncing"
-            self.hud.show(in: self.view)
+            CCLoading.shared.show(text: "Syncing")
             self.accToken = accessToken
             self.getUserProfileTwitter()
         } failure: { error in
@@ -128,7 +124,7 @@ class SyncSocialMediaViewController: UIViewController {
             let params = ["access_token": accessToken ?? ""]
             request = GraphRequest(graphPath: "/\(userId)/accounts?fields=name,about,username,access_token,cover", parameters: params, httpMethod: .get)
             request?.start { (_, result, error) in
-                self.hud.dismiss()
+                CCLoading.shared.dismiss()
                 guard error == nil else {
                     print(error!.localizedDescription)
                     return
@@ -213,8 +209,7 @@ extension SyncSocialMediaViewController: FacebookPageListViewControllerDelegate 
         pageSocial.cover = page.cover
         pageSocial.authToken = page.accessToken
 
-        self.hud.textLabel.text = "Syncing"
-        self.hud.show(in: self.view)
+        CCLoading.shared.show(text: "Syncing")
         self.viewModel.pageSocial = pageSocial
         self.viewModel.syncSocial()
     }

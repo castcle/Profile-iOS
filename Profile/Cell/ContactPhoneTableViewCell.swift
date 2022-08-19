@@ -28,7 +28,6 @@
 import UIKit
 import Core
 import Component
-import JGProgressHUD
 import RealmSwift
 
 protocol ContactPhoneTableViewCellDelegate: AnyObject {
@@ -47,11 +46,9 @@ class ContactPhoneTableViewCell: UITableViewCell, UITextFieldDelegate {
 
     public var delegate: ContactPhoneTableViewCellDelegate?
     var viewModel = EditInfoViewModel()
-    let hud = JGProgressHUD()
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.hud.textLabel.text = "Saving"
         self.subtitleLabel.font = UIFont.asset(.regular, fontSize: .body)
         self.subtitleLabel.textColor = UIColor.Asset.white
         self.saveButton.activeButton(isActive: false)
@@ -119,7 +116,7 @@ class ContactPhoneTableViewCell: UITableViewCell, UITextFieldDelegate {
     @IBAction func nextAction(_ sender: Any) {
         self.endEditing(true)
         if self.isCanNext() {
-            self.hud.show(in: Utility.currentViewController().view)
+            CCLoading.shared.show(text: "Saving")
             self.viewModel.userRequest.payload.contact.phone = self.mobileTextField.text!
             self.viewModel.updateProfile(isPage: true, castcleId: self.viewModel.userInfo.castcleId)
         }
@@ -132,7 +129,7 @@ extension ContactPhoneTableViewCell: EditInfoViewModelDelegate {
     }
 
     func didUpdateInfoFinish(success: Bool) {
-        self.hud.dismiss()
+        CCLoading.shared.dismiss()
         self.delegate?.didChangePhone(self, phone: self.viewModel.userRequest.payload.contact.phone, countryCode: self.viewModel.userRequest.payload.contact.countryCode)
         Utility.currentViewController().navigationController?.popViewController(animated: true)
     }

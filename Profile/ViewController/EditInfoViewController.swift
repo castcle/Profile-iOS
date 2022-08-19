@@ -30,7 +30,6 @@ import Core
 import Component
 import Networking
 import Defaults
-import JGProgressHUD
 
 protocol EditInfoViewControllerDelegate: AnyObject {
     func didUpdateInfo(_ view: EditInfoViewController, userInfo: UserInfo)
@@ -42,7 +41,6 @@ class EditInfoViewController: UIViewController, UITableViewDelegate, UITableView
 
     var delegate: EditInfoViewControllerDelegate?
     var viewModel = EditInfoViewModel()
-    let hud = JGProgressHUD()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,10 +50,10 @@ class EditInfoViewController: UIViewController, UITableViewDelegate, UITableView
         self.configureTableView()
         self.viewModel.delegate = self
         if self.viewModel.profileType == .mine {
-            self.hud.show(in: self.view)
+            CCLoading.shared.show(text: "Loading")
             self.viewModel.getMeInfo()
         } else if self.viewModel.profileType == .user {
-            self.hud.show(in: self.view)
+            CCLoading.shared.show(text: "Loading")
             self.viewModel.getUserInfo()
         }
     }
@@ -63,7 +61,6 @@ class EditInfoViewController: UIViewController, UITableViewDelegate, UITableView
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         Defaults[.screenId] = ScreenId.viewProfile.rawValue
-        self.hud.textLabel.text = "Loading"
     }
 
     public override func viewDidAppear(_ animated: Bool) {
@@ -115,7 +112,7 @@ class EditInfoViewController: UIViewController, UITableViewDelegate, UITableView
 
 extension EditInfoViewController: EditInfoViewModelDelegate {
     func didGetInfoFinish(success: Bool) {
-        self.hud.dismiss()
+        CCLoading.shared.dismiss()
         self.tableView.reloadData()
     }
 

@@ -29,10 +29,10 @@ import UIKit
 import Photos
 import MobileCoreServices
 import Core
+import Component
 import TLPhotoPicker
 import TOCropViewController
 import Defaults
-import JGProgressHUD
 
 class SelectPhotoMethodViewController: UIViewController {
 
@@ -43,7 +43,6 @@ class SelectPhotoMethodViewController: UIViewController {
     @IBOutlet var takePhotoButton: UIButton!
 
     var viewModel = SelectPhotoMethodViewModel(authorType: .people)
-    let hud = JGProgressHUD()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,7 +65,6 @@ class SelectPhotoMethodViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         Defaults[.screenId] = ""
-        self.hud.textLabel.text = "Saving"
         self.setupNavBar()
         self.headlineLabel.text = Localization.ChooseProfileImage.headline.text
         self.subTitleLabel.text = Localization.ChooseProfileImage.description.text
@@ -227,7 +225,7 @@ extension SelectPhotoMethodViewController: TOCropViewControllerDelegate {
     func cropViewController(_ cropViewController: TOCropViewController, didCropTo image: UIImage, with cropRect: CGRect, angle: Int) {
         cropViewController.dismiss(animated: true, completion: {
             self.viewModel.avatar = image.resizeImage(targetSize: CGSize.init(width: 200, height: 200))
-            self.hud.show(in: self.view)
+            CCLoading.shared.show(text: "Saving")
             if self.viewModel.authorType == .page {
                 self.viewModel.updateUserAvatar(isPage: true)
             } else {
@@ -243,10 +241,10 @@ extension SelectPhotoMethodViewController: SelectPhotoMethodViewModelDelegate {
             if success {
                 self.viewModel.getMyPage()
             } else {
-                self.hud.dismiss()
+                CCLoading.shared.dismiss()
             }
         } else {
-            self.hud.dismiss()
+            CCLoading.shared.dismiss()
             if success {
                 Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.about(AboutInfoViewModel(authorType: self.viewModel.authorType, castcleId: self.viewModel.castcleId))), animated: true)
             }
@@ -254,7 +252,7 @@ extension SelectPhotoMethodViewController: SelectPhotoMethodViewModelDelegate {
     }
 
     func didGetPageFinish() {
-        self.hud.dismiss()
+        CCLoading.shared.dismiss()
         Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.about(AboutInfoViewModel(authorType: self.viewModel.authorType, castcleId: self.viewModel.castcleId, userRequest: self.viewModel.userRequest))), animated: true)
     }
 }

@@ -27,7 +27,7 @@
 
 import UIKit
 import Core
-import JGProgressHUD
+import Component
 
 protocol ContactEmailTableViewCellDelegate: AnyObject {
     func didChangeEmail(_ contactEmailTableViewCell: ContactEmailTableViewCell, email: String)
@@ -42,11 +42,9 @@ class ContactEmailTableViewCell: UITableViewCell, UITextFieldDelegate {
 
     public var delegate: ContactEmailTableViewCellDelegate?
     var viewModel = EditInfoViewModel()
-    let hud = JGProgressHUD()
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.hud.textLabel.text = "Saving"
         self.emailView.custom(color: UIColor.Asset.cellBackground, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
         self.subtitleLabel.font = UIFont.asset(.regular, fontSize: .body)
         self.subtitleLabel.textColor = UIColor.Asset.white
@@ -87,7 +85,7 @@ class ContactEmailTableViewCell: UITableViewCell, UITextFieldDelegate {
     @IBAction func nextAction(_ sender: Any) {
         self.endEditing(true)
         if self.isCanNext() {
-            self.hud.show(in: Utility.currentViewController().view)
+            CCLoading.shared.show(text: "Saving")
             self.viewModel.userRequest.payload.contact.email = self.emailTextField.text!
             self.viewModel.updateProfile(isPage: true, castcleId: self.viewModel.userInfo.castcleId)
         }
@@ -100,7 +98,7 @@ extension ContactEmailTableViewCell: EditInfoViewModelDelegate {
     }
 
     func didUpdateInfoFinish(success: Bool) {
-        self.hud.dismiss()
+        CCLoading.shared.dismiss()
         self.delegate?.didChangeEmail(self, email: self.viewModel.userRequest.payload.contact.email)
         Utility.currentViewController().navigationController?.popViewController(animated: true)
     }

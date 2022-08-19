@@ -30,7 +30,6 @@ import Photos
 import MobileCoreServices
 import Core
 import Component
-import JGProgressHUD
 import TOCropViewController
 import TLPhotoPicker
 
@@ -52,7 +51,6 @@ class UpdateUserImageTableViewCell: UITableViewCell {
 
     public var delegate: UpdateUserImageTableViewCellDelegate?
     let viewModel = UpdateUserInfoViewModel()
-    let hud = JGProgressHUD()
     private var updateImageType: UpdateImageType = .none
 
     override func awakeFromNib() {
@@ -74,7 +72,6 @@ class UpdateUserImageTableViewCell: UITableViewCell {
         self.titleLabel.textColor = UIColor.Asset.white
         self.subTitleLabel.font = UIFont.asset(.regular, fontSize: .body)
         self.subTitleLabel.textColor = UIColor.Asset.white
-        self.hud.textLabel.text = "Saving"
         self.saveButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .head4)
         self.saveButton.setTitleColor(UIColor.Asset.white, for: .normal)
         self.saveButton.capsule(color: UIColor.Asset.lightBlue, borderWidth: 1, borderColor: UIColor.Asset.lightBlue)
@@ -100,7 +97,7 @@ class UpdateUserImageTableViewCell: UITableViewCell {
     @IBAction func saveAction(_ sender: Any) {
         self.delegate?.didUpdateImage(isProcess: true)
         if self.viewModel.avatar != nil || self.viewModel.cover != nil {
-            self.hud.show(in: Utility.currentViewController().view)
+            CCLoading.shared.show(text: "Saving")
             self.viewModel.updateProfile()
         } else {
             Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.updateUserInfo), animated: true)
@@ -223,7 +220,7 @@ class UpdateUserImageTableViewCell: UITableViewCell {
 
 extension UpdateUserImageTableViewCell: UpdateUserInfoViewModelDelegate {
     func didUpdateInfoFinish(success: Bool) {
-        self.hud.dismiss()
+        CCLoading.shared.dismiss()
         if success {
             Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.updateUserInfo), animated: true)
         } else {

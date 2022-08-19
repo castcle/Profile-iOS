@@ -28,8 +28,8 @@
 import UIKit
 import Core
 import Networking
+import Component
 import JVFloatLabeledTextField
-import JGProgressHUD
 
 class ConfirmDeletePageTableViewCell: UITableViewCell, UITextFieldDelegate {
 
@@ -46,11 +46,9 @@ class ConfirmDeletePageTableViewCell: UITableViewCell, UITextFieldDelegate {
     @IBOutlet var nextButton: UIButton!
 
     var viewModel = DeletePageViewModel(userInfo: UserInfo())
-    let hud = JGProgressHUD()
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.hud.textLabel.text = "Deleting"
         self.passwordView.custom(color: UIColor.Asset.cellBackground, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
         self.headlineLabel.font = UIFont.asset(.regular, fontSize: .title)
         self.headlineLabel.textColor = UIColor.Asset.white
@@ -124,7 +122,7 @@ class ConfirmDeletePageTableViewCell: UITableViewCell, UITextFieldDelegate {
     @IBAction func nextAction(_ sender: Any) {
         self.endEditing(true)
         if self.isCanNext() {
-            self.hud.show(in: Utility.currentViewController().view)
+            CCLoading.shared.show(text: "Deleting")
             self.viewModel.pageRequest.password = self.passwordTextField.text!
             self.viewModel.deletePage()
         }
@@ -136,12 +134,12 @@ extension ConfirmDeletePageTableViewCell: DeletePageViewModelDelegate {
         if success {
             self.viewModel.getAllMyPage()
         } else {
-            self.hud.dismiss()
+            CCLoading.shared.dismiss()
         }
     }
 
     func didGetAllPageFinish() {
-        self.hud.dismiss()
+        CCLoading.shared.dismiss()
         Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.deletePageSuccess), animated: true)
     }
 }

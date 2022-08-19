@@ -27,8 +27,8 @@
 
 import UIKit
 import Core
+import Component
 import Authen
-import JGProgressHUD
 
 class CreatePageDisplayNameCell: UICollectionViewCell, UITextFieldDelegate {
 
@@ -43,11 +43,9 @@ class CreatePageDisplayNameCell: UICollectionViewCell, UITextFieldDelegate {
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
 
     private var viewModel = CreatePageDisplayNameViewModel()
-    let hud = JGProgressHUD()
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.hud.textLabel.text = "Creating"
         self.displayNameView.custom(color: UIColor.Asset.cellBackground, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
         self.castcleIdPasswordView.custom(color: UIColor.Asset.cellBackground, cornerRadius: 10, borderWidth: 1, borderColor: UIColor.Asset.black)
         self.headlineLabel.font = UIFont.asset(.regular, fontSize: .title)
@@ -146,6 +144,7 @@ class CreatePageDisplayNameCell: UICollectionViewCell, UITextFieldDelegate {
                 self.nextButton.activeButton(isActive: false)
                 self.checkImage.isHidden = true
                 textField.textColor = UIColor.Asset.white
+                self.viewModel.isCastcleIdExist = true
             } else {
                 textField.isEnabled = false
                 self.activityIndicator.isHidden = false
@@ -169,7 +168,7 @@ class CreatePageDisplayNameCell: UICollectionViewCell, UITextFieldDelegate {
         } else if self.viewModel.authenRequest.castcleId.count > 30 {
             ApiHelper.displayError(error: "Castcle ID cannot exceed 30 characters")
         } else {
-            self.hud.show(in: Utility.currentViewController().view)
+            CCLoading.shared.show(text: "Creating")
             self.viewModel.pageRequest.castcleId = self.viewModel.authenRequest.castcleId
             self.viewModel.pageRequest.displayName = self.viewModel.authenRequest.displayName
             self.viewModel.createPage()
@@ -181,9 +180,12 @@ extension CreatePageDisplayNameCell: CreatePageDisplayNameViewModelDelegate {
     func didSuggestCastcleIdFinish(suggestCastcleId: String) {
         let castcleId = suggestCastcleId.toCastcleId
         self.viewModel.authenRequest.castcleId = castcleId
-        self.viewModel.isCastcleIdExist = false
         self.idTextField.text = castcleId
-        self.updateUI()
+        self.idTextField.isEnabled = false
+        self.activityIndicator.isHidden = false
+        self.checkImage.isHidden = true
+        self.activityIndicator.startAnimating()
+        self.viewModel.checkCastcleIdExists()
     }
 
     func didCheckCastcleIdExistsFinish() {
@@ -194,12 +196,12 @@ extension CreatePageDisplayNameCell: CreatePageDisplayNameViewModelDelegate {
         if success {
             self.viewModel.getAllMyPage(castcleId: castcleId)
         } else {
-            self.hud.dismiss()
+            CCLoading.shared.dismiss()
         }
     }
 
     func didGetAllPageFinish(castcleId: String) {
-        self.hud.dismiss()
+        CCLoading.shared.dismiss()
         Utility.currentViewController().navigationController?.pushViewController(ProfileOpener.open(.photoMethod(SelectPhotoMethodViewModel(authorType: .page, castcleId: castcleId))), animated: true)
     }
 }

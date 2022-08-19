@@ -34,7 +34,6 @@ import Component
 import UITextView_Placeholder
 import PanModal
 import Defaults
-import JGProgressHUD
 import TOCropViewController
 import TLPhotoPicker
 
@@ -88,7 +87,6 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
 
     var delegate: EditInfoTableViewCellDelegate?
     let viewModel = EditInfoViewModel()
-    let hud = JGProgressHUD()
     private var dobDate: Date?
     private var updateImageType: UpdateImageType = .none
 
@@ -154,7 +152,6 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         self.websiteIconView.capsule(color: UIColor.Asset.white)
         self.websiteIcon.image = UIImage.init(icon: .castcle(.others), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.lightBlue)
 
-        self.hud.textLabel.text = "Saving"
         self.overviewTextView.delegate = self
         self.overviewTextView.placeholder = "Write something to introduce yourself!"
         self.viewModel.delegate = self
@@ -295,7 +292,7 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
                 ApiHelper.displayError(error: "Castcle ID cannot contain special characters")
                 return
             }
-            self.hud.show(in: Utility.currentViewController().view)
+            CCLoading.shared.show(text: "Saving")
             self.disableUI(isActive: false)
             self.viewModel.updateProfile(isPage: false, castcleId: UserManager.shared.castcleId)
         }
@@ -435,7 +432,7 @@ extension EditInfoTableViewCell: EditInfoViewModelDelegate {
     }
 
     func didUpdateInfoFinish(success: Bool) {
-        self.hud.dismiss()
+        CCLoading.shared.dismiss()
         if success {
             Utility.currentViewController().navigationController?.popViewController(animated: true)
             self.delegate?.didUpdateUserInfo(self, userInfo: self.viewModel.userInfo)

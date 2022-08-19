@@ -27,41 +27,39 @@
 
 import UIKit
 import Core
+import Component
 import Defaults
-import JGProgressHUD
 
 class PageSyncSocialViewController: UIViewController {
 
     @IBOutlet var tableView: UITableView!
 
     var viewModel = PageSyncSocialViewModel()
-    let hud = JGProgressHUD()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
         self.setupNavBar()
         self.configureTableView()
-        self.hud.show(in: self.view)
+        CCLoading.shared.show(text: "Loading")
 
         self.viewModel.didGetUserInfoFinish = {
-            self.hud.dismiss()
+            CCLoading.shared.dismiss()
             self.tableView.reloadData()
         }
 
         self.viewModel.didSetAutoPostFinish = {
-            self.hud.dismiss()
+            CCLoading.shared.dismiss()
         }
 
         self.viewModel.didCancelAutoPostFinish = {
-            self.hud.dismiss()
+            CCLoading.shared.dismiss()
         }
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         Defaults[.screenId] = ""
-        self.hud.textLabel.text = "Loading"
     }
 
     func setupNavBar() {
@@ -97,7 +95,7 @@ extension PageSyncSocialViewController: UITableViewDelegate, UITableViewDataSour
 
 extension PageSyncSocialViewController: PageSyncSocialTableViewCellDelegate {
     func didAutoPost(_ pageSyncSocialTableViewCell: PageSyncSocialTableViewCell, isAutoPost: Bool) {
-        self.hud.show(in: self.view)
+        CCLoading.shared.show(text: "Loading")
         self.viewModel.syncDetail.autoPost = isAutoPost
         if isAutoPost {
             self.viewModel.setAutoPost()

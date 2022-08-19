@@ -28,7 +28,6 @@
 import UIKit
 import Core
 import Component
-import JGProgressHUD
 
 public protocol UpdateUserInfoTableViewCellDelegate: AnyObject {
     func didUpdateInfo(isProcess: Bool)
@@ -70,7 +69,6 @@ class UpdateUserInfoTableViewCell: UITableViewCell, UITextViewDelegate {
 
     public var delegate: UpdateUserInfoTableViewCellDelegate?
     let viewModel = UpdateUserInfoViewModel()
-    let hud = JGProgressHUD()
     private var dobDate: Date?
     private var updateImageType: UpdateImageType = .none
 
@@ -118,7 +116,6 @@ class UpdateUserInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         self.userWebsiteIconView.capsule(color: UIColor.Asset.white)
         self.userWebsiteIcon.image = UIImage.init(icon: .castcle(.others), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.lightBlue)
 
-        self.hud.textLabel.text = "Saving"
         self.userOverviewTextView.delegate = self
         self.userOverviewTextView.placeholder = "Write something to introduce yourself!"
         self.saveButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .head4)
@@ -139,7 +136,7 @@ class UpdateUserInfoTableViewCell: UITableViewCell, UITextViewDelegate {
     }
 
     @IBAction func saveAction(_ sender: Any) {
-        self.hud.show(in: Utility.currentViewController().view)
+        CCLoading.shared.show(text: "Saving")
         self.delegate?.didUpdateInfo(isProcess: true)
         self.viewModel.userRequest.payload.overview = self.userOverviewTextView.text ?? ""
         self.viewModel.userRequest.payload.links.facebook = (self.userFacebookTextField.text! == UrlProtocol.https.value ? "" : self.userFacebookTextField.text!.toUrlString)
@@ -160,7 +157,7 @@ extension UpdateUserInfoTableViewCell: DatePickerViewControllerDelegate {
 
 extension UpdateUserInfoTableViewCell: UpdateUserInfoViewModelDelegate {
     func didUpdateInfoFinish(success: Bool) {
-        self.hud.dismiss()
+        CCLoading.shared.dismiss()
         if success {
             Utility.currentViewController().view.window!.rootViewController?.dismiss(animated: true, completion: nil)
         } else {
