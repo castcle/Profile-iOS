@@ -83,20 +83,9 @@ class NewPageWithSocialViewController: UIViewController {
                 }
                 let json = JSON.init(result ?? "")
                 let data: [FacebookPage] = (json["data"].array ?? []).map { FacebookPage(json: $0) }
-                self.viewModel.pageSocialRequest.payload = []
-                data.forEach { page in
-                    var pageSocial: PageSocial = PageSocial()
-                    pageSocial.provider = .facebook
-                    pageSocial.socialId = page.id
-                    pageSocial.userName = page.userName
-                    pageSocial.displayName = page.name
-                    pageSocial.overview = page.about
-                    pageSocial.authToken = page.accessToken
-                    pageSocial.avatar = ConstantUrl.facebookAvatar(page.id, accessToken ?? "").path
-                    pageSocial.cover = page.cover
-                    self.viewModel.pageSocialRequest.payload.append(pageSocial)
-                }
-                self.viewModel.createPageWithSocial()
+                let viewController = ProfileOpener.open(.facebookPageList(data)) as? FacebookPageListViewController
+                viewController?.delegate = self
+                Utility.currentViewController().navigationController?.pushViewController(viewController ?? FacebookPageListViewController(), animated: true)
             }
         }
     }
@@ -123,7 +112,6 @@ extension NewPageWithSocialViewController: UITableViewDelegate, UITableViewDataS
 extension NewPageWithSocialViewController: NewPageWithSocialTableViewCellDelegate {
     func didSyncFacebook(_ newPageWithSocialTableViewCell: NewPageWithSocialTableViewCell) {
         SocialHelper().authenFacebook(from: self) {
-            CCLoading.shared.show(text: "Creating")
             self.getPages()
         }
     }
@@ -143,7 +131,7 @@ extension NewPageWithSocialViewController: NewPageWithSocialTableViewCellDelegat
 extension NewPageWithSocialViewController: SFSafariViewControllerDelegate, ASWebAuthenticationPresentationContextProviding {
     func getUserProfileTwitter() {
         self.swifter.verifyAccountCredentials(includeEntities: false, skipStatus: false, includeEmail: true, success: { json in
-            self.viewModel.pageSocialRequest.payload.append(SocialHelper().mappingTwitterInfoToPageSocial(json: json))
+            self.viewModel.pageSocialRequest.pageSocial = SocialHelper().mappingTwitterInfoToPageSocial(json: json)
             self.viewModel.createPageWithSocial()
         })
     }
@@ -163,5 +151,24 @@ extension NewPageWithSocialViewController: NewPageWithSocialViewModelDelegate {
         if success {
             self.navigationController!.popViewController(animated: true)
         }
+    }
+}
+
+extension NewPageWithSocialViewController: FacebookPageListViewControllerDelegate {
+    func didSelectFacebookPage(_ facebookPageListViewController: FacebookPageListViewController, page: FacebookPage) {
+        let accessToken = AccessToken.current?.tokenString
+        var pageSocial: PageSocial = PageSocial()
+        pageSocial.provider = .facebook
+        pageSocial.socialId = page.id
+        pageSocial.userName = page.userName
+        pageSocial.displayName = page.name
+        pageSocial.overview = page.about
+        pageSocial.authToken = page.accessToken
+        pageSocial.avatar = ConstantUrl.facebookAvatar(page.id, accessToken ?? "").path
+        pageSocial.cover = page.cover
+
+        CCLoading.shared.show(text: "Creating")
+        self.viewModel.pageSocialRequest.pageSocial = pageSocial
+        self.viewModel.createPageWithSocial()
     }
 }
