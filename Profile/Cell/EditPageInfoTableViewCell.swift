@@ -41,7 +41,7 @@ protocol EditPageInfoTableViewCellDelegate: AnyObject {
     func didUpdatePageInfo(_ cell: EditPageInfoTableViewCell, userInfo: UserInfo)
 }
 
-class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
+class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate, UITextFieldDelegate {
 
     @IBOutlet var pageCoverImage: UIImageView!
     @IBOutlet var pageAvatarImage: UIImageView!
@@ -168,14 +168,19 @@ class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         self.pageCastcleIdTextField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
         self.pageDisplayNameTextField.tag = 1
         self.pageDisplayNameTextField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
+        self.pageFacebookTextField.delegate = self
         self.pageFacebookTextField.tag = 2
         self.pageFacebookTextField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
+        self.pageTwitterTextField.delegate = self
         self.pageTwitterTextField.tag = 3
         self.pageTwitterTextField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
+        self.pageYoutubeTextField.delegate = self
         self.pageYoutubeTextField.tag = 4
         self.pageYoutubeTextField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
+        self.pageMediumTextField.delegate = self
         self.pageMediumTextField.tag = 5
         self.pageMediumTextField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
+        self.pageWebsiteTextField.delegate = self
         self.pageWebsiteTextField.tag = 6
         self.pageWebsiteTextField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
     }
@@ -197,6 +202,12 @@ class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         self.pageYoutubeTextField.text = (self.viewModel.userInfo.links.youtube.isEmpty ? UrlProtocol.https.value : self.viewModel.userInfo.links.youtube)
         self.pageMediumTextField.text = (self.viewModel.userInfo.links.medium.isEmpty ? UrlProtocol.https.value : self.viewModel.userInfo.links.medium)
         self.pageWebsiteTextField.text = (self.viewModel.userInfo.links.website.isEmpty ? UrlProtocol.https.value : self.viewModel.userInfo.links.website)
+    }
+
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if textField.tag >= 2 && textField.tag <= 6 {
+            textField.text = (textField.text! == UrlProtocol.https.value ? "" : textField.text!.toUrlString)
+        }
     }
 
     @objc private func textFieldDidChange(_ textField: UITextField) {

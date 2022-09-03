@@ -41,7 +41,7 @@ protocol EditInfoTableViewCellDelegate: AnyObject {
     func didUpdateUserInfo(_ cell: EditInfoTableViewCell, userInfo: UserInfo)
 }
 
-class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
+class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate, UITextFieldDelegate {
 
     @IBOutlet var coverImage: UIImageView!
     @IBOutlet var profileImage: UIImageView!
@@ -160,14 +160,19 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         self.castcleIdTextField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
         self.displayNameTextField.tag = 1
         self.displayNameTextField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
+        self.facebookTextField.delegate = self
         self.facebookTextField.tag = 2
         self.facebookTextField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
+        self.twitterTextField.delegate = self
         self.twitterTextField.tag = 3
         self.twitterTextField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
+        self.youtubeTextField.delegate = self
         self.youtubeTextField.tag = 4
         self.youtubeTextField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
+        self.mediumTextField.delegate = self
         self.mediumTextField.tag = 5
         self.mediumTextField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
+        self.websiteTextField.delegate = self
         self.websiteTextField.tag = 6
         self.websiteTextField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
     }
@@ -221,6 +226,12 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         self.websiteTextField.text = (UserManager.shared.websiteLink.isEmpty ? UrlProtocol.https.value : UserManager.shared.websiteLink)
         self.viewModel.mappingData()
         self.saveButton.activeButton(isActive: false)
+    }
+
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if textField.tag >= 2 && textField.tag <= 6 {
+            textField.text = (textField.text! == UrlProtocol.https.value ? "" : textField.text!.toUrlString)
+        }
     }
 
     @objc private func textFieldDidChange(_ textField: UITextField) {

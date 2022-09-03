@@ -33,7 +33,7 @@ public protocol UpdateUserInfoTableViewCellDelegate: AnyObject {
     func didUpdateInfo(isProcess: Bool)
 }
 
-class UpdateUserInfoTableViewCell: UITableViewCell, UITextViewDelegate {
+class UpdateUserInfoTableViewCell: UITableViewCell, UITextViewDelegate, UITextFieldDelegate {
 
     @IBOutlet var updateUserInfoTitleLabel: UILabel!
     @IBOutlet var updateUserInfoSubTitleLabel: UILabel!
@@ -115,7 +115,16 @@ class UpdateUserInfoTableViewCell: UITableViewCell, UITextViewDelegate {
         self.userMediumIcon.image = UIImage.init(icon: .castcle(.medium), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.black)
         self.userWebsiteIconView.capsule(color: UIColor.Asset.white)
         self.userWebsiteIcon.image = UIImage.init(icon: .castcle(.others), size: CGSize(width: 23, height: 23), textColor: UIColor.Asset.lightBlue)
-
+        self.userFacebookTextField.delegate = self
+        self.userFacebookTextField.tag = 0
+        self.userTwitterTextField.delegate = self
+        self.userTwitterTextField.tag = 1
+        self.userYoutubeTextField.delegate = self
+        self.userYoutubeTextField.tag = 2
+        self.userMediumTextField.delegate = self
+        self.userMediumTextField.tag = 3
+        self.userWebsiteTextField.delegate = self
+        self.userWebsiteTextField.tag = 4
         self.userOverviewTextView.delegate = self
         self.userOverviewTextView.placeholder = "Write something to introduce yourself!"
         self.saveButton.titleLabel?.font = UIFont.asset(.regular, fontSize: .head4)
@@ -126,6 +135,12 @@ class UpdateUserInfoTableViewCell: UITableViewCell, UITextViewDelegate {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
+    }
+
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if textField.tag < 5 {
+            textField.text = (textField.text! == UrlProtocol.https.value ? "" : textField.text!.toUrlString)
+        }
     }
 
     @IBAction func selectDateAction(_ sender: Any) {
