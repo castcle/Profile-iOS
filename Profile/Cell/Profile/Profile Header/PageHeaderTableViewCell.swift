@@ -34,6 +34,7 @@ import Networking
 import NVActivityIndicatorView
 import TLPhotoPicker
 import TOCropViewController
+import Mantis
 import Lightbox
 
 protocol PageHeaderTableViewCellDelegate: AnyObject {
@@ -398,17 +399,22 @@ extension PageHeaderTableViewCell {
     }
 
     private func presentCropViewControllerPageHeader(image: UIImage, updateImageType: UpdateImageType) {
-        let cropPageHeaderController = TOCropViewController(croppingStyle: .default, image: image)
         if updateImageType == .avatar {
-            cropPageHeaderController.aspectRatioPreset = .presetSquare
+            var config = Mantis.Config()
+            config.cropViewConfig.cropShapeType = .circle(maskOnly: true)
+            let cropViewController = Mantis.cropViewController(image: image, config: config)
+            cropViewController.delegate = self
+            cropViewController.modalPresentationStyle = .fullScreen
+            Utility.currentViewController().present(cropViewController, animated: true)
         } else {
+            let cropPageHeaderController = TOCropViewController(croppingStyle: .default, image: image)
             cropPageHeaderController.aspectRatioPreset = .preset16x9
+            cropPageHeaderController.aspectRatioLockEnabled = true
+            cropPageHeaderController.resetAspectRatioEnabled = false
+            cropPageHeaderController.aspectRatioPickerButtonHidden = true
+            cropPageHeaderController.delegate = self
+            Utility.currentViewController().present(cropPageHeaderController, animated: true, completion: nil)
         }
-        cropPageHeaderController.aspectRatioLockEnabled = true
-        cropPageHeaderController.resetAspectRatioEnabled = false
-        cropPageHeaderController.aspectRatioPickerButtonHidden = true
-        cropPageHeaderController.delegate = self
-        Utility.currentViewController().present(cropPageHeaderController, animated: true, completion: nil)
     }
 }
 
@@ -444,14 +450,7 @@ extension PageHeaderTableViewCell: UIImagePickerControllerDelegate, UINavigation
 extension PageHeaderTableViewCell: TOCropViewControllerDelegate {
     func cropViewController(_ cropViewController: TOCropViewController, didCropTo image: UIImage, with cropRect: CGRect, angle: Int) {
         cropViewController.dismiss(animated: true, completion: {
-            if self.updateImageType == .avatar {
-                let avatarCropImage = image.resizeImage(targetSize: CGSize.init(width: 200, height: 200))
-                self.pageAvatarImage.image = avatarCropImage
-                self.editProfileViewModel.avatar = avatarCropImage
-                self.pageAvatarLoadView.isHidden = false
-                self.pageAvatarIndicator.startAnimating()
-                self.editProfileViewModel.updateAvatar(isPage: true, castcleId: self.viewModel.userInfo.castcleId)
-            } else {
+            if self.updateImageType == .cover {
                 let coverCropImage = image.resizeImage(targetSize: CGSize.init(width: 640, height: 360))
                 self.pageCoverImage.image = coverCropImage
                 self.editProfileViewModel.cover = coverCropImage
@@ -461,6 +460,29 @@ extension PageHeaderTableViewCell: TOCropViewControllerDelegate {
             }
         })
     }
+}
+
+extension PageHeaderTableViewCell: CropViewControllerDelegate {
+    func cropViewControllerDidCrop(_ cropViewController: Mantis.CropViewController, cropped: UIImage, transformation: Mantis.Transformation, cropInfo: Mantis.CropInfo) {
+        cropViewController.dismiss(animated: true, completion: {
+            if self.updateImageType == .avatar {
+                let avatarCropImage = cropped.resizeImage(targetSize: CGSize.init(width: 200, height: 200))
+                self.pageAvatarImage.image = avatarCropImage
+                self.editProfileViewModel.avatar = avatarCropImage
+                self.pageAvatarLoadView.isHidden = false
+                self.pageAvatarIndicator.startAnimating()
+                self.editProfileViewModel.updateAvatar(isPage: true, castcleId: self.viewModel.userInfo.castcleId)
+            }
+        })
+    }
+
+    func cropViewControllerDidCancel(_ cropViewController: Mantis.CropViewController, original: UIImage) {
+        cropViewController.dismiss(animated: true)
+    }
+
+    func cropViewControllerDidFailToCrop(_ cropViewController: Mantis.CropViewController, original: UIImage) {}
+    func cropViewControllerDidBeginResize(_ cropViewController: Mantis.CropViewController) {}
+    func cropViewControllerDidEndResize(_ cropViewController: Mantis.CropViewController, original: UIImage, cropInfo: Mantis.CropInfo) {}
 }
 
 extension PageHeaderTableViewCell: EditProfileViewModelDelegate {

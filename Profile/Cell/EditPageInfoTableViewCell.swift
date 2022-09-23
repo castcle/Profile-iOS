@@ -35,6 +35,7 @@ import UITextView_Placeholder
 import PanModal
 import Defaults
 import TOCropViewController
+import Mantis
 import TLPhotoPicker
 
 protocol EditPageInfoTableViewCellDelegate: AnyObject {
@@ -439,17 +440,22 @@ class EditPageInfoTableViewCell: UITableViewCell, UITextViewDelegate, UITextFiel
     }
 
     private func presentCropViewControllerPageInfo(image: UIImage, updateImageType: UpdateImageType) {
-        let cropPageInfoController = TOCropViewController(croppingStyle: .default, image: image)
         if updateImageType == .avatar {
-            cropPageInfoController.aspectRatioPreset = .presetSquare
+            var config = Mantis.Config()
+            config.cropViewConfig.cropShapeType = .circle(maskOnly: true)
+            let cropViewController = Mantis.cropViewController(image: image, config: config)
+            cropViewController.delegate = self
+            cropViewController.modalPresentationStyle = .fullScreen
+            Utility.currentViewController().present(cropViewController, animated: true)
         } else {
+            let cropPageInfoController = TOCropViewController(croppingStyle: .default, image: image)
             cropPageInfoController.aspectRatioPreset = .preset16x9
+            cropPageInfoController.aspectRatioLockEnabled = true
+            cropPageInfoController.resetAspectRatioEnabled = false
+            cropPageInfoController.aspectRatioPickerButtonHidden = true
+            cropPageInfoController.delegate = self
+            Utility.currentViewController().present(cropPageInfoController, animated: true, completion: nil)
         }
-        cropPageInfoController.aspectRatioLockEnabled = true
-        cropPageInfoController.resetAspectRatioEnabled = false
-        cropPageInfoController.aspectRatioPickerButtonHidden = true
-        cropPageInfoController.delegate = self
-        Utility.currentViewController().present(cropPageInfoController, animated: true, completion: nil)
     }
 }
 
@@ -500,11 +506,7 @@ extension EditPageInfoTableViewCell: UIImagePickerControllerDelegate, UINavigati
 extension EditPageInfoTableViewCell: TOCropViewControllerDelegate {
     func cropViewController(_ cropViewController: TOCropViewController, didCropTo image: UIImage, with cropRect: CGRect, angle: Int) {
         cropViewController.dismiss(animated: true, completion: {
-            if self.updateImageType == .avatar {
-                let avatarPageInfoCropImage = image.resizeImage(targetSize: CGSize.init(width: 200, height: 200))
-                self.pageAvatarImage.image = avatarPageInfoCropImage
-                self.viewModel.avatar = avatarPageInfoCropImage
-            } else {
+            if self.updateImageType == .cover {
                 let coverPageInfoCropImage = image.resizeImage(targetSize: CGSize.init(width: 640, height: 360))
                 self.pageCoverImage.image = coverPageInfoCropImage
                 self.viewModel.cover = coverPageInfoCropImage
@@ -512,6 +514,27 @@ extension EditPageInfoTableViewCell: TOCropViewControllerDelegate {
             self.saveButton.activeButton(isActive: self.viewModel.isCanUpdateInfo())
         })
     }
+}
+
+extension EditPageInfoTableViewCell: CropViewControllerDelegate {
+    func cropViewControllerDidCrop(_ cropViewController: Mantis.CropViewController, cropped: UIImage, transformation: Mantis.Transformation, cropInfo: Mantis.CropInfo) {
+        cropViewController.dismiss(animated: true, completion: {
+            if self.updateImageType == .avatar {
+                let avatarPageInfoCropImage = cropped.resizeImage(targetSize: CGSize.init(width: 200, height: 200))
+                self.pageAvatarImage.image = avatarPageInfoCropImage
+                self.viewModel.avatar = avatarPageInfoCropImage
+            }
+            self.saveButton.activeButton(isActive: self.viewModel.isCanUpdateInfo())
+        })
+    }
+
+    func cropViewControllerDidCancel(_ cropViewController: Mantis.CropViewController, original: UIImage) {
+        cropViewController.dismiss(animated: true)
+    }
+
+    func cropViewControllerDidFailToCrop(_ cropViewController: Mantis.CropViewController, original: UIImage) {}
+    func cropViewControllerDidBeginResize(_ cropViewController: Mantis.CropViewController) {}
+    func cropViewControllerDidEndResize(_ cropViewController: Mantis.CropViewController, original: UIImage, cropInfo: Mantis.CropInfo) {}
 }
 
 extension EditPageInfoTableViewCell: ContactEmailViewControllerDelegate {

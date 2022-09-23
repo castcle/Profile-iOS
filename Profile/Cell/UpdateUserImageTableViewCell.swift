@@ -31,6 +31,7 @@ import MobileCoreServices
 import Core
 import Component
 import TOCropViewController
+import Mantis
 import TLPhotoPicker
 
 public protocol UpdateUserImageTableViewCellDelegate: AnyObject {
@@ -204,17 +205,22 @@ class UpdateUserImageTableViewCell: UITableViewCell {
     }
 
     private func presentCropViewControllerUserImage(image: UIImage, updateImageType: UpdateImageType) {
-        let cropUserImageController = TOCropViewController(croppingStyle: .default, image: image)
         if updateImageType == .avatar {
-            cropUserImageController.aspectRatioPreset = .presetSquare
+            var config = Mantis.Config()
+            config.cropViewConfig.cropShapeType = .circle(maskOnly: true)
+            let cropViewController = Mantis.cropViewController(image: image, config: config)
+            cropViewController.delegate = self
+            cropViewController.modalPresentationStyle = .fullScreen
+            Utility.currentViewController().present(cropViewController, animated: true)
         } else {
+            let cropUserImageController = TOCropViewController(croppingStyle: .default, image: image)
             cropUserImageController.aspectRatioPreset = .preset16x9
+            cropUserImageController.aspectRatioLockEnabled = true
+            cropUserImageController.resetAspectRatioEnabled = false
+            cropUserImageController.aspectRatioPickerButtonHidden = true
+            cropUserImageController.delegate = self
+            Utility.currentViewController().present(cropUserImageController, animated: true, completion: nil)
         }
-        cropUserImageController.aspectRatioLockEnabled = true
-        cropUserImageController.resetAspectRatioEnabled = false
-        cropUserImageController.aspectRatioPickerButtonHidden = true
-        cropUserImageController.delegate = self
-        Utility.currentViewController().present(cropUserImageController, animated: true, completion: nil)
     }
 }
 
@@ -260,15 +266,31 @@ extension UpdateUserImageTableViewCell: UIImagePickerControllerDelegate, UINavig
 extension UpdateUserImageTableViewCell: TOCropViewControllerDelegate {
     func cropViewController(_ cropViewController: TOCropViewController, didCropTo image: UIImage, with cropRect: CGRect, angle: Int) {
         cropViewController.dismiss(animated: true, completion: {
-            if self.updateImageType == .avatar {
-                let avatarUserImageCropImage = image.resizeImage(targetSize: CGSize.init(width: 200, height: 200))
-                self.profileImage.image = avatarUserImageCropImage
-                self.viewModel.avatar = avatarUserImageCropImage
-            } else {
+            if self.updateImageType == .cover {
                 let coverUserImageCropImage = image.resizeImage(targetSize: CGSize.init(width: 640, height: 360))
                 self.coverImage.image = coverUserImageCropImage
                 self.viewModel.cover = coverUserImageCropImage
             }
         })
     }
+}
+
+extension UpdateUserImageTableViewCell: CropViewControllerDelegate {
+    func cropViewControllerDidCrop(_ cropViewController: Mantis.CropViewController, cropped: UIImage, transformation: Mantis.Transformation, cropInfo: Mantis.CropInfo) {
+        cropViewController.dismiss(animated: true, completion: {
+            if self.updateImageType == .avatar {
+                let avatarUserImageCropImage = cropped.resizeImage(targetSize: CGSize.init(width: 200, height: 200))
+                self.profileImage.image = avatarUserImageCropImage
+                self.viewModel.avatar = avatarUserImageCropImage
+            }
+        })
+    }
+
+    func cropViewControllerDidCancel(_ cropViewController: Mantis.CropViewController, original: UIImage) {
+        cropViewController.dismiss(animated: true)
+    }
+
+    func cropViewControllerDidFailToCrop(_ cropViewController: Mantis.CropViewController, original: UIImage) {}
+    func cropViewControllerDidBeginResize(_ cropViewController: Mantis.CropViewController) {}
+    func cropViewControllerDidEndResize(_ cropViewController: Mantis.CropViewController, original: UIImage, cropInfo: Mantis.CropInfo) {}
 }

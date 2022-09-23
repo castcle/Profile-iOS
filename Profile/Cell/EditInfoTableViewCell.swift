@@ -36,6 +36,7 @@ import PanModal
 import Defaults
 import TOCropViewController
 import TLPhotoPicker
+import Mantis
 
 protocol EditInfoTableViewCellDelegate: AnyObject {
     func didUpdateUserInfo(_ cell: EditInfoTableViewCell, userInfo: UserInfo)
@@ -416,17 +417,22 @@ class EditInfoTableViewCell: UITableViewCell, UITextViewDelegate, UITextFieldDel
     }
 
     private func presentCropViewControllerEditInfo(image: UIImage, updateImageType: UpdateImageType) {
-        let cropEditInfoController = TOCropViewController(croppingStyle: .default, image: image)
         if updateImageType == .avatar {
-            cropEditInfoController.aspectRatioPreset = .presetSquare
+            var config = Mantis.Config()
+            config.cropViewConfig.cropShapeType = .circle(maskOnly: true)
+            let cropViewController = Mantis.cropViewController(image: image, config: config)
+            cropViewController.delegate = self
+            cropViewController.modalPresentationStyle = .fullScreen
+            Utility.currentViewController().present(cropViewController, animated: true)
         } else {
+            let cropEditInfoController = TOCropViewController(croppingStyle: .default, image: image)
             cropEditInfoController.aspectRatioPreset = .preset16x9
+            cropEditInfoController.aspectRatioLockEnabled = true
+            cropEditInfoController.resetAspectRatioEnabled = false
+            cropEditInfoController.aspectRatioPickerButtonHidden = true
+            cropEditInfoController.delegate = self
+            Utility.currentViewController().present(cropEditInfoController, animated: true, completion: nil)
         }
-        cropEditInfoController.aspectRatioLockEnabled = true
-        cropEditInfoController.resetAspectRatioEnabled = false
-        cropEditInfoController.aspectRatioPickerButtonHidden = true
-        cropEditInfoController.delegate = self
-        Utility.currentViewController().present(cropEditInfoController, animated: true, completion: nil)
     }
 }
 
@@ -484,11 +490,7 @@ extension EditInfoTableViewCell: UIImagePickerControllerDelegate, UINavigationCo
 extension EditInfoTableViewCell: TOCropViewControllerDelegate {
     func cropViewController(_ cropViewController: TOCropViewController, didCropTo image: UIImage, with cropRect: CGRect, angle: Int) {
         cropViewController.dismiss(animated: true, completion: {
-            if self.updateImageType == .avatar {
-                let avatarEditInfoCropImage = image.resizeImage(targetSize: CGSize.init(width: 200, height: 200))
-                self.profileImage.image = avatarEditInfoCropImage
-                self.viewModel.avatar = avatarEditInfoCropImage
-            } else {
+            if self.updateImageType == .cover {
                 let coverEditInfoCropImage = image.resizeImage(targetSize: CGSize.init(width: 640, height: 360))
                 self.coverImage.image = coverEditInfoCropImage
                 self.viewModel.cover = coverEditInfoCropImage
@@ -496,4 +498,25 @@ extension EditInfoTableViewCell: TOCropViewControllerDelegate {
             self.saveButton.activeButton(isActive: self.viewModel.isCanUpdateInfo())
         })
     }
+}
+
+extension EditInfoTableViewCell: CropViewControllerDelegate {
+    func cropViewControllerDidCrop(_ cropViewController: Mantis.CropViewController, cropped: UIImage, transformation: Mantis.Transformation, cropInfo: Mantis.CropInfo) {
+        cropViewController.dismiss(animated: true, completion: {
+            if self.updateImageType == .avatar {
+                let avatarEditInfoCropImage = cropped.resizeImage(targetSize: CGSize.init(width: 200, height: 200))
+                self.profileImage.image = avatarEditInfoCropImage
+                self.viewModel.avatar = avatarEditInfoCropImage
+            }
+            self.saveButton.activeButton(isActive: self.viewModel.isCanUpdateInfo())
+        })
+    }
+
+    func cropViewControllerDidCancel(_ cropViewController: Mantis.CropViewController, original: UIImage) {
+        cropViewController.dismiss(animated: true)
+    }
+
+    func cropViewControllerDidFailToCrop(_ cropViewController: Mantis.CropViewController, original: UIImage) {}
+    func cropViewControllerDidBeginResize(_ cropViewController: Mantis.CropViewController) {}
+    func cropViewControllerDidEndResize(_ cropViewController: Mantis.CropViewController, original: UIImage, cropInfo: Mantis.CropInfo) {}
 }

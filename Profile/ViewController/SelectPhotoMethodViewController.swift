@@ -31,7 +31,7 @@ import MobileCoreServices
 import Core
 import Component
 import TLPhotoPicker
-import TOCropViewController
+import Mantis
 import Defaults
 
 class SelectPhotoMethodViewController: UIViewController {
@@ -191,13 +191,12 @@ class SelectPhotoMethodViewController: UIViewController {
     }
 
     private func presentCropViewController(image: UIImage) {
-        let cropController = TOCropViewController(croppingStyle: .default, image: image)
-        cropController.aspectRatioPreset = .presetSquare
-        cropController.aspectRatioLockEnabled = true
-        cropController.resetAspectRatioEnabled = false
-        cropController.aspectRatioPickerButtonHidden = true
-        cropController.delegate = self
-        self.present(cropController, animated: true, completion: nil)
+        var config = Mantis.Config()
+        config.cropViewConfig.cropShapeType = .circle(maskOnly: true)
+        let cropViewController = Mantis.cropViewController(image: image, config: config)
+        cropViewController.delegate = self
+        cropViewController.modalPresentationStyle = .fullScreen
+        Utility.currentViewController().present(cropViewController, animated: true)
     }
 }
 
@@ -221,10 +220,10 @@ extension SelectPhotoMethodViewController: UIImagePickerControllerDelegate, UINa
     }
 }
 
-extension SelectPhotoMethodViewController: TOCropViewControllerDelegate {
-    func cropViewController(_ cropViewController: TOCropViewController, didCropTo image: UIImage, with cropRect: CGRect, angle: Int) {
+extension SelectPhotoMethodViewController: CropViewControllerDelegate {
+    func cropViewControllerDidCrop(_ cropViewController: Mantis.CropViewController, cropped: UIImage, transformation: Mantis.Transformation, cropInfo: Mantis.CropInfo) {
         cropViewController.dismiss(animated: true, completion: {
-            self.viewModel.avatar = image.resizeImage(targetSize: CGSize.init(width: 200, height: 200))
+            self.viewModel.avatar = cropped.resizeImage(targetSize: CGSize.init(width: 200, height: 200))
             CCLoading.shared.show(text: "Saving")
             if self.viewModel.authorType == .page {
                 self.viewModel.updateUserAvatar(isPage: true)
@@ -233,6 +232,14 @@ extension SelectPhotoMethodViewController: TOCropViewControllerDelegate {
             }
         })
     }
+
+    func cropViewControllerDidCancel(_ cropViewController: Mantis.CropViewController, original: UIImage) {
+        cropViewController.dismiss(animated: true)
+    }
+
+    func cropViewControllerDidFailToCrop(_ cropViewController: Mantis.CropViewController, original: UIImage) {}
+    func cropViewControllerDidBeginResize(_ cropViewController: Mantis.CropViewController) {}
+    func cropViewControllerDidEndResize(_ cropViewController: Mantis.CropViewController, original: UIImage, cropInfo: Mantis.CropInfo) {}
 }
 
 extension SelectPhotoMethodViewController: SelectPhotoMethodViewModelDelegate {
