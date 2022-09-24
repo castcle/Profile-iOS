@@ -482,6 +482,11 @@ extension ProfileViewController: ProfileHeaderTableViewCellDelegate {
         self.tableView.backgroundColor = UIColor.Asset.cellBackground
         self.tableView.reloadData()
     }
+
+    func didFollow(_ profileHeaderTableViewCell: ProfileHeaderTableViewCell, followed: Bool) {
+        self.profileViewModel.userInfo.followed = followed
+        self.tableView.reloadData()
+    }
 }
 
 extension ProfileViewController: PageHeaderTableViewCellDelegate {
@@ -503,6 +508,11 @@ extension ProfileViewController: PageHeaderTableViewCellDelegate {
         self.profileViewModel.userInfo = userInfo
         self.profileViewModel.displayName = userInfo.displayName
         self.setupNavBar()
+        self.tableView.reloadData()
+    }
+
+    func didFollow(_ pageHeaderTableViewCell: PageHeaderTableViewCell, followed: Bool) {
+        self.profileViewModel.userInfo.followed = followed
         self.tableView.reloadData()
     }
 }

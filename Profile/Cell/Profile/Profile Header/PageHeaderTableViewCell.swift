@@ -42,6 +42,7 @@ protocol PageHeaderTableViewCellDelegate: AnyObject {
     func didAuthen(_ pageHeaderTableViewCell: PageHeaderTableViewCell)
     func didBlocked(_ pageHeaderTableViewCell: PageHeaderTableViewCell)
     func didPageUpdateInfo(_ pageHeaderTableViewCell: PageHeaderTableViewCell, userInfo: UserInfo)
+    func didFollow(_ pageHeaderTableViewCell: PageHeaderTableViewCell, followed: Bool)
 }
 
 class PageHeaderTableViewCell: UITableViewCell {
@@ -214,7 +215,9 @@ class PageHeaderTableViewCell: UITableViewCell {
                 self.viewModel.followUser()
             }
             self.viewModel.isFollow.toggle()
+            UserHelper.shared.updateIsFollowAuthorRef(userId: self.viewModel.userInfo.id, isFollow: self.viewModel.isFollow)
             self.followUI()
+            self.delegate?.didFollow(self, followed: self.viewModel.isFollow)
         } else {
             self.delegate?.didAuthen(self)
         }

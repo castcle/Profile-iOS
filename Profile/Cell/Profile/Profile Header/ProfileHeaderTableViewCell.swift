@@ -42,6 +42,7 @@ protocol ProfileHeaderTableViewCellDelegate: AnyObject {
     func didUpdateProfileSuccess(_ profileHeaderTableViewCell: ProfileHeaderTableViewCell)
     func didAuthen(_ profileHeaderTableViewCell: ProfileHeaderTableViewCell)
     func didBlocked(_ profileHeaderTableViewCell: ProfileHeaderTableViewCell)
+    func didFollow(_ profileHeaderTableViewCell: ProfileHeaderTableViewCell, followed: Bool)
 }
 
 class ProfileHeaderTableViewCell: UITableViewCell {
@@ -193,7 +194,9 @@ class ProfileHeaderTableViewCell: UITableViewCell {
                 self.viewModel.followUser()
             }
             self.viewModel.isFollow.toggle()
+            UserHelper.shared.updateIsFollowAuthorRef(userId: self.viewModel.userInfo.id, isFollow: self.viewModel.isFollow)
             self.followUI()
+            self.delegate?.didFollow(self, followed: self.viewModel.isFollow)
         } else {
             self.delegate?.didAuthen(self)
         }
