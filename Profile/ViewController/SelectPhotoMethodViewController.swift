@@ -203,7 +203,7 @@ class SelectPhotoMethodViewController: UIViewController {
 extension SelectPhotoMethodViewController: TLPhotosPickerViewControllerDelegate {
     func shouldDismissPhotoPicker(withTLPHAssets: [TLPHAsset]) -> Bool {
         if let asset = withTLPHAssets.first, let image = asset.fullResolutionImage {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 self.presentCropViewController(image: image)
             }
         }

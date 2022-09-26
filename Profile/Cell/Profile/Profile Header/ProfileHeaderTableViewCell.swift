@@ -458,7 +458,7 @@ extension ProfileHeaderTableViewCell {
 extension ProfileHeaderTableViewCell: TLPhotosPickerViewControllerDelegate {
     func shouldDismissPhotoPicker(withTLPHAssets: [TLPHAsset]) -> Bool {
         if let asset = withTLPHAssets.first, let image = asset.fullResolutionImage {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 if self.updateImageType == .avatar {
                     self.presentCropViewControllerProfileHeader(image: image, updateImageType: .avatar)
                 } else if self.updateImageType == .cover {
@@ -473,7 +473,6 @@ extension ProfileHeaderTableViewCell: TLPhotosPickerViewControllerDelegate {
 extension ProfileHeaderTableViewCell: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     open func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         guard let image = (info[UIImagePickerController.InfoKey.originalImage] as? UIImage) else { return }
-
         picker.dismiss(animated: true, completion: {
             if self.updateImageType == .avatar {
                 self.presentCropViewControllerProfileHeader(image: image, updateImageType: .avatar)

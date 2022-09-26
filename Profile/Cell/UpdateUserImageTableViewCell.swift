@@ -238,7 +238,7 @@ extension UpdateUserImageTableViewCell: UpdateUserInfoViewModelDelegate {
 extension UpdateUserImageTableViewCell: TLPhotosPickerViewControllerDelegate {
     func shouldDismissPhotoPicker(withTLPHAssets: [TLPHAsset]) -> Bool {
         if let asset = withTLPHAssets.first, let image = asset.fullResolutionImage {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 if self.updateImageType == .avatar {
                     self.presentCropViewControllerUserImage(image: image, updateImageType: .avatar)
                 } else if self.updateImageType == .cover {
